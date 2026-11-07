@@ -76,11 +76,12 @@ amount of it instead (200 with the stock settings).
 
 ## Storage
 
-VOIDREIGN gives every empire a **20,000-unit starter reserve** for each strategic resource.
-Warehouses expand that shared empire-wide limit:
+VOIDREIGN does not provide free strategic-resource storage. With **no warehouse anywhere in
+your empire, your storage capacity is zero**: minerals, organics and radioactives cannot be
+banked between turns.
 
-- Each **VoidReign Warehouse** adds 10,000 minerals, 10,000 organics and 10,000 radioactives of storage.
-- Your homeworld starts with one warehouse, for a starting capacity of 30,000 of each resource.
+- Each **VoidReign Warehouse** adds 30,000 minerals, 30,000 organics and 30,000 radioactives of storage.
+- Your homeworld starts with one warehouse, giving your new empire 30,000 capacity for each resource.
 - Warehouses on any of your colonies contribute to the same empire-wide treasury limit; build more as production and expansion grow.
 
 Late in each turn, after construction has spent what it can, anything above the capacity is
