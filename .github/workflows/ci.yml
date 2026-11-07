@@ -227,12 +227,11 @@ jobs:
           qemu-arm -L /usr/arm-linux-gnueabihf build/armhf/opense4 --help > /dev/null
           qemu-arm -L /usr/arm-linux-gnueabihf build/armhf/opense4-server --help > /dev/null
 
-  # The client itself, played by input scripts (docs/BUILDING.md "Input scripts"): the
-  # scripts that need nothing but our own content run on a game folder made from the
-  # test fixtures, headless, with Mesa's software OpenGL. The others play the
-  # original game, which CI does not have.
+  # The client itself, played by input scripts (docs/BUILDING.md "Input scripts"):
+  # fixture-only UI scripts run against the minimal test data, then a separate
+  # startup smoke script launches a fresh game from VOIDREIGN's native ruleset.
   input-scripts:
-    name: Linux / input scripts (fixture data)
+    name: Linux / input scripts (fixtures and native VOIDREIGN)
     runs-on: ubuntu-26.04
     timeout-minutes: 30
     env:
@@ -285,6 +284,14 @@ jobs:
           SDL_VIDEO_DRIVER: offscreen
           LIBGL_ALWAYS_SOFTWARE: 1
         run: python3 tools/run_input_tests.py --fixture-data --small --renderer=opengl --jobs 4 --output "$RUNNER_TEMP/input-scripts"
+
+      # Launch a real quick-start using the game's own Aurelian faction and
+      # verify the native homeworld starts with its spaceport and warehouse.
+      - name: Play a new VOIDREIGN game from native data
+        env:
+          SDL_VIDEO_DRIVER: offscreen
+          LIBGL_ALWAYS_SOFTWARE: 1
+        run: python3 tools/run_input_tests.py --data-dir game-data --renderer=opengl --jobs 1 --output "$RUNNER_TEMP/voidreign-native" voidreign-native-startup
 
       # The pictures show only our own fixtures and content.
       - name: Keep the pictures of a failed run
