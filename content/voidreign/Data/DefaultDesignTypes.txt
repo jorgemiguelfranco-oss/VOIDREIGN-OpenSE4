@@ -12,4 +12,13 @@ Name := Colony (Ice)
 Name := Colony (Gas)
 
 Name := Station
+Name := Frigate
+
+Name := Destroyer
+
+Name := Cruiser
+
+Name := Battleship
+
+Name := Carrier
 *END*
