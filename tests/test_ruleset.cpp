@@ -155,9 +155,9 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
              std::pair{"Aurelian", "Aurelian Concord"}, std::pair{"Khepri", "Khepri Ascendancy"},
              std::pair{"Veyran", "Veyran Trade League"}}) {
         const auto it = std::find_if(gameRules.racePresets().begin(), gameRules.racePresets().end(),
-                                     [&](const ruleset::RacePreset& p) { return p.folder == folder; });
+                                     [&](const ruleset::RacePreset& p) { return p.folder == std::string(folder); });
         REQUIRE(it != gameRules.racePresets().end());
-        CHECK(it->name == name);
+        CHECK(it->name == std::string(name));
         CHECK(it->tiers.size() == 3);
         CHECK_FALSE(it->culture.empty());
         CHECK_FALSE(it->happinessType.empty());
