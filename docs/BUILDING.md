@@ -581,14 +581,17 @@ paste them in. A failure on one compiler only means the engine depends on someth
 that compiler does differently; the message names the first turn and part of the state
 that differ.
 
-The input scripts play the client itself through its own input, so they need your
-installed game and are opt-in (see "Input scripts" below):
+The input scripts play the client itself through its own input. VOIDREIGN's
+native startup scripts use the game's own rules and do not need an external game
+installation. The fixture scripts use the small test data set; scripts that
+specifically need an existing installed data set can still use `--install` or
+an explicit `OPENSE4_CLASSIC_DATA` path (see "Input scripts" below):
 
 ```sh
-OPENSE4_CLASSIC_DATA=auto python3 tools/run_input_tests.py       # every script, on your install
-OPENSE4_CLASSIC_DATA=auto python3 tools/run_input_tests.py --small   # ... and at 800x600 too
-python3 tools/run_input_tests.py --fixture-data --small          # the ones that run on our fixtures, at both layouts (as CI)
-OPENSE4_CLASSIC_DATA=auto python3 tools/run_input_tests.py --only-small 'tutorial-*'   # the tutorials at 800x600
+python3 tools/run_input_tests.py --data-dir game-data voidreign-native-startup voidreign-native-veyran voidreign-native-khepri
+python3 tools/run_input_tests.py --fixture-data --small                 # fixture scripts, at both layouts (as CI)
+python3 tools/run_input_tests.py --data-dir game-data --renderer=opengl voidreign-native-startup
+python3 tools/run_input_tests.py --install "/path/to/game-data" tutorial-fleets-and-movement
 ```
 
 Each script plays in the layout its `options` give, most at 1024x768. The original's small
