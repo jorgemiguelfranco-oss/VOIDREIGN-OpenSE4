@@ -8,6 +8,7 @@ VOIDREIGN is being built **on the OpenSE4 engine**, not as a second renderer or 
 - Original, buildable VoidReign Pathfinder hull with dedicated 36×36 map art and 128×128 portrait art.
 - VoidReign Orbital Station base hull with dedicated map/portrait art, a native Space Yard module and an EM Active sensor array.
 - VoidReign Cargo Rack component, using the engine's real cargo-storage ability.
+- VoidReign Colonizer hull and a five-level Planetary Engineering technology that unlocks dedicated Rock, Ice and Gas Giant colonization modules.
 - Five-level VoidReign Energy Weapons technology with a deterministic, upgradeable Pulse Cannon line.
 - A native warehouse facility that uses OpenSE4's built-in per-resource storage abilities; treasury overflow is handled by the engine. Each starting homeworld receives one warehouse when a facility slot is available.
 - SDK tests for hull metadata, cargo storage, a legal starting design, weapon unlocks, range, upgrade ordering and warehouse overflow.
