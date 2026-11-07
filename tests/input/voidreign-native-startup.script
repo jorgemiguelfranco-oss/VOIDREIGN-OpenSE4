@@ -20,6 +20,8 @@ click item:Facil
 wait-for item:"VoidReign Warehouse"
 assert-present item:"VoidReign Spaceport"
 assert-present item:"VoidReign Warehouse"
+assert-present item:"VoidReign Planetary Shipyard"
+assert-present item:"VoidReign Supply Depot"
 
 # Exercise a real native research order and process the first turn.
 key Escape
