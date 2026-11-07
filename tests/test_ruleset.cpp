@@ -513,7 +513,6 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     (*home)->facilities.push_back(warehouse4Index);
     CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{150000, 150000, 150000});
     (*home)->facilities.pop_back();
-    (*home)->facilities.pop_back();
     for (size_t resource = 0; resource < 3; ++resource)
         CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
     bool hasWarehouse = false, hasShipyard = false, hasSupplyDepot = false;
