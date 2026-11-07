@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.voidreign.VoidReign</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>VoidReign</name>
+  <summary>Standalone 4X space strategy game</summary>
+  <developer id="io.voidreign">
+    <name>VoidReign developers</name>
+  </developer>
+  <description>
+    <p>VoidReign is a standalone 4X space strategy game built on the OpenSE4 C++ engine. Explore a generated galaxy, develop colonies, manage resources and logistics, research technologies, design starships, establish orbital stations and command fleets across star systems.</p>
+    <p>The game ships with its own rules and content. A separate legacy compatibility mode can read a player's own installed Space Empires IV data, but that is not required to play VoidReign.</p>
+    <p>VoidReign is currently in active development. Features and content are still being implemented and verified.</p>
+  </description>
+  <launchable type="desktop-id">io.voidreign.VoidReign.desktop</launchable>
+  <provides>
+    <binary>opense4</binary>
+    <binary>opense4-server</binary>
+  </provides>
+  <url type="homepage">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4</url>
+  <url type="bugtracker">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/issues</url>
+  <url type="vcs-browser">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4</url>
+  <categories>
+    <category>Game</category>
+    <category>StrategyGame</category>
+  </categories>
+  <keywords>
+    <keyword>space</keyword>
+    <keyword>strategy</keyword>
+    <keyword>4X</keyword>
+    <keyword>turn-based</keyword>
+    <keyword>fleet</keyword>
+  </keywords>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <releases>
+    <release version="0.2.0" date="2026-11-07" type="development">
+      <description><p>First standalone VoidReign engine/content bootstrap. Not yet a complete playable release.</p></description>
+    </release>
+  </releases>
+</component>
