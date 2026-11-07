@@ -561,13 +561,18 @@ TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
                     {500, 250, 25});
     });
     GameState s = newGame(*r);
-    const Colony& home = homeworld(s, kMe);
-    bool hasWarehouse = false;
-    for (uint32_t f : home.facilities)
-        if (r->facility(f).name == "Test Starting Warehouse") hasWarehouse = true;
-    CHECK(hasWarehouse);
+    Colony& home = homeworld(s, kMe);
+    const uint32_t warehouse = facilityIndex(*r, "Test Starting Warehouse");
+    REQUIRE(std::find(home.facilities.begin(), home.facilities.end(), warehouse) != home.facilities.end());
     const Resources expectedStorage{30000, 30000, 30000};
     CHECK(economy::storageCapacity(*r, s, kMe) == expectedStorage);
+
+    // Without a warehouse the empire keeps only its 20,000-unit starter reserve
+    // for each resource. Warehouses add capacity to the shared empire treasury.
+    std::erase(home.facilities, warehouse);
+    CHECK(economy::storageCapacity(*r, s, kMe) == Resources{20000, 20000, 20000});
+    home.facilities.push_back(warehouse);
+
     for (size_t i = 0; i < 3; ++i) {
         CHECK(s.empire(kMe).stockpile.v[i] >= 20000);
         CHECK(s.empire(kMe).stockpile.v[i] <= expectedStorage.v[i]);
