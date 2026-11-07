@@ -40,7 +40,8 @@ const Rules* installRules() {
 TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)") {
     const Rules* r = installRules();
     if (!r) return;
-    CHECK(r->racePresets().size() == 12);
+    CHECK(std::count_if(r->racePresets().begin(), r->racePresets().end(), [](const auto& p) { return !p.neutral; }) == 12);
+    CHECK(std::count_if(r->racePresets().begin(), r->racePresets().end(), [](const auto& p) { return p.neutral; }) == 3);
     const auto hasName = [](const auto& records, std::string_view name) {
         return std::any_of(records.begin(), records.end(), [&](const auto& record) { return record.name == name; });
     };
