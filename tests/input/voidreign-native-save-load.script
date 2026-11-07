@@ -15,9 +15,9 @@ click item:"Save Game" in=game-menu
 wait-window save-game
 click item:##name in=save-game
 key End
-type " [Native Save]"
+type " [NATIVE SAVE]"
 click item:Save in=save-game
-wait-for item:"* [Native Save]" in=save-game
+wait-for item:"* [NATIVE SAVE]" in=save-game
 click item:Close in=save-game
 wait-closed save-game
 
@@ -26,8 +26,8 @@ key F2
 wait-window game-menu
 click item:Load in=game-menu
 wait-window load-game
-wait-for item:"* [Native Save]" in=load-game
-click item:"* [Native Save]" in=load-game
+wait-for item:"* [NATIVE SAVE]" in=load-game
+click item:"* [NATIVE SAVE]" in=load-game
 wait-screen game
 wait 5
 click sector:home
