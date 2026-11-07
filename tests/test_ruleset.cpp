@@ -186,7 +186,7 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     game::StartExtras extras;
     extras.designMinisterRun.push_back(game::EmpireId{0});
     auto opening = game::createGame(gameRules, setup, extras);
-    REQUIRE_MESSAGE(opening.has_value(), opening ? "" : opening.error());
+    REQUIRE_MESSAGE(opening.has_value(), (opening ? std::string{} : opening.error()));
     const game::EmpireId playerId{0};
     const game::Empire& empire = opening->empire(playerId);
     const auto home = std::find_if(opening->colonies.begin(), opening->colonies.end(),
