@@ -302,6 +302,7 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     CHECK(r->componentAvailable(empire, starterWeapon));
     CHECK(r->component(starterWeapon).isWeapon());
     CHECK(r->component(starterWeapon).weapon.kind == ruleset::WeaponKind::DirectFire);
+    CHECK(r->component(starterWeapon).weapon.damageAtRange.size() == 6);
     CHECK_FALSE(r->hullAvailable(empire, hullIndex("Aegis Cruiser")));
     CHECK_FALSE(r->componentAvailable(empire, componentIndex("Fusion Drive")));
     CHECK_FALSE(r->componentAvailable(empire, componentIndex("Rock Colony Core")));
