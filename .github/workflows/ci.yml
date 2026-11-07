@@ -275,9 +275,12 @@ jobs:
         if: steps.deps.outputs.cache-hit != 'true'
         run: cmake -DDIR=.deps -DBUILD=build/debug -P .github/scripts/fetchcontent_cache.cmake
 
-      - name: Build the client
-        # and the dedicated server that some scripts' lobbies join (tools/run_input_tests.py, "# server:")
-        run: cmake --build --preset debug --target opense4 opense4-server
+      - name: Build the client and native-data checker
+        # The dedicated server is used by some scripts' lobbies; datacheck validates the shipped game data.
+        run: cmake --build --preset debug --target opense4 opense4-server opense4-datacheck
+
+      - name: Validate VOIDREIGN native rules
+        run: build/debug/opense4-datacheck game-data/Data
 
       - name: Play the input scripts on the test fixtures
         env:
