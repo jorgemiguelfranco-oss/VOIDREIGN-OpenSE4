@@ -57,7 +57,7 @@ std::filesystem::path findDir(const std::string& override, const char* name, con
 void fatal(const std::string& message) {
     log::error("{}", message);
     // -nd: no box for the whole run (spec 05 §9.2).
-    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", message.c_str(), nullptr);
+    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, applicationName(), message.c_str(), nullptr);
 }
 
 // Neither renderer started: what the game needs, what to do about it, and why each
