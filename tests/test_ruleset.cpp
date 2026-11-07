@@ -147,6 +147,11 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
         "Construction Yard", "Farming Colony", "Homeworld", "Intelligence Compound", "Military Installation",
         "Mining Colony", "Refining Colony", "Research Compound", "Resupply Base"};
     CHECK(rs.names.colonyTypes == expectedColonyTypes);
+    CHECK(rs.names.designTypes.size() == 39);
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Attack Ship") != rs.names.designTypes.end());
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Colony (Rock)") != rs.names.designTypes.end());
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Troop Transport") != rs.names.designTypes.end());
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Weapon Platform") != rs.names.designTypes.end());
 
     // Race data lives beside the native base rules, not in a mod overlay.
     game::Rules gameRules(std::move(*result.ruleset), dataDir.parent_path());
