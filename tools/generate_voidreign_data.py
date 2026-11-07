@@ -354,10 +354,142 @@ def build(output: Path) -> None:
         ])
     write_records(data, "Happiness.txt", happiness_records)
 
-    # The first release keeps espionage projects and random event catalogues
-    # empty rather than shipping unimplemented effects as misleading content.
-    write_records(data, "IntelProjects.txt", [])
-    write_records(data, "Events.txt", [])
+    # Intelligence projects use the engine's implemented effect handlers.
+    # Costs are expressed in intelligence points; sabotage has real counter-
+    # intelligence exposure, while reconnaissance projects return reports.
+    intel_records = []
+
+    def intel_project(name, description, group, cost, effect, amount=1,
+                      source="Our agents completed the operation against [%TargetEmpireName].",
+                      target="Our intelligence services detected hostile activity from [%SourceEmpireName]."):
+        intel_records.append([
+            ("Name", name), ("Description", description), ("Group", group),
+            ("Cost", cost), ("Type", effect), ("Effect Amount", amount),
+            ("Num Source Messages", 1), ("Source Message 1", source),
+            ("Num Target Messages", 1), ("Target Message Title 1", "Security Alert"),
+            ("Target Message 1", target),
+        ])
+
+    intel_project("Countermeasure Net I", "A standing signal-analysis network that reduces the impact of hostile intelligence operations.",
+                  "Counter-intelligence", 1800, "Intelligence Defense", 1,
+                  "Our first countermeasure net is active against hostile intelligence operations.",
+                  "Our security network reports a new countermeasure deployment.")
+    intel_project("Countermeasure Net II", "A denser defensive network with stronger coverage of strategic communications.",
+                  "Counter-intelligence", 4200, "Intelligence Defense", 2,
+                  "Our second countermeasure net is active against hostile intelligence operations.",
+                  "Our security network reports an upgraded countermeasure deployment.")
+    intel_project("Countermeasure Net III", "An empire-wide intelligence shield with the strongest available defensive coverage.",
+                  "Counter-intelligence", 8500, "Intelligence Defense", 3,
+                  "Our third countermeasure net is active against hostile intelligence operations.",
+                  "Our security network reports a maximum-level countermeasure deployment.")
+
+    intel_project("Deep-Space Reconnaissance", "Map the target empire's active ships and their current locations.",
+                  "Reconnaissance", 650, "Ship - Locations", 1,
+                  "Fleet-location intelligence from [%TargetEmpireName]: [%ActualAmount] entries.",
+                  "Our naval movements may have been exposed to an unknown observer.")
+    intel_project("Fleet Concentration Analysis", "Identify the target empire's strongest known concentration of ships and bases.",
+                  "Reconnaissance", 1000, "Ship - Concentrations", 1,
+                  "Fleet concentration report from [%TargetEmpireName]: [%ActualAmount] units at the reported location.",
+                  "Our fleet concentrations may have been identified by hostile intelligence.")
+    intel_project("Shipyard Network Survey", "Locate the target empire's largest ship-building concentration.",
+                  "Reconnaissance", 1250, "Ship - Construction Info", 1,
+                  "Shipyard network report from [%TargetEmpireName]: [%ActualAmount] active construction locations.",
+                  "Our construction network may have been mapped by hostile intelligence.")
+    intel_project("Planetary Census", "Gather information about a target colony's population, facilities and condition.",
+                  "Reconnaissance", 550, "Planet - Info", 1,
+                  "Planetary survey completed for [%TargetEmpireName] at [%PlanetName] in [%SystemName].",
+                  "A hostile reconnaissance team has surveyed one of our colonies.")
+    intel_project("Technology Assessment", "Estimate the target empire's current research and technological capabilities.",
+                  "Reconnaissance", 1450, "Tech Level - Info", 1,
+                  "Technology assessment completed for [%TargetEmpireName].",
+                  "Our research programme may have been observed by hostile intelligence.")
+    intel_project("Diplomatic Cipher Scan", "Recover information about the target empire's current treaty relationships.",
+                  "Diplomacy", 900, "Politics - Treaty Info", 1,
+                  "Treaty intelligence recovered from [%TargetEmpireName].",
+                  "Our diplomatic communications may have been compromised.")
+
+    intel_project("Research Extraction", "Steal a level of research from a target empire where our own science can make use of it.",
+                  "Espionage", 2800, "Research - Steal", 1,
+                  "Research extraction against [%TargetEmpireName] returned [%ActualAmount] usable result(s).",
+                  "A hostile operation has targeted our research programme.")
+    intel_project("Supply Sabotage", "Disrupt the supply reserves of one target ship.",
+                  "Sabotage", 1900, "Ship - Lose Supply", 18,
+                  "Supply sabotage against [%VehicleName] was completed.",
+                  "A hostile operation has depleted the supply reserves of [%VehicleName].")
+    intel_project("Drive-System Sabotage", "Damage the components of one target ship before it can return to a repair yard.",
+                  "Sabotage", 3100, "Ship - Damage", 7,
+                  "Ship sabotage against [%VehicleName] inflicted [%ActualAmount] damage.",
+                  "An intelligence operation damaged [%VehicleName].")
+    intel_project("Facility Sabotage", "Damage a facility on a target colony and disrupt its local economy.",
+                  "Sabotage", 3600, "Planet - Facility Damage", 1,
+                  "Facility sabotage was completed at [%PlanetName] in [%SystemName].",
+                  "A hostile operation damaged infrastructure at [%PlanetName].")
+    intel_project("Trade Network Disruption", "Interfere with trade between the target empire and its partners.",
+                  "Economic Warfare", 2500, "Politics - Disrupt Trade", 1,
+                  "Trade disruption was initiated against [%TargetEmpireName].",
+                  "Our trade network reports hostile disruption activity.")
+    intel_project("Message Interception", "Intercept diplomatic and strategic messages sent by the target empire.",
+                  "Signals Intelligence", 1750, "Politics - Intercept Messages", 1,
+                  "Message interception against [%TargetEmpireName] returned [%ActualAmount] report(s).",
+                  "Our diplomatic traffic may have been intercepted.")
+
+    write_records(data, "IntelProjects.txt", intel_records)
+
+    # Original VoidReign events are ordered from least to most severe. The
+    # engine's original-compatible severity filter counts records in file
+    # order, so this ordering is part of the game rules.
+    event_records = [
+        [
+            ("Type", "Planet - Value Change"), ("Severity", "Low"),
+            ("Effect Amount", 3), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Mineral Bloom"),
+            ("Message 1", "A rare mineral bloom improves the resource value of [%PlanetName] in the [%SystemName] system by [%ActualAmount]."),
+            ("Time Till Completion", 0),
+        ],
+        [
+            ("Type", "Planet - Population Anger Change"), ("Severity", "Low"),
+            ("Effect Amount", -4), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Civic Accord"),
+            ("Message 1", "A local civic accord eases unrest on [%PlanetName] in the [%SystemName] system."),
+            ("Time Till Completion", 0),
+        ],
+        [
+            ("Type", "Planet - Conditions Change"), ("Severity", "Medium"),
+            ("Effect Amount", 2), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Atmospheric Shift"),
+            ("Message 1", "A natural atmospheric shift improves conditions on [%PlanetName] in the [%SystemName] system."),
+            ("Time Till Completion", 0),
+        ],
+        [
+            ("Type", "Planet - Plague Cured"), ("Severity", "Medium"),
+            ("Effect Amount", 1), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Medical Breakthrough"),
+            ("Message 1", "A medical breakthrough has eradicated a plague affecting [%PlanetName] in the [%SystemName] system."),
+            ("Time Till Completion", 0),
+        ],
+        [
+            ("Type", "Ship - Lose Supply"), ("Severity", "High"),
+            ("Effect Amount", 12), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Supply Anomaly"),
+            ("Message 1", "An unexplained anomaly has drained supplies from [%VehicleName] in the [%SystemName] system."),
+            ("Time Till Completion", 0),
+        ],
+        [
+            ("Type", "Ship - Damage"), ("Severity", "High"),
+            ("Effect Amount", 6), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Drive Cascade"),
+            ("Message 1", "A sudden drive-system cascade damages [%VehicleName] in the [%SystemName] system."),
+            ("Time Till Completion", 0),
+        ],
+        [
+            ("Type", "Planet - Facility Damage"), ("Severity", "High"),
+            ("Effect Amount", 1), ("Message To", "Owner"),
+            ("Num Messages", 1), ("Message Title 1", "Infrastructure Failure"),
+            ("Message 1", "A serious infrastructure failure damages a facility on [%PlanetName] in the [%SystemName] system."),
+            ("Time Till Completion", 0),
+        ],
+    ]
+    write_records(data, "Events.txt", event_records)
     write_records(data, "DefaultStrategies.txt", [
         [("Name", "Balanced Fleet"), ("Primary Movement Strategy", "Optimal Range"),
          ("Secondary Movement Strategy", "Point Blank"), ("Targeting Priority 1", "Has Weapons"),
