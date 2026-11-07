@@ -741,7 +741,15 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
                 return std::unexpected("VoidReign's starter orbital station must provide a working space yard.");
             const DesignId stationId = addDesign(s, std::move(station));
             Location stationLocation = locationOf(s.galaxy, (*homes)[i]);
-            const std::vector<Sector> freeSectors = emptySectors(s.galaxy, empire.homeSystem);
+            std::vector<Sector> freeSectors = emptySectors(s.galaxy, empire.homeSystem);
+            // Galaxy::emptySectors knows about stellar objects; stations and
+            // ships are kept separately in GameState, so exclude occupied
+            // vehicle sectors as well (notably when empires share a system).
+            std::erase_if(freeSectors, [&](Sector sector) {
+                return std::any_of(s.vehicles.begin(), s.vehicles.end(), [&](const Vehicle& vehicle) {
+                    return vehicle.count > 0 && vehicle.location.system == empire.homeSystem && vehicle.location.sector == sector;
+                });
+            });
             if (freeSectors.empty())
                 return std::unexpected(std::format("VoidReign cannot place {}'s orbital station: the home system has no vacant sector.",
                                                    empire.name));
