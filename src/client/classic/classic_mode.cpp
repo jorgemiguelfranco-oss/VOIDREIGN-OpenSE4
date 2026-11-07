@@ -91,7 +91,7 @@ std::string missingVoidReignMessage(const std::string& gameDir) {
 }
 
 std::expected<ClassicMode::DataSet, std::string> ClassicMode::readDataSet(const std::filesystem::path& dataDir, const mods::ModChoice& choice,
-                                                                          const std::optional<std::string>& modFolder) {
+                                                                          const std::optional<std::string>& modFolder, bool standaloneVoidReign) {
     const std::filesystem::path gameRoot = dataDir.parent_path();
     auto modSet = mods::selectMods(choice);
     if (!modSet) {
@@ -114,7 +114,7 @@ std::expected<ClassicMode::DataSet, std::string> ClassicMode::readDataSet(const 
     DataSet d;
     d.errors = std::move(loaded.diagnostics.errors);
     for (const std::string& e : d.errors) log::warn("Data file error: {}", e);
-    d.rules = std::make_shared<const game::Rules>(std::move(*loaded.ruleset), gameRoot);
+    d.rules = std::make_shared<const game::Rules>(std::move(*loaded.ruleset), gameRoot, standaloneVoidReign);
     d.files = assets::InstallFiles(gameRoot);
     if (modFolder) d.files.setModDirectory(*modFolder);   // the command line's, in Path.txt's place (spec 05 §9.2)
     for (const mods::Package& p : modSet->packages) {
@@ -178,7 +178,8 @@ void ClassicMode::useDataSet(DataSet d) {
 std::optional<std::string> ClassicMode::changeMods(const std::vector<std::string>& ids) {
     // Only in the front end: nothing of a game holds the data set then.
     if (session_) return std::string("The mods cannot change during a game.");
-    auto data = readDataSet(dataDir_, modChoice(ids), commandLineModFolder());
+    if (options_.standaloneVoidReign) return std::string("VoidReign uses its own game data and does not load mods.");
+    auto data = readDataSet(dataDir_, modChoice(ids), commandLineModFolder(), false);
     if (!data) return data.error();
     log::info("Mods changed to: {}", ids.empty() ? std::string("none") : ruleset::describeMods(data->mods.records()));
     useDataSet(std::move(*data));
@@ -225,7 +226,7 @@ std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const
     loaded.fromCommandLine = opts.modsGiven;
     loaded.folders = choice.folders;
     loaded.open = choice.open;
-    auto data = readDataSet(*dataDir, choice, mode->commandLineModFolder());
+    auto data = readDataSet(*dataDir, choice, mode->commandLineModFolder(), opts.standaloneVoidReign);
     if (!data && !opts.modsGiven && !choice.mods.empty()) {
         // The settings' mods: started without them, and the Mods window says why.
         log::warn("Starting without the mods of the settings: {}", data.error());
@@ -236,7 +237,7 @@ std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const
         }
         mode->frontError_ = "Your mods could not be loaded: OpenSE4 started without them (see Mods).";
         choice.mods.clear();
-        data = readDataSet(*dataDir, choice, mode->commandLineModFolder());
+        data = readDataSet(*dataDir, choice, mode->commandLineModFolder(), false);
     }
     if (!data) {
         error = data.error();
