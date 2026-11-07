@@ -179,6 +179,7 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     game::GameSetup setup;
     setup.seed = 0x564f494452454947ULL;
     setup.options.systemCount = 14;
+    setup.options.homePlanetValue = 1;  // medium world has room for the whole opening economy
     game::EmpireSetup player;
     player.preset = "Aurelian";
     player.presetTier = 0;
@@ -193,6 +194,7 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const auto home = std::find_if(opening->colonies.begin(), opening->colonies.end(),
                                    [&](const auto& colony) { return colony && colony->owner == playerId && colony->homeworld; });
     REQUIRE(home != opening->colonies.end());
+    CHECK((*home)->facilities.size() >= 8);
     const game::Resources cap = game::economy::storageCapacity(gameRules, *opening, playerId);
     const game::Resources expectedCap{30000, 30000, 30000};
     CHECK(cap == expectedCap);
