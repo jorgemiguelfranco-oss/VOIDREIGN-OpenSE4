@@ -121,11 +121,12 @@ public:
         statusText(ui, origin, ui.fonts.bold, kTitleSize, kTitleLead, {20, 350}, silver, "Resources in Treasury");
         amountRow(ui, origin, 370, "Current Total", me.stockpile);
         amountRow(ui, origin, 390, "Maximum Resource Storage", eco.storageCap);
+        amountRow(ui, origin, 410, "Lost to Storage Overflow", eco.lostToStorage);
         ImDrawList* dl = ImGui::GetWindowDrawList();
         for (const float y : {145.0f, 265.0f})
             dl->AddRectFilled(ImVec2(origin.x + ui.px(330), origin.y + ui.px(y)), ImVec2(origin.x + ui.px(570), origin.y + ui.px(y + 1)),
                               imColor(palette::kLabel));
-        ImGui::SetCursorScreenPos(d.at({30, 420}));
+        ImGui::SetCursorScreenPos(d.at({30, 442}));
         status_.draw();
         ImGui::Dummy(ImVec2(0, 0));
 

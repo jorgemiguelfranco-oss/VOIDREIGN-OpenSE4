@@ -4,6 +4,7 @@
 #include "engine_fixture.hpp"
 
 #include "game/design.hpp"
+#include "game/economy.hpp"
 #include "game/query.hpp"
 #include "game/turn.hpp"
 
@@ -72,6 +73,21 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
             CHECK_MESSAGE(st.problems.empty(), s.design(d).name << ": " << (st.problems.empty() ? "" : st.problems.front()));
         }
     }
+    // The original VOIDREIGN ruleset must provide actual storage buildings
+    // that increase the engine's per-resource treasury caps.
+    const auto& facilities = r->data().facilities;
+    const auto warehouse = std::find_if(facilities.begin(), facilities.end(),
+                                         [](const ruleset::Facility& f) { return f.name == "Central Warehouse"; });
+    REQUIRE(warehouse != facilities.end());
+    const auto home = std::find_if(s.colonies.begin(), s.colonies.end(),
+                                   [](const auto& c) { return c && c->owner == EmpireId{0u} && c->homeworld; });
+    REQUIRE(home != s.colonies.end());
+    const Resources beforeWarehouse = economy::storageCapacity(*r, s, EmpireId{0u});
+    (*home)->facilities.push_back(static_cast<uint32_t>(std::distance(facilities.begin(), warehouse)));
+    const Resources afterWarehouse = economy::storageCapacity(*r, s, EmpireId{0u});
+    for (size_t resource = 0; resource < 3; ++resource)
+        CHECK(afterWarehouse.v[resource] > beforeWarehouse.v[resource]);
+
     CHECK(s.vehicles.empty());
     std::vector<EmpireOrders> none;
     processTurn(*r, s, none);

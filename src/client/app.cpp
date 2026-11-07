@@ -164,9 +164,12 @@ int App::run(const AppOptions& options) {
     SDL_SetAppMetadata("OpenSE4", OPENSE4_CLIENT_VERSION, "io.github.lowlevelmetal.OpenSE4");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
-    // The game is the player's own installed copy: without one there is nothing
-    // to play. Checked before any window or renderer exists.
-    const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
+    // Prefer VOIDREIGN's own data set beside the executable. A custom classic
+    // data directory remains available through --classic-dir, and a legacy
+    // Steam install is still detected as a compatibility fallback.
+    const std::filesystem::path bundledGameDir = findDir(options.installDir, "GameData", "Data/Components.txt");
+    auto dataDir = ruleset::findInstalledDataDir(bundledGameDir);
+    if (!dataDir && options.installDir.empty()) dataDir = ruleset::findInstalledDataDir();
     if (!dataDir) {
         fatal(missingInstallMessage(options.installDir));
         SDL_Quit();

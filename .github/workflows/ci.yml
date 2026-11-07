@@ -95,6 +95,14 @@ jobs:
           UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
         run: .github/scripts/run_tests_parallel.sh build/${{ matrix.preset }}/tests/opense4_tests 4
 
+      - name: Validate VOIDREIGN data and start a complete game
+        if: ${{ matrix.name == 'GCC debug' }}
+        env:
+          OPENSE4_CLASSIC_DATA: ${{ github.workspace }}/build/debug/generated-voidreign-data
+        run: |
+          build/debug/opense4-datacheck "$OPENSE4_CLASSIC_DATA/Data"
+          build/debug/tests/opense4_tests --test-case="installed data set: race presets, setup and starting assets (opt-in)"
+
       - name: Start the programs
         if: ${{ !matrix.target }}
         run: |

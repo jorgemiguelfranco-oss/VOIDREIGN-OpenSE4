@@ -331,6 +331,13 @@ for target in "${targets[@]}"; do
         cp "$build/$bin$exe" "$stage/"
         "$strip" "$stage/$bin$exe"
     done
+    # A release must carry the original VOIDREIGN data set: it is not a
+    # patch, a mod, or a dependency on the player's proprietary game files.
+    if [ ! -f "$build/GameData/Data/Settings.txt" ]; then
+        echo "$build/GameData is missing the generated VOIDREIGN data set" >&2
+        exit 1
+    fi
+    cp -a "$build/GameData" "$stage/GameData"
     cp README.md "$stage/README.md"
     [ -f LICENSE ] && cp LICENSE "$stage/LICENSE"
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the

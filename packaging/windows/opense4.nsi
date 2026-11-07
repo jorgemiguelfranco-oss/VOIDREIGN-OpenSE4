@@ -126,6 +126,13 @@ Section "${APP_NAME}" SecGame
     File "${STAGE}\README.md"
     File "${STAGE}\LICENSE"
     File "${STAGE}\THIRD_PARTY_NOTICES.txt"
+
+    ; VOIDREIGN's rules, faction presets and AI profiles are part of the game.
+    ; Replace the folder as a whole on upgrades to avoid stale data files.
+    RMDir /r "$INSTDIR\GameData"
+    SetOutPath "$INSTDIR\GameData"
+    File /r "${STAGE}\GameData\*.*"
+    SetOutPath "$INSTDIR"
     WriteUninstaller "$INSTDIR\uninstall.exe"
 
     CreateShortcut "$SMPROGRAMS\${APP_NAME}.lnk" "$INSTDIR\opense4.exe" "" "$INSTDIR\opense4.exe" 0
@@ -180,6 +187,7 @@ Section "Uninstall"
     Delete "$INSTDIR\README.md"
     Delete "$INSTDIR\LICENSE"
     Delete "$INSTDIR\THIRD_PARTY_NOTICES.txt"
+    RMDir /r "$INSTDIR\GameData"
     RMDir /r "$INSTDIR\sdk"
     RMDir /r "$INSTDIR\mods"
     Delete "$INSTDIR\uninstall.exe"
