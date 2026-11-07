@@ -288,6 +288,10 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
         for (size_t i = 0; i < gameRules.data().techAreas.size(); ++i)
             if (gameRules.data().techAreas[i].name == name) techProbe.techLevels[i] = level;
     };
+    // Establish the prerequisite science and industrial levels before
+    // checking the dependent native upgrade branches.
+    setTech("Stellar Sciences", 1);
+    setTech("VoidReign Industrial Engineering", 1);
     setTech("VoidReign Energy Weapons", 2);
     CHECK(gameRules.componentAvailable(techProbe, pulse2Index));
     const auto pulseUpgrade = gameRules.componentUpgradeTarget(techProbe, livePulse2->family);
@@ -313,6 +317,7 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(gameRules.componentAvailable(techProbe, shield2Index));
     setTech("VoidReign Logistics", 2);
     CHECK(gameRules.componentAvailable(techProbe, cargo2Index));
+    setTech("Stellar Sciences", 2);
     setTech("VoidReign Advanced Sensors", 1);
     CHECK(gameRules.componentAvailable(techProbe, sensor1Index));
     setTech("VoidReign Advanced Sensors", 2);
