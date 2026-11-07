@@ -568,7 +568,10 @@ TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
     CHECK(hasWarehouse);
     const Resources expectedStorage{30000, 30000, 30000};
     CHECK(economy::storageCapacity(*r, s, kMe) == expectedStorage);
-    for (size_t i = 0; i < 3; ++i) {\n        CHECK(s.empire(kMe).stockpile.v[i] >= 20000);\n        CHECK(s.empire(kMe).stockpile.v[i] <= expectedStorage.v[i]);\n    }
+    for (size_t i = 0; i < 3; ++i) {
+        CHECK(s.empire(kMe).stockpile.v[i] >= 20000);
+        CHECK(s.empire(kMe).stockpile.v[i] <= expectedStorage.v[i]);
+    }
 }
 
 TEST_CASE("economy: storage caps the treasury; storage facilities and traits raise it") {
