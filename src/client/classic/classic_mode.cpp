@@ -237,7 +237,7 @@ std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const
         }
         mode->frontError_ = "Your mods could not be loaded: OpenSE4 started without them (see Mods).";
         choice.mods.clear();
-        data = readDataSet(*dataDir, choice, mode->commandLineModFolder(), false);
+        data = readDataSet(*dataDir, choice, mode->commandLineModFolder(), opts.standaloneVoidReign);
     }
     if (!data) {
         error = data.error();
