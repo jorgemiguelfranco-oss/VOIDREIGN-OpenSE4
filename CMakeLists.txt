@@ -36,7 +36,9 @@ add_custom_command(
     OUTPUT "${VOIDREIGN_GENERATED_DATA_DIR}/Data/Settings.txt"
     COMMAND "${CMAKE_COMMAND}" -E rm -rf "${VOIDREIGN_GENERATED_DATA_DIR}"
     COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_data.py" "${VOIDREIGN_GENERATED_DATA_DIR}"
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_art.py" "${VOIDREIGN_GENERATED_DATA_DIR}"
     DEPENDS "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_data.py"
+            "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_art.py"
     COMMENT "Generating the original VOIDREIGN game data"
     VERBATIM)
 add_custom_target(voidreign_game_data DEPENDS "${VOIDREIGN_GENERATED_DATA_DIR}/Data/Settings.txt")
