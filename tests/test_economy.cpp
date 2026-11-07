@@ -567,6 +567,43 @@ TEST_CASE("economy: storage caps the treasury; storage facilities and traits rai
     CHECK(economy::storageCapacity(*r, s, kMe) == Resources{50000 + pctRound(20000, 150), 50000, 50000});
 }
 
+TEST_CASE("VoidReign: colonies need warehouses to retain resources") {
+    ruleset::Ruleset rs = buildEngineRuleset();
+    addTrait(rs, "Hoarders", "Mineral Storage", 100);
+    addFacility(rs, "VoidReign Warehouse",
+                {ability(AbilityKind::ResourceStorageMinerals, 5000),
+                 ability(AbilityKind::ResourceStorageOrganics, 5000),
+                 ability(AbilityKind::ResourceStorageRadioactives, 5000)});
+    rs.reindex();
+    Rules r(std::move(rs), {}, true);
+    GameState s = newGame(r);
+    dropVehicles(s, kMe);
+
+    Colony& home = homeworld(s, kMe);
+    const uint32_t warehouse = facilityIndex(r, "VoidReign Warehouse");
+    CHECK(std::find(home.facilities.begin(), home.facilities.end(), warehouse) != home.facilities.end());
+    CHECK(economy::storageCapacity(r, s, kMe) == Resources{5000, 5000, 5000});
+
+    // Racial storage bonuses do not bypass VoidReign's warehouse requirement.
+    giveTrait(r, s, kMe, "Hoarders");
+    home.facilities.clear();
+    CHECK(economy::storageCapacity(r, s, kMe) == Resources{});
+
+    s.empire(kMe).stockpile = {1200, 800, 400};
+    TurnContext ctx{r, s, {}, {}, {}};
+    economy::applyStorageCap(ctx, kMe);
+    CHECK(s.empire(kMe).stockpile == Resources{});
+    CHECK(s.empire(kMe).economy.lostToStorage == Resources{1200, 800, 400});
+
+    home.facilities.push_back(warehouse);
+    CHECK(economy::storageCapacity(r, s, kMe) == Resources{5000, 5000, 5000});
+    s.empire(kMe).stockpile = {6200, 2800, 7000};
+    TurnContext restored{r, s, {}, {}, {}};
+    economy::applyStorageCap(restored, kMe);
+    CHECK(s.empire(kMe).stockpile == Resources{5000, 2800, 5000});
+    CHECK(s.empire(kMe).economy.lostToStorage == Resources{1200, 0, 2000});
+}
+
 TEST_CASE("economy: generated points, the minimum income and the opening research pool") {
     auto r = tweakedRules([](ruleset::Ruleset& rs) {
         addFacility(rs, "Mint", {ability(AbilityKind::GeneratePointsMinerals, 300), ability(AbilityKind::GeneratePointsResearch, 50)});
