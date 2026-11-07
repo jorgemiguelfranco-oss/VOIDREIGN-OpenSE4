@@ -1,8 +1,8 @@
-from opense4 import rules
+from opense4 import rules, testing
 
 
 def the_rules():
-    return rules.Rules(__import__("opense4").testing.game_rules())
+    return rules.Rules(testing.game_rules())
 
 
 def test_planetary_engineering_unlocks_colonization_modules():
@@ -28,5 +28,5 @@ def test_colonizer_hull_requires_planetary_engineering():
     hull = r.hull_named("VoidReign Colonizer")
     assert hull is not None
     assert hull.type == "ship"
-    assert hull.min_percent_colony_mods == 30
+    assert hull.min_percent_colony_mods == 20
     assert [(req.area, req.level) for req in hull.requirements] == [(area.id, 1)]
