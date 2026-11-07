@@ -39,6 +39,7 @@ assert { construction_queued = 1 }
 # The native AI design minister also creates a Base Space Yard using the
 # Orbital Station hull and Orbital Shipyard component. Queue that station.
 wait-for item:"Accord II" in=set-queue
+assert-inside item:"Accord II" in=set-queue tag:set-queue:available:named
 click item:"Accord II" in=set-queue
 wait 2
 assert { command = "QueueAdd", design_type = "Base Space Yard" }
