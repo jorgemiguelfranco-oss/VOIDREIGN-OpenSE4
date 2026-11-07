@@ -640,46 +640,79 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     // ship, base, unit or design of its own. A computer player's Design
     // minister makes its designs in its first turn (spec 05 §7.5).
     //
-    // VOIDREIGN is its own game profile: a new human empire begins with an
-    // editable Pathfinder design and a ship at the capital. The classic engine
-    // deliberately creates no starting ships; preserve that rule for classic
-    // sessions and bootstrap a ship only for the standalone VoidReign profile.
+    // VOIDREIGN starts every playable empire with a Pathfinder and a
+    // species-matched colonizer. The classic engine's no-starting-ships rule
+    // remains unchanged for the explicit compatibility profile.
     if (r.standaloneVoidReign()) {
         const auto componentId = [&](std::string_view name) -> std::optional<uint32_t> {
             for (uint32_t c = 0; c < r.data().components.size(); ++c)
                 if (keysEqual(r.component(c).name, name)) return c;
             return std::nullopt;
         };
-        const auto hull = r.data().findVehicleSize("VoidReign Pathfinder");
+        const auto hullId = [&](std::string_view name) -> std::optional<uint32_t> {
+            const auto* hull = r.data().findVehicleSize(name);
+            if (!hull) return std::nullopt;
+            return static_cast<uint32_t>(hull - r.data().vehicleSizes.data());
+        };
+
+        const auto pathfinderHull = hullId("VoidReign Pathfinder");
+        const auto colonizerHull = hullId("VoidReign Colonizer");
         const auto bridge = componentId("VoidReign Bridge");
         const auto lifeSupport = componentId("VoidReign Life Support");
         const auto crewQuarters = componentId("VoidReign Crew Quarters");
         const auto drive = componentId("VoidReign Ion Drive");
         const auto cargo = componentId("VoidReign Cargo Rack");
         const auto cannon = componentId("VoidReign Pulse Cannon I");
-        if (!hull || !bridge || !lifeSupport || !crewQuarters || !drive || !cargo || !cannon)
-            return std::unexpected("VoidReign's starter Pathfinder requires its own hull, bridge, life support, crew quarters, ion drive, cargo rack and pulse cannon.");
-        const uint32_t hullId = static_cast<uint32_t>(hull - r.data().vehicleSizes.data());
-        for (size_t i = 0; i < n; ++i) {
-            if (s.empires[i].kind != PlayerKind::Human) continue;
-            Design design;
-            design.owner = EmpireId{i};
-            design.name = uniqueDesignName(s, s.empires[i].race.style + " Pathfinder");
-            design.designType = "Scout Ship";
-            design.hull = hullId;
-            const auto supply = componentId("VoidReign Supply Cell");
+        const auto supply = componentId("VoidReign Supply Cell");
         const auto sensors = componentId("VoidReign EM Sensor Array");
         const auto shields = componentId("VoidReign Deflector Array");
-        if (!supply || !sensors || !shields)
-            return std::unexpected("VoidReign's starter Pathfinder requires its own supply cell, EM sensors and deflector array.");
-        for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon, *supply, *sensors, *shields})
-                design.entries.push_back({component, -1});
-            const DesignStats stats = computeDesignStats(r, &s.empires[i], design);
-            if (!stats.problems.empty())
-                return std::unexpected(std::format("VoidReign's starter Pathfinder is invalid: {}", stats.problems.front()));
-            const DesignId id = addDesign(s, std::move(design));
-            Vehicle ship = makeVehicle(r, s, s.design(id), locationOf(s.galaxy, (*homes)[i]));
-            s.addVehicle(std::move(ship));
+        if (!pathfinderHull || !colonizerHull || !bridge || !lifeSupport || !crewQuarters || !drive || !cargo || !cannon ||
+            !supply || !sensors || !shields)
+            return std::unexpected("VoidReign's starting fleet is incomplete: Pathfinder, Colonizer and their required native components must exist.");
+
+        for (size_t i = 0; i < n; ++i) {
+            Empire& empire = s.empires[i];
+            if (!empire.alive || empire.kind == PlayerKind::Neutral) continue;
+
+            const std::vector<uint32_t> escortParts{*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon, *supply,
+                                                    *sensors, *shields};
+            Design pathfinder;
+            pathfinder.owner = empire.id;
+            pathfinder.name = uniqueDesignName(s, empire.race.style + " Pathfinder");
+            pathfinder.designType = "Scout Ship";
+            pathfinder.hull = *pathfinderHull;
+            for (uint32_t component : escortParts) pathfinder.entries.push_back({component, -1});
+            const DesignStats pathfinderStats = computeDesignStats(r, &empire, pathfinder);
+            if (!pathfinderStats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter Pathfinder is invalid: {}", pathfinderStats.problems.front()));
+            const DesignId pathfinderId = addDesign(s, std::move(pathfinder));
+            s.addVehicle(makeVehicle(r, s, s.design(pathfinderId), locationOf(s.galaxy, (*homes)[i])));
+
+            const std::string surface = keysEqual(empire.race.nativeSurface, "Ice") ? "Ice"
+                                        : keysEqual(empire.race.nativeSurface, "Gas Giant") ||
+                                                  keysEqual(empire.race.nativeSurface, "Gas")
+                                            ? "Gas"
+                                            : "Rock";
+            const auto colonyModule = componentId(std::format("VoidReign {} Colonization Module", surface));
+            if (!colonyModule)
+                return std::unexpected(std::format("VoidReign has no {} colonization module for the {} species.", surface, empire.race.name));
+
+            Design colonizer;
+            colonizer.owner = empire.id;
+            colonizer.name = uniqueDesignName(s, empire.race.style + " " + surface + " Colonizer");
+            colonizer.designType = std::format("Colony ({})", surface);
+            colonizer.hull = *colonizerHull;
+            for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cannon, *supply, *sensors, *shields,
+                                       *colonyModule})
+                colonizer.entries.push_back({component, -1});
+            const DesignStats colonizerStats = computeDesignStats(r, &empire, colonizer);
+            if (!colonizerStats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter {} colonizer is invalid: {}", surface,
+                                                   colonizerStats.problems.front()));
+            if (!colonizerStats.canColonize(surface))
+                return std::unexpected(std::format("VoidReign's starter colonizer cannot colonize {} worlds.", surface));
+            const DesignId colonizerId = addDesign(s, std::move(colonizer));
+            s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i])));
         }
     }
 
