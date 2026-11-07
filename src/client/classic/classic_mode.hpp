@@ -93,6 +93,8 @@ struct ClassicOptions {
 // What to tell the player when no installed copy of the game is found:
 // auto-detection failed (`installDir` empty) or `installDir` holds no data set.
 std::string missingInstallMessage(const std::string& installDir);
+// Explains how to provide VoidReign's own content bundle when --voidreign-dir is missing or invalid.
+std::string missingVoidReignMessage(const std::string& gameDir);
 
 class ClassicMode final : public Mode, private script::Probe {
 public:
