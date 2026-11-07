@@ -17,6 +17,7 @@
 #include <doctest/doctest.h>
 
 #include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <string>
 #include <utility>
