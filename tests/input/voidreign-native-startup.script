@@ -30,20 +30,15 @@ wait-window queues
 click item:##row in=queues
 wait-window set-queue
 click item:Ships in=set-queue
-wait-for item:##row in=set-queue
-click item:##row in=set-queue
-wait 2
-assert { command = "QueueAdd" }
-assert { construction_queued = 1 }
 
-# The native AI design minister also creates a Base Space Yard using the
-# Orbital Station hull and Orbital Shipyard component. Queue that station.
+# The native AI design minister creates Accord II as a Base Space Yard,
+# using the Orbital Station hull and Orbital Shipyard component. Queue it first.
 wait-for item:"Accord II" in=set-queue
 assert-inside item:"Accord II" in=set-queue tag:set-queue:available:named
 click item:"Accord II" in=set-queue
 wait 2
 assert { command = "QueueAdd", design_type = "Base Space Yard" }
-assert { construction_queued = 2 }
+assert { construction_queued = 1 }
 key Escape
 wait-closed set-queue
 key Escape
@@ -63,3 +58,10 @@ wait-turn 1
 assert-turn 1
 click tag:log:close optional
 assert-turn 1
+
+# The base was built by the homeworld yard and now appears in the home system
+# as a selectable Base Space Yard vehicle, not just as a design in a menu.
+click sector:home
+wait-for item:"Accord II 0001"
+click item:"Accord II 0001"
+assert { selected = "ship", design_type = "Base Space Yard" }
