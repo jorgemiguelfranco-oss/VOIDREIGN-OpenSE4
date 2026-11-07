@@ -124,7 +124,7 @@ def server_args(path):
 
 
 PORTABLE_MARK = "# portable-copy"
-PORTABLE_SEED = b"OpenSE4 portable-copy check\n"
+PORTABLE_SEED = b"VOIDREIGN portable-copy check\n"
 
 
 def portable_supported(read_only):
@@ -157,7 +157,7 @@ def portable_copy(exe, read_only=False):
         except OSError:
             shutil.copy2(exe, copy)
         data = pathlib.Path(home) / "data"
-        system = data / "OpenSE4"   # SDL's preference folder under XDG_DATA_HOME
+        system = data / "VOIDREIGN"  # SDL's preference folder under XDG_DATA_HOME
         (system / "saves").mkdir(parents=True)
         (system / "saves" / "Seeded.gam").write_bytes(PORTABLE_SEED)
         # SDL's preference folder follows XDG_DATA_HOME; HOME stays, as the game
