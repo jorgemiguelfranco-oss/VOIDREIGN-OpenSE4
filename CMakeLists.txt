@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(OpenSE4
-    VERSION 0.15.1
-    DESCRIPTION "Open-source engine reimplementation for Space Empires IV Deluxe"
+project(VoidReign
+    VERSION 0.2.0
+    DESCRIPTION "Standalone 4X space strategy game built on the OpenSE4 engine"
     LANGUAGES C CXX)
 
 # Apple's linker warns about a static library listed twice, as CMake lists our
@@ -133,8 +133,10 @@ if(TARGET opense4)
     install(TARGETS opense4 RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 install(FILES README.md LICENSE DESTINATION "${CMAKE_INSTALL_DOCDIR}")
+# The standalone VoidReign rules, faction presets and assets ship with the game client.
+install(DIRECTORY content/voidreign/ DESTINATION "${CMAKE_INSTALL_BINDIR}/content/voidreign")
 if(UNIX AND NOT APPLE)
-    set(opense4_app_id io.github.lowlevelmetal.OpenSE4)
+    set(opense4_app_id io.voidreign.VoidReign)
     install(FILES "packaging/linux/${opense4_app_id}.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
     install(FILES "packaging/linux/${opense4_app_id}.metainfo.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo")
     install(DIRECTORY packaging/linux/icons/hicolor DESTINATION "${CMAKE_INSTALL_DATADIR}/icons")

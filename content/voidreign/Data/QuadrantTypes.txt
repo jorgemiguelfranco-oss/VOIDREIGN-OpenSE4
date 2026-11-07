@@ -1,0 +1,26 @@
+=====
+VOIDREIGN native game rules. Original project-authored content.
+=====
+*BEGIN*
+Name                     := Frontier Expanse
+Description              := A balanced distribution of frontier star systems.
+Min Dist Between Systems := 2
+System Placement         := Random
+Max Warp Points per Sys  := 4
+Min Angle Between WP     := 30
+Number of System Types   := 2
+Type 1 Name              := Helion Standard System
+Type 1 Chance            := 600
+Type 2 Name              := Nebula Fringe System
+Type 2 Chance            := 400
+
+Name                     := Fracture Spiral
+Description              := Long spiral arms of clustered systems.
+Min Dist Between Systems := 1
+System Placement         := Spiral
+Max Warp Points per Sys  := 3
+Min Angle Between WP     := 45
+Number of System Types   := 1
+Type 1 Name              := Helion Standard System
+Type 1 Chance            := 1000
+*END*

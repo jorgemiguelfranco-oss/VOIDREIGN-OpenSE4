@@ -566,9 +566,15 @@ Resources storageCapacity(const Rules& r, const GameState& s, EmpireId e) {
     constexpr std::array<AbilityKind, 3> kStorage{AbilityKind::ResourceStorageMinerals, AbilityKind::ResourceStorageOrganics,
                                                   AbilityKind::ResourceStorageRadioactives};
     const Race& race = s.empire(e).race;
-    const std::array<int64_t, 3> trait{r.traitValue(race, "Mineral Storage"), r.traitValue(race, "Organics Storage"),
-                                       r.traitValue(race, "Radioactives Storage")};
-    const int64_t floor = r.setting("Minimum Empire Point Storage", 50000);
+    // Classic compatibility retains the original racial storage bonuses and
+    // minimum treasury. VoidReign starts at zero: only actual colony storage
+    // facilities can hold minerals, organics or radioactives.
+    const std::array<int64_t, 3> trait = r.standaloneVoidReign()
+                                             ? std::array<int64_t, 3>{0, 0, 0}
+                                             : std::array<int64_t, 3>{r.traitValue(race, "Mineral Storage"),
+                                                                      r.traitValue(race, "Organics Storage"),
+                                                                      r.traitValue(race, "Radioactives Storage")};
+    const int64_t floor = r.standaloneVoidReign() ? 0 : r.setting("Minimum Empire Point Storage", 50000);
     Resources cap{floor, floor, floor};
     // Colonies need no population for their storage (confirmed: binary).
     for (const auto& c : s.colonies) {

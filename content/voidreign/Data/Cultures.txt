@@ -1,0 +1,17 @@
+=====
+VOIDREIGN native game rules. Original project-authored content.
+=====
+*BEGIN*
+Name          := Frontier Cooperative
+Description   := A pragmatic production and repair culture.
+Production    := 5
+Research      := 0
+Intelligence  := 0
+Trade         := 0
+Space Combat  := 0
+Ground Combat := -5
+Happiness     := 0
+Maintenance   := 0
+SY Rate       := 0
+Repair        := 10
+*END*

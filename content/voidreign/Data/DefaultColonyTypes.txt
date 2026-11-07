@@ -1,0 +1,22 @@
+=====
+VOIDREIGN native colony specializations.
+=====
+*BEGIN*
+Name := Construction Yard
+
+Name := Farming Colony
+
+Name := Homeworld
+
+Name := Intelligence Compound
+
+Name := Military Installation
+
+Name := Mining Colony
+
+Name := Refining Colony
+
+Name := Research Compound
+
+Name := Resupply Base
+*END*

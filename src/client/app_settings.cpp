@@ -18,6 +18,12 @@ namespace opense4::client {
 
 namespace {
 
+bool& standaloneUserFolder() {
+    static bool standalone = false;
+    return standalone;
+}
+
+
 template <class E, size_t N>
 E fromName(std::string_view name, const std::array<std::pair<E, const char*>, N>& table, E fallback) {
     for (const auto& [value, text] : table)
@@ -83,9 +89,14 @@ const char* displayName(LayoutChoice l) {
     return "?";
 }
 
+void setStandaloneUserFolder(bool standaloneVoidReign) { standaloneUserFolder() = standaloneVoidReign; }
+
+const char* applicationName() { return standaloneUserFolder() ? "VoidReign" : "OpenSE4"; }
+
 std::filesystem::path systemUserDirectory() {
     std::filesystem::path dir;
-    if (char* pref = SDL_GetPrefPath("", "OpenSE4")) {
+    const char* app = standaloneUserFolder() ? "VoidReign" : "OpenSE4";
+    if (char* pref = SDL_GetPrefPath("", app)) {
         dir = pref;  // UTF-8, as narrow strings become paths everywhere
         SDL_free(pref);
     }
@@ -94,6 +105,10 @@ std::filesystem::path systemUserDirectory() {
 
 core::UserFolder userFolderInUse() {
     core::UserFolder folder = core::userFolder(systemUserDirectory);
+    // A portable copy can host both products side by side without mixing
+    // settings, saved games or history.
+    if (standaloneUserFolder() && folder.source == core::UserFolderSource::Portable)
+        folder.path /= "VoidReign";
     std::error_code ec;
     std::filesystem::create_directories(folder.path, ec);
     return folder;
@@ -159,7 +174,7 @@ std::string appSettingsToToml(const AppSettings& s) {
     root.insert("controls", std::move(controls));
     root.insert("files", std::move(files));
     std::ostringstream out;
-    out << "# OpenSE4 settings (graphics, display, controls, files)\n" << root << "\n";
+    out << "# Game settings (graphics, display, controls, files)\n" << root << "\n";
     return out.str();
 }
 

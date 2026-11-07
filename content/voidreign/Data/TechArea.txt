@@ -1,0 +1,157 @@
+=====
+VOIDREIGN native game rules. Original project-authored content; no Space Empires data is distributed.
+=====
+*BEGIN*
+Name                := VoidReign Propulsion
+Group               := Ship Systems
+Description         := Fundamental propulsion theory for VoidReign starships.
+Maximum Level       := 5
+Level Cost          := 2000
+Start Level         := 1
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Core Science
+Group               := Science
+Description         := Foundational research across materials, energy and computation.
+Maximum Level       := 5
+Level Cost          := 1000
+Start Level         := 1
+Raise Level         := 0
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := False
+Number of Tech Req  := 0
+
+Name                := VoidReign Energy Weapons
+Group               := Weapons
+Description         := High-output energy projection and directed plasma systems.
+Maximum Level       := 5
+Level Cost          := 2600
+Start Level         := 1
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Planetary Engineering
+Group               := Expansion
+Description         := Habitats, terraforming and settlement systems for hostile worlds.
+Maximum Level       := 5
+Level Cost          := 3200
+Start Level         := 1
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Defensive Systems
+Group               := Ship Systems
+Description         := Layered energy screens, reinforced hulls and damage control technology.
+Maximum Level       := 5
+Level Cost          := 3400
+Start Level         := 1
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Sensor Networks
+Group               := Electronics
+Description         := Active scanning, long-range tracking and fleet coordination systems.
+Maximum Level       := 5
+Level Cost          := 2900
+Start Level         := 1
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Logistics Engineering
+Group               := Support
+Description         := Cargo handling, supply storage and interplanetary logistics.
+Maximum Level       := 5
+Level Cost          := 2700
+Start Level         := 1
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Logistics Engineering
+Group               := Logistics
+Description         := Cargo handling, fleet supply and carrier operations for long-range expansion.
+Maximum Level       := 5
+Level Cost          := 2600
+Start Level         := 0
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Sensor Networks
+Group               := Ship Systems
+Description         := Integrated active and passive sensor arrays for wide-area detection.
+Maximum Level       := 5
+Level Cost          := 2800
+Start Level         := 0
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Logistics Engineering
+Group               := Logistics
+Description         := Cargo handling, fleet supply and carrier operations for long-range expansion.
+Maximum Level       := 5
+Level Cost          := 2600
+Start Level         := 0
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Sensor Networks
+Group               := Ship Systems
+Description         := Integrated active and passive sensor arrays for wide-area detection.
+Maximum Level       := 5
+Level Cost          := 2800
+Start Level         := 0
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+*END*

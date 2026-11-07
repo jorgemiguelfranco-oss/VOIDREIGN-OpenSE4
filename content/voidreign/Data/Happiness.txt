@@ -1,0 +1,11 @@
+=====
+VOIDREIGN native social stability rules.
+=====
+*BEGIN*
+Name                       := Frontier Resolve
+Description                := The civic baseline of settled VoidReign populations.
+Max Positive Anger Change  := 5
+Max Negative Anger Change  := -5
+Any Ship Lost              := 3
+Any Planet Colonized       := -2
+*END*

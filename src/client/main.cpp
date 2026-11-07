@@ -50,13 +50,13 @@ void attachParentConsole() {
 }
 #endif
 
-constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementation for Space Empires IV Deluxe
-(requires your own copy of the game; not affiliated with its publishers)
+constexpr const char* kUsage = R"(VOIDREIGN - a standalone 4X strategy game built on the OpenSE4 engine
+(legacy classic-game compatibility mode is optional; VoidReign uses its own content)
 
 Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
-Plays Space Empires IV Deluxe on your own installed copy of the game. The game is
-found in your Steam libraries, or given with --classic-dir (see docs/SETUP.md).
+Starts VOIDREIGN by default using its bundled game content. Use --voidreign-dir to select another content root;
+--classic-dir explicitly selects the legacy OpenSE4 compatibility mode.
 
 Rendering:
   --renderer=auto|vulkan|opengl   Graphics backend (default: auto = Vulkan, fall back to OpenGL)
@@ -72,7 +72,8 @@ Rendering:
                                   the audio, e.g. with SDL_AUDIO_DRIVER=disk: docs/SETUP.md)
 
 Game:
-  --classic-dir=DIR               Game directory of your installed copy (default: auto-detect)
+  --voidreign-dir=DIR             Run the standalone VoidReign game from its own Data/Pictures/Sounds folder
+  --classic-dir=DIR               Developer compatibility: use an installed classic game data folder
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
@@ -204,6 +205,19 @@ int main(int argc, char** argv) {
         return 0;
     }
     client::AppOptions options;
+
+    // The selected product profile determines the settings/saves folder. Do
+    // this before appSettings() loads settings.toml; parsing --classic-dir
+    // later is too late for the first settings read.
+    bool standaloneVoidReign = true;
+    for (int i = 1; i < argc; ++i) {
+        const std::string_view arg = argv[i];
+        if (arg == "--classic-dir" || arg.starts_with("--classic-dir="))
+            standaloneVoidReign = false;
+        else if (arg == "--voidreign-dir" || arg.starts_with("--voidreign-dir="))
+            standaloneVoidReign = true;
+    }
+    client::setStandaloneUserFolder(standaloneVoidReign);
     // External bots (--bot-port...): the host they connect to lives as long as the program.
     int botPort = sdk::kDefaultBotPort;
     int botTimeout = 60;
@@ -331,8 +345,13 @@ int main(int argc, char** argv) {
             options.noAudio = true;
         } else if (key == "--audio") {
             options.audio = true;
+        } else if (key == "--voidreign-dir") {
+            options.installDir = std::string(value);
+            options.standaloneVoidReign = true;
+            ok = !value.empty();
         } else if (key == "--classic-dir") {
             options.installDir = std::string(value);
+            options.standaloneVoidReign = false;
         } else if (key == "--mod") {
             options.mods.emplace_back(value);
             options.modsGiven = true;
@@ -456,7 +475,7 @@ int main(int argc, char** argv) {
         bo.bind = botBind;
         bo.port = static_cast<uint16_t>(botPort);
         bo.token = !botToken.empty() ? botToken : core::environment("OPENSE4_BOT_TOKEN").value_or("");
-        bo.gameName = "OpenSE4";
+        bo.gameName = options.standaloneVoidReign ? "VoidReign" : "OpenSE4";
         bo.requestTimeout = std::chrono::seconds(botTimeout);
         auto opened = sdk::BotHost::open(std::move(bo));
         if (!opened) {

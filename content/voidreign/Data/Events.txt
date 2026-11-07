@@ -1,0 +1,5 @@
+=====
+VOIDREIGN event definitions are added as their gameplay systems are implemented.
+=====
+*BEGIN*
+*END*

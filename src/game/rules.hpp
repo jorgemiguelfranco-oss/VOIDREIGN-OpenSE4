@@ -27,7 +27,12 @@ public:
     // sets). A data set loaded with its files (ruleset::Ruleset::files: the
     // install, perhaps with mods) reads its AI tables and races from them;
     // otherwise from gameRoot as the install has them.
-    Rules(ruleset::Ruleset data, std::filesystem::path gameRoot = {});
+    Rules(ruleset::Ruleset data, std::filesystem::path gameRoot = {}, bool standaloneVoidReign = false);
+
+    // VoidReign is a separate game profile built on this engine, not a rules mod.
+    // Its stockpile has no free empire-wide floor: resource storage comes from
+    // storage facilities on colonies.
+    bool standaloneVoidReign() const { return standaloneVoidReign_; }
 
     const ruleset::Ruleset& data() const { return data_; }
     const std::filesystem::path& gameRoot() const { return gameRoot_; }
@@ -127,6 +132,7 @@ public:
 private:
     ruleset::Ruleset data_;
     std::filesystem::path gameRoot_;
+    bool standaloneVoidReign_ = false;
     std::vector<ruleset::RacePreset> races_;
     std::vector<std::vector<ParsedAbility>> components_, facilities_, hulls_, systemTypes_;
     std::vector<PopulationRow> populationRows_;

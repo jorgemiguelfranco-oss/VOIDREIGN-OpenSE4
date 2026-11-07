@@ -1,0 +1,24 @@
+=====
+VOIDREIGN native game rules. Original project-authored content; no Space Empires data is distributed.
+=====
+*BEGIN*
+Name               := Long-Range Adaptation
+Description        := Improves the species' sensory processing in low-light environments.
+Pic Num            := 1
+General Type       := Advantage
+Cost               := 500
+Trait Type         := Vehicle Speed
+Value 1            := 5
+Required Trait 1   := None
+Restricted Trait 1 := Rapid Metabolism
+
+Name               := Rapid Metabolism
+Description        := Improves the species' metabolic efficiency.
+Pic Num            := 2
+General Type       := Advantage
+Cost               := 400
+Trait Type         := Reproduction
+Value 1            := 3
+Required Trait 1   := None
+Restricted Trait 1 := Long-Range Adaptation
+*END*

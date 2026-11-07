@@ -1,4 +1,7 @@
 #include "datafile/datafile.hpp"
+#include "game/economy.hpp"
+#include "game/design.hpp"
+#include "game/setup.hpp"
 #include "ruleset/ability_names.hpp"
 #include "ruleset/races.hpp"
 #include "ruleset/ruleset.hpp"
@@ -9,8 +12,10 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
+#include <filesystem>
 #include <format>
 #include <fstream>
+#include <utility>
 
 using namespace opense4;
 
@@ -343,4 +348,218 @@ TEST_CASE("ruleset: event records are checked as spec 01 §10 and spec 05 §4 de
     CHECK(mentions(errors, "'Num Messages' must not be negative, not -1"));
     CHECK(errors.size() == 4);
     CHECK(std::count_if(warnings.begin(), warnings.end(), [](const std::string& w) { return w.starts_with("Events.txt"); }) == 2);
+}
+
+TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed starting empire") {
+    const std::filesystem::path root = OPENSE4_VOIDREIGN_CONTENT_DIR;
+    const auto loaded = ruleset::loadRuleset(root / "Data");
+    std::string diagnostics;
+    for (const auto& e : loaded.diagnostics.errors) diagnostics += "error: " + e + "\n";
+    for (const auto& w : loaded.diagnostics.warnings) diagnostics += "warning: " + w + "\n";
+    INFO(diagnostics);
+    REQUIRE(loaded.ruleset);
+    CHECK(loaded.diagnostics.errors.empty());
+    CHECK(loaded.diagnostics.unreadFields.empty());
+
+    game::Rules rules(std::move(*loaded.ruleset), root, true);
+    CHECK(rules.standaloneVoidReign());
+    for (std::string_view bitmap : {"VoidReignPathfinder", "VoidReignColonizer", "VoidReignStation",
+                                      "VoidReignInterceptor", "VoidReignFrigate", "VoidReignDestroyer",
+                                      "VoidReignCruiser", "VoidReignBattleship", "VoidReignCarrier"}) {
+        const std::filesystem::path picture =
+            root / "Pictures" / "RaceGeneric" / (std::string("Generic_Mini_") + std::string(bitmap) + ".png");
+        CHECK(std::filesystem::is_regular_file(picture));
+    }
+    // Every component prerequisite must name a real technology and a
+    // level the technology can actually reach. This catches silently
+    // unresearchable end-game parts before a new game is started.
+    for (const auto& component : rules.data().components)
+        for (const auto& requirement : component.requirements) {
+            REQUIRE(requirement.area.index() < rules.data().techAreas.size());
+            CHECK(requirement.level <= rules.data().techAreas[requirement.area.index()].maxLevel);
+        }
+    REQUIRE(rules.racePresets().size() == 2);
+    REQUIRE(game::findPreset(rules, "Helion") != nullptr);
+    REQUIRE(game::findPreset(rules, "Veyran") != nullptr);
+    REQUIRE(rules.data().findFacility("VoidReign Warehouse") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Pathfinder") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Orbital Station") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Colonizer") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Rock Colonization Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Ice Colonization Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Gas Colonization Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Orbital Shipyard Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Ion Drive II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Pulse Cannon II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Pulse Cannon III") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Deflector Array II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign EM Sensor Array II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Cargo Rack II") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Frigate") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Destroyer") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Cruiser") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Battleship") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Carrier") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Interceptor") != nullptr);
+    for (std::string_view type : {"Frigate", "Destroyer", "Cruiser", "Battleship", "Carrier", "Fighter"})
+        CHECK(std::find(rules.data().names.designTypes.begin(), rules.data().names.designTypes.end(), type) !=
+              rules.data().names.designTypes.end());
+    REQUIRE(rules.data().findComponent("VoidReign Fighter Bay") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Fighter Thruster") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Fighter Pulse Cannon") != nullptr);
+
+    const auto hasTechArea = [&](std::string_view name) {
+        return std::any_of(rules.data().techAreas.begin(), rules.data().techAreas.end(),
+                           [&](const auto& area) { return area.name == name; });
+    };
+    CHECK(hasTechArea("VoidReign Logistics Engineering"));
+    CHECK(hasTechArea("VoidReign Sensor Networks"));
+    const auto propulsion = std::find_if(rules.data().techAreas.begin(), rules.data().techAreas.end(),
+                                         [](const auto& area) { return area.name == "VoidReign Propulsion"; });
+    REQUIRE(propulsion != rules.data().techAreas.end());
+    CHECK(propulsion->maxLevel >= 4);
+
+    const auto componentId = [&](std::string_view name) {
+        const auto* component = rules.data().findComponent(name);
+        REQUIRE(component != nullptr);
+        return static_cast<uint32_t>(component - rules.data().components.data());
+    };
+    const uint32_t fighterBay = componentId("VoidReign Fighter Bay");
+    const auto fighterBayAbilities = rules.componentAbilities(fighterBay);
+    const auto fighterLaunch = std::find_if(fighterBayAbilities.begin(), fighterBayAbilities.end(), [](const game::ParsedAbility& a) {
+        return a.kind == game::AbilityKind::LaunchRecoverFighters;
+    });
+    REQUIRE(fighterLaunch != fighterBayAbilities.end());
+    CHECK(fighterLaunch->value1 == 90);
+    CHECK(fighterLaunch->value2 == 12);
+
+    // A valid carrier must meet the hull's 20% fighter-bay requirement and
+    // have actual launch capacity. Use no empire pointer here so the test is
+    // about physical design validity, not later-game research ownership.
+    std::vector<game::DesignEntry> carrierParts;
+    for (std::string_view name : {"VoidReign Bridge", "VoidReign Life Support", "VoidReign Crew Quarters",
+                                  "VoidReign Ion Drive", "VoidReign Pulse Cannon I", "VoidReign Supply Cell",
+                                  "VoidReign EM Sensor Array", "VoidReign Deflector Array"})
+        carrierParts.push_back({componentId(name), -1});
+    for (int i = 0; i < 5; ++i) carrierParts.push_back({fighterBay, -1});
+    const auto* carrierHull = rules.data().findVehicleSize("VoidReign Carrier");
+    REQUIRE(carrierHull != nullptr);
+    const uint32_t carrierHullId = static_cast<uint32_t>(carrierHull - rules.data().vehicleSizes.data());
+    const game::DesignStats carrierStats = game::computeDesignStats(rules, nullptr, carrierHullId, carrierParts);
+    CHECK(carrierStats.problems.empty());
+    CHECK(carrierStats.cargoCapacity >= 5 * 120);
+
+    // The interceptor is a real fighter unit with fighter-only propulsion and
+    // weapon components, so the carrier has a buildable unit to launch.
+    const auto* interceptor = rules.data().findVehicleSize("VoidReign Interceptor");
+    REQUIRE(interceptor != nullptr);
+    const uint32_t interceptorHullId = static_cast<uint32_t>(interceptor - rules.data().vehicleSizes.data());
+    const std::vector<game::DesignEntry> interceptorParts{{componentId("VoidReign Fighter Thruster"), -1},
+                                                          {componentId("VoidReign Fighter Pulse Cannon"), -1}};
+    const game::DesignStats interceptorStats = game::computeDesignStats(rules, nullptr, interceptorHullId, interceptorParts);
+    CHECK(interceptorStats.problems.empty());
+    CHECK(interceptorStats.movement > 0);
+    CHECK(interceptorStats.armed());
+    REQUIRE(rules.data().findTechArea("VoidReign Defensive Systems").has_value());
+    REQUIRE(rules.data().findTechArea("VoidReign Sensor Networks").has_value());
+    REQUIRE(rules.data().findTechArea("VoidReign Logistics Engineering").has_value());
+
+    game::GameSetup setup;
+    setup.seed = 402711;
+    setup.options.systemCount = 8;
+    setup.options.quadrantType = "Frontier Expanse";
+    setup.empires.resize(2);
+    setup.empires[0].kind = game::PlayerKind::Human;
+    setup.empires[0].preset = "Helion";
+    setup.empires[1].kind = game::PlayerKind::Computer;
+    setup.empires[1].preset = "Veyran";
+    auto created = game::createGame(rules, setup);
+    REQUIRE(created);
+
+    const auto* warehouse = rules.data().findFacility("VoidReign Warehouse");
+    REQUIRE(warehouse != nullptr);
+    const uint32_t warehouseId = static_cast<uint32_t>(warehouse - rules.data().facilities.data());
+    for (size_t empire = 0; empire < 2; ++empire) {
+        const game::EmpireId id{empire};
+        const game::Colony* capital = nullptr;
+        for (const auto& c : created->colonies)
+            if (c && c->owner == id && c->homeworld) {
+                capital = &*c;
+                break;
+            }
+        REQUIRE(capital != nullptr);
+        CHECK(std::find(capital->facilities.begin(), capital->facilities.end(), warehouseId) != capital->facilities.end());
+        CHECK(game::economy::storageCapacity(rules, *created, id) == game::Resources{25000, 25000, 25000});
+        const bool hasSurfaceYard = std::any_of(capital->facilities.begin(), capital->facilities.end(), [&](uint32_t facility) {
+            const auto abilities = rules.facilityAbilities(facility);
+            return std::any_of(abilities.begin(), abilities.end(),
+                               [](const game::ParsedAbility& ability) { return ability.kind == game::AbilityKind::SpaceYard; });
+        });
+        CHECK(!hasSurfaceYard);
+    }
+
+    REQUIRE(created->designs.size() == 6);
+    CHECK(created->designs[0].name == "Helion Pathfinder");
+    CHECK(created->designs[0].designType == "Scout Ship");
+    CHECK(created->designs[1].name == "Helion Rock Colonizer");
+    CHECK(created->designs[1].designType == "Colony (Rock)");
+    CHECK(created->designs[1].entries.size() == 9);
+    CHECK(created->designs[2].name == "Helion Orbital Station");
+    CHECK(created->designs[2].designType == "Station");
+    CHECK(created->designs[3].name == "Veyran Pathfinder");
+    CHECK(created->designs[4].name == "Veyran Ice Colonizer");
+    CHECK(created->designs[4].designType == "Colony (Ice)");
+    CHECK(created->designs[4].entries.size() == 9);
+    CHECK(created->designs[5].name == "Veyran Orbital Station");
+    REQUIRE(created->vehicles.size() == 6);
+    REQUIRE(created->fleets.size() == 2);
+    CHECK(created->fleets[0].name == "Helion Expeditionary Fleet");
+    CHECK(created->fleets[1].name == "Veyran Expeditionary Fleet");
+    for (size_t empire = 0; empire < 2; ++empire) {
+        const game::Fleet& fleet = created->fleets[empire];
+        CHECK(fleet.owner == game::EmpireId{empire});
+        REQUIRE(fleet.members.size() == 2);
+        CHECK(fleet.leader == fleet.members.front());
+        CHECK(created->vehicles[empire * 3].fleet == fleet.id);
+        CHECK(created->vehicles[empire * 3 + 1].fleet == fleet.id);
+        CHECK(!created->vehicles[empire * 3 + 2].fleet.valid());
+    }
+    for (size_t i = 0; i < 6; ++i) {
+        const size_t owner = i < 3 ? 0 : 1;
+        CHECK(created->vehicles[i].owner == game::EmpireId{owner});
+        CHECK(created->vehicles[i].design == game::DesignId{i});
+        CHECK(created->vehicles[i].location.system == created->empire(game::EmpireId{owner}).homeSystem);
+        if (i % 3 == 2) {
+            const game::Colony* capital = nullptr;
+            for (const auto& c : created->colonies)
+                if (c && c->owner == game::EmpireId{owner} && c->homeworld) {
+                    capital = &*c;
+                    break;
+                }
+            REQUIRE(capital != nullptr);
+            const game::Sector homeSector = game::locationOf(created->galaxy, capital->planet).sector;
+            CHECK(game::chebyshev(created->vehicles[i].location.sector, homeSector) > 0);
+        }
+    }
+    for (size_t empire = 0; empire < 2; ++empire) {
+        const game::EmpireId id{empire};
+        const size_t base = empire * 3;
+        const game::DesignStats scout = game::computeDesignStats(rules, &created->empire(id), created->designs[base]);
+        CHECK(scout.problems.empty());
+        CHECK(scout.armed());
+        CHECK(scout.movement > 0);
+        CHECK(scout.cargoCapacity >= 60);
+        CHECK(scout.shields >= 20);
+
+        const game::DesignStats colonizer = game::computeDesignStats(rules, &created->empire(id), created->designs[base + 1]);
+        CHECK(colonizer.problems.empty());
+        CHECK(colonizer.movement > 0);
+        CHECK(colonizer.canColonize(empire == 0 ? "Rock" : "Ice"));
+
+        const game::DesignStats station = game::computeDesignStats(rules, &created->empire(id), created->designs[base + 2]);
+        CHECK(station.problems.empty());
+        CHECK(station.movement == 0);
+        CHECK(station.spaceYard);
+        CHECK(station.shields >= 20);
+    }
 }

@@ -66,6 +66,10 @@ struct AppSettings {
     FileSettings files;
 };
 
+// Selects the user-data profile before settings, saves or history are read.
+void setStandaloneUserFolder(bool standaloneVoidReign);
+// Current product name for native dialogs and app metadata.
+const char* applicationName();
 AppSettings& appSettings();
 bool saveAppSettings();
 std::filesystem::path appSettingsFile();
@@ -74,7 +78,7 @@ std::filesystem::path appSettingsFile();
 // OPENSE4_USER_DIR names (the tests use a scratch folder), else "userdata"
 // beside a portable copy (portable.txt beside the program), else SDL's
 // preference folder (~/.local/share/OpenSE4 on Linux, %APPDATA%\OpenSE4 on
-// Windows, ~/Library/Application Support/OpenSE4 on macOS). Created if
+// Windows, ~/Library/Application Support/VoidReign or OpenSE4 on macOS, depending on profile). Created if
 // missing. Decided at each call: Settings → Files switches it while the game runs.
 std::filesystem::path userDataDirectory();
 // The same with the rule that chose it.

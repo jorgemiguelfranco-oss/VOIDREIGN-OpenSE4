@@ -4,6 +4,7 @@
 #include "game/ai.hpp"
 #include "game/ai_data.hpp"
 #include "game/design.hpp"
+#include "game/commands.hpp"
 #include "game/diplomacy.hpp"
 #include "game/economy.hpp"
 #include "game/generate.hpp"
@@ -64,6 +65,13 @@ AbilityKind colonizeKind(std::string_view surface) {
 // facility, starting with minerals (only minerals once everything is known).
 void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, Colony& col) {
     const int slots = facilitySlots(r, s, col);
+    // VoidReign has no free treasury. Commission one warehouse before the
+    // classic starting-facility selection so the empire can retain its first
+    // income and has resources with which to expand its logistics network.
+    if (r.standaloneVoidReign() && col.homeworld && static_cast<int>(col.facilities.size()) < slots) {
+        if (const ruleset::Facility* warehouse = r.data().findFacility("VoidReign Warehouse"))
+            col.facilities.push_back(static_cast<uint32_t>(warehouse - r.data().facilities.data()));
+    }
     auto add = [&](AbilityKind kind) {
         if (static_cast<int>(col.facilities.size()) >= slots) return false;
         const auto f = r.bestFacilityWith(e, kind);
@@ -71,7 +79,9 @@ void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, 
         return f.has_value();
     };
     if (!r.hasTrait(e.race, "No Spaceports")) add(AbilityKind::Spaceport);
-    add(AbilityKind::SpaceYard);
+    // VoidReign's starting shipyard is the visible orbital station created
+    // below, rather than a second free yard hidden on the homeworld.
+    if (!r.standaloneVoidReign()) add(AbilityKind::SpaceYard);
     add(AbilityKind::SupplyGeneration);
     add(AbilityKind::ResourceGenMinerals);
     add(AbilityKind::ResourceGenRadioactives);
@@ -450,6 +460,20 @@ std::vector<EmpireSetup> networkRandomPlayers(const Rules& r, int level, bool co
 
 std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup& setup, const StartExtras& extras) {
     if (setup.empires.empty()) return std::unexpected("A game needs at least one empire.");
+    if (r.standaloneVoidReign()) {
+        const ruleset::Facility* warehouse = r.data().findFacility("VoidReign Warehouse");
+        if (!warehouse)
+            return std::unexpected("The VoidReign ruleset must define a 'VoidReign Warehouse' facility; without it, an empire has no starting resource storage.");
+        const uint32_t warehouseId = static_cast<uint32_t>(warehouse - r.data().facilities.data());
+        const auto abilities = r.facilityAbilities(warehouseId);
+        for (AbilityKind required : {AbilityKind::ResourceStorageMinerals, AbilityKind::ResourceStorageOrganics,
+                                     AbilityKind::ResourceStorageRadioactives}) {
+            const bool supplied = std::any_of(abilities.begin(), abilities.end(),
+                                              [&](const ParsedAbility& a) { return a.kind == required && a.value1 > 0; });
+            if (!supplied)
+                return std::unexpected("VoidReign Warehouse must provide positive storage for minerals, organics and radioactives.");
+        }
+    }
     GameState s;
     s.seed = setup.seed;
     s.options = setup.options;
@@ -595,7 +619,16 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         const int more = e.kind == PlayerKind::Neutral ? 0 : std::max(0, s.options.startingPlanets - 1);
         std::vector<ObjectId> planets{home};
         for (ObjectId o : extraStartingPlanets(r, s, e, *homes, more)) planets.push_back(o);
-        for (ObjectId p : planets) setUpStartingPlanet(r, s, e, p);
+        for (ObjectId p : planets) {
+            setUpStartingPlanet(r, s, e, p);
+            if (r.standaloneVoidReign() && p == home) {
+                const ruleset::Facility* warehouse = r.data().findFacility("VoidReign Warehouse");
+                const uint32_t warehouseId = static_cast<uint32_t>(warehouse - r.data().facilities.data());
+                const Colony& capital = *s.colonies[p.index()];
+                if (std::find(capital.facilities.begin(), capital.facilities.end(), warehouseId) == capital.facilities.end())
+                    return std::unexpected("The VoidReign homeworld has no free facility slot for its required starting warehouse.");
+            }
+        }
         // The system of every starting planet is claimed, without condition
         // (spec 02 §9, spec 06 §7 Q47, confirmed: binary). The list is kept sorted.
         for (ObjectId p : planets)
@@ -610,6 +643,129 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     // ship, base, unit or design of its own. A computer player's Design
     // minister makes its designs in its first turn (spec 05 §7.5).
     //
+    // VOIDREIGN starts every playable empire with a Pathfinder and a
+    // species-matched colonizer. The classic engine's no-starting-ships rule
+    // remains unchanged for the explicit compatibility profile.
+    if (r.standaloneVoidReign()) {
+        const auto componentId = [&](std::string_view name) -> std::optional<uint32_t> {
+            for (uint32_t c = 0; c < r.data().components.size(); ++c)
+                if (keysEqual(r.component(c).name, name)) return c;
+            return std::nullopt;
+        };
+        const auto hullId = [&](std::string_view name) -> std::optional<uint32_t> {
+            const auto* hull = r.data().findVehicleSize(name);
+            if (!hull) return std::nullopt;
+            return static_cast<uint32_t>(hull - r.data().vehicleSizes.data());
+        };
+
+        const auto pathfinderHull = hullId("VoidReign Pathfinder");
+        const auto colonizerHull = hullId("VoidReign Colonizer");
+        const auto stationHull = hullId("VoidReign Orbital Station");
+        const auto bridge = componentId("VoidReign Bridge");
+        const auto lifeSupport = componentId("VoidReign Life Support");
+        const auto crewQuarters = componentId("VoidReign Crew Quarters");
+        const auto drive = componentId("VoidReign Ion Drive");
+        const auto cargo = componentId("VoidReign Cargo Rack");
+        const auto cannon = componentId("VoidReign Pulse Cannon I");
+        const auto supply = componentId("VoidReign Supply Cell");
+        const auto sensors = componentId("VoidReign EM Sensor Array");
+        const auto shields = componentId("VoidReign Deflector Array");
+        const auto shipyard = componentId("VoidReign Orbital Shipyard Module");
+        if (!pathfinderHull || !colonizerHull || !stationHull || !bridge || !lifeSupport || !crewQuarters || !drive || !cargo ||
+            !cannon || !supply || !sensors || !shields || !shipyard)
+            return std::unexpected("VoidReign's starting fleet is incomplete: Pathfinder, Colonizer, Orbital Station and their native components must exist.");
+
+        for (size_t i = 0; i < n; ++i) {
+            Empire& empire = s.empires[i];
+            if (!empire.alive || empire.kind == PlayerKind::Neutral) continue;
+            const std::string empireLabel = !empire.name.empty() ? empire.name
+                                            : !empire.race.name.empty() ? empire.race.name
+                                                                        : std::format("Empire {}", i + 1);
+
+            const std::vector<uint32_t> escortParts{*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon, *supply,
+                                                    *sensors, *shields};
+            Design pathfinder;
+            pathfinder.owner = empire.id;
+            pathfinder.name = uniqueDesignName(s, empireLabel + " Pathfinder");
+            pathfinder.designType = "Scout Ship";
+            pathfinder.hull = *pathfinderHull;
+            for (uint32_t component : escortParts) pathfinder.entries.push_back({component, -1});
+            const DesignStats pathfinderStats = computeDesignStats(r, &empire, pathfinder);
+            if (!pathfinderStats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter Pathfinder is invalid: {}", pathfinderStats.problems.front()));
+            const DesignId pathfinderId = addDesign(s, std::move(pathfinder));
+            const VehicleId pathfinderShip = s.addVehicle(makeVehicle(r, s, s.design(pathfinderId), locationOf(s.galaxy, (*homes)[i]))).id;
+
+            const std::string surface = keysEqual(empire.race.nativeSurface, "Ice") ? "Ice"
+                                        : keysEqual(empire.race.nativeSurface, "Gas Giant") ||
+                                                  keysEqual(empire.race.nativeSurface, "Gas")
+                                            ? "Gas"
+                                            : "Rock";
+            const auto colonyModule = componentId(std::format("VoidReign {} Colonization Module", surface));
+            if (!colonyModule)
+                return std::unexpected(std::format("VoidReign has no {} colonization module for the {} species.", surface, empire.race.name));
+
+            Design colonizer;
+            colonizer.owner = empire.id;
+            colonizer.name = uniqueDesignName(s, empireLabel + " " + surface + " Colonizer");
+            colonizer.designType = std::format("Colony ({})", surface);
+            colonizer.hull = *colonizerHull;
+            for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cannon, *supply, *sensors, *shields,
+                                       *colonyModule})
+                colonizer.entries.push_back({component, -1});
+            const DesignStats colonizerStats = computeDesignStats(r, &empire, colonizer);
+            if (!colonizerStats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter {} colonizer is invalid: {}", surface,
+                                                   colonizerStats.problems.front()));
+            if (!colonizerStats.canColonize(surface))
+                return std::unexpected(std::format("VoidReign's starter colonizer cannot colonize {} worlds.", surface));
+            const DesignId colonizerId = addDesign(s, std::move(colonizer));
+            const VehicleId colonizerShip = s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i]))).id;
+
+            cmd::CreateFleet firstFleet;
+            firstFleet.name = empireLabel + " Expeditionary Fleet";
+            firstFleet.members = {pathfinderShip, colonizerShip};
+            const CommandResult fleetResult = apply(r, s, empire.id, Command{std::move(firstFleet)});
+            if (!fleetResult.ok)
+                return std::unexpected(std::format("VoidReign could not create the starting fleet for {}: {}", empire.name, fleetResult.error));
+
+            // Every capital also begins with a real orbital shipyard. Place it
+            // in the first vacant sector of the home system so it is a distinct
+            // strategic object on the system map, not stacked on the planet.
+            Design station;
+            station.owner = empire.id;
+            station.name = uniqueDesignName(s, empireLabel + " Orbital Station");
+            station.designType = "Station";
+            station.hull = *stationHull;
+            for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *cannon, *supply, *sensors, *shields, *shipyard})
+                station.entries.push_back({component, -1});
+            const DesignStats stationStats = computeDesignStats(r, &empire, station);
+            if (!stationStats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter orbital station is invalid: {}", stationStats.problems.front()));
+            if (!stationStats.spaceYard)
+                return std::unexpected("VoidReign's starter orbital station must provide a working space yard.");
+            const DesignId stationId = addDesign(s, std::move(station));
+            Location stationLocation = locationOf(s.galaxy, (*homes)[i]);
+            std::vector<Sector> freeSectors = emptySectors(s.galaxy, empire.homeSystem);
+            // Galaxy::emptySectors knows about stellar objects; stations and
+            // ships are kept separately in GameState, so exclude occupied
+            // vehicle sectors as well (notably when empires share a system).
+            std::erase_if(freeSectors, [&](Sector sector) {
+                return std::any_of(s.vehicles.begin(), s.vehicles.end(), [&](const Vehicle& vehicle) {
+                    return vehicle.count > 0 && vehicle.location.system == empire.homeSystem && vehicle.location.sector == sector;
+                });
+            });
+            if (freeSectors.empty())
+                return std::unexpected(std::format("VoidReign cannot place {}'s orbital station: the home system has no vacant sector.",
+                                                   empire.name));
+            const auto nearest = std::min_element(freeSectors.begin(), freeSectors.end(), [&](Sector left, Sector right) {
+                return chebyshev(left, stationLocation.sector) < chebyshev(right, stationLocation.sector);
+            });
+            stationLocation.sector = *nearest;
+            s.addVehicle(makeVehicle(r, s, s.design(stationId), stationLocation));
+        }
+    }
+
     // Designs an empire file brought (spec 06 §7 Q48, Q72, confirmed: binary):
     // loading them replaces the empire's designs, and since an empire starts
     // with none, they are its only designs, in file order. Each must pass the

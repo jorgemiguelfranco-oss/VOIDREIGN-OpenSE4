@@ -31,7 +31,8 @@
 namespace opense4::client {
 
 struct ClassicOptions {
-    std::string installDir;  // empty = auto-detect
+    std::string installDir;  // resolved Data directory
+    bool standaloneVoidReign = false; // VoidReign content is the game's native data set, not a mod
     // Mods: these (paths, or ids in modsDir) when modsGiven, else the ones
     // the settings enable (docs/sdk/packages-and-data.md).
     std::vector<std::string> mods;
@@ -92,6 +93,8 @@ struct ClassicOptions {
 // What to tell the player when no installed copy of the game is found:
 // auto-detection failed (`installDir` empty) or `installDir` holds no data set.
 std::string missingInstallMessage(const std::string& installDir);
+// Explains how to provide VoidReign's own content bundle when --voidreign-dir is missing or invalid.
+std::string missingVoidReignMessage(const std::string& gameDir);
 
 class ClassicMode final : public Mode, private script::Probe {
 public:
@@ -127,7 +130,7 @@ private:
     };
     // `modFolder`: the command line's mod folder, read in Path.txt's place (none: Path.txt's).
     static std::expected<DataSet, std::string> readDataSet(const std::filesystem::path& dataDir, const mods::ModChoice& choice,
-                                                           const std::optional<std::string>& modFolder);
+                                                           const std::optional<std::string>& modFolder, bool standaloneVoidReign);
     mods::ModChoice modChoice(std::vector<std::string> ids) const;
     // The command line's mod folder as Path.txt would name it (relative to
     // the game folder; empty when it lies elsewhere), or none.

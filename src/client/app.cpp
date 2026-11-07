@@ -57,7 +57,7 @@ std::filesystem::path findDir(const std::string& override, const char* name, con
 void fatal(const std::string& message) {
     log::error("{}", message);
     // -nd: no box for the whole run (spec 05 §9.2).
-    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", message.c_str(), nullptr);
+    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, applicationName(), message.c_str(), nullptr);
 }
 
 // Neither renderer started: what the game needs, what to do about it, and why each
@@ -65,7 +65,7 @@ void fatal(const std::string& message) {
 // driver, so there the OpenGL 3.3 of the graphics card maker's driver is what counts.
 std::string noRendererMessage(const std::string& vulkanError, const std::string& openglError) {
     std::string text =
-        "OpenSE4 found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
+        "The game found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
         "Install the current driver for your graphics card from its maker (NVIDIA, AMD or Intel). "
         "The basic display driver that comes with Windows has no OpenGL 3.3, and a Remote "
         "Desktop session may have none either.\n";
@@ -102,7 +102,7 @@ SDL_HitTestResult SDLCALL windowHitTest(SDL_Window*, const SDL_Point* point, voi
 int hostFromCommandLine(const AppOptions& options, const classic::CommandLineGame& line, const std::filesystem::path& dataDir) {
     auto refuse = [&](const std::string& why, bool box) {
         log::error("{}", why);
-        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", why.c_str(), nullptr);
+        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, applicationName(), why.c_str(), nullptr);
         return classic::kHostRefused;
     };
     const std::filesystem::path gameRoot = dataDir.parent_path();
@@ -159,16 +159,29 @@ std::string videoDriver() {
 
 int App::run(const AppOptions& options) {
     options_ = options;
+    setStandaloneUserFolder(options.standaloneVoidReign);
     // The identifier is the Wayland app ID and X11 window class, which desktops
-    // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
-    SDL_SetAppMetadata("OpenSE4", OPENSE4_CLIENT_VERSION, "io.github.lowlevelmetal.OpenSE4");
+    // match to packaging/linux/io.voidreign.VoidReign.desktop.
+    SDL_SetAppMetadata(options.standaloneVoidReign ? "VoidReign" : "OpenSE4", OPENSE4_CLIENT_VERSION,
+                       options.standaloneVoidReign ? "io.voidreign.VoidReign" : "io.github.lowlevelmetal.OpenSE4");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
     // The game is the player's own installed copy: without one there is nothing
     // to play. Checked before any window or renderer exists.
-    const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
+    std::filesystem::path dataHint = options.installDir;
+    if (options.standaloneVoidReign && dataHint.empty()) {
+        // Prefer the bundled first-party game content next to the executable.
+        dataHint = sdk::executableDir() / "content" / "voidreign";
+#ifdef OPENSE4_SOURCE_DIR
+        // Development builds keep the authored content in the source checkout.
+        std::error_code ec;
+        if (!std::filesystem::exists(dataHint / "Data" / "Components.txt", ec))
+            dataHint = std::filesystem::path(OPENSE4_SOURCE_DIR) / "content" / "voidreign";
+#endif
+    }
+    const auto dataDir = ruleset::findInstalledDataDir(dataHint);
     if (!dataDir) {
-        fatal(missingInstallMessage(options.installDir));
+        fatal(options.standaloneVoidReign ? missingVoidReignMessage(options.installDir) : missingInstallMessage(options.installDir));
         SDL_Quit();
         return 1;
     }
@@ -199,10 +212,11 @@ int App::run(const AppOptions& options) {
     std::string error;
     ClassicOptions co;
     co.installDir = dataDir->string();
-    co.mods = options.mods;
-    co.modsGiven = options.modsGiven;
+    co.standaloneVoidReign = options.standaloneVoidReign;
+    co.mods = options.standaloneVoidReign ? std::vector<std::string>{} : options.mods;
+    co.modsGiven = options.standaloneVoidReign || options.modsGiven;
     co.modsDir = options.modsDir;
-    co.noBundledMods = options.noBundledMods;
+    co.noBundledMods = options.standaloneVoidReign || options.noBundledMods;
     co.commandLineModFolder = assets::modDirectoryFromArguments(options.positional);
     co.commandLine = commandLine;
     co.seed = options.seed;
@@ -294,7 +308,7 @@ bool App::createWindowAndDevice() {
     std::string vulkanError;  // why Vulkan did not start, for the message if OpenGL does not either
 
     if (options_.renderer != AppOptions::Renderer::OpenGL) {
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
+        window_ = SDL_CreateWindow(options_.standaloneVoidReign ? "VoidReign" : "OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
         if (window_) {
             device_ = gfx::createVulkanDevice(window_, deviceOptions, error);
             if (!device_) {
@@ -323,7 +337,7 @@ bool App::createWindowAndDevice() {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
+        window_ = SDL_CreateWindow(options_.standaloneVoidReign ? "VoidReign" : "OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
         if (!window_) {
             fatal(std::format("Could not create a window: {}", SDL_GetError()));
             return false;

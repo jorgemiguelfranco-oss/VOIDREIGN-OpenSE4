@@ -1,0 +1,37 @@
+=====
+VOIDREIGN native ship design categories.
+=====
+*BEGIN*
+Name := Attack Ship
+
+Name := Scout Ship
+Name := Colony (Rock)
+
+Name := Colony (Ice)
+
+Name := Colony (Gas)
+
+Name := Station
+Name := Frigate
+
+Name := Destroyer
+
+Name := Cruiser
+
+Name := Battleship
+
+Name := Carrier
+
+Name := Fighter
+Name := Frigate
+
+Name := Destroyer
+
+Name := Cruiser
+
+Name := Battleship
+
+Name := Carrier
+
+Name := Fighter
+*END*

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
 #
-#   dist/OpenSE4-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
-#   dist/OpenSE4-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
-#   dist/OpenSE4-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
-#   dist/OpenSE4-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
-#   dist/OpenSE4-<version>-windows-x86_64-setup.exe   the same, as an installer
-#   dist/OpenSE4-<version>-SHA256SUMS.txt
+#   dist/VoidReign-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
+#   dist/VoidReign-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
+#   dist/VoidReign-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
+#   dist/VoidReign-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
+#   dist/VoidReign-<version>-windows-x86_64-setup.exe   the same, as an installer
+#   dist/VoidReign-<version>-SHA256SUMS.txt
 #
 # On Linux both are built (Windows cross-compiled). In MSYS2 on Windows the
 # Windows packages are built natively instead. Either way the Windows programs
@@ -102,7 +102,7 @@ fi
 dist="$root/dist"
 mkdir -p "$dist"
 
-app_id=io.github.lowlevelmetal.OpenSE4
+app_id=io.voidreign.VoidReign
 metainfo="packaging/linux/$app_id.metainfo.xml"
 if [[ "$version" != *-* ]] && ! grep -q "<release version=\"$version\"" "$metainfo"; then
     echo "$metainfo has no <release> entry for $version: add one first." >&2
@@ -193,13 +193,13 @@ check_linux_libraries() {  # check_linux_libraries <build dir>
 notices() {  # notices <build dir> <target> <output file>
     local deps="$1/_deps" out="$3"
     {
-        echo "OpenSE4 third-party notices"
+        echo "VoidReign third-party notices"
         echo "==========================="
         echo
-        echo "OpenSE4 is an open-source engine for Space Empires IV Deluxe, licensed under"
-        echo "the GNU General Public License version 3 or later (see LICENSE). It is not"
-        echo "affiliated with the game's publishers and contains nothing from the game:"
-        echo "it plays with the player's own installed copy."
+        echo "VoidReign is a standalone space strategy game built on the OpenSE4 engine, licensed under"
+        echo "the GNU General Public License version 3 or later (see LICENSE)."
+        echo "It includes no Space Empires IV game data, artwork, sound or text."
+        echo "Legacy compatibility mode can optionally read a player-owned classic installation."
         echo "The executables include the following third-party software and fonts,"
         echo "each under its own licence."
         section() {
@@ -323,7 +323,7 @@ for target in "${targets[@]}"; do
         fi
     fi
 
-    name="OpenSE4-${version}-${platform}-${arch}"
+    name="VoidReign-${version}-${platform}-${arch}"
     stage="$dist/$name"
     rm -rf "$stage"
     mkdir -p "$stage"
@@ -338,6 +338,15 @@ for target in "${targets[@]}"; do
     cp packaging/PORTABLE-README.txt "$stage/PORTABLE-README.txt"
     # The mods that come with OpenSE4, which the programs find in mods/ beside them.
     stage_mods "$stage"
+    # VoidReign is the standalone game shipped by these packages. The client
+    # discovers this first-party content beside its executable; unlike mods it
+    # is required game data, so it must be present in every platform package.
+    if [ ! -f content/voidreign/Data/TechArea.txt ] || [ ! -f content/voidreign/Data/Components.txt ]; then
+        echo "The standalone VoidReign content bundle is incomplete." >&2
+        exit 1
+    fi
+    mkdir -p "$stage/content/voidreign"
+    cp -a content/voidreign/. "$stage/content/voidreign/"
     # The modding SDK's guide, reference and example mods, beside opense4-sdk, which
     # finds the examples there (opense4-sdk new --from-example). Their links, the
     # README's and the bundled mods' lead to the package's copies, or to GitHub.
@@ -379,5 +388,5 @@ for target in "${targets[@]}"; do
 done
 
 # Checksums for whatever this version's archives are in dist/.
-(cd "$dist" && sha256sum OpenSE4-"${version}"-*.tar.gz OpenSE4-"${version}"-*.zip OpenSE4-"${version}"-*-setup.exe 2> /dev/null > "OpenSE4-${version}-SHA256SUMS.txt" || true)
-echo "==> checksums: $dist/OpenSE4-${version}-SHA256SUMS.txt"
+(cd "$dist" && sha256sum VoidReign-"${version}"-*.tar.gz VoidReign-"${version}"-*.zip VoidReign-"${version}"-*-setup.exe 2> /dev/null > "VoidReign-${version}-SHA256SUMS.txt" || true)
+echo "==> checksums: $dist/VoidReign-${version}-SHA256SUMS.txt"
