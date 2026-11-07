@@ -11,6 +11,7 @@ Plr Planet Value Medium Percent  := 110
 Plr Planet Value High Percent    := 140
 Minimum Empire Point Storage          := 0
 VOIDREIGN Starting Warehouse Count   := 1
+VOIDREIGN Starting Attack Ship Count := 1
 Characteristic Physical Strength Pct Cost                         := 25
 Characteristic Physical Strength Threshold                         := 10
 Characteristic Physical Strength Threshhold Pct Cost Pos            := 100
