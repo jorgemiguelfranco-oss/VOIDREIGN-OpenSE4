@@ -294,7 +294,7 @@ jobs:
         env:
           SDL_VIDEO_DRIVER: offscreen
           LIBGL_ALWAYS_SOFTWARE: 1
-        run: python3 tools/run_input_tests.py --data-dir game-data --renderer=opengl --jobs 1 --output "$RUNNER_TEMP/voidreign-native" voidreign-native-startup voidreign-native-veyran voidreign-native-khepri
+        run: python3 tools/run_input_tests.py --data-dir game-data --renderer=opengl --jobs 1 --output "$RUNNER_TEMP/voidreign-native" voidreign-native-startup voidreign-native-veyran voidreign-native-khepri voidreign-native-fleet-control
 
       # The pictures show only our own fixtures and content.
       - name: Keep the pictures of a failed run
@@ -639,7 +639,7 @@ jobs:
             --renderer opengl `
             --jobs 1 `
             --output "$env:RUNNER_TEMP\voidreign-windows-native" `
-            voidreign-native-startup voidreign-native-veyran voidreign-native-khepri
+            voidreign-native-startup voidreign-native-veyran voidreign-native-khepri voidreign-native-fleet-control
 
       - name: Uninstall silently
         run: |
