@@ -363,6 +363,14 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
 
     game::Rules rules(std::move(*loaded.ruleset), root, true);
     CHECK(rules.standaloneVoidReign());
+    // Every component prerequisite must name a real technology and a
+    // level the technology can actually reach. This catches silently
+    // unresearchable end-game parts before a new game is started.
+    for (const auto& component : rules.data().components)
+        for (const auto& requirement : component.requirements) {
+            REQUIRE(requirement.area.index() < rules.data().techAreas.size());
+            CHECK(requirement.level <= rules.data().techAreas[requirement.area.index()].maxLevel);
+        }
     REQUIRE(rules.racePresets().size() == 2);
     REQUIRE(game::findPreset(rules, "Helion") != nullptr);
     REQUIRE(game::findPreset(rules, "Veyran") != nullptr);
