@@ -337,12 +337,17 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     CHECK(r->component(starterWeapon).isWeapon());
     CHECK(r->component(starterWeapon).weapon.kind == ruleset::WeaponKind::DirectFire);
     CHECK(r->component(starterWeapon).weapon.damageAtRange.size() == 6);
+    const uint32_t starterFighterWeapon = componentIndex("Fighter Pulse Emitter");
+    CHECK(r->componentAvailable(empire, starterFighterWeapon));
+    CHECK(r->component(starterFighterWeapon).isWeapon());
+    CHECK(r->component(starterFighterWeapon).weapon.family == 204);
 
     // The stock AI Fighter template must be capable of producing a legal
     // interceptor: it needs both a movement drive and a weapon fitting Fighter.
     const auto fighterMask = ruleset::maskOf(ruleset::VehicleType::Fighter);
     CHECK((r->component(componentIndex("Ion Drive")).vehicles & fighterMask) != 0);
-    CHECK((r->component(starterWeapon).vehicles & fighterMask) != 0);
+    CHECK((r->component(starterWeapon).vehicles & fighterMask) == 0);
+    CHECK((r->component(starterFighterWeapon).vehicles & fighterMask) != 0);
     CHECK((r->component(componentIndex("Laser Battery")).vehicles & fighterMask) != 0);
     CHECK((r->component(componentIndex("Missile Rack")).vehicles & fighterMask) != 0);
     CHECK((r->component(componentIndex("Shield Generator")).vehicles & fighterMask) != 0);
@@ -398,7 +403,7 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     CHECK(r->hullAvailable(empire, hullIndex("Recon Satellite")));
     for (std::string_view name : {"Fusion Drive", "Rock Colony Core", "Ice Colony Core", "Gas Colony Core",
                                   "Cargo Hold", "Shield Generator", "Armour Plating", "Sensor Array", "Supply Matrix",
-                                  "Orbital Yard Module", "Laser Battery", "Missile Rack"})
+                                  "Orbital Yard Module", "Fighter Pulse Emitter", "Laser Battery", "Missile Rack"})
         CHECK(r->componentAvailable(empire, componentIndex(name)));
 
     // Let the real design minister build its normal templates at this tech
@@ -414,8 +419,7 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     for (const DesignEntry& entry : fighterDesign->entries) {
         const auto& component = r->component(entry.component);
         hasFighterDrive |= component.name == "Ion Drive";
-        hasFighterWeapon |= component.name == "Pulse Emitter" || component.name == "Laser Battery" ||
-                            component.name == "Missile Rack";
+        hasFighterWeapon |= component.name == "Fighter Pulse Emitter";
         CHECK((component.vehicles & fighterMask) != 0);
     }
     CHECK(hasFighterDrive);
