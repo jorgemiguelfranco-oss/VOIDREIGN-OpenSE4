@@ -386,6 +386,9 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     REQUIRE(rules.data().findVehicleSize("VoidReign Battleship") != nullptr);
     REQUIRE(rules.data().findVehicleSize("VoidReign Carrier") != nullptr);
     REQUIRE(rules.data().findVehicleSize("VoidReign Interceptor") != nullptr);
+    for (std::string_view type : {"Frigate", "Destroyer", "Cruiser", "Battleship", "Carrier", "Fighter"})
+        CHECK(std::find(rules.data().names.designTypes.begin(), rules.data().names.designTypes.end(), type) !=
+              rules.data().names.designTypes.end());
     REQUIRE(rules.data().findComponent("VoidReign Fighter Bay") != nullptr);
     REQUIRE(rules.data().findComponent("VoidReign Fighter Thruster") != nullptr);
     REQUIRE(rules.data().findComponent("VoidReign Fighter Pulse Cannon") != nullptr);
