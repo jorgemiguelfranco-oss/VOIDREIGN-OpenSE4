@@ -657,6 +657,28 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     for (EmpireId e : extras.designMinisterRun)
         if (e.index() < n) ai::designMinisterRun(r, s, e);
 
+    // VOIDREIGN's opening patrol ships are created from each empire's own
+    // starting technology and the same design minister used by Quick Start.
+    // The setting is zero in engine-only rulesets, preserving their behaviour.
+    const int64_t startingAttackShips = std::clamp<int64_t>(r.setting("VOIDREIGN Starting Attack Ship Count", 0), 0, 5);
+    for (size_t i = 0; i < n && startingAttackShips > 0; ++i) {
+        const EmpireId owner{static_cast<uint32_t>(i)};
+        auto design = newestOfType(s, s.empires[i], "Attack Ship");
+        if (!design) {
+            ai::designMinisterRun(r, s, owner);
+            design = newestOfType(s, s.empires[i], "Attack Ship");
+        }
+        if (!design)
+            return std::unexpected(std::format("VOIDREIGN could not create a valid starting Attack Ship for empire '{}'. "
+                                               "Check its starting hull, weapons, propulsion and design rules.",
+                                               s.empires[i].name));
+        for (int64_t ship = 0; ship < startingAttackShips; ++ship) {
+            Vehicle v = makeVehicle(r, s, s.design(*design), locationOf(s.galaxy, (*homes)[i]));
+            ++s.design(*design).built;
+            s.addVehicle(std::move(v));
+        }
+    }
+
     // A lesson's ships (OpenSE4 lesson extension, docs/LEARNING.md): built at
     // the homeworld from the empire's newest design of each listed type.
     for (size_t i = 0; i < n && i < extras.lessonShips.size(); ++i)
