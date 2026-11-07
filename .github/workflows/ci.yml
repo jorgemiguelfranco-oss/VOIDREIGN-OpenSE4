@@ -102,6 +102,8 @@ jobs:
         run: |
           build/debug/opense4-datacheck "$OPENSE4_CLASSIC_DATA/Data"
           build/debug/tests/opense4_tests --test-case="installed data set: race presets, setup and starting assets (opt-in)"
+          SDL_VIDEO_DRIVER=offscreen build/debug/opense4 --quick-start=Aurel --turns=3 --open=none --screenshot="$RUNNER_TEMP/voidreign-smoke.png"
+          test -s "$RUNNER_TEMP/voidreign-smoke.png"
 
       - name: Start the programs
         if: ${{ !matrix.target }}

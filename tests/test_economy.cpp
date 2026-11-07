@@ -2618,3 +2618,28 @@ TEST_CASE("VOIDREIGN government profiles produce meaningful strategic trade-offs
     CHECK(governmentProfile("Unrecognised Government").name.empty());
 }
 
+TEST_CASE("economy: government production modifiers change resource output and maintenance") {
+    const Rules& r = engineRules();
+    auto resourceIncome = [&](std::string_view government) {
+        GameState s = newGame(r);
+        dropVehicles(s, kMe);
+        plainHome(r, s, {"Test Spaceport", "Test Mine"});
+        s.empire(kMe).empireType = std::string(government);
+        TurnContext ctx{r, s, {}, {}, {}};
+        economy::collectIncome(ctx, kMe);
+        return s.empire(kMe).economy.colonies;
+    };
+
+    const Resources merchant = resourceIncome("Merchant Republic");
+    const Resources industrial = resourceIncome("Industrial Directorate");
+    const Resources technocracy = resourceIncome("Technocracy");
+    CHECK(industrial.v[0] > merchant.v[0]);
+    CHECK(technocracy.v[0] < merchant.v[0]);
+
+    GameState upkeep = newGame(r);
+    upkeep.empire(kMe).empireType = "Merchant Republic";
+    const int merchantMaintenance = economy::maintenancePercent(r, upkeep.empire(kMe));
+    upkeep.empire(kMe).empireType = "Military Junta";
+    CHECK(economy::maintenancePercent(r, upkeep.empire(kMe)) > merchantMaintenance);
+}
+
