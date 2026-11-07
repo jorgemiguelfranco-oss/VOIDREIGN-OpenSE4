@@ -134,6 +134,15 @@ def build(output: Path) -> None:
         ("Sensor Array", "Ship\\Base", 12, 12, 45, 16, "Sensors", 50, [ability("Sensor Level", "Improves detection.", "EM Active", 2)], None),
         ("Supply Matrix", "Ship\\Base", 18, 14, 60, 18, "Logistics", 51, [ability("Supply Storage", "Stores ship supplies.", 500)], None),
         ("Orbital Yard Module", "Ship\\Base", 55, 30, 220, 60, "Shipyards", 60, [ability("Space Yard", "Builds and repairs ships.", 1, 500)], None),
+        # A basic sidearm remains available from the beginning so the first
+        # generation of frigates can defend itself before Weapons research.
+        ("Pulse Emitter", "Ship\\Base\\Sat", 18, 12, 42, 12, "Weapons", 19, [], {
+            "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
+            "Weapon Damage At Rng": "12 12 10 8 6", "Weapon Damage Type": "Normal",
+            "Weapon Reload Rate": 1, "Weapon Display Type": "Beam", "Weapon Display": 4,
+            "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 199,
+            "Weapon Seeker Speed": 0, "Weapon Seeker Dmg Res": 0,
+        }),
         ("Laser Battery", "Ship\\Base\\Sat", 20, 15, 55, 18, "Weapons", 20, [], {
             "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
             "Weapon Damage At Rng": "16 16 14 12 10 8", "Weapon Damage Type": "Normal",
