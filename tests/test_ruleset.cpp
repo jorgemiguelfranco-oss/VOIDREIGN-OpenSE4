@@ -113,7 +113,7 @@ TEST_CASE("ruleset: the fixture data set loads completely") {
 
 TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable economy") {
     const std::filesystem::path dataDir = std::filesystem::path(OPENSE4_FIXTURE_DIR).parent_path().parent_path() / "game-data" / "Data";
-    const auto result = ruleset::loadRuleset(dataDir);
+    auto result = ruleset::loadRuleset(dataDir);
     std::string errors;
     for (const auto& e : result.diagnostics.errors) errors += e + "\n";
     INFO(errors);
