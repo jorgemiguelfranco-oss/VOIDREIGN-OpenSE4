@@ -667,7 +667,12 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             design.name = uniqueDesignName(s, s.empires[i].race.style + " Pathfinder");
             design.designType = "Scout Ship";
             design.hull = hullId;
-            for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon})
+            const auto supply = componentId("VoidReign Supply Cell");
+        const auto sensors = componentId("VoidReign EM Sensor Array");
+        const auto shields = componentId("VoidReign Deflector Array");
+        if (!supply || !sensors || !shields)
+            return std::unexpected("VoidReign's starter Pathfinder requires its own supply cell, EM sensors and deflector array.");
+        for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon, *supply, *sensors, *shields})
                 design.entries.push_back({component, -1});
             const DesignStats stats = computeDesignStats(r, &s.empires[i], design);
             if (!stats.problems.empty())
