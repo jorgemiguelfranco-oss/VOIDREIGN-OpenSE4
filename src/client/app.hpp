@@ -39,7 +39,7 @@ struct AppOptions {
 
     // The player's installed copy of the game (its data set and art).
     std::string installDir;          // --classic-dir, or the standalone content root supplied by --voidreign-dir
-    bool standaloneVoidReign = false; // load the independent VoidReign game data set; no classic install or mods
+    bool standaloneVoidReign = true;  // VoidReign is the default game; --classic-dir opts into classic compatibility
     // Mods (docs/sdk/packages-and-data.md): --mod, in order, in place of the
     // ones the settings enable; --mods-dir where ids are looked up;
     // --no-bundled-mods leaves out the mods that come with OpenSE4.
