@@ -161,14 +161,15 @@ int App::run(const AppOptions& options) {
     options_ = options;
     // The identifier is the Wayland app ID and X11 window class, which desktops
     // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
-    SDL_SetAppMetadata("OpenSE4", OPENSE4_CLIENT_VERSION, "io.github.lowlevelmetal.OpenSE4");
+    SDL_SetAppMetadata(options.standaloneVoidReign ? "VoidReign" : "OpenSE4", OPENSE4_CLIENT_VERSION,
+                       options.standaloneVoidReign ? "io.voidreign.VoidReign" : "io.github.lowlevelmetal.OpenSE4");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
     // The game is the player's own installed copy: without one there is nothing
     // to play. Checked before any window or renderer exists.
     const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
     if (!dataDir) {
-        fatal(missingInstallMessage(options.installDir));
+        fatal(options.standaloneVoidReign ? missingVoidReignMessage(options.installDir) : missingInstallMessage(options.installDir));
         SDL_Quit();
         return 1;
     }
@@ -199,10 +200,11 @@ int App::run(const AppOptions& options) {
     std::string error;
     ClassicOptions co;
     co.installDir = dataDir->string();
-    co.mods = options.mods;
-    co.modsGiven = options.modsGiven;
+    co.standaloneVoidReign = options.standaloneVoidReign;
+    co.mods = options.standaloneVoidReign ? std::vector<std::string>{} : options.mods;
+    co.modsGiven = options.standaloneVoidReign || options.modsGiven;
     co.modsDir = options.modsDir;
-    co.noBundledMods = options.noBundledMods;
+    co.noBundledMods = options.standaloneVoidReign || options.noBundledMods;
     co.commandLineModFolder = assets::modDirectoryFromArguments(options.positional);
     co.commandLine = commandLine;
     co.seed = options.seed;
@@ -294,7 +296,7 @@ bool App::createWindowAndDevice() {
     std::string vulkanError;  // why Vulkan did not start, for the message if OpenGL does not either
 
     if (options_.renderer != AppOptions::Renderer::OpenGL) {
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
+        window_ = SDL_CreateWindow(options_.standaloneVoidReign ? "VoidReign" : "OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
         if (window_) {
             device_ = gfx::createVulkanDevice(window_, deviceOptions, error);
             if (!device_) {
@@ -323,7 +325,7 @@ bool App::createWindowAndDevice() {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
+        window_ = SDL_CreateWindow(options_.standaloneVoidReign ? "VoidReign" : "OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
         if (!window_) {
             fatal(std::format("Could not create a window: {}", SDL_GetError()));
             return false;
