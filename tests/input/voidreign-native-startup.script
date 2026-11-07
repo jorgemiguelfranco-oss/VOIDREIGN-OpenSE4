@@ -23,8 +23,24 @@ assert-present item:"VoidReign Warehouse"
 assert-present item:"VoidReign Planetary Shipyard"
 assert-present item:"VoidReign Supply Depot"
 
-# Exercise a real native research order and process the first turn.
+# The homeworld must be able to produce a ship, not just own a fleet.
 key Escape
+click tag:command:queues
+wait-window queues
+click item:##row in=queues
+wait-window set-queue
+click item:Ships in=set-queue
+wait-for item:##row in=set-queue
+click item:##row in=set-queue
+wait 2
+assert { command = "QueueAdd" }
+assert { construction_queued = 1 }
+key Escape
+wait-closed set-queue
+key Escape
+wait-closed queues
+
+# Exercise a real native research order and process the first turn.
 click tag:command:research
 wait-window research
 click item:* in=research nth=1
