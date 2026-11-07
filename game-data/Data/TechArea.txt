@@ -13,7 +13,7 @@ Number Of Tech Req := 0
 
 Name := VoidReign Propulsion
 Group := Propulsion
-Description := Compact fusion drives, vector control and interstellar transit.
+Description := Compact fusion drives, vector control and interstellar transit, including high-output Vector Drive stages.
 Maximum Level := 5
 Level Cost := 1800
 Start Level := 1
@@ -27,7 +27,7 @@ Tech Level Req 1 := 1
 
 Name := VoidReign Energy Weapons
 Group := Weapons
-Description := Pulse, beam and field weapons for fleet combat.
+Description := Pulse, beam and field weapons for fleet combat, including stronger pulse accelerators and shield projectors.
 Maximum Level := 5
 Level Cost := 2200
 Start Level := 1
@@ -41,7 +41,7 @@ Tech Level Req 1 := 1
 
 Name := VoidReign Industrial Engineering
 Group := Industry
-Description := Industrial automation, extraction and orbital construction.
+Description := Industrial automation, extraction and orbital construction, including upgraded resource plants, research campuses and shipyards.
 Maximum Level := 5
 Level Cost := 1700
 Start Level := 1
@@ -69,7 +69,7 @@ Tech Level Req 1 := 2
 
 Name := VoidReign Logistics
 Group := Logistics
-Description := Resource storage, freight handling and interplanetary supply networks.
+Description := Resource storage, freight handling and interplanetary supply networks, including high-capacity warehouses, cargo holds and supply depots.
 Maximum Level := 5
 Level Cost := 2000
 Start Level := 0
@@ -83,7 +83,7 @@ Tech Level Req 1 := 1
 
 Name := VoidReign Advanced Sensors
 Group := Electronics
-Description := Long-baseline detection and electronic countermeasures.
+Description := Long-baseline detection and electronic countermeasures, including improved ship sensors, orbital arrays and intelligence facilities.
 Maximum Level := 5
 Level Cost := 2100
 Start Level := 0
