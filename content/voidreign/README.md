@@ -8,7 +8,7 @@ This directory is the first-party VoidReign content bundle. The OpenSE4 engine l
 opense4 --voidreign-dir=content/voidreign
 ```
 
-When no directory is supplied, development builds search this source-tree directory. Installed builds look beside the executable under `content/voidreign`.
+VoidReign is the default client game. When no directory is supplied, development builds search this source-tree directory. Installed builds look beside the executable under `content/voidreign`.
 
 The first ruleset contains authored technology, hull, component, facility, economy, galaxy-generation and species-preset data. The Helion Concord and Veyran Collective are the initial species. Their original artwork, complete faction rosters, advanced ship designs, AI profiles, diplomacy/event content and expanded technology progression are still under development. The presence of data files is not proof of a playable release.
 
