@@ -355,8 +355,8 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     const std::filesystem::path root = OPENSE4_VOIDREIGN_CONTENT_DIR;
     const auto loaded = ruleset::loadRuleset(root / "Data");
     std::string diagnostics;
-    for (const auto& e : loaded.diagnostics.errors) diagnostics += "error: " + e + "\\n";
-    for (const auto& w : loaded.diagnostics.warnings) diagnostics += "warning: " + w + "\\n";
+    for (const auto& e : loaded.diagnostics.errors) diagnostics += "error: " + e + "\n";
+    for (const auto& w : loaded.diagnostics.warnings) diagnostics += "warning: " + w + "\n";
     INFO(diagnostics);
     REQUIRE(loaded.ruleset);
     CHECK(loaded.diagnostics.errors.empty());
@@ -393,4 +393,11 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     const uint32_t warehouseId = static_cast<uint32_t>(warehouse - rules.data().facilities.data());
     CHECK(std::find(capital->facilities.begin(), capital->facilities.end(), warehouseId) != capital->facilities.end());
     CHECK(game::economy::storageCapacity(rules, *created, game::EmpireId{0}) == game::Resources{25000, 25000, 25000});
+    REQUIRE(created->designs.size() == 1);
+    CHECK(created->designs[0].name == "Helion Pathfinder");
+    CHECK(created->designs[0].designType == "Scout Ship");
+    REQUIRE(created->vehicles.size() == 1);
+    CHECK(created->vehicles[0].owner == game::EmpireId{0});
+    CHECK(created->vehicles[0].design == game::DesignId{0});
+    CHECK(created->vehicles[0].location.system == created->empire(game::EmpireId{0}).homeSystem);
 }
