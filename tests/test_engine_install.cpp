@@ -249,7 +249,7 @@ TEST_CASE("VOIDREIGN factions and neutral powers load their own native AI resear
     REQUIRE(r->racePresets().size() == 15);
     for (const auto& preset : r->racePresets()) {
         const ai::AiProfile profile = ai::loadProfile(r->gameRoot(), preset.folder);
-        CHECK_MESSAGE_FALSE(profile.researchErrors, preset.folder);
+        CHECK_MESSAGE(!profile.researchErrors, preset.folder);
         CHECK_MESSAGE(profile.research.size() == 30, preset.folder);
         CHECK_MESSAGE(std::any_of(profile.sources.begin(), profile.sources.end(), [](const std::string& path) {
             return path.find("_AI_Research.txt") != std::string::npos;
