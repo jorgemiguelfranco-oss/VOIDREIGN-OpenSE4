@@ -2,6 +2,7 @@
 #include "ruleset/ability_names.hpp"
 #include "ruleset/races.hpp"
 #include "ruleset/ruleset.hpp"
+#include "game/rules.hpp"
 #include "temp_dir.hpp"
 
 #include <doctest/doctest.h>
@@ -143,6 +144,21 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
         "Construction Yard", "Farming Colony", "Homeworld", "Intelligence Compound", "Military Installation",
         "Mining Colony", "Refining Colony", "Research Compound", "Resupply Base"};
     CHECK(rs.names.colonyTypes == expectedColonyTypes);
+
+    // Race data lives beside the native base rules, not in a mod overlay.
+    game::Rules gameRules(std::move(*result.ruleset), dataDir.parent_path());
+    REQUIRE(gameRules.racePresets().size() == 3);
+    for (const auto& [folder, name] : std::array<std::pair<std::string_view, std::string_view>, 3>{
+             std::pair{"Aurelian", "Aurelian Concord"}, std::pair{"Khepri", "Khepri Ascendancy"},
+             std::pair{"Veyran", "Veyran Trade League"}}) {
+        const auto it = std::find_if(gameRules.racePresets().begin(), gameRules.racePresets().end(),
+                                     [&](const ruleset::RacePreset& p) { return p.folder == folder; });
+        REQUIRE(it != gameRules.racePresets().end());
+        CHECK(it->name == name);
+        CHECK(it->tiers.size() == 3);
+        CHECK_FALSE(it->culture.empty());
+        CHECK_FALSE(it->happinessType.empty());
+    }
 }
 
 TEST_CASE("ruleset: problems are reported with file, line and record") {
