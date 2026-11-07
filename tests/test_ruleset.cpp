@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <format>
 #include <fstream>
+#include <iterator>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -204,6 +205,22 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     REQUIRE(liveDrive2 != gameRules.data().components.end());
     REQUIRE(liveWarehouse2 != gameRules.data().facilities.end());
     REQUIRE(liveExtractor2 != gameRules.data().facilities.end());
+    const auto liveShield2 = findComponent("VoidReign Shield Projector II");
+    const auto liveCargo2 = findComponent("VoidReign Cargo Hold II");
+    const auto liveSensor1 = findComponent("VoidReign Sensor Suite I");
+    const auto liveSensor2 = findComponent("VoidReign Sensor Suite II");
+    const auto liveSensorArray2 = findComponent("VoidReign Sensor Array II");
+    const auto liveResearchFacility2 = findFacility("VoidReign Research Institute II");
+    const auto liveShipyard2 = findFacility("VoidReign Planetary Shipyard II");
+    const auto liveSupplyDepot2 = findFacility("VoidReign Supply Depot II");
+    REQUIRE(liveShield2 != gameRules.data().components.end());
+    REQUIRE(liveCargo2 != gameRules.data().components.end());
+    REQUIRE(liveSensor1 != gameRules.data().components.end());
+    REQUIRE(liveSensor2 != gameRules.data().components.end());
+    REQUIRE(liveSensorArray2 != gameRules.data().components.end());
+    REQUIRE(liveResearchFacility2 != gameRules.data().facilities.end());
+    REQUIRE(liveShipyard2 != gameRules.data().facilities.end());
+    REQUIRE(liveSupplyDepot2 != gameRules.data().facilities.end());
 
     game::Empire techProbe;
     techProbe.techLevels.assign(gameRules.data().techAreas.size(), 0);
@@ -217,10 +234,26 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const uint32_t drive2Index = indexOfComponent(liveDrive2);
     const uint32_t warehouse2Index = indexOfFacility(liveWarehouse2);
     const uint32_t extractor2Index = indexOfFacility(liveExtractor2);
+    const uint32_t shield2Index = indexOfComponent(liveShield2);
+    const uint32_t cargo2Index = indexOfComponent(liveCargo2);
+    const uint32_t sensor1Index = indexOfComponent(liveSensor1);
+    const uint32_t sensor2Index = indexOfComponent(liveSensor2);
+    const uint32_t sensorArray2Index = indexOfComponent(liveSensorArray2);
+    const uint32_t researchFacility2Index = indexOfFacility(liveResearchFacility2);
+    const uint32_t shipyard2Index = indexOfFacility(liveShipyard2);
+    const uint32_t supplyDepot2Index = indexOfFacility(liveSupplyDepot2);
     CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse2Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, drive2Index));
     CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse2Index));
     CHECK_FALSE(gameRules.facilityAvailable(techProbe, extractor2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, sensor1Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, sensor2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, sensorArray2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, researchFacility2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, shipyard2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, supplyDepot2Index));
 
     const auto setTech = [&](std::string_view name, int level) {
         for (size_t i = 0; i < gameRules.data().techAreas.size(); ++i)
@@ -238,6 +271,28 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(*warehouseUpgrade == warehouse2Index);
     setTech("VoidReign Industrial Engineering", 2);
     CHECK(gameRules.facilityAvailable(techProbe, extractor2Index));
+    const auto extractorUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveExtractor2->family);
+    REQUIRE(extractorUpgrade);
+    CHECK(*extractorUpgrade == extractor2Index);
+    setTech("VoidReign Industrial Engineering", 3);
+    CHECK(gameRules.facilityAvailable(techProbe, researchFacility2Index));
+    setTech("VoidReign Industrial Engineering", 4);
+    CHECK(gameRules.facilityAvailable(techProbe, shipyard2Index));
+    setTech("VoidReign Logistics", 3);
+    CHECK(gameRules.facilityAvailable(techProbe, supplyDepot2Index));
+    setTech("VoidReign Energy Weapons", 2);
+    CHECK(gameRules.componentAvailable(techProbe, shield2Index));
+    setTech("VoidReign Logistics", 2);
+    CHECK(gameRules.componentAvailable(techProbe, cargo2Index));
+    setTech("VoidReign Advanced Sensors", 1);
+    CHECK(gameRules.componentAvailable(techProbe, sensor1Index));
+    setTech("VoidReign Advanced Sensors", 2);
+    CHECK(gameRules.componentAvailable(techProbe, sensorArray2Index));
+    setTech("VoidReign Advanced Sensors", 3);
+    CHECK(gameRules.componentAvailable(techProbe, sensor2Index));
+    const auto sensorUpgrade = gameRules.componentUpgradeTarget(techProbe, liveSensor2->family);
+    REQUIRE(sensorUpgrade);
+    CHECK(*sensorUpgrade == sensor2Index);
     setTech("VoidReign Propulsion", 3);
     CHECK(gameRules.componentAvailable(techProbe, drive2Index));
     REQUIRE(gameRules.racePresets().size() == 3);
