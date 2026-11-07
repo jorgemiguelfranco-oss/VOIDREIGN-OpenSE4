@@ -145,7 +145,7 @@ TEST_CASE("classic options: facility marker letters and their tests (spec 06 §7
     const Colony& c = w.colony(planet, kA, 10, {"Mv Converter", "Mv Repair Shop", "Mv Upkeep Office", "Mv Nursery", "Mv Depot", "Mv Port", "Mv Yard"});
     const uint16_t yards = 1u << 0, repair = 1u << 3, upkeep = 1u << 8, plague = 1u << 9;
     // Rc is Resource Conversion, not Component Repair.
-    CHECK(facilityMarkerGroups(r, c, repair) == std::vector<std::string>{"Rc"});
+    CHECK(facilityMarkerGroups(r, c, repair) == std::vector<std::string>{"Y", "Rc"});
     // Srm is Reduced Maintenance Cost - System; Src is Modify Reproduction - System.
     CHECK(facilityMarkerGroups(r, c, upkeep) == std::vector<std::string>{"Y", "Srm"});
     CHECK(facilityMarkerGroups(r, c, plague) == std::vector<std::string>{"Y", "Src"});
