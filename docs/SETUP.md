@@ -62,7 +62,7 @@ not remove your saves.
 
 | Platform | User data folder |
 |---|---|
-| Windows | `%APPDATA%\\VOIDREIGN\\` (usually `C:\\Users\\<you>\\AppData\\Roaming\\VOIDREIGN\\`) |
+| Windows | `%APPDATA%\VOIDREIGN\` (usually `C:\Users\<you>\AppData\Roaming\VOIDREIGN\`) |
 | Linux | `$XDG_DATA_HOME/VOIDREIGN/`, or `~/.local/share/VOIDREIGN/` |
 | macOS | `~/Library/Application Support/VOIDREIGN/` |
 
@@ -71,7 +71,7 @@ the current and previous logs are `voidreign.log` and `voidreign.previous.log`.
 The game's **Settings → Files** page shows the active user folder and can open it.
 
 The Windows uninstaller removes the installed program, shortcuts and registry entries.
-It deliberately leaves `%APPDATA%\\VOIDREIGN\\` untouched.
+It deliberately leaves `%APPDATA%\VOIDREIGN\` untouched.
 
 ## A portable copy
 
@@ -101,7 +101,7 @@ For automated tests or a separate profile, the environment variable
 |---|---|
 | The game says its native data is missing | Keep the full `game-data/` folder beside `VOIDREIGN.exe`. Re-run the installer or re-extract the complete ZIP; do not copy only the executable. |
 | A black window or a graphics-driver error | Update the graphics driver. From a terminal in the install folder, try `VOIDREIGN.exe --renderer=opengl`. |
-| The game closes or shows a data error | Check `voidreign.log` in the user data folder. The bundled checker can validate the data with `opense4-datacheck.exe .\\game-data\\Data`. |
+| The game closes or shows a data error | Check `voidreign.log` in the user data folder. The bundled checker can validate the data with `opense4-datacheck.exe .\game-data\Data`. |
 | Saved games or settings appear to be missing | Open **Settings → Files** and check which user folder is active. Portable copies use `userdata/` beside the executable. |
 | An optional mod or AI extension fails to load | Disable it in the Mods window and restart the data load. The native VOIDREIGN factions and built-in AI do not require an extension. |
 
