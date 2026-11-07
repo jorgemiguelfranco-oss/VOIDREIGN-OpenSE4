@@ -548,6 +548,29 @@ TEST_CASE("economy: visible enemy ships and bases in the sector blockade a plane
 
 // ---- Treasury ----------------------------------------------------------------------------------------
 
+TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
+    auto r = tweakedRules([](ruleset::Ruleset& rs) {
+        setKey(rs, "Minimum Empire Point Storage", 10000);
+        setKey(rs, "VOIDREIGN Starting Warehouse Count", 1);
+        std::erase_if(rs.facilities, [](const ruleset::Facility& f) {
+            return f.name == "Test Mineral Store" || f.name == "Test Organic Store" || f.name == "Test Radioactive Store";
+        });
+        addFacility(rs, "Test Starting Warehouse",
+                    {ability(AbilityKind::ResourceStorageMinerals, 10000), ability(AbilityKind::ResourceStorageOrganics, 10000),
+                     ability(AbilityKind::ResourceStorageRadioactives, 10000)},
+                    {500, 250, 25});
+    });
+    GameState s = newGame(*r);
+    const Colony& home = homeworld(s, kMe);
+    bool hasWarehouse = false;
+    for (uint32_t f : home.facilities)
+        if (r->facility(f).name == "Test Starting Warehouse") hasWarehouse = true;
+    CHECK(hasWarehouse);
+    const Resources expectedStorage{20000, 20000, 20000};
+    CHECK(economy::storageCapacity(*r, s, kMe) == expectedStorage);
+    CHECK(s.empire(kMe).stockpile == expectedStorage);
+}
+
 TEST_CASE("economy: storage caps the treasury; storage facilities and traits raise it") {
     auto r = tweakedRules([](ruleset::Ruleset& rs) { addTrait(rs, "Hoarders", "Mineral Storage", 50); });
     GameState s = newGame(*r);
