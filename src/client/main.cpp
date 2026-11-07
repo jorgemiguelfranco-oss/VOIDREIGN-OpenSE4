@@ -55,8 +55,8 @@ constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementati
 
 Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
-Runs an OpenSE4-based strategy game. Use --voidreign-dir for the standalone VoidReign content;
---classic-dir is retained only for compatibility and engine-development testing.
+Starts VOIDREIGN by default using its bundled game content. Use --voidreign-dir to select another content root;
+--classic-dir explicitly selects the legacy OpenSE4 compatibility mode.
 
 Rendering:
   --renderer=auto|vulkan|opengl   Graphics backend (default: auto = Vulkan, fall back to OpenGL)
