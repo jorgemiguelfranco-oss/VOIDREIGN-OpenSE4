@@ -158,10 +158,25 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
                                      [](const ruleset::Component& c) { return c.name == "VoidReign Vector Drive II"; });
     const auto extractor2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
                                          [](const ruleset::Facility& f) { return f.name == "VoidReign Mineral Extractor II"; });
+    const auto shield2 = std::find_if(rs.components.begin(), rs.components.end(),
+                                     [](const ruleset::Component& c) { return c.name == "VoidReign Shield Projector II"; });
+    const auto cargo2 = std::find_if(rs.components.begin(), rs.components.end(),
+                                    [](const ruleset::Component& c) { return c.name == "VoidReign Cargo Hold II"; });
+    const auto research2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                       [](const ruleset::Facility& f) { return f.name == "VoidReign Research Institute II"; });
+    const auto shipyard2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                       [](const ruleset::Facility& f) { return f.name == "VoidReign Planetary Shipyard II"; });
+    const auto supply2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                     [](const ruleset::Facility& f) { return f.name == "VoidReign Supply Depot II"; });
     REQUIRE(pulse2 != rs.components.end());
     REQUIRE(warehouse2 != rs.facilities.end());
     REQUIRE(drive2 != rs.components.end());
     REQUIRE(extractor2 != rs.facilities.end());
+    REQUIRE(shield2 != rs.components.end());
+    REQUIRE(cargo2 != rs.components.end());
+    REQUIRE(research2 != rs.facilities.end());
+    REQUIRE(shipyard2 != rs.facilities.end());
+    REQUIRE(supply2 != rs.facilities.end());
     CHECK(pulse2->family == pulse->family);
     CHECK(pulse2->romanNumeral == 2);
     REQUIRE(pulse2->requirements.size() == 1);
@@ -176,6 +191,20 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     REQUIRE(warehouse2->requirements.size() == 1);
     CHECK(rs.techAreas[warehouse2->requirements[0].area.index()].name == "VoidReign Logistics");
     CHECK(warehouse2->requirements[0].level == 2);
+    REQUIRE(drive2->abilities.size() == 1);
+    CHECK(drive2->abilities[0].number1() == 2);
+    REQUIRE(cargo2->abilities.size() == 1);
+    CHECK(cargo2->abilities[0].number1() == 120);
+    REQUIRE(shield2->abilities.size() == 1);
+    CHECK(shield2->abilities[0].number1() == 100);
+    REQUIRE(extractor2->abilities.size() == 1);
+    CHECK(extractor2->abilities[0].number1() == 750);
+    REQUIRE(research2->abilities.size() == 1);
+    CHECK(research2->abilities[0].number1() == 375);
+    REQUIRE(shipyard2->abilities.size() == 1);
+    CHECK(shipyard2->abilities[0].number2() == 2250);
+    REQUIRE(supply2->abilities.size() == 1);
+    CHECK(supply2->abilities[0].number1() == 7500);
     const std::vector<std::string> expectedColonyTypes{
         "Construction Yard", "Farming Colony", "Homeworld", "Intelligence Compound", "Military Installation",
         "Mining Colony", "Refining Colony", "Research Compound", "Resupply Base"};
