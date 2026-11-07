@@ -65,7 +65,7 @@ void fatal(const std::string& message) {
 // driver, so there the OpenGL 3.3 of the graphics card maker's driver is what counts.
 std::string noRendererMessage(const std::string& vulkanError, const std::string& openglError) {
     std::string text =
-        "OpenSE4 found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
+        "The game found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
         "Install the current driver for your graphics card from its maker (NVIDIA, AMD or Intel). "
         "The basic display driver that comes with Windows has no OpenGL 3.3, and a Remote "
         "Desktop session may have none either.\n";
