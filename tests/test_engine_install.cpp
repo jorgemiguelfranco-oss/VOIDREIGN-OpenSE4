@@ -238,6 +238,122 @@ TEST_CASE("VOIDREIGN generated economy and technology remain bounded over eight 
 }
 
 
+
+TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistics progression (opt-in)") {
+    const Rules* r = installRules();
+    if (!r) return;
+
+    GameSetup setup;
+    setup.seed = 0x5445434850524f47ull;
+    setup.options.systemCount = 16;
+    const ruleset::RacePreset* playable = nullptr;
+    for (const auto& preset : r->racePresets())
+        if (!preset.neutral) { playable = &preset; break; }
+    REQUIRE(playable != nullptr);
+    EmpireSetup empireSetup;
+    empireSetup.preset = playable->folder;
+    empireSetup.kind = PlayerKind::Human;
+    setup.empires.push_back(std::move(empireSetup));
+    auto created = createGame(*r, setup);
+    REQUIRE_MESSAGE(created.has_value(), (created ? std::string{} : created.error()));
+    GameState game = std::move(*created);
+    Empire& empire = game.empire(EmpireId{0u});
+
+    auto componentIndex = [&](std::string_view name) -> uint32_t {
+        for (uint32_t i = 0; i < r->data().components.size(); ++i)
+            if (r->data().components[i].name == name) return i;
+        FAIL_CHECK(std::string("missing component: ") + std::string(name));
+        return 0;
+    };
+    auto hullIndex = [&](std::string_view name) -> uint32_t {
+        for (uint32_t i = 0; i < r->data().vehicleSizes.size(); ++i)
+            if (r->data().vehicleSizes[i].name == name) return i;
+        FAIL_CHECK(std::string("missing hull: ") + std::string(name));
+        return 0;
+    };
+    auto facilityIndex = [&](std::string_view name) -> uint32_t {
+        for (uint32_t i = 0; i < r->data().facilities.size(); ++i)
+            if (r->data().facilities[i].name == name) return i;
+        FAIL_CHECK(std::string("missing facility: ") + std::string(name));
+        return 0;
+    };
+    auto gate = [&](const auto& record, std::string_view areaName, int level) {
+        const auto area = r->data().findTechArea(areaName);
+        REQUIRE(area.has_value());
+        REQUIRE(record.requirements.size() == 1);
+        CHECK(record.requirements.front().area == *area);
+        CHECK(record.requirements.front().level == level);
+    };
+    auto grant = [&](std::string_view areaName, int level) {
+        const auto area = r->data().findTechArea(areaName);
+        REQUIRE(area.has_value());
+        empire.techLevels[area->index()] = level;
+    };
+
+    // The first ship can be designed immediately, with a basic drive and
+    // essential crew systems. Advanced hardware is not available at turn zero.
+    CHECK(r->hullAvailable(empire, hullIndex("Vanguard Frigate")));
+    CHECK(r->componentAvailable(empire, componentIndex("Command Bridge")));
+    CHECK(r->componentAvailable(empire, componentIndex("Life Support")));
+    CHECK(r->componentAvailable(empire, componentIndex("Crew Quarters")));
+    CHECK(r->componentAvailable(empire, componentIndex("Ion Drive")));
+    CHECK_FALSE(r->hullAvailable(empire, hullIndex("Aegis Cruiser")));
+    CHECK_FALSE(r->componentAvailable(empire, componentIndex("Fusion Drive")));
+    CHECK_FALSE(r->componentAvailable(empire, componentIndex("Rock Colony Core")));
+    CHECK_FALSE(r->facilityAvailable(empire, facilityIndex("Mineral Warehouse")));
+
+    // Inspect the intended progression, including the separate logistics
+    // levels needed to support a growing economy and its resource stockpiles.
+    gate(r->hull(hullIndex("Aegis Cruiser")), "Ship Construction", 2);
+    gate(r->hull(hullIndex("Pioneer Ark")), "Colonization", 1);
+    gate(r->hull(hullIndex("Meridian Freighter")), "Logistics", 1);
+    gate(r->hull(hullIndex("Citadel Platform")), "Ship Construction", 3);
+    gate(r->hull(hullIndex("Interceptor")), "Weapons", 1);
+    gate(r->hull(hullIndex("Recon Satellite")), "Sensors", 1);
+    gate(r->component(componentIndex("Fusion Drive")), "Drive Systems", 2);
+    gate(r->component(componentIndex("Rock Colony Core")), "Colonization", 1);
+    gate(r->component(componentIndex("Ice Colony Core")), "Colonization", 2);
+    gate(r->component(componentIndex("Gas Colony Core")), "Colonization", 3);
+    gate(r->component(componentIndex("Cargo Hold")), "Logistics", 1);
+    gate(r->component(componentIndex("Shield Generator")), "Defensive Systems", 1);
+    gate(r->component(componentIndex("Sensor Array")), "Sensors", 1);
+    gate(r->component(componentIndex("Supply Matrix")), "Logistics", 2);
+    gate(r->component(componentIndex("Orbital Yard Module")), "Ship Construction", 2);
+    gate(r->component(componentIndex("Laser Battery")), "Weapons", 1);
+    gate(r->component(componentIndex("Missile Rack")), "Weapons", 3);
+    gate(r->facility(facilityIndex("Mineral Warehouse")), "Logistics", 1);
+    gate(r->facility(facilityIndex("Organic Warehouse")), "Logistics", 1);
+    gate(r->facility(facilityIndex("Radioactive Vault")), "Logistics", 2);
+    gate(r->facility(facilityIndex("Central Warehouse")), "Logistics", 4);
+    gate(r->facility(facilityIndex("Orbital Defence Grid")), "Defensive Systems", 2);
+    gate(r->facility(facilityIndex("Terraforming Array")), "Planetology", 2);
+
+    // Researching the relevant areas makes the matching designs and buildings
+    // legal through the same Rules API used by the ship designer and build UI.
+    grant("Drive Systems", 2);
+    grant("Colonization", 3);
+    grant("Logistics", 4);
+    grant("Ship Construction", 3);
+    grant("Weapons", 3);
+    grant("Sensors", 1);
+    grant("Defensive Systems", 2);
+    grant("Planetology", 2);
+
+    CHECK(r->hullAvailable(empire, hullIndex("Aegis Cruiser")));
+    CHECK(r->hullAvailable(empire, hullIndex("Pioneer Ark")));
+    CHECK(r->hullAvailable(empire, hullIndex("Meridian Freighter")));
+    CHECK(r->hullAvailable(empire, hullIndex("Citadel Platform")));
+    CHECK(r->hullAvailable(empire, hullIndex("Interceptor")));
+    CHECK(r->hullAvailable(empire, hullIndex("Recon Satellite")));
+    for (std::string_view name : {"Fusion Drive", "Rock Colony Core", "Ice Colony Core", "Gas Colony Core",
+                                  "Cargo Hold", "Shield Generator", "Sensor Array", "Supply Matrix",
+                                  "Orbital Yard Module", "Laser Battery", "Missile Rack"})
+        CHECK(r->componentAvailable(empire, componentIndex(name)));
+    for (std::string_view name : {"Mineral Warehouse", "Organic Warehouse", "Radioactive Vault",
+                                  "Central Warehouse", "Orbital Defence Grid", "Terraforming Array"})
+        CHECK(r->facilityAvailable(empire, facilityIndex(name)));
+}
+
 TEST_CASE("VOIDREIGN random events and intelligence projects execute in the native engine (opt-in)") {
     const Rules* r = installRules();
     if (!r) return;
