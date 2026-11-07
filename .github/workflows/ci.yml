@@ -1,7 +1,7 @@
-# Builds and tests OpenSE4 on Linux, macOS and Windows (docs/BUILDING.md,
-# "Continuous integration"). Nothing here needs the original game: the tests
-# that read an installed copy are opt-in (OPENSE4_CLASSIC_DATA) and stay off,
-# and the input scripts that CI plays run on our own test fixtures.
+# Builds and tests the VOIDREIGN standalone game and its OpenSE4 engine foundation
+# on Linux, macOS and Windows (docs/BUILDING.md, "Continuous integration").
+# Native gameplay tests use the bundled game-data. No commercial game install
+# or separate mod is needed by this workflow.
 #
 # Third-party actions are pinned to a full commit SHA; the comment names the tag.
 
