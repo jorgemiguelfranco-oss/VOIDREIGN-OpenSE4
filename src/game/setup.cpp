@@ -664,7 +664,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             if (s.empires[i].kind != PlayerKind::Human) continue;
             Design design;
             design.owner = EmpireId{i};
-            design.name = uniqueDesignName(s, s.empires[i].race.name + " Pathfinder");
+            design.name = uniqueDesignName(s, s.empires[i].race.style + " Pathfinder");
             design.designType = "Scout Ship";
             design.hull = hullId;
             for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon})
