@@ -262,7 +262,7 @@ def sheet(path, cw, ch, cols, rows, count, seed):
 
 
 def race_art(root: Path, style: str, color, neutral=False):
-    group = "RaceNeutral" if neutral else "Races"
+    group = "RaceGeneric" if style == "Generic" else ("RaceNeutral" if neutral else "Races")
     d = root / "Pictures" / group / style
     main = Bitmap(100, 20, (4, 11, 24))
     main.rect(1, 1, 24, 16, blend(color, (5, 16, 28), .42))
