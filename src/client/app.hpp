@@ -38,7 +38,8 @@ struct AppOptions {
     std::string assetsDir;
 
     // The player's installed copy of the game (its data set and art).
-    std::string installDir;          // game, se4 or Data directory; empty = auto-detect
+    std::string installDir;          // --classic-dir, or the standalone content root supplied by --voidreign-dir
+    bool standaloneVoidReign = false; // load the independent VoidReign game data set; no classic install or mods
     // Mods (docs/sdk/packages-and-data.md): --mod, in order, in place of the
     // ones the settings enable; --mods-dir where ids are looked up;
     // --no-bundled-mods leaves out the mods that come with OpenSE4.
