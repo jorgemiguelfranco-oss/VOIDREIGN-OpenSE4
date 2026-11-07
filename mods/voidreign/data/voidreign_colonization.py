@@ -34,8 +34,8 @@ def colonization_module(name, ability, family, description):
         "set": {
             "Description": description,
             "Pic Num": 1,
-            "Tonnage Space Taken": 50,
-            "Tonnage Structure": 30,
+            "Tonnage Space Taken": 70,
+            "Tonnage Structure": 40,
             "Cost Minerals": 90,
             "Cost Organics": 80,
             "Cost Radioactives": 10,
