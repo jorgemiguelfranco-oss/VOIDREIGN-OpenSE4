@@ -657,6 +657,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
 
         const auto pathfinderHull = hullId("VoidReign Pathfinder");
         const auto colonizerHull = hullId("VoidReign Colonizer");
+        const auto stationHull = hullId("VoidReign Orbital Station");
         const auto bridge = componentId("VoidReign Bridge");
         const auto lifeSupport = componentId("VoidReign Life Support");
         const auto crewQuarters = componentId("VoidReign Crew Quarters");
@@ -666,9 +667,10 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         const auto supply = componentId("VoidReign Supply Cell");
         const auto sensors = componentId("VoidReign EM Sensor Array");
         const auto shields = componentId("VoidReign Deflector Array");
-        if (!pathfinderHull || !colonizerHull || !bridge || !lifeSupport || !crewQuarters || !drive || !cargo || !cannon ||
-            !supply || !sensors || !shields)
-            return std::unexpected("VoidReign's starting fleet is incomplete: Pathfinder, Colonizer and their required native components must exist.");
+        const auto shipyard = componentId("VoidReign Orbital Shipyard Module");
+        if (!pathfinderHull || !colonizerHull || !stationHull || !bridge || !lifeSupport || !crewQuarters || !drive || !cargo ||
+            !cannon || !supply || !sensors || !shields || !shipyard)
+            return std::unexpected("VoidReign's starting fleet is incomplete: Pathfinder, Colonizer, Orbital Station and their native components must exist.");
 
         for (size_t i = 0; i < n; ++i) {
             Empire& empire = s.empires[i];
@@ -713,6 +715,27 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
                 return std::unexpected(std::format("VoidReign's starter colonizer cannot colonize {} worlds.", surface));
             const DesignId colonizerId = addDesign(s, std::move(colonizer));
             s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i])));
+
+            // Every capital also begins with a real orbital shipyard. Place it
+            // in the first vacant sector of the home system so it is a distinct
+            // strategic object on the system map, not stacked on the planet.
+            Design station;
+            station.owner = empire.id;
+            station.name = uniqueDesignName(s, empire.race.style + " Orbital Station");
+            station.designType = "Station";
+            station.hull = *stationHull;
+            for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *cannon, *supply, *sensors, *shields, *shipyard})
+                station.entries.push_back({component, -1});
+            const DesignStats stationStats = computeDesignStats(r, &empire, station);
+            if (!stationStats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter orbital station is invalid: {}", stationStats.problems.front()));
+            if (!stationStats.spaceYard)
+                return std::unexpected("VoidReign's starter orbital station must provide a working space yard.");
+            const DesignId stationId = addDesign(s, std::move(station));
+            Location stationLocation = locationOf(s.galaxy, (*homes)[i]);
+            const std::vector<Sector> freeSectors = emptySectors(s.galaxy, empire.homeSystem);
+            if (!freeSectors.empty()) stationLocation.sector = freeSectors.front();
+            s.addVehicle(makeVehicle(r, s, s.design(stationId), stationLocation));
         }
     }
 
