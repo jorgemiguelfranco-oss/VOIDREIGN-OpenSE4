@@ -672,10 +672,25 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             return std::unexpected(std::format("VOIDREIGN could not create a valid starting Attack Ship for empire '{}'. "
                                                "Check its starting hull, weapons, propulsion and design rules.",
                                                s.empires[i].name));
+
+        Fleet patrol;
+        patrol.owner = owner;
+        patrol.name = "Home Patrol";
+        patrol.location = locationOf(s.galaxy, (*homes)[i]);
+        patrol.formation = 0;
+        patrol.strategy = 0;
+        patrol.minister = s.empires[i].ministersForNewVehicles;
         for (int64_t ship = 0; ship < startingAttackShips; ++ship) {
-            Vehicle v = makeVehicle(r, s, s.design(*design), locationOf(s.galaxy, (*homes)[i]));
+            Vehicle v = makeVehicle(r, s, s.design(*design), patrol.location);
             ++s.design(*design).built;
-            s.addVehicle(std::move(v));
+            const VehicleId id = s.addVehicle(std::move(v)).id;
+            patrol.members.push_back(id);
+        }
+        if (!patrol.members.empty()) {
+            Fleet& created = s.addFleet(std::move(patrol));
+            for (VehicleId id : created.members)
+                if (Vehicle* member = s.vehicle(id)) member->fleet = created.id;
+            ++s.empire(owner).fleetsCreated;
         }
     }
 
