@@ -21,4 +21,6 @@ Name := Cruiser
 Name := Battleship
 
 Name := Carrier
+
+Name := Fighter
 *END*
