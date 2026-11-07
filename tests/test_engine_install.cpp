@@ -173,7 +173,7 @@ TEST_CASE("VOIDREIGN generated economy and technology remain bounded over eight 
                 CHECK(empire.techLevels[area] <= r->data().techAreas[area].maxLevel);
             }
             CHECK(empire.researchPool >= 0);
-            CHECK(empire.intelligencePool >= 0);
+            CHECK(empire.intelPool >= 0);
         }
     }
 }
