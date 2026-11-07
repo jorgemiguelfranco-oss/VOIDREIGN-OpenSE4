@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
 #
-#   dist/OpenSE4-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
+#   dist/VoidReign-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
 #   dist/OpenSE4-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
 #   dist/OpenSE4-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
 #   dist/OpenSE4-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
@@ -102,7 +102,7 @@ fi
 dist="$root/dist"
 mkdir -p "$dist"
 
-app_id=io.github.lowlevelmetal.OpenSE4
+app_id=io.voidreign.VoidReign
 metainfo="packaging/linux/$app_id.metainfo.xml"
 if [[ "$version" != *-* ]] && ! grep -q "<release version=\"$version\"" "$metainfo"; then
     echo "$metainfo has no <release> entry for $version: add one first." >&2
@@ -323,7 +323,7 @@ for target in "${targets[@]}"; do
         fi
     fi
 
-    name="OpenSE4-${version}-${platform}-${arch}"
+    name="VoidReign-${version}-${platform}-${arch}"
     stage="$dist/$name"
     rm -rf "$stage"
     mkdir -p "$stage"
@@ -388,5 +388,5 @@ for target in "${targets[@]}"; do
 done
 
 # Checksums for whatever this version's archives are in dist/.
-(cd "$dist" && sha256sum OpenSE4-"${version}"-*.tar.gz OpenSE4-"${version}"-*.zip OpenSE4-"${version}"-*-setup.exe 2> /dev/null > "OpenSE4-${version}-SHA256SUMS.txt" || true)
-echo "==> checksums: $dist/OpenSE4-${version}-SHA256SUMS.txt"
+(cd "$dist" && sha256sum VoidReign-"${version}"-*.tar.gz VoidReign-"${version}"-*.zip VoidReign-"${version}"-*-setup.exe 2> /dev/null > "VoidReign-${version}-SHA256SUMS.txt" || true)
+echo "==> checksums: $dist/VoidReign-${version}-SHA256SUMS.txt"
