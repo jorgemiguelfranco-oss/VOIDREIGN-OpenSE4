@@ -11,3 +11,11 @@ unassisted storage floor to zero. Each VoidReign Warehouse adds 30,000 units of
 minerals, organics and radioactives to the shared empire-wide treasury capacity.
 Every starting homeworld receives one warehouse so the opening reserve can be
 carried between turns; additional colonies need warehouses to expand that limit.
+
+## Opening patrol
+
+Each new empire receives one native Attack Ship designed from its starting
+technology and a Pathfinder hull. The ship is placed at the homeworld and
+assigned to a one-ship **Home Patrol** fleet, ready for the player to rename,
+expand and issue movement orders. The starting count is controlled by
+`VOIDREIGN Starting Attack Ship Count`.
