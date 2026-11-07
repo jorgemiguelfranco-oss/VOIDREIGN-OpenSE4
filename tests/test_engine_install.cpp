@@ -71,7 +71,8 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
     const Resources beforeReform = reforming.stockpile;
     CHECK(apply(*r, s, reforming.id, cmd::SetEmpireOptions{.empireType = nextGovernment}).ok);
     CHECK(reforming.empireType == nextGovernment);
-    CHECK(reforming.stockpile == beforeReform - Resources{2500, 1500, 1000});
+    const Resources reformCost{2500, 1500, 1000};
+    CHECK(reforming.stockpile == beforeReform - reformCost);
     const Resources afterReform = reforming.stockpile;
     CHECK_FALSE(apply(*r, s, reforming.id, cmd::SetEmpireOptions{.empireType = std::string("Independent")}).ok);
     CHECK(reforming.stockpile == afterReform);
