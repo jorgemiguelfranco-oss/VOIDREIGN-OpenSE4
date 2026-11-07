@@ -57,9 +57,9 @@ The resulting files are written to `dist/`.
 
 ## Validation
 
-The project runs its engine unit tests and checks the Windows executable imports. The installer CI job installs the generated setup file, checks the installed files and shortcuts, launches `VOIDREIGN.exe --help`, and runs the engine data checker against the installed `game-data/Data` directory.
+The CI configuration is set up to run the engine unit tests, Windows executable-import checks, native-data validation and installed-game smoke tests. The Windows installer job also checks shortcuts and registry entries, exercises native faction starts, fleet control, construction, save/load and AI turns, and verifies that uninstalling the program leaves per-user saves intact.
 
-The Windows installer workflow is configured to install the package, validate the native data, run the installed game through native faction, fleet, construction, save/load and AI tests, then uninstall it. GitHub Actions has not yet reported a run for this branch, so these checks remain unverified. A successful installer build alone would not mean every planned VOIDREIGN subsystem is complete: mechanics, art, balance and gameplay still need to be implemented and tested.
+GitHub Actions has not yet reported a run for this branch, so none of those checks can be marked as passing and no verified installer artifact is available yet. A successful installer build alone would not mean every planned VOIDREIGN subsystem is complete: mechanics, art, balance and gameplay still need to be implemented and tested.
 
 ## Project structure
 
