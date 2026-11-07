@@ -1,5 +1,6 @@
 #include "datafile/datafile.hpp"
 #include "game/economy.hpp"
+#include "game/design.hpp"
 #include "game/setup.hpp"
 #include "ruleset/ability_names.hpp"
 #include "ruleset/races.hpp"
@@ -368,6 +369,11 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     REQUIRE(rules.data().findFacility("VoidReign Warehouse") != nullptr);
     REQUIRE(rules.data().findVehicleSize("VoidReign Pathfinder") != nullptr);
     REQUIRE(rules.data().findVehicleSize("VoidReign Orbital Station") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Colonizer") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Rock Colonization Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Ice Colonization Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Gas Colonization Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Orbital Shipyard Module") != nullptr);
 
     game::GameSetup setup;
     setup.seed = 402711;
