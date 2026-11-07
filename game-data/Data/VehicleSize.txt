@@ -21,7 +21,7 @@ Requirement Uses Engines := True
 Requirement Max Engines := 4
 Requirement Pct Fighter Bays := 0
 Requirement Pct Colony Mods := 0
-Requirement Pct Cargo := 25
+Requirement Pct Cargo := 0
 
 Name := VoidReign Settlement Ark
 Short Name := Settlement Ark
