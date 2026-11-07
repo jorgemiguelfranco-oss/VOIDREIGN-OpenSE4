@@ -550,13 +550,13 @@ TEST_CASE("economy: visible enemy ships and bases in the sector blockade a plane
 
 TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
     auto r = tweakedRules([](ruleset::Ruleset& rs) {
-        setKey(rs, "Minimum Empire Point Storage", 20000);
+        setKey(rs, "Minimum Empire Point Storage", 0);
         setKey(rs, "VOIDREIGN Starting Warehouse Count", 1);
         std::erase_if(rs.facilities, [](const ruleset::Facility& f) {
             return f.name == "Test Mineral Store" || f.name == "Test Organic Store" || f.name == "Test Radioactive Store";
         });
         addFacility(rs, "Test Starting Warehouse",
-                    {ability(AbilityKind::ResourceStorageMinerals, 10000), ability(AbilityKind::ResourceStorageOrganics, 10000),
+                    {ability(AbilityKind::ResourceStorageMinerals, 30000), ability(AbilityKind::ResourceStorageOrganics, 30000),
                      ability(AbilityKind::ResourceStorageRadioactives, 10000)},
                     {500, 250, 25});
     });
@@ -567,10 +567,10 @@ TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
     const Resources expectedStorage{30000, 30000, 30000};
     CHECK(economy::storageCapacity(*r, s, kMe) == expectedStorage);
 
-    // Without a warehouse the empire keeps only its 20,000-unit starter reserve
-    // for each resource. Warehouses add capacity to the shared empire treasury.
+    // Without any warehouse there is no banked strategic-resource capacity.
+    // The homeworld warehouse provides all of the opening treasury's storage.
     std::erase(home.facilities, warehouse);
-    CHECK(economy::storageCapacity(*r, s, kMe) == Resources{20000, 20000, 20000});
+    CHECK(economy::storageCapacity(*r, s, kMe) == Resources{0, 0, 0});
     home.facilities.push_back(warehouse);
 
     for (size_t i = 0; i < 3; ++i) {
