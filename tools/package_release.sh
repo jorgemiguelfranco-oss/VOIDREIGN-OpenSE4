@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
 #
-#   dist/OpenSE4-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
-#   dist/OpenSE4-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
-#   dist/OpenSE4-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
-#   dist/OpenSE4-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
-#   dist/OpenSE4-<version>-windows-x86_64-setup.exe   the same, as an installer
-#   dist/OpenSE4-<version>-SHA256SUMS.txt
+#   dist/VOIDREIGN-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
+#   dist/VOIDREIGN-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
+#   dist/VOIDREIGN-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
+#   dist/VOIDREIGN-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
+#   dist/VOIDREIGN-<version>-windows-x86_64-setup.exe   the same, as an installer
+#   dist/VOIDREIGN-<version>-SHA256SUMS.txt
 #
 # On Linux both are built (Windows cross-compiled). In MSYS2 on Windows the
 # Windows packages are built natively instead. Either way the Windows programs
@@ -323,14 +323,20 @@ for target in "${targets[@]}"; do
         fi
     fi
 
-    name="OpenSE4-${version}-${platform}-${arch}"
+    name="VOIDREIGN-${version}-${platform}-${arch}"
     stage="$dist/$name"
     rm -rf "$stage"
     mkdir -p "$stage"
-    for bin in opense4 opense4-server opense4-datacheck opense4-convert opense4-sdk; do
+    for bin in opense4-server opense4-datacheck opense4-convert opense4-sdk; do
         cp "$build/$bin$exe" "$stage/"
         "$strip" "$stage/$bin$exe"
     done
+    # The player-facing game executable is branded VOIDREIGN; opense4 remains
+    # the internal CMake target name used by the engine and its test tooling.
+    cp "$build/opense4$exe" "$stage/VOIDREIGN$exe"
+    "$strip" "$stage/VOIDREIGN$exe"
+    # This is the native base game, not a mod; it is installed with the client.
+    cp -a game-data "$stage/game-data"
     cp README.md "$stage/README.md"
     [ -f LICENSE ] && cp LICENSE "$stage/LICENSE"
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the
@@ -379,5 +385,5 @@ for target in "${targets[@]}"; do
 done
 
 # Checksums for whatever this version's archives are in dist/.
-(cd "$dist" && sha256sum OpenSE4-"${version}"-*.tar.gz OpenSE4-"${version}"-*.zip OpenSE4-"${version}"-*-setup.exe 2> /dev/null > "OpenSE4-${version}-SHA256SUMS.txt" || true)
-echo "==> checksums: $dist/OpenSE4-${version}-SHA256SUMS.txt"
+(cd "$dist" && sha256sum VOIDREIGN-"${version}"-*.tar.gz VOIDREIGN-"${version}"-*.zip VOIDREIGN-"${version}"-*-setup.exe 2> /dev/null > "OpenSE4-${version}-SHA256SUMS.txt" || true)
+echo "==> checksums: $dist/VOIDREIGN-${version}-SHA256SUMS.txt"
