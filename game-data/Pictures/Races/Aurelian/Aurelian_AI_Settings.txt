@@ -1,3 +1,9 @@
 *BEGIN*
 Personality Group := 1
+Turns to Wait until next attack := 8
+Maximum Systems to Defend at a Time := 5
+Maximum Maintenance Percent of Revenue := 80
+Ships don't move through minefields := True
+Ships don't move through restricted systems := True
+Clear orders on encounter enemy := True
 *END*
