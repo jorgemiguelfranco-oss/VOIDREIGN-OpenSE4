@@ -60,7 +60,7 @@ as *Escort 0003*; `N` renames them.
 
 - New orders are **added to the end** of the list. If a ship seems to ignore you, it is probably still busy with older orders: press `V` to see them, or `Del` to clear them first.
 - The ship carries out its orders from the top. An order that is done is removed, and the next one starts at once.
-- An order that **fails** (for example, a destination that cannot be reached) clears the whole list. As in the original, most failures say nothing; Options → OpenSE4 "Explain failed orders" has them explained.
+- An order that **fails** (for example, a destination that cannot be reached) clears the whole list. As in the original, most failures say nothing; Options → VOIDREIGN "Explain failed orders" has them explained.
 - With **Repeat Orders** (`K`) on, finished orders go back to the end of the list instead, so the ship repeats its list forever. Switching Repeat on or off starts the list again from its first order.
 
 | Order | Key | What it does |
