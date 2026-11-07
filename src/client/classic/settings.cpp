@@ -111,7 +111,7 @@ std::string settingsToToml(const ClassicSettings& s) {
     root.insert("games", std::move(games));
     root.insert("mods", std::move(mods));
     std::ostringstream out;
-    out << "# OpenSE4 classic client preferences\n" << root << "\n";
+    out << "# VOIDREIGN classic client preferences\n" << root << "\n";
     return out.str();
 }
 

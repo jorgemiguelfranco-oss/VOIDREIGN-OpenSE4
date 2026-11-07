@@ -249,7 +249,7 @@ int App::run(const AppOptions& options) {
         std::filesystem::path out = options.scriptOutput;
         if (out.empty()) {
             std::error_code ec;
-            out = std::filesystem::temp_directory_path(ec) / "opense4-scripts";
+            out = std::filesystem::temp_directory_path(ec) / "voidreign-scripts";
         }
         std::error_code ec;
         std::filesystem::create_directories(out, ec);

@@ -159,7 +159,7 @@ Input scripts (see docs/BUILDING.md "Input scripts"):
   --input-script=FILE             Play FILE's clicks, keys and checks through the game's own input (FILE's
                                   options line adds options); exits with 1 when a step fails, with a picture
   --script-output=DIR             Where a script's screenshots and failure picture go (default: the system's
-                                  temporary folder, opense4-scripts)
+                                  temporary folder, voidreign-scripts)
   --record-input=FILE             Record what you do as an input script, to start one from
 
 Automation:

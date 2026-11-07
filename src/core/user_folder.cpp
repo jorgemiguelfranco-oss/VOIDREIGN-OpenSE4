@@ -120,7 +120,7 @@ fs::path programFolderFor(OsFamily os, const fs::path& executable) {
     if (executable.empty()) return {};
     const fs::path folder = executable.parent_path();
     if (os == OsFamily::MacOS) {
-        // VOIDREIGN.app/Contents/MacOS/opense4: beside the bundle, which must stay as it was signed.
+        // VOIDREIGN.app/Contents/MacOS/VOIDREIGN: beside the bundle, which must stay as it was signed.
         const fs::path contents = folder.parent_path();
         const fs::path bundle = contents.parent_path();
         if (folder.filename() == "MacOS" && contents.filename() == "Contents" && bundle.extension() == ".app") return bundle.parent_path();

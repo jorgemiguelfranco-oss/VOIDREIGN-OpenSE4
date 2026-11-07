@@ -85,7 +85,7 @@ const char* displayName(LayoutChoice l) {
 
 std::filesystem::path systemUserDirectory() {
     std::filesystem::path dir;
-    if (char* pref = SDL_GetPrefPath("", "OpenSE4")) {
+    if (char* pref = SDL_GetPrefPath("", "VOIDREIGN")) {
         dir = pref;  // UTF-8, as narrow strings become paths everywhere
         SDL_free(pref);
     }
@@ -159,7 +159,7 @@ std::string appSettingsToToml(const AppSettings& s) {
     root.insert("controls", std::move(controls));
     root.insert("files", std::move(files));
     std::ostringstream out;
-    out << "# OpenSE4 settings (graphics, display, controls, files)\n" << root << "\n";
+    out << "# VOIDREIGN settings (graphics, display, controls, files)\n" << root << "\n";
     return out.str();
 }
 
