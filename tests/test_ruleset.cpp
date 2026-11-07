@@ -354,7 +354,12 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
         hasRockColonyShip |= design.templateName == "Colony (Rock)";
         if (design.templateName == "Base Space Yard") {
             hasBaseSpaceYard = true;
+            CHECK(design.name == "Accord II");
             CHECK(gameRules.hull(design.hull).type == ruleset::VehicleType::Base);
+            CHECK(gameRules.hull(design.hull).name == "VoidReign Orbital Station");
+            CHECK(std::any_of(design.entries.begin(), design.entries.end(), [&](const game::DesignEntry& entry) {
+                return gameRules.data().components[entry.component].name == "VoidReign Orbital Shipyard";
+            }));
         }
     }
     CHECK(hasAttackShip);
