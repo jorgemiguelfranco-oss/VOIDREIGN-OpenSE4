@@ -2,29 +2,29 @@
 
 **A standalone 4X space strategy game built on the OpenSE4 C++23 engine.**
 
-VoidReign is the default game launched by the client. Its native game rules and content live in `content/voidreign/` and are loaded directly by the existing simulation, galaxy model, ship designer, command system, turn processor and save system. VoidReign is **not a mod** and does not require a copy of Space Empires IV to play.
+VoidReign is the default game launched by the client. It is a native game profile built directly into the existing OpenSE4 engine and simulation. Its own rules, species, ships, facilities, technologies and art live under `content/voidreign/`. It is **not a mod** and does not require Space Empires IV or any other commercial game installation.
 
-The OpenSE4 codebase is being evolved into VoidReign's engine foundation. The original engine's clean-room implementation and optional legacy compatibility path remain available, but classic-mode parity is not treated as completion of VoidReign features.
+The OpenSE4 engine is the software foundation: deterministic game state and turn processing, galaxy/system model, movement and combat, ship design and validation, construction queues, economy and research, AI, save/load, multiplayer and the client framework. VoidReign is being developed by integrating original game content and product behavior into those engine systems, not by building a parallel simulation.
 
-## Current game foundation
+## Current native game implementation
 
-The standalone profile currently includes:
+The branch currently includes:
 
-- Native rules and galaxy-generation tables in `content/voidreign/Data/`.
-- Two original playable species presets: Helion Concord and Veyran Collective.
-- A starting Pathfinder exploration/escort ship and a species-matched Rock or Ice colonizer for each human or computer empire.
-- A starting orbital station in a separate sector of each home system, equipped with a real Space Yard module, sensors and defensive systems.
-- Native ship components, an initial pulse weapon, propulsion, three planetary colonization modules, resource extraction and research facilities.
-- Warehouse-based resource storage: there is no free empire-wide resource capacity. Resource stockpiles are limited by actual colony warehouses; overflow is lost when production exceeds storage.
-- Original transparent ship and station sprites and a VoidReign Windows application icon.
+- A native VoidReign content bundle with Helion and Veyran species presets, galaxy generation, starting technologies, facilities, components and ship classes.
+- A capital start with a Pathfinder exploration/escort ship and a species-matched Rock, Ice or Gas colonizer.
+- A named expeditionary fleet created through the engine's normal fleet command and validation path.
+- A separate orbital station in a vacant home-system sector, equipped with an actual Space Yard, sensors and defensive systems.
+- Warehouse-limited storage for minerals, organics and radioactives. Resource production does not create unlimited stockpile capacity; overflow above the empire's real warehouse capacity is lost.
+- Native Frigate, Destroyer, Cruiser, Battleship, Carrier and Interceptor hulls, with design categories and technology gates.
+- A real carrier fighter bay using the engine's Launch/Recover Fighters ability, plus a buildable interceptor fighter design.
+- Original race-generic ship miniatures for the Pathfinder, Colonizer, Orbital Station and the six additional ship classes, installed at the filenames used by the engine's art resolver.
+- A VoidReign-branded Windows application icon and installer configuration.
 
-This is an **early engine/content foundation, not a finished playable release**. Full interface redesign, complete faction rosters and AI profiles, ship/technology progression, diplomacy and events, deeper economy balancing, original art sets, save/reload and multiplayer verification, and Windows release testing remain in development.
+This is still an **in-development game foundation, not a finished playable 0.2.0 release**. The full VoidReign interface and screen flow, broader species/faction content and computer-player profiles, more weapon and component tiers, events and diplomacy, economic/technology balance, remaining planet/system/facility/ship artwork, and end-to-end gameplay validation remain to be completed. No campaign mode is planned; the target is a complete sandbox 4X game.
 
-There is no campaign mode planned. The target is a complete sandbox 4X game.
+## Build and run
 
-## Running the game
-
-A development build looks for the native content at `content/voidreign/` in the source tree. Installed builds ship it beside the executable.
+A development build loads the native content from `content/voidreign/` in the source tree. Installed packages ship the content beside the executable.
 
 ```sh
 cmake --preset debug
@@ -32,32 +32,32 @@ cmake --build --preset debug
 ./build/debug/opense4
 ```
 
-The game starts in VoidReign mode by default. To use another VoidReign content root:
+VoidReign is the default profile. To use a different native VoidReign content root:
 
 ```sh
 opense4 --voidreign-dir=/path/to/voidreign
 ```
 
-The old OpenSE4 compatibility mode is explicit and optional:
+The optional legacy compatibility path is explicitly selected and is not part of the VoidReign product requirement:
 
 ```sh
 opense4 --classic-dir=/path/to/SpaceEmpiresIV
 ```
 
-That mode reads a player's own classic game data in place. Nothing from Space Empires IV is distributed with VoidReign.
+That mode reads a player's own classic installation in place. No Space Empires IV game data, artwork, sound or text is distributed with VoidReign.
 
-## Building and validation
+## Testing and release status
 
-See [docs/BUILDING.md](docs/BUILDING.md) for compiler and dependency requirements. The repository's CMake build includes the engine test suite. The current standalone VoidReign ruleset and new-game tests have been added, but this branch has not yet produced a confirmed CI run or a successful local build; compilation and runtime validation are still outstanding.
+The repository contains the native ruleset and new-game regression tests, including two-species start validation, warehouse capacity, initial ship/fleet/station composition, carrier bay capacity and interceptor design validation. The branch has not yet produced a recorded successful GitHub Actions run or a verified local build/runtime session in this development environment. Compilation, test execution, clean Windows installation, game launch, representative turn processing, save/reload and installer verification remain release gates.
 
-The Windows and Linux release pipeline is based on `tools/package_release.sh`. Release staging now includes `content/voidreign/`; the Windows installer installs and uninstalls that content beside the game executable. Release packages are named `VoidReign-<version>-<platform>-<architecture>`.
+Windows packaging is configured in `tools/package_release.sh` and `packaging/windows/`. A configured installer is not the same as a validated installer: no Windows setup executable is claimed as tested or ready until a clean install and launch have been demonstrated.
 
-## Project structure
+## Code and content map
 
-- `src/game/` — deterministic simulation, economy, research, ship design, movement, combat and turn processing.
-- `src/client/` — game client and existing interface framework.
-- `content/voidreign/Data/` — native VoidReign rules and galaxy data.
-- `content/voidreign/Pictures/` — VoidReign species presets and original game art.
-- `packaging/` — desktop metadata, application icons and Windows installer.
+- `src/game/` — deterministic simulation, economy, research, ship design, movement, combat, commands and turn processing.
+- `src/client/` — application, rendering and game interface.
+- `content/voidreign/Data/` — native VoidReign rules, technologies, components, hulls and galaxy data.
+- `content/voidreign/Pictures/` — original race and ship artwork.
+- `packaging/` — desktop metadata, application icon and installer configuration.
+- `docs/ENGINE.md` — engine architecture.
 
-The engine architecture is described in [docs/ENGINE.md](docs/ENGINE.md). The standalone content bundle has its own notes in [content/voidreign/README.md](content/voidreign/README.md).
