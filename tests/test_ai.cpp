@@ -565,6 +565,46 @@ TEST_CASE("ai: a random computer player's race uses the Race Opt of the racial-p
 
 // ---- Research and intelligence ----------------------------------------------------------------
 
+TEST_CASE("ai: native race profiles load separate research and fleet doctrines") {
+    TempTree t("voidreign-faction-doctrines");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_General.txt", "Name := Aurelian Concord\n");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_Research.txt",
+            "AI State := Exploration, Not Connected\nTech Area Name := VoidReign Advanced Sensors\nTech Area Level := 5\nTech Area Min Percent := 35\n"
+            "AI State := Exploration, Not Connected\nTech Area Name := Stellar Sciences\nTech Area Level := 5\nTech Area Min Percent := 25\n");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_Fleets.txt",
+            "Fleets Num Divisions := 1\nFleets Div 1 Max Amount of Ships := 12\nFleets Div 1 Max Amount of Planets := 0\n"
+            "Fleets Div 1 Num Fleets := 2\nFleets Percentage of Ships For Fleets := 70\n"
+            "Fleets Dont Use For Num Turns := 18\nFleets Default Formation := VoidReign Line\n"
+            "Fleets Default Strategy := VoidReign Standard\nPercentage of Fleets to use for defense := 65\n");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_Settings.txt",
+            "Turns to Wait until next attack := 8\nMaximum Systems to Defend at a Time := 5\n");
+    t.write("Pictures/Races/Veyran/Veyran_AI_General.txt", "Name := Veyran Trade League\n");
+    t.write("Pictures/Races/Veyran/Veyran_AI_Research.txt",
+            "AI State := Exploration, Not Connected\nTech Area Name := VoidReign Logistics\nTech Area Level := 5\nTech Area Min Percent := 40\n");
+    t.write("Pictures/Races/Veyran/Veyran_AI_Fleets.txt",
+            "Fleets Num Divisions := 1\nFleets Div 1 Max Amount of Ships := 10\nFleets Div 1 Max Amount of Planets := 0\n"
+            "Fleets Div 1 Num Fleets := 2\nFleets Percentage of Ships For Fleets := 60\n"
+            "Fleets Dont Use For Num Turns := 12\nFleets Default Formation := VoidReign Line\n"
+            "Fleets Default Strategy := VoidReign Standard\nPercentage of Fleets to use for defense := 45\n");
+
+    const ai::AiProfile aurelian = ai::loadProfile(t.root, "Aurelian");
+    const ai::AiProfile veyran = ai::loadProfile(t.root, "Veyran");
+    REQUIRE(aurelian.research.size() == 2);
+    REQUIRE(veyran.research.size() == 1);
+    CHECK(aurelian.research.front().area == "VoidReign Advanced Sensors");
+    CHECK(veyran.research.front().area == "VoidReign Logistics");
+    CHECK(aurelian.fleets.percentInFleets == 70);
+    CHECK(aurelian.fleets.percentForDefense == 65);
+    CHECK(aurelian.fleets.defaultFormation == "VoidReign Line");
+    CHECK(aurelian.fleets.defaultStrategy == "VoidReign Standard");
+    CHECK(veyran.fleets.percentInFleets == 60);
+    CHECK(veyran.fleets.percentForDefense == 45);
+    CHECK(aurelian.settings.turnsBetweenAttacks == 8);
+    CHECK(aurelian.settings.maxSystemsToDefend == 5);
+}
+
+// AI research queue shares and technology levels (the three VOIDREIGN races
+// provide different native priority tables).
 TEST_CASE("ai: research follows AI_Research and stops at a share total of 100") {
     TempTree t("research");
     t.write("Ai/Default_AI_Research.txt",
