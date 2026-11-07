@@ -9,6 +9,7 @@
 #include "game/government.hpp"
 #include "game/intel.hpp"
 #include "game/query.hpp"
+#include "game/research.hpp"
 #include "game/turn.hpp"
 
 #include <doctest/doctest.h>
@@ -357,6 +358,63 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     for (std::string_view name : {"Mineral Warehouse", "Organic Warehouse", "Radioactive Vault",
                                   "Central Warehouse", "Orbital Defence Grid", "Terraforming Array"})
         CHECK(r->facilityAvailable(empire, facilityIndex(name)));
+}
+
+
+TEST_CASE("VOIDREIGN research progress unlocks a real ship weapon through the engine turn step (opt-in)") {
+    const Rules* r = installRules();
+    if (!r) return;
+
+    GameSetup setup;
+    setup.seed = 0x5245534541524348ull;
+    setup.options.systemCount = 12;
+    const ruleset::RacePreset* playable = nullptr;
+    for (const auto& preset : r->racePresets())
+        if (!preset.neutral) { playable = &preset; break; }
+    REQUIRE(playable != nullptr);
+    EmpireSetup player;
+    player.preset = playable->folder;
+    player.kind = PlayerKind::Human;
+    setup.empires.push_back(std::move(player));
+    auto created = createGame(*r, setup);
+    REQUIRE_MESSAGE(created.has_value(), (created ? std::string{} : created.error()));
+    GameState game = std::move(*created);
+    const EmpireId owner{0u};
+    Empire& empire = game.empire(owner);
+
+    const auto weapons = r->data().findTechArea("Weapons");
+    REQUIRE(weapons.has_value());
+    const auto laser = std::find_if(r->data().components.begin(), r->data().components.end(),
+                                    [](const auto& c) { return c.name == "Laser Battery"; });
+    REQUIRE(laser != r->data().components.end());
+    const uint32_t laserIndex = static_cast<uint32_t>(std::distance(r->data().components.begin(), laser));
+    CHECK_FALSE(r->componentAvailable(empire, laserIndex));
+
+    // Queue research using the same command the front-end issues.
+    cmd::SetResearch order;
+    order.queue.push_back(ResearchProject{*weapons, 0});
+    REQUIRE(apply(*r, game, owner, order).ok);
+
+    // One point cannot unlock the technology, but it must be retained as
+    // progress by the native research processor.
+    const int64_t cost = r->techLevelCost(*weapons, 1, game.options.techCost);
+    REQUIRE(cost > 1);
+    empire.researchPool = 1;
+    TurnContext firstStep{*r, game, {}, {}, {}};
+    research::researchStep(firstStep, owner);
+    CHECK(empire.techLevel(*weapons) == 0);
+    REQUIRE(empire.research.size() == 1);
+    CHECK(empire.research.front().progress == 1);
+    CHECK_FALSE(r->componentAvailable(empire, laserIndex));
+
+    // Deliver the exact remaining amount and let researchStep grant the level.
+    empire.researchPool = cost - 1;
+    TurnContext completionStep{*r, game, {}, {}, {}};
+    research::researchStep(completionStep, owner);
+    CHECK(empire.techLevel(*weapons) == 1);
+    CHECK(empire.research.empty());
+    CHECK(r->componentAvailable(empire, laserIndex));
+    CHECK(empire.researchPool == 0);
 }
 
 TEST_CASE("VOIDREIGN random events and intelligence projects execute in the native engine (opt-in)") {
