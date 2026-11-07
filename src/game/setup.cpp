@@ -457,8 +457,20 @@ std::vector<EmpireSetup> networkRandomPlayers(const Rules& r, int level, bool co
 
 std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup& setup, const StartExtras& extras) {
     if (setup.empires.empty()) return std::unexpected("A game needs at least one empire.");
-    if (r.standaloneVoidReign() && !r.data().findFacility("VoidReign Warehouse"))
-        return std::unexpected("The VoidReign ruleset must define a 'VoidReign Warehouse' facility; without it, an empire has no starting resource storage.");
+    if (r.standaloneVoidReign()) {
+        const ruleset::Facility* warehouse = r.data().findFacility("VoidReign Warehouse");
+        if (!warehouse)
+            return std::unexpected("The VoidReign ruleset must define a 'VoidReign Warehouse' facility; without it, an empire has no starting resource storage.");
+        const uint32_t warehouseId = static_cast<uint32_t>(warehouse - r.data().facilities.data());
+        const auto abilities = r.facilityAbilities(warehouseId);
+        for (AbilityKind required : {AbilityKind::ResourceStorageMinerals, AbilityKind::ResourceStorageOrganics,
+                                     AbilityKind::ResourceStorageRadioactives}) {
+            const bool supplied = std::any_of(abilities.begin(), abilities.end(),
+                                              [&](const ParsedAbility& a) { return a.kind == required && a.value1 > 0; });
+            if (!supplied)
+                return std::unexpected("VoidReign Warehouse must provide positive storage for minerals, organics and radioactives.");
+        }
+    }
     GameState s;
     s.seed = setup.seed;
     s.options = setup.options;
@@ -604,7 +616,16 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         const int more = e.kind == PlayerKind::Neutral ? 0 : std::max(0, s.options.startingPlanets - 1);
         std::vector<ObjectId> planets{home};
         for (ObjectId o : extraStartingPlanets(r, s, e, *homes, more)) planets.push_back(o);
-        for (ObjectId p : planets) setUpStartingPlanet(r, s, e, p);
+        for (ObjectId p : planets) {
+            setUpStartingPlanet(r, s, e, p);
+            if (r.standaloneVoidReign() && p == home) {
+                const ruleset::Facility* warehouse = r.data().findFacility("VoidReign Warehouse");
+                const uint32_t warehouseId = static_cast<uint32_t>(warehouse - r.data().facilities.data());
+                const Colony& capital = *s.colonies[p.index()];
+                if (std::find(capital.facilities.begin(), capital.facilities.end(), warehouseId) == capital.facilities.end())
+                    return std::unexpected("The VoidReign homeworld has no free facility slot for its required starting warehouse.");
+            }
+        }
         // The system of every starting planet is claimed, without condition
         // (spec 02 §9, spec 06 §7 Q47, confirmed: binary). The list is kept sorted.
         for (ObjectId p : planets)
