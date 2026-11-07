@@ -640,6 +640,44 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     // ship, base, unit or design of its own. A computer player's Design
     // minister makes its designs in its first turn (spec 05 §7.5).
     //
+    // VOIDREIGN is its own game profile: a new human empire begins with an
+    // editable Pathfinder design and a ship at the capital. The classic engine
+    // deliberately creates no starting ships; preserve that rule for classic
+    // sessions and bootstrap a ship only for the standalone VoidReign profile.
+    if (r.standaloneVoidReign()) {
+        const auto componentId = [&](std::string_view name) -> std::optional<uint32_t> {
+            for (uint32_t c = 0; c < r.data().components.size(); ++c)
+                if (keysEqual(r.component(c).name, name)) return c;
+            return std::nullopt;
+        };
+        const auto hull = r.data().findVehicleSize("VoidReign Pathfinder");
+        const auto bridge = componentId("VoidReign Bridge");
+        const auto lifeSupport = componentId("VoidReign Life Support");
+        const auto crewQuarters = componentId("VoidReign Crew Quarters");
+        const auto drive = componentId("VoidReign Ion Drive");
+        const auto cargo = componentId("VoidReign Cargo Rack");
+        const auto cannon = componentId("VoidReign Pulse Cannon I");
+        if (!hull || !bridge || !lifeSupport || !crewQuarters || !drive || !cargo || !cannon)
+            return std::unexpected("VoidReign's starter Pathfinder requires its own hull, bridge, life support, crew quarters, ion drive, cargo rack and pulse cannon.");
+        const uint32_t hullId = static_cast<uint32_t>(hull - r.data().vehicleSizes.data());
+        for (size_t i = 0; i < n; ++i) {
+            if (s.empires[i].kind != PlayerKind::Human) continue;
+            Design design;
+            design.owner = EmpireId{i};
+            design.name = uniqueDesignName(s, s.empires[i].race.name + " Pathfinder");
+            design.designType = "Scout Ship";
+            design.hull = hullId;
+            for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon})
+                design.entries.push_back({component, -1});
+            const DesignStats stats = computeDesignStats(r, &s.empires[i], design);
+            if (!stats.problems.empty())
+                return std::unexpected(std::format("VoidReign's starter Pathfinder is invalid: {}", stats.problems.front()));
+            const DesignId id = addDesign(s, std::move(design));
+            Vehicle ship = makeVehicle(r, s, s.design(id), locationOf(s.galaxy, (*homes)[i]));
+            s.addVehicle(std::move(ship));
+        }
+    }
+
     // Designs an empire file brought (spec 06 §7 Q48, Q72, confirmed: binary):
     // loading them replaces the empire's designs, and since an empire starts
     // with none, they are its only designs, in file order. Each must pass the
