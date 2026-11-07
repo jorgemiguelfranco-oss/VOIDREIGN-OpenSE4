@@ -4,6 +4,7 @@
 #include "game/ai.hpp"
 #include "game/ai_data.hpp"
 #include "game/design.hpp"
+#include "game/commands.hpp"
 #include "game/diplomacy.hpp"
 #include "game/economy.hpp"
 #include "game/generate.hpp"
@@ -688,7 +689,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             if (!pathfinderStats.problems.empty())
                 return std::unexpected(std::format("VoidReign's starter Pathfinder is invalid: {}", pathfinderStats.problems.front()));
             const DesignId pathfinderId = addDesign(s, std::move(pathfinder));
-            s.addVehicle(makeVehicle(r, s, s.design(pathfinderId), locationOf(s.galaxy, (*homes)[i])));
+            Vehicle& pathfinderShip = s.addVehicle(makeVehicle(r, s, s.design(pathfinderId), locationOf(s.galaxy, (*homes)[i])));
 
             const std::string surface = keysEqual(empire.race.nativeSurface, "Ice") ? "Ice"
                                         : keysEqual(empire.race.nativeSurface, "Gas Giant") ||
@@ -714,7 +715,14 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             if (!colonizerStats.canColonize(surface))
                 return std::unexpected(std::format("VoidReign's starter colonizer cannot colonize {} worlds.", surface));
             const DesignId colonizerId = addDesign(s, std::move(colonizer));
-            s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i])));
+            Vehicle& colonizerShip = s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i])));
+
+            cmd::CreateFleet firstFleet;
+            firstFleet.name = empire.race.style + " Expeditionary Fleet";
+            firstFleet.members = {pathfinderShip.id, colonizerShip.id};
+            const CommandResult fleetResult = apply(r, s, empire.id, Command{std::move(firstFleet)});
+            if (!fleetResult.ok)
+                return std::unexpected(std::format("VoidReign could not create the starting fleet for {}: {}", empire.name, fleetResult.error));
 
             // Every capital also begins with a real orbital shipyard. Place it
             // in the first vacant sector of the home system so it is a distinct
