@@ -1,10 +1,18 @@
 # Play a fresh game from VOIDREIGN's own shipped ruleset, not a mod or the test fixtures.
-# This checks that the Aurelian preset starts, the home system opens, and the native
-# spaceport and warehouse are actually placed on the starting colony.
+# This verifies the native faction can start, fields a movable Attack Ship in its Home Patrol,
+# and places the native spaceport and warehouse on the starting colony.
 
 options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --open=none --layout=1024x768 --size=1280x800
 
 wait-screen game
+wait 5
+# The home sector contains the automatically created Home Patrol fleet.
+click sector:home
+wait-for item:report:fleet
+click item:report:fleet
+wait-for item:report:fleet-member
+assert { selected = "fleet", design_type = "Attack Ship" }
+key Escape
 wait 5
 click sector:home
 wait-for item:Facil
