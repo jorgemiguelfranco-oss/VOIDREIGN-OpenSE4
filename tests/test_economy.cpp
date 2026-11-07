@@ -567,16 +567,21 @@ TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
     const Resources expectedStorage{30000, 30000, 30000};
     CHECK(economy::storageCapacity(*r, s, kMe) == expectedStorage);
 
-    // Without any warehouse there is no banked strategic-resource capacity.
-    // The homeworld warehouse provides all of the opening treasury's storage.
-    std::erase(home.facilities, warehouse);
-    CHECK(economy::storageCapacity(*r, s, kMe) == Resources{0, 0, 0});
-    home.facilities.push_back(warehouse);
-
     for (size_t i = 0; i < 3; ++i) {
         CHECK(s.empire(kMe).stockpile.v[i] >= 20000);
         CHECK(s.empire(kMe).stockpile.v[i] <= expectedStorage.v[i]);
     }
+
+    // Without any warehouse there is no banked strategic-resource capacity.
+    // The end-of-turn cap therefore removes every resource still in the treasury.
+    std::erase(home.facilities, warehouse);
+    CHECK(economy::storageCapacity(*r, s, kMe) == Resources{0, 0, 0});
+    s.empire(kMe).stockpile = {100, 100, 100};
+    economyTurn(*r, s);
+    CHECK(s.empire(kMe).economy.storageCap == Resources{0, 0, 0});
+    CHECK(s.empire(kMe).stockpile == Resources{0, 0, 0});
+    for (size_t i = 0; i < 3; ++i)
+        CHECK(s.empire(kMe).economy.lostToStorage.v[i] > 0);
 }
 
 TEST_CASE("economy: storage caps the treasury; storage facilities and traits raise it") {
