@@ -1385,6 +1385,13 @@ TEST_CASE("main window: ships, fleet markers and mobile shipyards remain visible
     REQUIRE(yardMarker != view.vehicleMarkers.end());
     CHECK_FALSE(yardMarker->fleet.valid());
     CHECK(yardMarker->shipyard);
+
+    // In empty space, a fleet and an independent shipyard ship are separate
+    // markers too; the fleet's members remain grouped.
+    const SectorView empty = sectorView(r, s, kMe, {}, vehicles, 50);
+    CHECK_FALSE(empty.flags);
+    REQUIRE(empty.vehicleMarkers.size() == 2);
+    CHECK(empty.count == 3);
 }
 
 TEST_CASE("main window: the sector's list shows each own fleet as one row, sorted as the original sorts it (spec 06 §2.5)") {

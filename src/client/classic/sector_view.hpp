@@ -3,7 +3,7 @@
 // What the system panel draws in one sector (docs/spec/06 §2.4 "Sector
 // contents"): the stellar object and owner-presence markers, plus compact
 // faction-specific ship/fleet/base markers when vehicles share the sector with
-// a stellar object or another empire. Headless, tested in tests/test_main_window.cpp.
+// a stellar object, another empire, or another independent fleet/ship group. Headless, tested in tests/test_main_window.cpp.
 
 #include "game/rules.hpp"
 #include "game/state.hpp"

@@ -2058,7 +2058,11 @@ void MainWindow::overlayText(UiContext& ui) {
         } else if (view.count) {
             const std::string n = std::to_string(*view.count);
             const ImU32 color = view.unitCount ? IM_COL32_WHITE : empireColor(s, view.owners.front().empire);
-            count(square + Vec2{kSpriteSize - widthOf(tiny, tinySize, n), kSpriteSize - kTinyCell}, color, !view.unitCount, n);
+            // Compact markers occupy the lower-right of empty-space sectors;
+            // keep the aggregate count on the lower-left instead of covering
+            // the last ship/base icon.
+            const float x = view.vehicleMarkers.empty() ? kSpriteSize - widthOf(tiny, tinySize, n) : 0.0f;
+            count(square + Vec2{x, kSpriteSize - kTinyCell}, color, !view.unitCount, n);
         }
     }
 
