@@ -75,11 +75,11 @@ Game:
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
-  --mods-dir=DIR                  Where mods are looked up by id (default: Mods in OpenSE4's user folder);
-                                  then among the mods that come with OpenSE4 (mods/ beside the program)
-  --no-bundled-mods               Leave out the mods that come with OpenSE4
+  --mods-dir=DIR                  Where mods are looked up by id (default: Mods in VOIDREIGN's user folder);
+                                  then among the mods that come with VOIDREIGN (mods/ beside the program)
+  --no-bundled-mods               Leave out the mods that come with VOIDREIGN
   --quick-start[=RACE]            Skip the intro: start a quick game as RACE (a Pictures/Races folder name)
-  --load=GAME.gam                 Open a saved game at once: OpenSE4's, or the original's (imported,
+  --load=GAME.gam                 Open a saved game at once: a VOIDREIGN save or an imported classic save (
                                   see docs/SETUP.md "Games of the original")
   --ai=MOD:PLAYER                 Every computer empire of the quick game (--quick-start) is played by
                                   this script player of a mod (its [[ai.players]], docs/sdk/ai-protocol.md);
@@ -138,14 +138,14 @@ The original's command line (see docs/MULTIPLAYER.md "From the command line"):
                                   files (.plr) beside it (or in --pbem-orders=DIR), save it, write the next
                                   turn files and quit, with no window; a wrong password quits with exit code 1
   GAMEFILE PASSWORD PLAYER        Sign in as empire number PLAYER (1 or more) with its password and play its
-                                  turn: a turn file (.turn, as --pbem plays it), an OpenSE4 saved game or a
+                                  turn: a turn file (.turn, as --pbem plays it), a VOIDREIGN saved game or a
                                   saved game of the original, even a destroyed empire or one the computer
                                   plays. A wrong password, or a game made with other data files ("Invalid
                                   Data Files"), quits with exit code 2
   GAMEFILE PASSWORD PLAYER MODFOLDER
                                   The fourth names a mod folder (in the game folder, or a path) to play as
                                   a classic mod, in place of the one Path.txt names
-                                  Passwords count without the spaces around them and, as far as OpenSE4's
+                                  Passwords count without the spaces around them and, as far as VOIDREIGN's
                                   password hashes allow, without regard to letter case. GAMEFILE is looked
                                   for as given, then in the mod folder, the saves folder and the pbem
                                   folder; one that is not found quits at once with exit code 0
@@ -153,7 +153,7 @@ The original's command line (see docs/MULTIPLAYER.md "From the command line"):
                                   says what was skipped); it also counts as one of the four arguments
 
 Paths:
-  --assets=DIR                    OpenSE4's own assets directory (default: auto-detect, else built in)
+  --assets=DIR                    VOIDREIGN's bundled assets directory (default: auto-detect, else built in)
 
 Input scripts (see docs/BUILDING.md "Input scripts"):
   --input-script=FILE             Play FILE's clicks, keys and checks through the game's own input (FILE's
@@ -431,7 +431,7 @@ int main(int argc, char** argv) {
     // The log also goes to opense4.log in the user data folder: on Windows the
     // game has no console, so that file is where a player finds it. The last
     // run's log, a crash report perhaps, stays beside it as opense4.previous.log.
-    const std::filesystem::path logFile = client::userDataDirectory() / "opense4.log";
+    const std::filesystem::path logFile = client::userDataDirectory() / "voidreign.log";
     client::keepPreviousLog(logFile);
     log::setFile(logFile);
     // A crash or an exception nothing caught leaves a report there; a message

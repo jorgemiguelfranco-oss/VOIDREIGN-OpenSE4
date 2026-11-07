@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
+# Builds the redistributable VOIDREIGN packages (docs/BUILDING.md, "Release packages"):
 #
 #   dist/VOIDREIGN-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
 #   dist/VOIDREIGN-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
@@ -26,7 +26,7 @@
 # copy portable), the licence (GPL 3.0 or later) and the third-party notices, the
 # modding SDK's documentation and example mods in sdk/ beside opense4-sdk (sdk/docs
 # from docs/sdk and docs/MODDING_SDK.md, sdk/examples from mods/examples), and the
-# mods that come with OpenSE4 in mods/ beside the programs (the folders
+# mods that come with VOIDREIGN in mods/ beside the programs (the folders
 # mods/bundled.txt names, such as mods/hegemon; their files as git tracks them).
 # tools/stage_sdk_docs.py stages the SDK's files and points the links of their
 # pages, the README's and the mods' at the package's copies, or at GitHub at the
@@ -109,7 +109,7 @@ if [[ "$version" != *-* ]] && ! grep -q "<release version=\"$version\"" "$metain
     exit 1
 fi
 
-# The mods that come with OpenSE4: the folders mods/bundled.txt names, one a line.
+# The mods that come with VOIDREIGN: the folders mods/bundled.txt names, one a line.
 bundled_mods() {
     sed -e 's/#.*//' -e 's/[[:space:]]*$//' -e 's/^[[:space:]]*//' mods/bundled.txt | grep -v '^$'
 }
@@ -345,7 +345,7 @@ for target in "${targets[@]}"; do
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the
     # installer leaves it out, as an installed copy cannot be portable.
     cp packaging/PORTABLE-README.txt "$stage/PORTABLE-README.txt"
-    # The mods that come with OpenSE4, which the programs find in mods/ beside them.
+    # The mods that come with VOIDREIGN, which the programs find in mods/ beside them.
     stage_mods "$stage"
     # The modding SDK's guide, reference and example mods, beside opense4-sdk, which
     # finds the examples there (opense4-sdk new --from-example). Their links, the

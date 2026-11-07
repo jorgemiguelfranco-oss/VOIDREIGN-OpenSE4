@@ -165,8 +165,7 @@ int App::run(const AppOptions& options) {
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
     // Prefer VOIDREIGN's own data set beside the executable. A custom classic
-    // data directory remains available through --classic-dir, and a legacy
-    // Steam install is still detected as a compatibility fallback.
+    // data directory remains available only through an explicit --classic-dir override.
     const std::filesystem::path bundledGameDir = findDir(options.installDir, "GameData", "Data/Components.txt");
     auto dataDir = ruleset::findInstalledDataDir(bundledGameDir);
     if (!dataDir) {

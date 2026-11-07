@@ -213,7 +213,7 @@ std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const
             if (end > at) loaded.startProblems.push_back(data.error().substr(at, end - at));
             at = end + 1;
         }
-        mode->frontError_ = "Your mods could not be loaded: OpenSE4 started without them (see Mods).";
+        mode->frontError_ = "Your mods could not be loaded: VOIDREIGN started without them (see Mods).";
         choice.mods.clear();
         data = readDataSet(*dataDir, choice, mode->commandLineModFolder());
     }
@@ -1571,7 +1571,7 @@ void ClassicMode::drawImportNotes(UiContext& ui) {
         ImGui::TextUnformatted(note.c_str());
     }
     ImGui::Spacing();
-    ImGui::TextDisabled("Every detail is in opense4.log. Save Game keeps the game in OpenSE4's format.");
+    ImGui::TextDisabled("Every detail is in voidreign.log. Save Game keeps the game in OpenSE4's format.");
     ImGui::PopTextWrapPos();
     if (ImGui::Button("OK", ui.size({120, 26})) || okKey()) importNotes_.clear();   // a message box: Esc or Enter is OK
     ImGui::End();
