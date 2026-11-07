@@ -266,57 +266,157 @@ def sheet(path, cw, ch, cols, rows, count, seed):
 def race_art(root: Path, style: str, color, neutral=False):
     group = "RaceGeneric" if style == "Generic" else ("RaceNeutral" if neutral else "Races")
     d = root / "Pictures" / group / style
+    if style == "Generic":
+        variant = -1
+    elif neutral:
+        variant = len(FACTIONS) + next((i for i, (name, _) in enumerate(NEUTRALS) if name == style), 0)
+    else:
+        variant = next((i for i, (name, _) in enumerate(FACTIONS) if name == style), 0)
+
     main = Bitmap(100, 20, (4, 11, 24))
     main.rect(1, 1, 24, 16, blend(color, (5, 16, 28), .42))
     main.circle(13, 9, 5, (228, 243, 252), False, 1)
     main.rect(26, 0, 2, 20, (77, 110, 144))
     main.rect(28, 0, 12, 20, color)
     for i in range(3):
-        icon(main, 40 + i * 20, 0, 20, 20, i + 31, color)
+        icon(main, 40 + i * 20, 0, 20, 20, i + max(0, variant) + 31, color)
     main.save(d / f"{style}_Main.bmp")
+
+    # Each species has a distinct silhouette language. These are abstract
+    # alien busts rather than one human face with fifteen palette swaps.
     portrait = Bitmap(128, 128, (5, 12, 25))
     portrait.circle(64, 66, 48, blend(color, (6, 23, 42), .38))
     portrait.circle(64, 66, 48, color, False, 3)
-    portrait.ellipse(64, 65, 29, 35, blend(color, (218, 231, 243), .3), True)
-    portrait.circle(53, 57, 4, (235, 248, 255))
-    portrait.circle(75, 57, 4, (235, 248, 255))
-    portrait.line(55, 79, 73, 79, (22, 40, 60), 3)
+    if variant % 6 == 0:
+        portrait.ellipse(64, 65, 27, 36, blend(color, (218, 231, 243), .3), True)
+        portrait.line(45, 43, 35, 23, color, 6)
+        portrait.line(83, 43, 93, 23, color, 6)
+        portrait.circle(53, 57, 4, (235, 248, 255))
+        portrait.circle(75, 57, 4, (235, 248, 255))
+    elif variant % 6 == 1:
+        portrait.ellipse(64, 66, 36, 27, blend(color, (218, 231, 243), .28), True)
+        portrait.line(32, 58, 15, 39, color, 5)
+        portrait.line(96, 58, 113, 39, color, 5)
+        portrait.line(42, 79, 31, 104, color, 3)
+        portrait.line(86, 79, 97, 104, color, 3)
+        for x in (49, 64, 79):
+            portrait.circle(x, 57, 3, (235, 248, 255))
+    elif variant % 6 == 2:
+        portrait.ellipse(64, 66, 24, 39, blend(color, (218, 231, 243), .3), True)
+        portrait.line(49, 40, 35, 15, color, 3)
+        portrait.line(64, 35, 64, 9, color, 3)
+        portrait.line(79, 40, 93, 15, color, 3)
+        portrait.circle(53, 58, 4, (235, 248, 255))
+        portrait.circle(75, 58, 4, (235, 248, 255))
+        portrait.line(49, 87, 79, 87, blend(color, (18, 33, 52), .3), 4)
+    elif variant % 6 == 3:
+        portrait.ellipse(64, 67, 30, 34, blend(color, (218, 231, 243), .22), True)
+        portrait.line(36, 64, 51, 31, color, 5)
+        portrait.line(51, 31, 64, 18, color, 5)
+        portrait.line(64, 18, 77, 31, color, 5)
+        portrait.line(77, 31, 92, 64, color, 5)
+        portrait.circle(53, 59, 4, (235, 248, 255))
+        portrait.circle(75, 59, 4, (235, 248, 255))
+        portrait.line(64, 50, 64, 91, blend(color, (18, 33, 52), .2), 2)
+    elif variant % 6 == 4:
+        portrait.ellipse(64, 67, 31, 34, blend(color, (218, 231, 243), .24), True)
+        for x, y in ((48, 53), (80, 53), (56, 70), (72, 70)):
+            portrait.circle(x, y, 4, (235, 248, 255))
+        portrait.line(42, 81, 31, 104, color, 4)
+        portrait.line(86, 81, 97, 104, color, 4)
+    else:
+        portrait.ellipse(64, 67, 34, 31, blend(color, (218, 231, 243), .24), True)
+        portrait.ellipse(64, 65, 43, 40, color, False, 4)
+        portrait.circle(52, 58, 4, (235, 248, 255))
+        portrait.circle(76, 58, 4, (235, 248, 255))
+        for x in (35, 44, 84, 93):
+            portrait.line(x, 80, x + (x - 64) // 3, 105, color, 3)
+    portrait.line(53, 91, 75, 91, blend(color, (18, 33, 52), .28), 3)
+    # A species mark is cut into the brow and is repeated on its ship portraits.
+    icon(portrait, 51, 24, 26, 22, max(0, variant), (224, 242, 252))
     portrait.save(d / f"{style}_Race_Portrait.bmp")
+
     for suffix, size in (("Pop_Mini", 20), ("Pop_Portrait", 36)):
         pop = Bitmap(size, size, (5, 12, 25))
         pop.circle(size // 2, size // 2, size * 35 // 100, color)
         pop.circle(size // 2, size // 2, size * 35 // 100, (214, 235, 248), False, 1)
-        icon(pop, size // 6, size // 6, size * 4 // 6, size * 4 // 6, 4, (238, 248, 255))
+        icon(pop, size // 6, size // 6, size * 4 // 6, size * 4 // 6,
+             max(0, variant), (238, 248, 255))
         pop.save(d / f"{style}_{suffix}.bmp")
 
-    # Each species receives its own complete ship set, with a consistent
-    # silhouette language and faction colour rather than the generic fallback.
+    # Every faction/neutral has its own colour and silhouette variant for
+    # every ship class. Hull classes also differ in span, bridge and engines.
     for idx, code in enumerate(HULLS):
         tint = blend(color, (232, 243, 252), .18)
+        profile = (max(0, variant) + idx) % 5
+        width = 6 + ((idx + max(0, variant)) % 5) * 2
         mini = Bitmap(36, 36)
-        width = 6 + (idx % 4) * 2
         mini.circle(18, 18, 16, blend(color, (5, 15, 29), .65), False, 1)
-        mini.line(18, 3, 18, 33, tint, 2 + idx % 2)
-        mini.line(18, 10, 18 - width, 27, color, 2)
-        mini.line(18, 10, 18 + width, 27, color, 2)
-        mini.line(18 - width, 27, 18, 23, tint, 1)
-        mini.line(18 + width, 27, 18, 23, tint, 1)
-        mini.circle(18, 8, 2 + idx % 2, (230, 246, 255))
+        if profile == 0:
+            mini.line(18, 3, 18, 33, tint, 2 + idx % 2)
+            mini.line(18, 10, 18 - width, 27, color, 2)
+            mini.line(18, 10, 18 + width, 27, color, 2)
+        elif profile == 1:
+            mini.line(18, 4, 18, 32, tint, 3)
+            mini.line(18, 15, 3, 20, color, 3)
+            mini.line(18, 15, 33, 20, color, 3)
+            mini.line(18, 24, 7, 30, color, 2)
+            mini.line(18, 24, 29, 30, color, 2)
+        elif profile == 2:
+            mini.line(18, 3, 18, 33, tint, 3)
+            mini.line(18, 14, 4, 29, color, 3)
+            mini.line(18, 14, 32, 29, color, 3)
+            mini.line(4, 29, 18, 25, tint, 1)
+            mini.line(32, 29, 18, 25, tint, 1)
+        elif profile == 3:
+            mini.line(18, 3, 18, 33, tint, 2)
+            mini.line(18, 16, 4, 16, color, 3)
+            mini.line(18, 16, 32, 16, color, 3)
+            mini.line(18, 23, 8, 31, color, 2)
+            mini.line(18, 23, 28, 31, color, 2)
+        else:
+            mini.line(18, 3, 18, 33, tint, 3)
+            mini.line(18, 11, 5, 24, color, 3)
+            mini.line(18, 18, 31, 24, color, 3)
+            mini.line(18, 25, 9, 32, tint, 2)
+            mini.line(18, 25, 27, 32, tint, 2)
+        mini.circle(18, 7, 2 + idx % 2, (230, 246, 255))
+        mini.circle(18, 31, 2, (68, 206, 235))
         mini.save(d / f"{style}_Mini_{code}.bmp")
 
         portrait = Bitmap(128, 128, (5, 12, 25))
         portrait.circle(64, 64, 57, blend(color, (5, 14, 28), .58))
         portrait.circle(64, 64, 57, color, False, 2)
-        portrait.ellipse(64, 69, 40 + (idx % 3) * 6, 18 + (idx % 2) * 5,
+        orbit = 48 + (idx % 3) * 3
+        portrait.ellipse(64, 66, orbit, 17 + (idx % 2) * 5,
                          blend(color, (16, 36, 55), .25), False, 3)
-        portrait.line(64, 17, 64, 108, tint, 6 + idx % 3 * 2)
-        portrait.line(64, 34, 28 - idx % 3 * 3, 91, color, 4)
-        portrait.line(64, 34, 100 + idx % 3 * 3, 91, color, 4)
-        portrait.line(28 - idx % 3 * 3, 91, 64, 79, tint, 2)
-        portrait.line(100 + idx % 3 * 3, 91, 64, 79, tint, 2)
-        portrait.circle(64, 34, 8, (225, 244, 255))
+        if profile == 0:
+            portrait.line(64, 13, 64, 111, tint, 6)
+            portrait.line(64, 32, 29, 93, color, 4)
+            portrait.line(64, 32, 99, 93, color, 4)
+        elif profile == 1:
+            portrait.line(64, 16, 64, 110, tint, 7)
+            portrait.line(64, 41, 12, 67, color, 5)
+            portrait.line(64, 41, 116, 67, color, 5)
+            portrait.line(35, 80, 93, 80, color, 3)
+        elif profile == 2:
+            portrait.line(64, 12, 64, 111, tint, 8)
+            portrait.line(64, 31, 17, 100, color, 5)
+            portrait.line(64, 31, 111, 100, color, 5)
+            portrait.line(17, 100, 64, 83, tint, 2)
+            portrait.line(111, 100, 64, 83, tint, 2)
+        elif profile == 3:
+            portrait.line(64, 13, 64, 112, tint, 6)
+            portrait.line(64, 48, 11, 48, color, 6)
+            portrait.line(64, 48, 117, 48, color, 6)
+            portrait.line(36, 85, 92, 85, color, 4)
+        else:
+            portrait.line(64, 14, 64, 110, tint, 7)
+            portrait.line(64, 37, 18, 72, color, 5)
+            portrait.line(64, 58, 110, 72, color, 5)
+            portrait.line(30, 96, 97, 96, color, 3)
+        portrait.circle(64, 31, 8, (225, 244, 255))
         portrait.save(d / f"{style}_Portrait_{code}.bmp")
-
 
 def hull_art(root: Path, code: str, idx: int):
     d = root / "Pictures" / "RaceGeneric"
