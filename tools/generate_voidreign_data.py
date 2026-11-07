@@ -138,7 +138,7 @@ def build(output: Path) -> None:
         # generation of frigates can defend itself before Weapons research.
         ("Pulse Emitter", "Ship\\Base\\Sat", 18, 12, 42, 12, "Weapons", 19, [], {
             "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
-            "Weapon Damage At Rng": "12 12 10 8 6", "Weapon Damage Type": "Normal",
+            "Weapon Damage At Rng": "12 12 10 8 6 4", "Weapon Damage Type": "Normal",
             "Weapon Reload Rate": 1, "Weapon Display Type": "Beam", "Weapon Display": 4,
             "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 199,
             "Weapon Seeker Speed": 0, "Weapon Seeker Dmg Res": 0,
