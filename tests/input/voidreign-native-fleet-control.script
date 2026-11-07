@@ -14,11 +14,11 @@ assert { selected = "fleet", design_type = "Attack Ship" }
 click tag:order:fleet-transfer
 wait-window fleet-transfer
 click item:"Rename Fleet" in=fleet-transfer
-wait-window rename
+wait-window rename-fleet
 key Ctrl+A
 type "Outer Watch"
 key Enter
-wait-closed rename
+wait-closed rename-fleet
 assert { command = "Rename" }
 wait-for item:"Outer Watch" in=fleet-transfer
 click tag:fleet-transfer:close
