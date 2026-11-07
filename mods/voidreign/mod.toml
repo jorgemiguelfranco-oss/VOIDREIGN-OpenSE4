@@ -8,4 +8,4 @@ authors = ["VOIDREIGN"]
 description = "The VOIDREIGN game layer for OpenSE4: original ships, technology, economy, factions and rules built on the OpenSE4 engine."
 
 [rules]
-modules = ["vr_economy"]
+modules = ["vr_start"]
