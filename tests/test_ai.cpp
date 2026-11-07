@@ -1383,6 +1383,19 @@ TEST_CASE("VOIDREIGN starts each empire with a designed and movable patrol ship"
             CHECK(computeDesignStats(r, &s.empire(owner), d).armed());
         }
         CHECK(patrolShips == 1);
+        int homePatrols = 0;
+        for (const Fleet& fleet : s.fleets) {
+            if (fleet.owner != owner) continue;
+            ++homePatrols;
+            CHECK(fleet.name == "Home Patrol");
+            CHECK(fleet.location.system == s.empire(owner).homeSystem);
+            REQUIRE(fleet.members.size() == 1);
+            const Vehicle* member = s.vehicle(fleet.members.front());
+            REQUIRE(member);
+            CHECK(member->fleet == fleet.id);
+            CHECK(s.design(member->design).designType == "Attack Ship");
+        }
+        CHECK(homePatrols == 1);
     }
 }
 
