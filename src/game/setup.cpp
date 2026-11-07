@@ -64,6 +64,13 @@ AbilityKind colonizeKind(std::string_view surface) {
 // facility, starting with minerals (only minerals once everything is known).
 void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, Colony& col) {
     const int slots = facilitySlots(r, s, col);
+    // VoidReign has no free treasury. Commission one warehouse before the
+    // classic starting-facility selection so the empire can retain its first
+    // income and has resources with which to expand its logistics network.
+    if (r.standaloneVoidReign() && col.homeworld && static_cast<int>(col.facilities.size()) < slots) {
+        if (const ruleset::Facility* warehouse = r.data().findFacility("VoidReign Warehouse"))
+            col.facilities.push_back(static_cast<uint32_t>(warehouse - r.data().facilities.data()));
+    }
     auto add = [&](AbilityKind kind) {
         if (static_cast<int>(col.facilities.size()) >= slots) return false;
         const auto f = r.bestFacilityWith(e, kind);
@@ -450,6 +457,8 @@ std::vector<EmpireSetup> networkRandomPlayers(const Rules& r, int level, bool co
 
 std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup& setup, const StartExtras& extras) {
     if (setup.empires.empty()) return std::unexpected("A game needs at least one empire.");
+    if (r.standaloneVoidReign() && !r.data().findFacility("VoidReign Warehouse"))
+        return std::unexpected("The VoidReign ruleset must define a 'VoidReign Warehouse' facility; without it, an empire has no starting resource storage.");
     GameState s;
     s.seed = setup.seed;
     s.options = setup.options;
