@@ -342,7 +342,7 @@ for target in "${targets[@]}"; do
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the
     # installer leaves it out, as an installed copy cannot be portable.
     cp packaging/PORTABLE-README.txt "$stage/PORTABLE-README.txt"
-    # The mods that come with OpenSE4, which the programs find in mods/ beside them.
+    # The optional built-in computer-player modules that the engine provides.
     stage_mods "$stage"
     # The modding SDK's guide, reference and example mods, beside opense4-sdk, which
     # finds the examples there (opense4-sdk new --from-example). Their links, the
@@ -385,5 +385,5 @@ for target in "${targets[@]}"; do
 done
 
 # Checksums for whatever this version's archives are in dist/.
-(cd "$dist" && sha256sum VOIDREIGN-"${version}"-*.tar.gz VOIDREIGN-"${version}"-*.zip VOIDREIGN-"${version}"-*-setup.exe 2> /dev/null > "OpenSE4-${version}-SHA256SUMS.txt" || true)
+(cd "$dist" && sha256sum VOIDREIGN-"${version}"-*.tar.gz VOIDREIGN-"${version}"-*.zip VOIDREIGN-"${version}"-*-setup.exe 2> /dev/null > "VOIDREIGN-${version}-SHA256SUMS.txt" || true)
 echo "==> checksums: $dist/VOIDREIGN-${version}-SHA256SUMS.txt"
