@@ -3,6 +3,7 @@
 #include "game/design.hpp"
 #include "game/query.hpp"
 #include "game/sight.hpp"
+#include "game/query.hpp"
 
 #include <algorithm>
 #include <array>
@@ -76,6 +77,29 @@ SectorView sectorView(const game::Rules& r, const game::GameState& s, game::Empi
         else ++it->count;
     }
     std::sort(out.owners.begin(), out.owners.end(), [](const SectorView::Owner& a, const SectorView::Owner& b) { return a.empire.value < b.empire.value; });
+
+    // Stellar objects and mixed-owner sectors previously showed only flags,
+    // hiding every ship, base and mobile space yard in the same sector. Keep
+    // the existing large single-ship presentation in empty space, but expose
+    // compact, visibility-filtered vehicle markers alongside a stellar
+    // object or contested presence. A player's fleet remains one marker.
+    if (out.stellar || out.owners.size() > 1) {
+        for (const game::Vehicle* v : vehicles) {
+            if (!v) continue;
+            const game::Fleet* fleet = v->owner == viewer && v->fleet.valid() ? s.fleet(v->fleet) : nullptr;
+            if (fleet) {
+                auto marker = std::find_if(out.vehicleMarkers.begin(), out.vehicleMarkers.end(),
+                                           [&](const SectorView::VehicleMarker& m) { return m.fleet == fleet->id; });
+                if (marker == out.vehicleMarkers.end()) {
+                    out.vehicleMarkers.push_back({v->id, fleet->id, game::vehicleHasSpaceYard(r, s, *v)});
+                } else {
+                    marker->shipyard = marker->shipyard || game::vehicleHasSpaceYard(r, s, *v);
+                }
+            } else {
+                out.vehicleMarkers.push_back({v->id, {}, game::vehicleHasSpaceYard(r, s, *v)});
+            }
+        }
+    }
     if (out.owners.empty()) return out;
 
     if (out.owners.size() > 1 || out.stellar) {

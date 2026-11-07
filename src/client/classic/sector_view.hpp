@@ -15,6 +15,17 @@
 namespace opense4::client::classic {
 
 struct SectorView {
+    // A compact map marker for a visible vehicle. The first member represents
+    // the player's whole fleet at this location; shipyard marks identify a
+    // vehicle with an operational Space Yard module.
+    struct VehicleMarker {
+        game::VehicleId vehicle;
+        game::FleetId fleet;
+        bool shipyard = false;
+        bool operator==(const VehicleMarker&) const = default;
+    };
+    std::vector<VehicleMarker> vehicleMarkers;
+
     // The stellar object drawn (planet, asteroid field, star, storm, warp
     // point, comet): the first in the system's object list unless a later
     // planet has a larger planet-size Stellar Size; and how many there are
