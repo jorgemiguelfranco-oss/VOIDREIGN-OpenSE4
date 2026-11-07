@@ -327,7 +327,20 @@ TEST_CASE("ai: built-in profile covers the tables") {
         CHECK(p.vehicleQueue(s));
     // The last matching table wins: "Attack" also occurs in "Secure Holdings After Attack".
     CHECK(p.vehicleQueue(ai::AiState::Attack) == p.vehicleQueue(ai::AiState::SecureHoldings));
-    CHECK(p.facilityQueue(ai::AiState::Attack, "Homeworld"));
+    const ai::FacilityQueue* home = p.facilityQueue(ai::AiState::Attack, "Homeworld");
+    REQUIRE(home);
+    int storageAt = -1, researchAt = -1, storageAmount = 0;
+    for (size_t i = 0; i < home->entries.size(); ++i) {
+        if (home->entries[i].ability == "Resource Storage - Mineral") {
+            storageAt = static_cast<int>(i);
+            storageAmount = home->entries[i].amount;
+        }
+        if (home->entries[i].ability == "Point Generation - Research") researchAt = static_cast<int>(i);
+    }
+    CHECK(storageAt >= 0);
+    CHECK(researchAt > storageAt);  // logistics is planned before scaling research
+    CHECK(storageAmount == 3);      // one bootstrap warehouse plus two expansions
+    CHECK(p.facilityQueue(ai::AiState::Attack, "Mining Colony"));
     CHECK_FALSE(p.facilityQueue(ai::AiState::Attack, "Balanced"));  // no fallback row
     CHECK_FALSE(p.planetTypes.empty());
     CHECK(p.speech.pool("Send Propose Treaty"));
