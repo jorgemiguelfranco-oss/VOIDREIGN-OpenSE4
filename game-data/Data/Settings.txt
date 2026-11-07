@@ -9,6 +9,6 @@ Asteroids Value High Percent    := 200
 Plr Planet Value Low Percent     := 80
 Plr Planet Value Medium Percent  := 110
 Plr Planet Value High Percent    := 140
-Minimum Empire Point Storage          := 10000
+Minimum Empire Point Storage          := 20000
 VOIDREIGN Starting Warehouse Count   := 1
 *END*
