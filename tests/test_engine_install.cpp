@@ -111,6 +111,16 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
                                    [](const auto& c) { return c && c->owner == EmpireId{0u} && c->homeworld; });
     REQUIRE(home != s.colonies.end());
     const Resources beforeWarehouse = economy::storageCapacity(*r, s, EmpireId{0u});
+    // The starting colony has a modest baseline treasury but no free warehouse.
+    // Excess resources are discarded at the end-of-turn storage step.
+    CHECK(beforeWarehouse == Resources{25000, 25000, 25000});
+    GameState storageProbe = s;
+    const EmpireId player{0u};
+    storageProbe.empire(player).stockpile = Resources{30000, 40000, 50000};
+    TurnContext storageContext{*r, storageProbe, {}, {}, {}};
+    economy::applyStorageCap(storageContext, player);
+    CHECK(storageProbe.empire(player).stockpile == Resources{25000, 25000, 25000});
+    CHECK(storageProbe.empire(player).economy.lostToStorage == Resources{5000, 15000, 25000});
     (*home)->facilities.push_back(static_cast<uint32_t>(std::distance(facilities.begin(), warehouse)));
     const Resources afterWarehouse = economy::storageCapacity(*r, s, EmpireId{0u});
     for (size_t resource = 0; resource < 3; ++resource)
