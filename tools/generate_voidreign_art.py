@@ -27,6 +27,8 @@ NEUTRALS = [
 ]
 HULLS = ("VF", "AC", "PA", "MF", "CP", "IN", "RS")
 PLANETS = ("rock", "star", "ice", "gas", "asteroids", "storm", "warp")
+EVENTS = ("MineralBloom", "CivicAccord", "AtmosphericShift", "VeteranCadre",
+          "SupplyAnomaly", "DriveCascade", "InfrastructureFailure")
 
 
 class Bitmap:
@@ -403,6 +405,24 @@ def build(root: Path):
     ):
         sheet(pic / "Game/Buttons" / name, cw, ch, cols, rows, count, seed)
 
+    # Illustrated event cards are referenced by the actual Events.txt
+    # records and displayed in the event log using Art::eventPicture.
+    event_palette = (
+        (216, 178, 91), (104, 200, 148), (97, 173, 219),
+        (178, 157, 221), (212, 133, 75), (222, 109, 82), (148, 156, 174),
+    )
+    for idx, (name, color) in enumerate(zip(EVENTS, event_palette)):
+        card = Bitmap(128, 128, (5, 12, 25))
+        for y in range(128):
+            shade = y / 127
+            card.rect(0, y, 128, 1, blend((8, 18, 35), blend(color, (5, 12, 25), .72), shade * .65))
+        card.circle(64, 64, 56, blend(color, (8, 19, 35), .25), False, 3)
+        card.circle(64, 64, 46, (58, 91, 126), False, 1)
+        card.ellipse(64, 64, 53, 18, blend(color, (220, 239, 250), .22), False, 2)
+        icon(card, 18, 18, 92, 92, idx + 2, blend(color, (241, 247, 252), .16))
+        card.line(15, 112, 113, 112, blend(color, (238, 246, 251), .25), 2)
+        card.save(pic / "Events" / f"{name}.bmp")
+
     # Twelve playable species and three neutral powers.
     for idx, (name, color) in enumerate(FACTIONS):
         race_art(root, name, color)
@@ -460,6 +480,13 @@ def verify(root: Path):
         "RaceGeneric/Generic_Mini_VF.bmp": (36, 36),
         "RaceGeneric/Generic_Portrait_Fleet.bmp": (128, 128),\n        "Races/Aurel/Aurel_Mini_VF.bmp": (36, 36),\n        "Races/Aurel/Aurel_Portrait_VF.bmp": (128, 128),
         "Systems/Ion StormTile1.bmp": (72, 72),
+        "Events/MineralBloom.bmp": (128, 128),
+        "Events/CivicAccord.bmp": (128, 128),
+        "Events/AtmosphericShift.bmp": (128, 128),
+        "Events/VeteranCadre.bmp": (128, 128),
+        "Events/SupplyAnomaly.bmp": (128, 128),
+        "Events/DriveCascade.bmp": (128, 128),
+        "Events/InfrastructureFailure.bmp": (128, 128),
     }
     errors = []
     for name, expected in required.items():
