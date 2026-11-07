@@ -363,6 +363,13 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
 
     game::Rules rules(std::move(*loaded.ruleset), root, true);
     CHECK(rules.standaloneVoidReign());
+    for (std::string_view bitmap : {"VoidReignPathfinder", "VoidReignColonizer", "VoidReignStation",
+                                      "VoidReignInterceptor", "VoidReignFrigate", "VoidReignDestroyer",
+                                      "VoidReignCruiser", "VoidReignBattleship", "VoidReignCarrier"}) {
+        const std::filesystem::path picture =
+            root / "Pictures" / "RaceGeneric" / (std::string("Generic_Mini_") + std::string(bitmap) + ".png");
+        CHECK(std::filesystem::is_regular_file(picture));
+    }
     // Every component prerequisite must name a real technology and a
     // level the technology can actually reach. This catches silently
     // unresearchable end-game parts before a new game is started.
