@@ -79,7 +79,9 @@ void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, 
         return f.has_value();
     };
     if (!r.hasTrait(e.race, "No Spaceports")) add(AbilityKind::Spaceport);
-    add(AbilityKind::SpaceYard);
+    // VoidReign's starting shipyard is the visible orbital station created
+    // below, rather than a second free yard hidden on the homeworld.
+    if (!r.standaloneVoidReign()) add(AbilityKind::SpaceYard);
     add(AbilityKind::SupplyGeneration);
     add(AbilityKind::ResourceGenMinerals);
     add(AbilityKind::ResourceGenRadioactives);
