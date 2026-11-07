@@ -205,6 +205,19 @@ int main(int argc, char** argv) {
         return 0;
     }
     client::AppOptions options;
+
+    // The selected product profile determines the settings/saves folder. Do
+    // this before appSettings() loads settings.toml; parsing --classic-dir
+    // later is too late for the first settings read.
+    bool standaloneVoidReign = true;
+    for (int i = 1; i < argc; ++i) {
+        const std::string_view arg = argv[i];
+        if (arg == "--classic-dir" || arg.starts_with("--classic-dir="))
+            standaloneVoidReign = false;
+        else if (arg == "--voidreign-dir" || arg.starts_with("--voidreign-dir="))
+            standaloneVoidReign = true;
+    }
+    client::setStandaloneUserFolder(standaloneVoidReign);
     // External bots (--bot-port...): the host they connect to lives as long as the program.
     int botPort = sdk::kDefaultBotPort;
     int botTimeout = 60;
