@@ -10,7 +10,7 @@ The engine foundation supplies a deterministic turn-based strategy simulation, g
 
 The native `game-data/` directory currently defines:
 
-- **Three original factions:** the Aurelian Concord, Veyran Trade League and Khepri Ascendancy, each with its own faction description, culture, leadership and naming lists.
+- **Three original factions:** the Aurelian Concord, Veyran Trade League and Khepri Ascendancy, with distinct cultures, leaders, naming lists, research priorities and fleet doctrines.
 - **Original technology branches:** Stellar Sciences, Propulsion, Energy Weapons, Industrial Engineering, Planetary Engineering, Logistics and Advanced Sensors.
 - **Original ships and installations:** Pathfinder scout, Hauler cargo hull, Frigate, research-gated Destroyer, Cruiser and Battleship, Settlement Ark colony ship and Orbital Station. The native hull progression is backed by original ship systems, engines, cargo, pulse weapons, shields, colonisation modules, orbital shipyards and sensors. Each new empire begins with a designed Pathfinder Attack Ship grouped into its own Home Patrol fleet.
 - **Planetary infrastructure:** mineral extraction, hydroponics, isotope refining, research, intelligence, spaceports and bonded warehouses.
