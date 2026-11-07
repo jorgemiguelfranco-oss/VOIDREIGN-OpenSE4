@@ -1,9 +1,10 @@
-# Let native computer empires play five turns from a VOIDREIGN quick start.
-# This exercises their native faction AI profiles, design ministers, research and economy.
-options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --turns=5 --open=none --layout=1024x768 --size=1280x800
+# Let native computer empires play twenty turns from a VOIDREIGN quick start.
+# This exercises their faction AI profiles, design ministers, research, economy,
+# and the Aurelian fleet-deployment threshold after its 18-turn opening period.
+options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --turns=20 --open=none --layout=1024x768 --size=1280x800
 
 wait-screen game
-assert-turn 5
+assert-turn 20
 wait 5
 
 # The player's opening patrol and warehouse-backed homeworld must remain valid
