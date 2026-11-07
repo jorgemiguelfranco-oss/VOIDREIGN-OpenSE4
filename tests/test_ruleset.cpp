@@ -403,35 +403,45 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
         CHECK(game::economy::storageCapacity(rules, *created, id) == game::Resources{25000, 25000, 25000});
     }
 
-    REQUIRE(created->designs.size() == 4);
+    REQUIRE(created->designs.size() == 6);
     CHECK(created->designs[0].name == "Helion Pathfinder");
     CHECK(created->designs[0].designType == "Scout Ship");
     CHECK(created->designs[1].name == "Helion Rock Colonizer");
     CHECK(created->designs[1].designType == "Colony (Rock)");
-    CHECK(created->designs[2].name == "Veyran Pathfinder");
-    CHECK(created->designs[3].name == "Veyran Ice Colonizer");
-    CHECK(created->designs[3].designType == "Colony (Ice)");
     CHECK(created->designs[1].entries.size() == 9);
-    CHECK(created->designs[3].entries.size() == 9);
-    REQUIRE(created->vehicles.size() == 4);
-    for (size_t i = 0; i < 4; ++i) {
-        const size_t owner = i < 2 ? 0 : 1;
+    CHECK(created->designs[2].name == "Helion Orbital Station");
+    CHECK(created->designs[2].designType == "Station");
+    CHECK(created->designs[3].name == "Veyran Pathfinder");
+    CHECK(created->designs[4].name == "Veyran Ice Colonizer");
+    CHECK(created->designs[4].designType == "Colony (Ice)");
+    CHECK(created->designs[4].entries.size() == 9);
+    CHECK(created->designs[5].name == "Veyran Orbital Station");
+    REQUIRE(created->vehicles.size() == 6);
+    for (size_t i = 0; i < 6; ++i) {
+        const size_t owner = i < 3 ? 0 : 1;
         CHECK(created->vehicles[i].owner == game::EmpireId{owner});
         CHECK(created->vehicles[i].design == game::DesignId{i});
         CHECK(created->vehicles[i].location.system == created->empire(game::EmpireId{owner}).homeSystem);
     }
     for (size_t empire = 0; empire < 2; ++empire) {
         const game::EmpireId id{empire};
-        const game::DesignStats scout = game::computeDesignStats(rules, &created->empire(id), created->designs[empire * 2]);
+        const size_t base = empire * 3;
+        const game::DesignStats scout = game::computeDesignStats(rules, &created->empire(id), created->designs[base]);
         CHECK(scout.problems.empty());
         CHECK(scout.armed());
         CHECK(scout.movement > 0);
         CHECK(scout.cargoCapacity >= 60);
         CHECK(scout.shields >= 20);
 
-        const game::DesignStats colonizer = game::computeDesignStats(rules, &created->empire(id), created->designs[empire * 2 + 1]);
+        const game::DesignStats colonizer = game::computeDesignStats(rules, &created->empire(id), created->designs[base + 1]);
         CHECK(colonizer.problems.empty());
         CHECK(colonizer.movement > 0);
         CHECK(colonizer.canColonize(empire == 0 ? "Rock" : "Ice"));
+
+        const game::DesignStats station = game::computeDesignStats(rules, &created->empire(id), created->designs[base + 2]);
+        CHECK(station.problems.empty());
+        CHECK(station.movement == 0);
+        CHECK(station.spaceYard);
+        CHECK(station.shields >= 20);
     }
 }
