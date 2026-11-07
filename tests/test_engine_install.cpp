@@ -320,6 +320,7 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     gate(r->component(componentIndex("Gas Colony Core")), "Colonization", 3);
     gate(r->component(componentIndex("Cargo Hold")), "Logistics", 1);
     gate(r->component(componentIndex("Shield Generator")), "Defensive Systems", 1);
+    gate(r->component(componentIndex("Armour Plating")), "Defensive Systems", 1);
     gate(r->component(componentIndex("Sensor Array")), "Sensors", 1);
     gate(r->component(componentIndex("Supply Matrix")), "Logistics", 2);
     gate(r->component(componentIndex("Orbital Yard Module")), "Ship Construction", 2);
@@ -350,7 +351,7 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     CHECK(r->hullAvailable(empire, hullIndex("Interceptor")));
     CHECK(r->hullAvailable(empire, hullIndex("Recon Satellite")));
     for (std::string_view name : {"Fusion Drive", "Rock Colony Core", "Ice Colony Core", "Gas Colony Core",
-                                  "Cargo Hold", "Shield Generator", "Sensor Array", "Supply Matrix",
+                                  "Cargo Hold", "Shield Generator", "Armour Plating", "Sensor Array", "Supply Matrix",
                                   "Orbital Yard Module", "Laser Battery", "Missile Rack"})
         CHECK(r->componentAvailable(empire, componentIndex(name)));
     for (std::string_view name : {"Mineral Warehouse", "Organic Warehouse", "Radioactive Vault",
