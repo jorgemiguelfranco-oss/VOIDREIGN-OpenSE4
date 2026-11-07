@@ -338,6 +338,15 @@ for target in "${targets[@]}"; do
     cp packaging/PORTABLE-README.txt "$stage/PORTABLE-README.txt"
     # The mods that come with OpenSE4, which the programs find in mods/ beside them.
     stage_mods "$stage"
+    # VoidReign is the standalone game shipped by these packages. The client
+    # discovers this first-party content beside its executable; unlike mods it
+    # is required game data, so it must be present in every platform package.
+    if [ ! -f content/voidreign/Data/TechArea.txt ] || [ ! -f content/voidreign/Data/Components.txt ]; then
+        echo "The standalone VoidReign content bundle is incomplete." >&2
+        exit 1
+    fi
+    mkdir -p "$stage/content/voidreign"
+    cp -a content/voidreign/. "$stage/content/voidreign/"
     # The modding SDK's guide, reference and example mods, beside opense4-sdk, which
     # finds the examples there (opense4-sdk new --from-example). Their links, the
     # README's and the bundled mods' lead to the package's copies, or to GitHub.
