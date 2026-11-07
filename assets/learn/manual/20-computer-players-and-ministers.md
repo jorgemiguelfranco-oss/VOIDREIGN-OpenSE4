@@ -29,18 +29,14 @@ The same page sets two handicaps:
 With **Team mode** (Game Settings page), every computer player is allied with the others in a
 Partnership against the human players.
 
-## Computer players of mods
+## Optional AI extensions
 
-A mod can bring computer players of its own, written in Python, which play an empire as fully as
-the classic computer player does. When the mods you play with offer some, the setup screens let
-you choose who plays each computer empire (see [Getting started](getting-started#computer-players-of-mods)),
-and so does the host of a network game in its lobby (see [Multiplayer](multiplayer)). Everything
-else stays as above: difficulty, bonus and team mode apply to them too.
-
-OpenSE4 comes with one such mod, **Hegemon**: a computer player that plans its own expansion,
-research, designs, wars and battles. Switch it on in the [Mods](settings#mods) window, then
-choose it with `Computer Players` in Game Setup or Quick Start. Without it, or any other mod
-with computer players, every computer empire is the classic computer player.
+The engine can also load optional third-party computer-player extensions, which may be
+written in Python. They are an extension point, not a requirement for the game: every
+VOIDREIGN faction already uses its own native AI profile and the built-in computer player.
+You do not need to install, enable or configure a mod to play against the Aurelian,
+Veyran or Khepri empires. Optional extensions are chosen in Game Setup only when they
+are separately installed and enabled.
 
 - **Seeing everything.** The game option *Computer players see everything* gives them the whole
   game instead of what their empire knows. It is off by default.
@@ -64,6 +60,22 @@ from Brotherly to Murderous. What makes it angry, and how it decides on treaties
 explained in [Diplomacy](diplomacy#how-computer-players-feel-about-you).
 
 > Computer players may gang up on whoever runs away with the score. If you lead by a wide margin, expect your former friends to turn on you.
+
+### VOIDREIGN faction doctrines
+
+The three native VOIDREIGN empires use separate AI files; they are not generic recolours
+and they do not depend on an optional AI module:
+
+- **Aurelian Concord** favours sensors and foundational science, keeps a larger share of
+  its ships in fleets and allocates most fleets to defence. It waits longer before launching
+  another attack.
+- **Veyran Trade League** prioritises logistics and industrial research, with a more balanced
+  split between attack and defence fleets.
+- **Khepri Ascendancy** prioritises industry, propulsion and weapons, builds a larger fleet
+  share and commits a greater proportion of its fleets to attack sooner.
+
+These are starting strategic tendencies, not fixed scripts: research availability, colony
+growth, threats and the state of the galaxy still shape the computer player's decisions.
 
 ## Ministers
 
