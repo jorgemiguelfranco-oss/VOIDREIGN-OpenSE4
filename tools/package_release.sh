@@ -102,7 +102,7 @@ fi
 dist="$root/dist"
 mkdir -p "$dist"
 
-app_id=io.github.lowlevelmetal.OpenSE4
+app_id=io.github.voidreign.VOIDREIGN
 metainfo="packaging/linux/$app_id.metainfo.xml"
 if [[ "$version" != *-* ]] && ! grep -q "<release version=\"$version\"" "$metainfo"; then
     echo "$metainfo has no <release> entry for $version: add one first." >&2
