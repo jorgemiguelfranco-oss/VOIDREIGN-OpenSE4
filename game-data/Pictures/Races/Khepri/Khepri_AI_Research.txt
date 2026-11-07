@@ -1,0 +1,31 @@
+*BEGIN*
+AI State := Exploration, Infrastructure, Prepare for Attack, Attack, Secure Holdings After Attack, Incursion, Prepare for Defense, Defend (Short Term), Defend (Long Term), Not Connected
+Tech Area Name := VoidReign Industrial Engineering
+Tech Area Level := 5
+Tech Area Min Percent := 30
+
+AI State := Exploration, Infrastructure, Prepare for Attack, Attack, Secure Holdings After Attack, Incursion, Prepare for Defense, Defend (Short Term), Defend (Long Term), Not Connected
+Tech Area Name := VoidReign Propulsion
+Tech Area Level := 5
+Tech Area Min Percent := 25
+
+AI State := Exploration, Infrastructure, Prepare for Attack, Attack, Secure Holdings After Attack, Incursion, Prepare for Defense, Defend (Short Term), Defend (Long Term), Not Connected
+Tech Area Name := VoidReign Energy Weapons
+Tech Area Level := 5
+Tech Area Min Percent := 20
+
+AI State := Exploration, Infrastructure, Prepare for Attack, Attack, Secure Holdings After Attack, Incursion, Prepare for Defense, Defend (Short Term), Defend (Long Term), Not Connected
+Tech Area Name := Stellar Sciences
+Tech Area Level := 4
+Tech Area Min Percent := 10
+
+AI State := Exploration, Infrastructure, Prepare for Attack, Attack, Secure Holdings After Attack, Incursion, Prepare for Defense, Defend (Short Term), Defend (Long Term), Not Connected
+Tech Area Name := VoidReign Logistics
+Tech Area Level := 4
+Tech Area Min Percent := 10
+
+AI State := Exploration, Infrastructure, Prepare for Attack, Attack, Secure Holdings After Attack, Incursion, Prepare for Defense, Defend (Short Term), Defend (Long Term), Not Connected
+Tech Area Name := VoidReign Planetary Engineering
+Tech Area Level := 3
+Tech Area Min Percent := 5
+*END*
