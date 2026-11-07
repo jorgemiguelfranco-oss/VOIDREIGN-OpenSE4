@@ -1,5 +1,5 @@
 // A small program of ours that prints which user folder it would use and why
-// (core/user_folder.hpp), as every program of OpenSE4 decides it.
+// (core/user_folder.hpp), as every program of VOIDREIGN decides it.
 // tests/test_user_folder.cpp copies it into a scratch program folder and runs
 // it there, to check the portable copy's rules in a process of its own.
 

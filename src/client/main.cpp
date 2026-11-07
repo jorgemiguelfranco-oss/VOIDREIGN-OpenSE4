@@ -71,7 +71,7 @@ Rendering:
                                   the audio, e.g. with SDL_AUDIO_DRIVER=disk: docs/SETUP.md)
 
 Game:
-  --classic-dir=DIR               Game directory of your installed copy (default: auto-detect)
+  --classic-dir=DIR               Optional directory of a compatible classic data set (default: bundled GameData)
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
@@ -428,9 +428,9 @@ int main(int argc, char** argv) {
     // given (multiplayer.cpp), since its players must not guess it.
     options.seedGiven = options.seed != 0 || options.inputScript;
     if (options.seed == 0) options.seed = options.inputScript ? 1 : static_cast<uint64_t>(std::time(nullptr));
-    // The log also goes to opense4.log in the user data folder: on Windows the
+    // The log also goes to voidreign.log in the user data folder: on Windows the
     // game has no console, so that file is where a player finds it. The last
-    // run's log, a crash report perhaps, stays beside it as opense4.previous.log.
+    // run's log, a crash report perhaps, stays beside it as voidreign.previous.log.
     const std::filesystem::path logFile = client::userDataDirectory() / "voidreign.log";
     client::keepPreviousLog(logFile);
     log::setFile(logFile);
