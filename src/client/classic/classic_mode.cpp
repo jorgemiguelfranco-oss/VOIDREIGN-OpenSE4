@@ -68,8 +68,7 @@ std::optional<std::filesystem::path> findGameDataDirectory(const std::string& da
 
     // Packaged builds place the independent VOIDREIGN data set beside the executable.
     // CMake copies the same directory beside development binaries.
-    if (auto bundled = ruleset::findInstalledDataDir(sdk::executableDir() / "game-data")) return bundled;
-    return ruleset::findInstalledDataDir();
+    return ruleset::findInstalledDataDir(sdk::executableDir() / "game-data");
 }
 
 std::string missingInstallMessage(const std::string& installDir) {
