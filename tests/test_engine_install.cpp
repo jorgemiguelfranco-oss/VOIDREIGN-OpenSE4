@@ -300,7 +300,7 @@ TEST_CASE("VOIDREIGN random events and intelligence projects execute in the nati
     CHECK(std::any_of(intelligenceGame.empire(source).log.begin(), intelligenceGame.empire(source).log.end(),
                       [](const LogEntry& entry) {
                           return entry.category == LogCategory::Intelligence &&
-                                 entry.text.find("Planetary Census") != std::string::npos;
+                                 entry.title == "Planetary Census";
                       }));
     CHECK(std::any_of(intelligenceGame.empire(target).log.begin(), intelligenceGame.empire(target).log.end(),
                       [](const LogEntry& entry) {
