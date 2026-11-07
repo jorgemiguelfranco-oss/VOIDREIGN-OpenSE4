@@ -1,0 +1,77 @@
+# A stationary orbital installation built with OpenSE4's native Base vehicle type.
+[[vehicle_sizes.add]]
+name = "VoidReign Orbital Station"
+
+[vehicle_sizes.add.set]
+"Vehicle Type" = "Base"
+"Short Name" = "Station"
+"Code" = "VS"
+"Description" = "A modular orbital installation. Fit shipyard, sensor, defence and logistics modules to establish a permanent presence in a system."
+"Primary Bitmap Name" = "VoidReignStation"
+"Alternate Bitmap Name" = "VoidReignStation"
+"Tonnage" = 400
+"Cost Radioactives" = 10
+"Cost Minerals" = 300
+"Cost Organics" = 80
+"Engines Per Move" = 0
+"Requirement Must Have Bridge" = true
+"Requirement Can Have Aux Con" = true
+"Requirement Min Life Support" = 1
+"Requirement Min Crew Quarters" = 1
+"Requirement Uses Engines" = false
+"Requirement Max Engines" = 0
+"Requirement Pct Fighter Bays" = 0
+"Requirement Pct Colony Mods" = 0
+"Requirement Pct Cargo" = 0
+"Number of Tech Req" = 0
+"Number of Abilities" = 0
+
+[[components.add]]
+name = "VoidReign Orbital Shipyard"
+
+[components.add.set]
+"Description" = "A modular construction bay for assembling ships and bases in orbit."
+"Pic Num" = 1
+"Tonnage Structure" = 50
+"Tonnage Space Taken" = 80
+"Cost Radioactives" = 10
+"Cost Organics" = 20
+"Cost Minerals" = 150
+"Vehicle Type" = "Base"
+"General Group" = "Construction"
+"Custom Group" = 0
+"Restrictions" = "One Per Vehicle"
+"Family" = 7403
+"Roman Numeral" = 1
+"Supply Amount Used" = 0
+"Number of Tech Req" = 0
+"Number of Abilities" = 1
+"Weapon Type" = "None"
+
+[components.add.add]
+abilities = [{ "Ability Type" = "Space Yard", "Ability Descr" = "Builds ships and bases in orbit at a rate of 100 minerals per turn.", "Ability Val 1" = 1, "Ability Val 2" = 100 }]
+
+[[components.add]]
+name = "VoidReign Sensor Array"
+
+[components.add.set]
+"Description" = "A long-baseline sensor array for monitoring nearby space."
+"Pic Num" = 1
+"Tonnage Structure" = 20
+"Tonnage Space Taken" = 40
+"Cost Radioactives" = 10
+"Cost Organics" = 0
+"Cost Minerals" = 80
+"Vehicle Type" = "Base"
+"General Group" = "Sensors"
+"Custom Group" = 0
+"Restrictions" = "One Per Vehicle"
+"Family" = 7404
+"Roman Numeral" = 1
+"Supply Amount Used" = 0
+"Number of Tech Req" = 0
+"Number of Abilities" = 1
+"Weapon Type" = "None"
+
+[components.add.add]
+abilities = [{ "Ability Type" = "Sensor Level", "Ability Descr" = "Adds EM Active sensor level 2.", "Ability Val 1" = "EM Active", "Ability Val 2" = 2 }]
