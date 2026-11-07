@@ -490,6 +490,12 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
         REQUIRE(capital != nullptr);
         CHECK(std::find(capital->facilities.begin(), capital->facilities.end(), warehouseId) != capital->facilities.end());
         CHECK(game::economy::storageCapacity(rules, *created, id) == game::Resources{25000, 25000, 25000});
+        const bool hasSurfaceYard = std::any_of(capital->facilities.begin(), capital->facilities.end(), [&](uint32_t facility) {
+            const auto abilities = rules.facilityAbilities(facility);
+            return std::any_of(abilities.begin(), abilities.end(),
+                               [](const game::ParsedAbility& ability) { return ability.kind == game::AbilityKind::SpaceYard; });
+        });
+        CHECK(!hasSurfaceYard);
     }
 
     REQUIRE(created->designs.size() == 6);
