@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.voidreign.game</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>VOIDREIGN</name>
+  <summary>Standalone 4X space strategy game</summary>
+  <developer id="io.github.voidreign.game"><name>VOIDREIGN contributors</name></developer>
+  <description>
+    <p>VOIDREIGN is a native turn-based space strategy game built on the OpenSE4 engine foundation. It ships with its own original ruleset, twelve playable factions and three independent powers. No copy of Space Empires IV is required.</p>
+    <p>Explore a generated galaxy, colonise worlds, research technologies, design ships, organise fleets, manage diplomacy and fight strategic and tactical battles. Government choices alter production, research, trade and maintenance. Warehouses limit the resources an empire can retain: overflowing stockpiles are lost.</p>
+  </description>
+  <launchable type="desktop-id">io.github.voidreign.game.desktop</launchable>
+  <provides><binary>VOIDREIGN</binary><binary>opense4-server</binary><binary>opense4-datacheck</binary><binary>opense4-convert</binary></provides>
+  <url type="homepage">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4</url>
+  <url type="bugtracker">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/issues</url>
+  <url type="vcs-browser">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4</url>
+  <releases><release version="0.1.0" date="2026-11-07"><description><p>Initial standalone VOIDREIGN ruleset and native client integration.</p></description></release></releases>
+  <categories><category>Game</category><category>StrategyGame</category></categories>
+  <keywords><keyword>space</keyword><keyword>strategy</keyword><keyword>4X</keyword><keyword>turn-based</keyword><keyword>empire</keyword></keywords>
+  <requires><display_length compare="ge">768</display_length></requires>
+  <supports><control>pointing</control><control>keyboard</control></supports>
+</component>

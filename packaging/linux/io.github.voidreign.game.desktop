@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=VOIDREIGN
+GenericName=4X Space Strategy Game
+Comment=Build an interstellar empire in a standalone 4X strategy game
+Icon=io.github.voidreign.game
+Exec=VOIDREIGN
+TryExec=VOIDREIGN
+Terminal=false
+Categories=Game;StrategyGame;
+Keywords=space;strategy;4X;empire;turn-based;VOIDREIGN;
+StartupNotify=true
+StartupWMClass=io.github.voidreign.game
+SingleMainWindow=true

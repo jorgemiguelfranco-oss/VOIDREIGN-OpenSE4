@@ -57,7 +57,7 @@ std::filesystem::path findDir(const std::string& override, const char* name, con
 void fatal(const std::string& message) {
     log::error("{}", message);
     // -nd: no box for the whole run (spec 05 §9.2).
-    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", message.c_str(), nullptr);
+    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "VOIDREIGN", message.c_str(), nullptr);
 }
 
 // Neither renderer started: what the game needs, what to do about it, and why each
@@ -102,7 +102,7 @@ SDL_HitTestResult SDLCALL windowHitTest(SDL_Window*, const SDL_Point* point, voi
 int hostFromCommandLine(const AppOptions& options, const classic::CommandLineGame& line, const std::filesystem::path& dataDir) {
     auto refuse = [&](const std::string& why, bool box) {
         log::error("{}", why);
-        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", why.c_str(), nullptr);
+        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "VOIDREIGN", why.c_str(), nullptr);
         return classic::kHostRefused;
     };
     const std::filesystem::path gameRoot = dataDir.parent_path();
@@ -160,8 +160,8 @@ std::string videoDriver() {
 int App::run(const AppOptions& options) {
     options_ = options;
     // The identifier is the Wayland app ID and X11 window class, which desktops
-    // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
-    SDL_SetAppMetadata("OpenSE4", OPENSE4_CLIENT_VERSION, "io.github.lowlevelmetal.OpenSE4");
+    // match to packaging/linux/io.github.voidreign.game.desktop.
+    SDL_SetAppMetadata("VOIDREIGN", OPENSE4_CLIENT_VERSION, "io.github.voidreign.game");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
     // Prefer VOIDREIGN's own data set beside the executable. A custom classic
@@ -169,7 +169,6 @@ int App::run(const AppOptions& options) {
     // Steam install is still detected as a compatibility fallback.
     const std::filesystem::path bundledGameDir = findDir(options.installDir, "GameData", "Data/Components.txt");
     auto dataDir = ruleset::findInstalledDataDir(bundledGameDir);
-    if (!dataDir && options.installDir.empty()) dataDir = ruleset::findInstalledDataDir();
     if (!dataDir) {
         fatal(missingInstallMessage(options.installDir));
         SDL_Quit();
@@ -297,7 +296,7 @@ bool App::createWindowAndDevice() {
     std::string vulkanError;  // why Vulkan did not start, for the message if OpenGL does not either
 
     if (options_.renderer != AppOptions::Renderer::OpenGL) {
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
+        window_ = SDL_CreateWindow("VOIDREIGN", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
         if (window_) {
             device_ = gfx::createVulkanDevice(window_, deviceOptions, error);
             if (!device_) {
@@ -326,7 +325,7 @@ bool App::createWindowAndDevice() {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
+        window_ = SDL_CreateWindow("VOIDREIGN", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
         if (!window_) {
             fatal(std::format("Could not create a window: {}", SDL_GetError()));
             return false;

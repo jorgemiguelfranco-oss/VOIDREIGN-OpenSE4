@@ -50,13 +50,12 @@ void attachParentConsole() {
 }
 #endif
 
-constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementation for Space Empires IV Deluxe
-(requires your own copy of the game; not affiliated with its publishers)
+constexpr const char* kUsage = R"(VOIDREIGN - standalone 4X space strategy game
+(native engine foundation based on the OpenSE4 project)
 
-Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
+Usage: VOIDREIGN [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
-Plays Space Empires IV Deluxe on your own installed copy of the game. The game is
-found in your Steam libraries, or given with --classic-dir (see docs/SETUP.md).
+Plays VOIDREIGN with its bundled game data. --classic-dir is an optional compatibility override for a classic data set.
 
 Rendering:
   --renderer=auto|vulkan|opengl   Graphics backend (default: auto = Vulkan, fall back to OpenGL)
@@ -456,7 +455,7 @@ int main(int argc, char** argv) {
         bo.bind = botBind;
         bo.port = static_cast<uint16_t>(botPort);
         bo.token = !botToken.empty() ? botToken : core::environment("OPENSE4_BOT_TOKEN").value_or("");
-        bo.gameName = "OpenSE4";
+        bo.gameName = "VOIDREIGN";
         bo.requestTimeout = std::chrono::seconds(botTimeout);
         auto opened = sdk::BotHost::open(std::move(bo));
         if (!opened) {
