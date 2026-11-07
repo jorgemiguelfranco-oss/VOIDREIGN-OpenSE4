@@ -9,14 +9,12 @@
 #include <doctest/doctest.h>
 
 #include <algorithm>
-#include <filesystem>
-#include <utility>
 #include <cctype>
 #include <cstdlib>
-#include <format>
 #include <filesystem>
-#include <utility>
+#include <format>
 #include <fstream>
+#include <utility>
 
 using namespace opense4;
 
