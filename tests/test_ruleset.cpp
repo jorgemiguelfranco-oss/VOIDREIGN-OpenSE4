@@ -147,70 +147,34 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     REQUIRE(pulse != rs.components.end());
     CHECK(pulse->weapon.family == 200);
 
-    // Researched tier-II items are hidden until their own technology is known,
-    // then become the upgrade targets for their existing families.
-    const auto pulse2 = std::find_if(gameRules.data().components.begin(), gameRules.data().components.end(),
+    // The native tier-II records share their families with the first-tier items
+    // and carry explicit technology requirements.
+    const auto pulse2 = std::find_if(rs.components.begin(), rs.components.end(),
                                      [](const ruleset::Component& c) { return c.name == "VoidReign Pulse Cannon II"; });
-    const auto warehouse2 = std::find_if(gameRules.data().facilities.begin(), gameRules.data().facilities.end(),
+    const auto warehouse2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
                                          [](const ruleset::Facility& f) { return f.name == "VoidReign Warehouse II"; });
-    const auto drive2 = std::find_if(gameRules.data().components.begin(), gameRules.data().components.end(),
+    const auto drive2 = std::find_if(rs.components.begin(), rs.components.end(),
                                      [](const ruleset::Component& c) { return c.name == "VoidReign Vector Drive II"; });
-    const auto extractor2 = std::find_if(gameRules.data().facilities.begin(), gameRules.data().facilities.end(),
+    const auto extractor2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
                                          [](const ruleset::Facility& f) { return f.name == "VoidReign Mineral Extractor II"; });
-    REQUIRE(pulse2 != gameRules.data().components.end());
-    REQUIRE(warehouse2 != gameRules.data().facilities.end());
-    REQUIRE(drive2 != gameRules.data().components.end());
-    REQUIRE(extractor2 != gameRules.data().facilities.end());
+    REQUIRE(pulse2 != rs.components.end());
+    REQUIRE(warehouse2 != rs.facilities.end());
+    REQUIRE(drive2 != rs.components.end());
+    REQUIRE(extractor2 != rs.facilities.end());
     CHECK(pulse2->family == pulse->family);
     CHECK(pulse2->romanNumeral == 2);
-    CHECK(pulse2->requirements.size() == 1);
-    CHECK(gameRules.data().techAreas[pulse2->requirements[0].area.index()].name == "VoidReign Energy Weapons");
+    REQUIRE(pulse2->requirements.size() == 1);
+    CHECK(rs.techAreas[pulse2->requirements[0].area.index()].name == "VoidReign Energy Weapons");
     CHECK(pulse2->requirements[0].level == 2);
     CHECK(warehouse2->family == warehouse->family);
     CHECK(warehouse2->romanNumeral == 2);
-    CHECK(warehouse2->abilities.size() == 3);
+    REQUIRE(warehouse2->abilities.size() == 3);
     CHECK(warehouse2->abilities[0].number1() == 60000);
     CHECK(warehouse2->abilities[1].number1() == 60000);
     CHECK(warehouse2->abilities[2].number1() == 60000);
-    CHECK(warehouse2->requirements.size() == 1);
-    CHECK(gameRules.data().techAreas[warehouse2->requirements[0].area.index()].name == "VoidReign Logistics");
+    REQUIRE(warehouse2->requirements.size() == 1);
+    CHECK(rs.techAreas[warehouse2->requirements[0].area.index()].name == "VoidReign Logistics");
     CHECK(warehouse2->requirements[0].level == 2);
-
-    game::Empire techProbe;
-    techProbe.techLevels.assign(gameRules.data().techAreas.size(), 0);
-    const auto indexOfComponent = [&](const ruleset::Component* component) {
-        return static_cast<uint32_t>(component - gameRules.data().components.data());
-    };
-    const auto indexOfFacility = [&](const ruleset::Facility* facility) {
-        return static_cast<uint32_t>(facility - gameRules.data().facilities.data());
-    };
-    const uint32_t pulse2Index = indexOfComponent(&*pulse2);
-    const uint32_t drive2Index = indexOfComponent(&*drive2);
-    const uint32_t warehouse2Index = indexOfFacility(&*warehouse2);
-    const uint32_t extractor2Index = indexOfFacility(&*extractor2);
-    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse2Index));
-    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive2Index));
-    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse2Index));
-    CHECK_FALSE(gameRules.facilityAvailable(techProbe, extractor2Index));
-
-    const auto setTech = [&](std::string_view name, int level) {
-        for (size_t i = 0; i < gameRules.data().techAreas.size(); ++i)
-            if (gameRules.data().techAreas[i].name == name) techProbe.techLevels[i] = level;
-    };
-    setTech("VoidReign Energy Weapons", 2);
-    CHECK(gameRules.componentAvailable(techProbe, pulse2Index));
-    const auto pulseUpgrade = gameRules.componentUpgradeTarget(techProbe, pulse2->family);
-    REQUIRE(pulseUpgrade);
-    CHECK(*pulseUpgrade == pulse2Index);
-    setTech("VoidReign Logistics", 2);
-    CHECK(gameRules.facilityAvailable(techProbe, warehouse2Index));
-    const auto warehouseUpgrade = gameRules.latestFacilityOfFamily(techProbe, warehouse2->family);
-    REQUIRE(warehouseUpgrade);
-    CHECK(*warehouseUpgrade == warehouse2Index);
-    setTech("VoidReign Industrial Engineering", 2);
-    CHECK(gameRules.facilityAvailable(techProbe, extractor2Index));
-    setTech("VoidReign Propulsion", 3);
-    CHECK(gameRules.componentAvailable(techProbe, drive2Index));
     const std::vector<std::string> expectedColonyTypes{
         "Construction Yard", "Farming Colony", "Homeworld", "Intelligence Compound", "Military Installation",
         "Mining Colony", "Refining Colony", "Research Compound", "Resupply Base"};
@@ -223,6 +187,59 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
 
     // Race data lives beside the native base rules, not in a mod overlay.
     game::Rules gameRules(std::move(*result.ruleset), dataDir.parent_path());
+    // Runtime availability and family upgrades must change at the required research levels.
+    const auto findComponent = [&](std::string_view name) {
+        return std::find_if(gameRules.data().components.begin(), gameRules.data().components.end(),
+                            [&](const ruleset::Component& c) { return c.name == name; });
+    };
+    const auto findFacility = [&](std::string_view name) {
+        return std::find_if(gameRules.data().facilities.begin(), gameRules.data().facilities.end(),
+                            [&](const ruleset::Facility& f) { return f.name == name; });
+    };
+    const auto livePulse2 = findComponent("VoidReign Pulse Cannon II");
+    const auto liveDrive2 = findComponent("VoidReign Vector Drive II");
+    const auto liveWarehouse2 = findFacility("VoidReign Warehouse II");
+    const auto liveExtractor2 = findFacility("VoidReign Mineral Extractor II");
+    REQUIRE(livePulse2 != gameRules.data().components.end());
+    REQUIRE(liveDrive2 != gameRules.data().components.end());
+    REQUIRE(liveWarehouse2 != gameRules.data().facilities.end());
+    REQUIRE(liveExtractor2 != gameRules.data().facilities.end());
+
+    game::Empire techProbe;
+    techProbe.techLevels.assign(gameRules.data().techAreas.size(), 0);
+    const auto indexOfComponent = [&](const auto& component) {
+        return static_cast<uint32_t>(std::distance(gameRules.data().components.begin(), component));
+    };
+    const auto indexOfFacility = [&](const auto& facility) {
+        return static_cast<uint32_t>(std::distance(gameRules.data().facilities.begin(), facility));
+    };
+    const uint32_t pulse2Index = indexOfComponent(livePulse2);
+    const uint32_t drive2Index = indexOfComponent(liveDrive2);
+    const uint32_t warehouse2Index = indexOfFacility(liveWarehouse2);
+    const uint32_t extractor2Index = indexOfFacility(liveExtractor2);
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, extractor2Index));
+
+    const auto setTech = [&](std::string_view name, int level) {
+        for (size_t i = 0; i < gameRules.data().techAreas.size(); ++i)
+            if (gameRules.data().techAreas[i].name == name) techProbe.techLevels[i] = level;
+    };
+    setTech("VoidReign Energy Weapons", 2);
+    CHECK(gameRules.componentAvailable(techProbe, pulse2Index));
+    const auto pulseUpgrade = gameRules.componentUpgradeTarget(techProbe, livePulse2->family);
+    REQUIRE(pulseUpgrade);
+    CHECK(*pulseUpgrade == pulse2Index);
+    setTech("VoidReign Logistics", 2);
+    CHECK(gameRules.facilityAvailable(techProbe, warehouse2Index));
+    const auto warehouseUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse2->family);
+    REQUIRE(warehouseUpgrade);
+    CHECK(*warehouseUpgrade == warehouse2Index);
+    setTech("VoidReign Industrial Engineering", 2);
+    CHECK(gameRules.facilityAvailable(techProbe, extractor2Index));
+    setTech("VoidReign Propulsion", 3);
+    CHECK(gameRules.componentAvailable(techProbe, drive2Index));
     REQUIRE(gameRules.racePresets().size() == 3);
     for (const auto& [folder, name] : std::array<std::pair<std::string_view, std::string_view>, 3>{
              std::pair{"Aurelian", "Aurelian Concord"}, std::pair{"Khepri", "Khepri Ascendancy"},
