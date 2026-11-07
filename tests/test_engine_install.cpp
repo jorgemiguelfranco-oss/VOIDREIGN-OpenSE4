@@ -3,6 +3,7 @@
 
 #include "engine_fixture.hpp"
 
+#include "game/ai.hpp"
 #include "game/ai_data.hpp"
 #include "game/design.hpp"
 #include "game/economy.hpp"
@@ -397,6 +398,26 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
                                   "Cargo Hold", "Shield Generator", "Armour Plating", "Sensor Array", "Supply Matrix",
                                   "Orbital Yard Module", "Laser Battery", "Missile Rack"})
         CHECK(r->componentAvailable(empire, componentIndex(name)));
+
+    // Let the real design minister build its normal templates at this tech
+    // level. The Fighter template must produce a legal Interceptor using the
+    // components explicitly made compatible with Fighter hulls.
+    ai::designMinisterRun(*r, game, owner);
+    const auto fighterDesign = std::find_if(empire.designs.begin(), empire.designs.end(),
+                                            [](const Design& design) { return design.templateName == "Fighter"; });
+    REQUIRE(fighterDesign != empire.designs.end());
+    CHECK(r->hull(fighterDesign->hull).type == ruleset::VehicleType::Fighter);
+    bool hasFighterDrive = false;
+    bool hasFighterWeapon = false;
+    for (const DesignEntry& entry : fighterDesign->entries) {
+        const auto& component = r->component(entry.component);
+        hasFighterDrive |= component.name == "Ion Drive";
+        hasFighterWeapon |= component.name == "Pulse Emitter" || component.name == "Laser Battery" ||
+                            component.name == "Missile Rack";
+        CHECK((component.vehicles & fighterMask) != 0);
+    }
+    CHECK(hasFighterDrive);
+    CHECK(hasFighterWeapon);
     for (std::string_view name : {"Mineral Warehouse", "Organic Warehouse", "Radioactive Vault",
                                   "Central Warehouse", "Orbital Defence Grid", "Terraforming Array"})
         CHECK(r->facilityAvailable(empire, facilityIndex(name)));
