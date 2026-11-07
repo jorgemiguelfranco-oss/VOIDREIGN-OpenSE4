@@ -7,14 +7,14 @@ Group               := Ship Systems
 Description         := Fundamental propulsion theory for VoidReign starships.
 Maximum Level       := 3
 Level Cost          := 2000
-Start Level         := 0
-Raise Level         := 0
+Start Level         := 1
+Raise Level         := 1
 Racial Area         := 0
 Unique Area         := 0
 Can Be Removed      := True
 Number of Tech Req  := 1
 Tech Area Req 1     := VoidReign Core Science
-Tech Level Req 1    := 2
+Tech Level Req 1    := 1
 
 Name                := VoidReign Core Science
 Group               := Science
