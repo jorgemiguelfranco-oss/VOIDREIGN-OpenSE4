@@ -1,40 +1,23 @@
-# OpenSE4
+# VOIDREIGN
 
-[![CI](https://github.com/lowlevelmetal/OpenSE4/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/lowlevelmetal/OpenSE4/actions/workflows/ci.yml)
+[![CI](https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/actions/workflows/ci.yml/badge.svg?branch=voidreign/standalone-engine-core)](https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/actions/workflows/ci.yml)
 
-**An open-source engine reimplementation for Space Empires IV Deluxe.**
+**A standalone 4X space strategy game built on the OpenSE4 C++23 engine.**
 
-OpenSE4 is a new engine, written from scratch in C++23, with Vulkan rendering and an
-OpenGL fallback. It is being built to play Space Empires IV Deluxe faithfully, the way
-OpenXcom plays UFO: Enemy Unknown or OpenTTD plays Transport Tycoon Deluxe.
+VoidReign is the default game launched by the client. Its first-party content lives in `content/voidreign/` and is loaded directly by the engine's ruleset, simulation, design validation, turn processor, save system and client. It is **not a mod** and does not require a copy of Space Empires IV to launch its own game data.
 
-- **You need your own copy of Space Empires IV Deluxe.** It is available on Steam.
-  OpenSE4 reads the game's data files, art and sound from your installation at
-  runtime. None of the original game ships with this project, and OpenSE4 will never
-  replace it with art or data of its own: buy the original to play.
-- **Written from specs, nothing copied.** The rules are reimplemented from the manual,
-  the game's documented data formats, observation of the running game and, since
-  2026-09-29, analysis of the original executable. Findings are written up as
-  plain-language specs and the code is written from those; no code, data, art or
-  text from the original is copied or shipped. See
-  [docs/CLEANROOM.md](docs/CLEANROOM.md).
-- **Playable.** Every part of the classic rules is implemented:
-  - economy and population;
-  - ships and movement;
-  - combat: strategic and tactical, with replays and the combat simulator;
-  - research, intelligence, diplomacy and events;
-  - computer players.
+- **Standalone game mode:** `opense4` starts VoidReign using the bundled `content/voidreign` directory. Use `--voidreign-dir=<folder>` to point at another native VoidReign content bundle.
+- **Legacy compatibility is optional:** `--classic-dir=<folder>` explicitly selects the old OpenSE4 compatibility path, which reads a player's own installed Space Empires IV data. Nothing from that game is redistributed.
+- **OpenSE4 is the engine foundation:** the repository's existing C++23 rules engine, deterministic `GameState`, command validation, galaxy/system model, ship designer, combat, AI, saves and multiplayer infrastructure are being evolved into VoidReign's own game. Engine capabilities in compatibility mode are not automatically claims that the corresponding VoidReign feature is complete.
+- **Original content:** VoidReign's rules, factions/species, ships, facilities, technologies and assets are authored for this game. No original Space Empires IV data, art, music or text is shipped.
 
-  The game has the classic windows, sound and music, runs hotseat, network (with
-  UPnP) and PBEM multiplayer, and includes a dedicated server. Every rule has been
-  checked against the original. [docs/PARITY_PLAN.md](docs/PARITY_PLAN.md) tracks what
-  remains:
-  - small details the original leaves open, where the engine makes its own choice;
-  - a few differences in how the computer players expand, still being measured.
+## Current implementation status
 
-`opense4` finds your install on its own, or takes its location with `--classic-dir`.
-Without an install it explains where it looked and exits: there is no game to play
-without your copy. [docs/ENGINE.md](docs/ENGINE.md) is the map of the engine's code.
+The standalone engine integration is under active development. The current foundation includes a native VoidReign data bundle, initial Helion Concord and Veyran Collective species presets, starter Pathfinder design/ship, technology and ship components, a colonizer hull with Rock/Ice/Gas modules, an orbital shipyard module and warehouse-based storage rules. The implementation is **not yet a complete playable release**: full original art and interface, AI/faction depth, progression, events/diplomacy, balancing, runtime-tested save/reload and release verification remain in progress.
+
+Development targets a sandbox 4X game. **No campaign mode is planned.**
+
+The engine architecture is documented in [docs/ENGINE.md](docs/ENGINE.md); [content/voidreign/README.md](content/voidreign/README.md) describes the standalone content bundle.
 
 ## Screenshots
 
@@ -43,10 +26,9 @@ without your copy. [docs/ENGINE.md](docs/ENGINE.md) is the map of the engine's c
 | ![A star system in the main window, about a hundred turns into a game](docs/screenshots/system-view.webp) | ![Designing a warship in the Ship Design window](docs/screenshots/ship-design.webp) | ![A guided tutorial step: the lesson panel and the outlined design list](docs/screenshots/tutorial.webp) |
 | A star system, a hundred turns in | Designing a warship | A guided tutorial |
 
-The screenshots show OpenSE4 running on an installed copy of Space Empires IV Deluxe:
-the art is the original game's, read from that install.
+These screenshots show the optional legacy OpenSE4 compatibility mode using a player's own installed Space Empires IV Deluxe files. They are not screenshots of the standalone VoidReign game.
 
-## What OpenSE4 adds
+## OpenSE4 engine capabilities being reused
 
 The rules and the classic windows stay as they were. Around them, OpenSE4 brings the
 game to today's machines and adds what a newcomer or a multiplayer group needs.
