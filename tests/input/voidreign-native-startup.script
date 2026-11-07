@@ -1,0 +1,14 @@
+# Play a fresh game from VOIDREIGN's own shipped ruleset, not a mod or the test fixtures.
+# This checks that the Aurelian preset starts, the home system opens, and the native
+# spaceport and warehouse are actually placed on the starting colony.
+
+options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --open=none --layout=1024x768 --size=1280x800
+
+wait-screen game
+wait 5
+click sector:home
+wait-for item:Facil
+click item:Facil
+wait-for item:"VoidReign Warehouse"
+assert-present item:"VoidReign Spaceport"
+assert-present item:"VoidReign Warehouse"
