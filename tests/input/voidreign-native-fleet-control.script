@@ -1,0 +1,46 @@
+# Exercise real fleet controls on VOIDREIGN's own starting Home Patrol.
+# The test uses the native Aurelian ruleset, not the OpenSE4 fixture data or a mod.
+options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --open=none --layout=1024x768 --size=1280x800
+
+wait-screen game
+wait 5
+click sector:home
+wait-for item:report:fleet
+click item:report:fleet
+wait-for item:report:fleet-member
+assert { selected = "fleet", design_type = "Attack Ship" }
+
+# Rename the native fleet in Fleet Transfer and verify the new name is displayed.
+click tag:order:fleet-transfer
+wait-window fleet-transfer
+click item:"Rename Fleet" in=fleet-transfer
+wait-window rename
+key Ctrl+A
+type "Outer Watch"
+key Enter
+wait-closed rename
+assert { command = "Rename" }
+wait-for item:"Outer Watch" in=fleet-transfer
+click tag:fleet-transfer:close
+wait-closed fleet-transfer
+
+# Re-select the patrol and issue a real Move To order to another sector.
+click sector:home
+wait-for item:report:fleet
+click item:report:fleet
+assert { selected = "fleet", design_type = "Attack Ship" }
+key M
+wait-until { picking = "move-to" }
+click sector:empty nth=150
+wait 5
+assert { order = "move-to", design_type = "Attack Ship" }
+assert { route = true }
+wait-gone sector:gliding
+
+# Finish the turn after movement and leave the game at a stable saved-turn boundary.
+click tag:button:end-turn
+click item:Yes in="End Turn"
+wait-turn 1
+assert-turn 1
+click tag:log:close optional
+assert-turn 1
