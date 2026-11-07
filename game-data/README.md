@@ -20,6 +20,24 @@ assigned to a one-ship **Home Patrol** fleet, ready for the player to rename,
 expand and issue movement orders. The starting count is controlled by
 `VOIDREIGN Starting Attack Ship Count`.
 
+## Research upgrade ladder
+
+The native technology areas unlock tangible upgrades, not only larger hulls:
+
+- **Propulsion III:** Vector Drive II, which provides two strategic movement units per engine.
+- **Energy Weapons II:** Pulse Cannon II and Shield Projector II.
+- **Industrial Engineering II:** Mineral Extractor II, Hydroponics II and Isotope Reactor II.
+- **Industrial Engineering III:** Research Institute II and Orbital Shipyard II.
+- **Industrial Engineering IV:** Planetary Shipyard II.
+- **Logistics II:** Cargo Hold II and Warehouse II. Each Warehouse II adds 60,000 units of capacity for each strategic resource.
+- **Logistics III:** Supply Depot II.
+- **Advanced Sensors I:** Sensor Suite I; **II:** Sensor Array II and Intelligence Bureau II; **III:** Sensor Suite II.
+
+The upgraded facilities share a family with their earlier versions, so the game treats
+them as the next tier rather than unrelated buildings. Costs and unlock requirements
+are defined in the native Data/Components.txt, Data/Facility.txt and Data/TechArea.txt
+tables.
+
 ## Native computer-player profiles
 
 Each faction has its own `AI_Research`, `AI_Fleets` and `AI_Settings` tables.
