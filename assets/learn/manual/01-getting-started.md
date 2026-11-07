@@ -128,12 +128,12 @@ Program Files:
 
 | System | Folder |
 |---|---|
-| Windows | `%APPDATA%\\VOIDREIGN\\` |
+| Windows | `%APPDATA%\VOIDREIGN\` |
 | Linux | `$XDG_DATA_HOME/VOIDREIGN/`, or `~/.local/share/VOIDREIGN/` |
 | macOS | `~/Library/Application Support/VOIDREIGN/` |
 
 A portable ZIP copy can instead keep its personal files in a `userdata/` folder beside
-`VOIDREIGN.exe`. See [Settings, Files](settings#files) and [Installing VOIDREIGN](../SETUP).
+`VOIDREIGN.exe`. See [Settings, Files](settings#files) and the distribution's docs/SETUP.md guide.
 
 ## Learning the game
 
