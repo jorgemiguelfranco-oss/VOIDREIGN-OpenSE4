@@ -1,4 +1,6 @@
 #include "datafile/datafile.hpp"
+#include "game/economy.hpp"
+#include "game/setup.hpp"
 #include "ruleset/ability_names.hpp"
 #include "ruleset/races.hpp"
 #include "ruleset/ruleset.hpp"
@@ -343,4 +345,48 @@ TEST_CASE("ruleset: event records are checked as spec 01 §10 and spec 05 §4 de
     CHECK(mentions(errors, "'Num Messages' must not be negative, not -1"));
     CHECK(errors.size() == 4);
     CHECK(std::count_if(warnings.begin(), warnings.end(), [](const std::string& w) { return w.starts_with("Events.txt"); }) == 2);
+}
+
+TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed starting empire") {
+    const std::filesystem::path root = OPENSE4_VOIDREIGN_CONTENT_DIR;
+    const auto loaded = ruleset::loadRuleset(root / "Data");
+    std::string diagnostics;
+    for (const auto& e : loaded.diagnostics.errors) diagnostics += "error: " + e + "\\n";
+    for (const auto& w : loaded.diagnostics.warnings) diagnostics += "warning: " + w + "\\n";
+    INFO(diagnostics);
+    REQUIRE(loaded.ruleset);
+    CHECK(loaded.diagnostics.errors.empty());
+    CHECK(loaded.diagnostics.unreadFields.empty());
+
+    game::Rules rules(std::move(*loaded.ruleset), root, true);
+    CHECK(rules.standaloneVoidReign());
+    REQUIRE(rules.racePresets().size() == 2);
+    REQUIRE(game::findPreset(rules, "Helion") != nullptr);
+    REQUIRE(game::findPreset(rules, "Veyran") != nullptr);
+    REQUIRE(rules.data().findFacility("VoidReign Warehouse") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Pathfinder") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Orbital Station") != nullptr);
+
+    game::GameSetup setup;
+    setup.seed = 402711;
+    setup.options.systemCount = 8;
+    setup.options.quadrantType = "Frontier Expanse";
+    setup.empires.resize(1);
+    setup.empires[0].kind = game::PlayerKind::Human;
+    setup.empires[0].preset = "Helion";
+    auto created = game::createGame(rules, setup);
+    REQUIRE(created);
+
+    const game::Colony* capital = nullptr;
+    for (const auto& c : created->colonies)
+        if (c && c->owner == game::EmpireId{0} && c->homeworld) {
+            capital = &*c;
+            break;
+        }
+    REQUIRE(capital != nullptr);
+    const auto* warehouse = rules.data().findFacility("VoidReign Warehouse");
+    REQUIRE(warehouse != nullptr);
+    const uint32_t warehouseId = static_cast<uint32_t>(warehouse - rules.data().facilities.data());
+    CHECK(std::find(capital->facilities.begin(), capital->facilities.end(), warehouseId) != capital->facilities.end());
+    CHECK(game::economy::storageCapacity(rules, *created, game::EmpireId{0}) == game::Resources{25000, 25000, 25000});
 }
