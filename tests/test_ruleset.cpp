@@ -379,36 +379,57 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     setup.seed = 402711;
     setup.options.systemCount = 8;
     setup.options.quadrantType = "Frontier Expanse";
-    setup.empires.resize(1);
+    setup.empires.resize(2);
     setup.empires[0].kind = game::PlayerKind::Human;
     setup.empires[0].preset = "Helion";
+    setup.empires[1].kind = game::PlayerKind::Computer;
+    setup.empires[1].preset = "Veyran";
     auto created = game::createGame(rules, setup);
     REQUIRE(created);
 
-    const game::Colony* capital = nullptr;
-    for (const auto& c : created->colonies)
-        if (c && c->owner == game::EmpireId{0} && c->homeworld) {
-            capital = &*c;
-            break;
-        }
-    REQUIRE(capital != nullptr);
     const auto* warehouse = rules.data().findFacility("VoidReign Warehouse");
     REQUIRE(warehouse != nullptr);
     const uint32_t warehouseId = static_cast<uint32_t>(warehouse - rules.data().facilities.data());
-    CHECK(std::find(capital->facilities.begin(), capital->facilities.end(), warehouseId) != capital->facilities.end());
-    CHECK(game::economy::storageCapacity(rules, *created, game::EmpireId{0}) == game::Resources{25000, 25000, 25000});
-    REQUIRE(created->designs.size() == 1);
+    for (size_t empire = 0; empire < 2; ++empire) {
+        const game::EmpireId id{empire};
+        const game::Colony* capital = nullptr;
+        for (const auto& c : created->colonies)
+            if (c && c->owner == id && c->homeworld) {
+                capital = &*c;
+                break;
+            }
+        REQUIRE(capital != nullptr);
+        CHECK(std::find(capital->facilities.begin(), capital->facilities.end(), warehouseId) != capital->facilities.end());
+        CHECK(game::economy::storageCapacity(rules, *created, id) == game::Resources{25000, 25000, 25000});
+    }
+
+    REQUIRE(created->designs.size() == 4);
     CHECK(created->designs[0].name == "Helion Pathfinder");
     CHECK(created->designs[0].designType == "Scout Ship");
-    REQUIRE(created->vehicles.size() == 1);
-    CHECK(created->vehicles[0].owner == game::EmpireId{0});
-    CHECK(created->vehicles[0].design == game::DesignId{0});
-    CHECK(created->vehicles[0].location.system == created->empire(game::EmpireId{0}).homeSystem);
-    CHECK(created->designs[0].entries.size() == 9);
-    const game::DesignStats starterStats = game::computeDesignStats(rules, &created->empire(game::EmpireId{0}), created->designs[0]);
-    CHECK(starterStats.problems.empty());
-    CHECK(starterStats.armed());
-    CHECK(starterStats.movement > 0);
-    CHECK(starterStats.cargoCapacity >= 60);
-    CHECK(starterStats.shields >= 20);
+    CHECK(created->designs[1].name == "Helion Rock Colonizer");
+    CHECK(created->designs[1].designType == "Colony (Rock)");
+    CHECK(created->designs[2].name == "Veyran Pathfinder");
+    CHECK(created->designs[3].name == "Veyran Ice Colonizer");
+    CHECK(created->designs[3].designType == "Colony (Ice)");
+    REQUIRE(created->vehicles.size() == 4);
+    for (size_t i = 0; i < 4; ++i) {
+        const size_t owner = i < 2 ? 0 : 1;
+        CHECK(created->vehicles[i].owner == game::EmpireId{owner});
+        CHECK(created->vehicles[i].design == game::DesignId{i});
+        CHECK(created->vehicles[i].location.system == created->empire(game::EmpireId{owner}).homeSystem);
+    }
+    for (size_t empire = 0; empire < 2; ++empire) {
+        const game::EmpireId id{empire};
+        const game::DesignStats scout = game::computeDesignStats(rules, &created->empire(id), created->designs[empire * 2]);
+        CHECK(scout.problems.empty());
+        CHECK(scout.armed());
+        CHECK(scout.movement > 0);
+        CHECK(scout.cargoCapacity >= 60);
+        CHECK(scout.shields >= 20);
+
+        const game::DesignStats colonizer = game::computeDesignStats(rules, &created->empire(id), created->designs[empire * 2 + 1]);
+        CHECK(colonizer.problems.empty());
+        CHECK(colonizer.movement > 0);
+        CHECK(colonizer.canColonize(empire == 0 ? "Rock" : "Ice"));
+    }
 }
