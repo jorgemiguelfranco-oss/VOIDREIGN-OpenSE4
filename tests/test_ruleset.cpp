@@ -364,6 +364,11 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const game::Resources cap = game::economy::storageCapacity(gameRules, *opening, playerId);
     const game::Resources expectedCap{30000, 30000, 30000};
     CHECK(cap == expectedCap);
+    // A researched Warehouse II adds a second tier of native storage capacity
+    // to the shared empire treasury on top of the starting Warehouse I.
+    (*home)->facilities.push_back(warehouse2Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{90000, 90000, 90000});
+    (*home)->facilities.pop_back();
     for (size_t resource = 0; resource < 3; ++resource)
         CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
     bool hasWarehouse = false, hasShipyard = false, hasSupplyDepot = false;
