@@ -461,10 +461,10 @@ def build(output: Path) -> None:
             ("Time Till Completion", 0),
         ],
         [
-            ("Type", "Planet - Plague Cured"), ("Severity", "Medium"),
+            ("Type", "Ship - Experience Change"), ("Severity", "Medium"),
             ("Effect Amount", 1), ("Message To", "Owner"),
-            ("Num Messages", 1), ("Message Title 1", "Medical Breakthrough"),
-            ("Message 1", "A medical breakthrough has eradicated a plague affecting [%PlanetName] in the [%SystemName] system."),
+            ("Num Messages", 1), ("Message Title 1", "Veteran Cadre"),
+            ("Message 1", "A chance encounter gives [%VehicleName] in the [%SystemName] system a valuable tactical lesson."),
             ("Time Till Completion", 0),
         ],
         [
