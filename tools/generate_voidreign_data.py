@@ -680,6 +680,58 @@ def build(output: Path) -> None:
         ]
         write_records(race_folder, f"{folder}_AI_General.txt", [general])
         write_records(race_folder, f"{folder}_AI_Settings.txt", [[("Personality Group", index % 5 + 1)]])
+
+        # Research is part of the actual built-in OpenSE4 AI minister. Each
+        # faction has its own doctrine; row order and shares shape the native
+        # research queue for the current strategic state.
+        research_biases = [
+            ["Colonization", "Logistics", "Drive Systems", "Defensive Systems", "Computing"],
+            ["Weapons", "Ship Construction", "Drive Systems", "Defensive Systems", "Logistics"],
+            ["Computing", "Sensors", "Planetology", "Drive Systems", "Espionage"],
+            ["Ship Construction", "Weapons", "Defensive Systems", "Drive Systems", "Materials Science"],
+            ["Logistics", "Economics", "Computing", "Colonization", "Power Systems"],
+            ["Sensors", "Espionage", "Computing", "Weapons", "Defensive Systems"],
+            ["Colonization", "Planetology", "Logistics", "Computing", "Defensive Systems"],
+            ["Logistics", "Power Systems", "Ship Construction", "Drive Systems", "Materials Science"],
+            ["Weapons", "Defensive Systems", "Ship Construction", "Drive Systems", "Sensors"],
+            ["Colonization", "Ship Construction", "Logistics", "Drive Systems", "Planetology"],
+            ["Logistics", "Economics", "Sensors", "Computing", "Espionage"],
+            ["Drive Systems", "Ship Construction", "Logistics", "Weapons", "Power Systems"],
+        ]
+        doctrine = research_biases[index]
+        research_rows = []
+        state_targets = [
+            ("Exploration", 3, [40, 25, 20, 10, 5]),
+            ("Infrastructure", 4, [30, 25, 20, 15, 10]),
+            ("Prepare for Attack, Attack", 6, [35, 25, 20, 10, 10]),
+            ("Secure Holdings After Attack", 5, [30, 25, 20, 15, 10]),
+            ("Defend (Short Term)", 5, [35, 25, 20, 10, 10]),
+            ("Not Connected", 5, [25, 25, 20, 15, 10]),
+        ]
+        for state, target_level, shares in state_targets:
+            # The strategic situation changes doctrine: military states put
+            # weapon/defence technologies first without losing logistics,
+            # while peaceful states continue their faction's own focus.
+            if state in ("Prepare for Attack, Attack", "Defend (Short Term)"):
+                priorities = [
+                    "Weapons", "Defensive Systems", "Ship Construction", "Drive Systems", "Sensors"
+                ]
+            elif state == "Secure Holdings After Attack":
+                priorities = [
+                    "Colonization", "Logistics", "Planetology", "Defensive Systems", "Ship Construction"
+                ]
+            elif state == "Not Connected":
+                priorities = [
+                    "Sensors", "Stellar Engineering", "Planetology", "Colonization", "Logistics"
+                ]
+            else:
+                priorities = doctrine
+            for area, share in zip(priorities, shares):
+                research_rows.append([
+                    ("AI State", state), ("Tech Area Name", area),
+                    ("Tech Area Level", target_level), ("Tech Area Min Percent", share),
+                ])
+        write_records(race_folder, f"{folder}_AI_Research.txt", research_rows)
         write_list(names_dir, f"{folder.upper()}.TXT", design_names[index])
 
     # A separate AI style folder is used by the native AI profile resolver.
@@ -709,6 +761,29 @@ def build(output: Path) -> None:
         ]
         write_records(race_folder, f"{folder}_AI_General.txt", [general])
         write_records(race_folder, f"{folder}_AI_Settings.txt", [[("Personality Group", index + 1)]])
+        neutral_priorities = [
+            ["Colonization", "Drive Systems", "Logistics", "Weapons", "Sensors"],
+            ["Logistics", "Defensive Systems", "Weapons", "Ship Construction", "Drive Systems"],
+            ["Drive Systems", "Weapons", "Logistics", "Planetology", "Sensors"],
+        ][index]
+        neutral_rows = []
+        for state, level, shares in [
+            ("Exploration", 2, [35, 25, 20, 15, 5]),
+            ("Infrastructure", 3, [30, 25, 20, 15, 10]),
+            ("Prepare for Attack, Attack", 4, [35, 25, 20, 10, 10]),
+            ("Secure Holdings After Attack", 3, [30, 25, 20, 15, 10]),
+            ("Defend (Short Term)", 4, [35, 25, 20, 10, 10]),
+            ("Not Connected", 3, [25, 25, 20, 15, 10]),
+        ]:
+            priorities = neutral_priorities
+            if state in ("Prepare for Attack, Attack", "Defend (Short Term)"):
+                priorities = ["Weapons", "Defensive Systems", "Ship Construction", "Drive Systems", "Sensors"]
+            for area, share in zip(priorities, shares):
+                neutral_rows.append([
+                    ("AI State", state), ("Tech Area Name", area),
+                    ("Tech Area Level", level), ("Tech Area Min Percent", share),
+                ])
+        write_records(race_folder, f"{folder}_AI_Research.txt", neutral_rows)
     write_list(names_dir, "NEUTRAL.TXT", ["Wayfarer", "Last Light", "Quiet Tide", "Outrider", "Horizon"])
 
 def main() -> None:
