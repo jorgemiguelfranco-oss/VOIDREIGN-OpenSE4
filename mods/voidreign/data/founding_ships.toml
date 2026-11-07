@@ -1,0 +1,54 @@
+# First VOIDREIGN hull and cargo component.
+# Values are authored for OpenSE4's actual vehicle/component tables, not the
+# private TypeScript prototype's placeholder schema.
+
+[[vehicle_sizes.add]]
+name = "VoidReign Pathfinder"
+
+[vehicle_sizes.add.set]
+"Vehicle Type" = "Ship"
+"Short Name" = "Pathfinder"
+"Code" = "VP"
+"Description" = "A compact long-range vessel designed for exploration, courier work and the first steps into independent trade."
+"Primary Bitmap Name" = "VoidReignPathfinder"
+"Alternate Bitmap Name" = "VoidReignPathfinder"
+"Tonnage" = 150
+"Cost Radioactives" = 0
+"Cost Minerals" = 60
+"Cost Organics" = 0
+"Requirement Max Engines" = 4
+"Requirement Uses Engines" = true
+"Engines Per Move" = 1
+"Requirement Min Crew Quarters" = 1
+"Requirement Min Life Support" = 1
+"Requirement Can Have Aux Con" = true
+"Requirement Must Have Bridge" = true
+"Requirement Pct Cargo" = 25
+"Requirement Pct Colony Mods" = 0
+"Requirement Pct Fighter Bays" = 0
+"Number of Tech Req" = 0
+"Number of Abilities" = 0
+
+[[components.add]]
+name = "VoidReign Cargo Rack"
+
+[components.add.set]
+"Description" = "A modular cargo rack for independent captains and frontier traders."
+"Pic Num" = 1
+"Tonnage Structure" = 15
+"Tonnage Space Taken" = 20
+"Cost Radioactives" = 0
+"Cost Organics" = 10
+"Cost Minerals" = 40
+"Vehicle Type" = "Ship\\Base"
+"General Group" = "Cargo"
+"Custom Group" = 0
+"Restrictions" = "None"
+"Family" = 7301
+"Roman Numeral" = 1
+"Supply Amount Used" = 0
+"Number of Tech Req" = 0
+"Weapon Type" = "None"
+
+[components.add.add]
+abilities = [{ "Ability Type" = "Cargo Storage", "Ability Descr" = "Stores trade goods and mission cargo.", "Ability Val 1" = 60 }]
