@@ -115,6 +115,7 @@ public:
         amountRow(ui, origin, 240, "Construction Queue Usage", eco.construction);
         amountRow(ui, origin, 270, "Total", expenses);
         amountRow(ui, origin, 310, "Net Resources Per Turn", income - expenses, false, true);
+        amountRow(ui, origin, 330, "Projected Storage Overflow", eco.lostToStorage);
         // For lessons: the production and expenses, and the net row.
         ui.tag("empire-status:budget", d.at({15, 38}), d.at({575, 290}));
         ui.tag("empire-status:net", d.at({15, 306}), d.at({575, 330}));
