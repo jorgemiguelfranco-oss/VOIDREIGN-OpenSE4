@@ -64,7 +64,7 @@ Rendering:
   --fullscreen                    Start in fullscreen (Alt+Enter toggles)
   --size=WxH                      Window size (default 1600x900)
   --layout=auto|800x600|1024x768  The classic screen layout (default: auto, 800x600 on a desktop
-                                  800 px wide or less, as the original; forcing one is OpenSE4's)
+                                  800 px wide or less, as the original; forcing one is VOIDREIGN's)
   --text-size=N                   Settings' Text size for this run, 0.75 to 1.5
   --no-audio                      No sound or music
   --audio                         Sound and music even in a script or screenshot run (to check
@@ -268,7 +268,7 @@ int main(int argc, char** argv) {
             // Where the player's files are, and why there (core/user_folder.hpp).
             const core::UserFolder folder = client::userFolderInUse();
             const char* why = folder.source == core::UserFolderSource::Portable      ? "a portable copy: portable.txt lies beside the program"
-                              : folder.source == core::UserFolderSource::Environment ? "named by OPENSE4_USER_DIR"
+                              : folder.source == core::UserFolderSource::Environment ? "named by VOIDREIGN_USER_DIR (or the legacy OPENSE4_USER_DIR)"
                                                                                      : "your user folder";
             std::printf("\nSaved games, settings and logs: %s\n  (%s; see Settings, Files)\n", folder.path.string().c_str(), why);
             return 0;

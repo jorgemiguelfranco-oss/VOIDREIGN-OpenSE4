@@ -124,13 +124,13 @@ TEST_CASE("user folder: each platform's own folder for a user's files") {
 
 TEST_CASE("user folder: beside the program, or beside a macOS application bundle") {
     using core::OsFamily;
-    CHECK(core::programFolderFor(OsFamily::Unix, "/opt/games/VOIDREIGN/opense4") == fs::path("/opt/games/VOIDREIGN"));
-    CHECK(core::programFolderFor(OsFamily::Windows, fs::path("D:/Games/VOIDREIGN/opense4.exe")) == fs::path("D:/Games/VOIDREIGN"));
-    CHECK(core::programFolderFor(OsFamily::MacOS, "/Applications/Games/VOIDREIGN.app/Contents/MacOS/opense4") ==
+    CHECK(core::programFolderFor(OsFamily::Unix, "/opt/games/VOIDREIGN/VOIDREIGN") == fs::path("/opt/games/VOIDREIGN"));
+    CHECK(core::programFolderFor(OsFamily::Windows, fs::path("D:/Games/VOIDREIGN/VOIDREIGN.exe")) == fs::path("D:/Games/VOIDREIGN"));
+    CHECK(core::programFolderFor(OsFamily::MacOS, "/Applications/Games/VOIDREIGN.app/Contents/MacOS/VOIDREIGN") ==
           fs::path("/Applications/Games"));
     // A plain folder on macOS (a build folder), or a bundle's look-alike elsewhere.
-    CHECK(core::programFolderFor(OsFamily::MacOS, "/Users/ann/VOIDREIGN/opense4") == fs::path("/Users/ann/VOIDREIGN"));
-    CHECK(core::programFolderFor(OsFamily::Unix, "/x/VOIDREIGN.app/Contents/MacOS/opense4") == fs::path("/x/VOIDREIGN.app/Contents/MacOS"));
+    CHECK(core::programFolderFor(OsFamily::MacOS, "/Users/ann/VOIDREIGN/VOIDREIGN") == fs::path("/Users/ann/VOIDREIGN"));
+    CHECK(core::programFolderFor(OsFamily::Unix, "/x/VOIDREIGN.app/Contents/MacOS/VOIDREIGN") == fs::path("/x/VOIDREIGN.app/Contents/MacOS"));
     CHECK(core::programFolderFor(OsFamily::Unix, fs::path()).empty());
     // This process knows where it runs from.
     CHECK_FALSE(core::executablePath().empty());

@@ -15,7 +15,7 @@
 //   4. "userdata" in the working folder when the system names none.
 //
 // "Beside the program" is the executable's folder, or for a macOS application
-// bundle (VOIDREIGN.app/Contents/MacOS/opense4) the folder that holds the
+// bundle (VOIDREIGN.app/Contents/MacOS/VOIDREIGN) the folder that holds the
 // bundle, since the bundle itself must not change. The game's Settings →
 // Files page turns a copy portable or back by creating or removing the marker
 // (setPortable); copyUserFiles copies a player's files from one folder to
@@ -105,8 +105,8 @@ struct CopyReport {
 };
 
 // Copies a player's files from the user folder `from` into `to`: every file
-// and folder, keeping their places, except the logs (opense4.log,
-// opense4.previous.log) and the mods' cache (ModCache), which each folder
+// and folder, keeping their places, except the logs (voidreign.log,
+// voidreign.previous.log) and the mods' cache (ModCache), which each folder
 // makes for itself. A file `to` already has is kept as it is; nothing in
 // `from` is changed or removed. A `to` inside `from` (or the other way round)
 // is left out of the copy.
