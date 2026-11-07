@@ -15,7 +15,7 @@ carried between turns; additional colonies need warehouses to expand that limit.
 ## Opening patrol
 
 Each new empire receives one native Attack Ship designed from its starting
-technology and a Pathfinder hull. The ship is placed at the homeworld and
+technology and a Pathfinder hull. The roster also includes Hauler, Frigate, Destroyer, Cruiser, Battleship, Settlement Ark and Orbital Station hulls, with the combat line gated by propulsion research. The ship is placed at the homeworld and
 assigned to a one-ship **Home Patrol** fleet, ready for the player to rename,
 expand and issue movement orders. The starting count is controlled by
 `VOIDREIGN Starting Attack Ship Count`.
