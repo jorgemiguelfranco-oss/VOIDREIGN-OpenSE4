@@ -347,14 +347,19 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(hasWarehouse);
     CHECK(hasShipyard);
     CHECK(hasSupplyDepot);
-    bool hasAttackShip = false, hasRockColonyShip = false;
+    bool hasAttackShip = false, hasRockColonyShip = false, hasBaseSpaceYard = false;
     for (game::DesignId id : empire.designs) {
         const game::Design& design = opening->design(id);
         hasAttackShip |= design.templateName == "Attack Ship";
         hasRockColonyShip |= design.templateName == "Colony (Rock)";
+        if (design.templateName == "Base Space Yard") {
+            hasBaseSpaceYard = true;
+            CHECK(gameRules.hull(design.hull).type == ruleset::VehicleType::Base);
+        }
     }
     CHECK(hasAttackShip);
     CHECK(hasRockColonyShip);
+    CHECK(hasBaseSpaceYard);
 }
 
 TEST_CASE("ruleset: problems are reported with file, line and record") {
