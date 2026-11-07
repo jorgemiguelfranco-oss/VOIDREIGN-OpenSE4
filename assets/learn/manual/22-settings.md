@@ -3,7 +3,7 @@ windows: settings, options, empire-options
 ---
 # Settings
 
-OpenSE4 has three sets of settings:
+VOIDREIGN has three sets of settings:
 
 - the **Settings** window: graphics, controls, sound, modding and where your files go, for every game on this computer;
 - the **Options** window: animation, sound, music and autosave, also kept on this computer;
@@ -28,10 +28,10 @@ saved for every game.
 | Show frame rate | A frame counter in the corner. |
 | Widescreen layout | **Extended** uses the whole width of a wide screen; **Classic 4:3** keeps the original proportions with bars at the sides. |
 | Sharp pixels, Scale by whole multiples only | Crisp, unsmoothed classic art. |
-| Text size | Larger or smaller text, from 0.75 to 1.5 times, for what you read: this manual, the lessons, OpenSE4's questions and the windows' descriptions and messages. The classic windows' buttons, labels and lists keep the game's own fonts and places; a larger window makes all of it larger. |
-| Renderer | Automatic (Vulkan, else OpenGL), Vulkan or OpenGL. This takes effect the next time you start OpenSE4. |
+| Text size | Larger or smaller text, from 0.75 to 1.5 times, for what you read: this manual, the lessons, VOIDREIGN's questions and the windows' descriptions and messages. The classic windows' buttons, labels and lists keep the game's own fonts and places; a larger window makes all of it larger. |
+| Renderer | Automatic (Vulkan, else OpenGL), Vulkan or OpenGL. This takes effect the next time you start VOIDREIGN. |
 
-> If the screen stays black or OpenSE4 crashes at start, choose the OpenGL renderer here, or start OpenSE4 with `--renderer=opengl`.
+> If the screen stays black or VOIDREIGN crashes at start, choose the OpenGL renderer here, or start VOIDREIGN with `--renderer=opengl`.
 
 ### Controls
 
@@ -43,8 +43,9 @@ saved for every game.
 ### Sound
 
 **Sound effects** and **Music** switch each on or off, with a volume for each (music in steps of
-20 %). **Classic sound effects** plays the original sound set instead of the remastered one, if
-your copy has both. These are the same choices as in the Options window.
+20 %). The standalone VOIDREIGN package currently has no bundled soundtrack or sound-effect
+bank; optional content may add audio. **Classic sound effects** is a compatibility option for
+installs that provide both legacy sound sets. These are the same choices as in the Options window.
 
 ### Modding
 
@@ -60,30 +61,31 @@ switches it in a game. It shows every note, whatever your empire knows.
 
 ### Files
 
-The **Files** page says where OpenSE4 keeps your saved games, settings, logs, mods and history,
+The **Files** page says where VOIDREIGN keeps your saved games, settings, logs, mods and history,
 and why there, and `Open Folder` opens that folder. It is your user folder unless this copy is
 portable:
 
 | System | Your user folder |
 |---|---|
-| Linux | `~/.local/share/OpenSE4/` |
-| Windows | `%APPDATA%\OpenSE4\` |
-| macOS | `~/Library/Application Support/OpenSE4/` |
+| Linux | `~/.local/share/VOIDREIGN/` |
+| Windows | `%APPDATA%\VOIDREIGN\` |
+| macOS | `~/Library/Application Support/VOIDREIGN/` |
 
-**Keep saves and settings in OpenSE4's folder** makes this copy portable: it keeps all of these
+**Keep saves and settings in VOIDREIGN's folder** makes this copy portable: it keeps all of these
 files in the folder `userdata` beside the program, so they go wherever the program's folder goes,
-on a USB stick for example. When you tick or untick it, OpenSE4 asks whether to copy your files
+on a USB stick for example. When you tick or untick it, VOIDREIGN asks whether to copy your files
 into the new folder (`Copy and Switch`) or not (`Switch Only`); it never deletes any, and a file
 the new folder already has is kept. The setting is the file `portable.txt` beside the program,
 which you may also create or delete yourself. A copy installed into Program Files cannot be made
-portable, since only administrators may write there: OpenSE4 says so, and the zip file of OpenSE4
-gives you a copy that can.
+portable, since standard users cannot write there: VOIDREIGN explains the restriction, while the
+unpacked ZIP package can be placed in a writable folder.
 
 **Saves folder** puts your saved games elsewhere: Save Game, the autosaves, Load Game and Resume
 Game use it. Type a folder and press `Use`; a folder written without its drive or root lies in the
-folder above. `Default` brings back the `saves` folder. OpenSE4 never writes in the game's own
-folder: its saved games are not the original's, and `Save for SE IV` in
-[Save Game](getting-started#saving-and-loading) writes a game for the original wherever you choose.
+folder above. `Default` brings back the `saves` folder. VOIDREIGN keeps personal saves outside
+the installed game folder. The optional `Save for SE IV` export in
+[Save Game](getting-started#saving-and-loading) is only for compatibility with the original game;
+it is not needed for normal VOIDREIGN play.
 
 ## The Options window
 
@@ -99,16 +101,16 @@ Use*. Its choices are kept on this computer, except the autosave choice, which b
 | Music | Music Off, or a volume from 20 % to 100 %. With music off, or not allowed by your copy's settings (below), the window opens on Music Off and keeps music off until you pick a volume. | 100 % |
 | Tactical Combat | Fast Tactical Combat | off |
 | System Display | Display Ship Movement Lines: the route of the ship, base or fleet whose report is open, a blue line marked with the turn each square is reached. `Ctrl+L` switches it too. Starting a new simultaneous game switches it on. | off |
-| OpenSE4 | Ship movement speed: how fast ships turn and slide in the system window when they move, and in the movement log replay, from 1/8x to 8x. | 1x, the original's pace |
-| OpenSE4 | Ship movement: one group at a time, each ship or fleet making its whole move before the next starts, as the original shows them; or all at once, every group starting together. | one group at a time |
-| OpenSE4 | Also animate other empires' and simultaneous turns' moves: the original shows only your own ships moving, in your turn of a turn-based game; with this on, the other empires' ships you see, and a simultaneous turn's moves at the start of the next turn, move square by square too. Off, they are simply on their new squares. | off |
-| OpenSE4 | Say on the map why a click fired nothing: in tactical combat, a click on an enemy that fires no weapon writes the reason at the map's top left (out of range, reloading, no supplies, nothing ticked); the original says nothing. Also in Combat Options. | off |
-| OpenSE4 | Explain failed orders: the original clears a ship's orders without a word when most orders fail (no route, an unset waypoint, a warp point that is gone, a battle on entering a sector, a drop with nothing to drop). With this on, such a failure gives a message box in a turn-based game and an "Unable to ..." line in the log in a simultaneous one, and the log also notes a Sentry that ends, a target that is gone and orders cleared on meeting another empire, for the turns your computer carries out. | off, as the original |
-| OpenSE4 | More in item reports: the Component Report also shows the component's group, its limit per vehicle, the technology it requires and a weapon mount's to-hit modifier. | off, as the original |
-| OpenSE4 | Game Setup's Save To File saves the designs: off, as in the original, Save To File on Game Setup's Players page writes no design whatever you answer to Save Designs; on, a Yes keeps the empire's designs in OpenSE4's empire file. The original's empire file written there never holds designs. | off, as the original |
-| OpenSE4 | Clear tags when selecting a ship elsewhere: the original keeps the tagged ships through the ship and fleet buttons and the Gotos, so the next order still goes to the tagged group while another ship's report is shown; with this on, selecting a ship or planet in another sector clears the tags. A click on a sector, the colony buttons and `Shift+C` always clear them. | off, as the original |
-| OpenSE4 | Show enemy designs' details: the original's Designs window shows only the picture, name, size and components of another empire's design; with this on, its owner, date, costs, movement, shields, cargo space and supply capacity show too. | off, as the original |
-| OpenSE4 | Act once on held keys: the original acts on every repeat of a key held down in the main window, End Turn and the window and order keys too; with this on, only the ship, fleet and colony keys and the movement log's single step repeat. | off, as the original |
+| VOIDREIGN | Ship movement speed: how fast ships turn and slide in the system window when they move, and in the movement log replay, from 1/8x to 8x. | 1x, the original's pace |
+| VOIDREIGN | Ship movement: one group at a time, each ship or fleet making its whole move before the next starts, as the original shows them; or all at once, every group starting together. | one group at a time |
+| VOIDREIGN | Also animate other empires' and simultaneous turns' moves: the original shows only your own ships moving, in your turn of a turn-based game; with this on, the other empires' ships you see, and a simultaneous turn's moves at the start of the next turn, move square by square too. Off, they are simply on their new squares. | off |
+| VOIDREIGN | Say on the map why a click fired nothing: in tactical combat, a click on an enemy that fires no weapon writes the reason at the map's top left (out of range, reloading, no supplies, nothing ticked); the original says nothing. Also in Combat Options. | off |
+| VOIDREIGN | Explain failed orders: the original clears a ship's orders without a word when most orders fail (no route, an unset waypoint, a warp point that is gone, a battle on entering a sector, a drop with nothing to drop). With this on, such a failure gives a message box in a turn-based game and an "Unable to ..." line in the log in a simultaneous one, and the log also notes a Sentry that ends, a target that is gone and orders cleared on meeting another empire, for the turns your computer carries out. | off, as the original |
+| VOIDREIGN | More in item reports: the Component Report also shows the component's group, its limit per vehicle, the technology it requires and a weapon mount's to-hit modifier. | off, as the original |
+| VOIDREIGN | Game Setup's Save To File saves the designs: off, as in the original, Save To File on Game Setup's Players page writes no design whatever you answer to Save Designs; on, a Yes keeps the empire's designs in VOIDREIGN's empire file. The original's empire file written there never holds designs. | off, as the original |
+| VOIDREIGN | Clear tags when selecting a ship elsewhere: the original keeps the tagged ships through the ship and fleet buttons and the Gotos, so the next order still goes to the tagged group while another ship's report is shown; with this on, selecting a ship or planet in another sector clears the tags. A click on a sector, the colony buttons and `Shift+C` always clear them. | off, as the original |
+| VOIDREIGN | Show enemy designs' details: the original's Designs window shows only the picture, name, size and components of another empire's design; with this on, its owner, date, costs, movement, shields, cargo space and supply capacity show too. | off, as the original |
+| VOIDREIGN | Act once on held keys: the original acts on every repeat of a key held down in the main window, End Turn and the window and order keys too; with this on, only the ship, fleet and colony keys and the movement log's single step repeat. | off, as the original |
 | Autosave For This Game | None, or every 1, 2, 3, 5 or 10 turns (local and hotseat games only) | None, unless chosen at setup |
 
 `Settings` opens the Settings window, and `Close` closes this one.
@@ -162,32 +164,33 @@ settings shown.
 
 ## Command line
 
-OpenSE4 also understands options on its command line, for example:
+VOIDREIGN also understands options on its command line, for example:
 
 | Option | What it does |
 |---|---|
-| `--classic-dir=FOLDER` | Use the game copy in that folder. |
+| `--classic-dir=FOLDER` | Optional compatibility path for legacy original-game data and import/export tools. VOIDREIGN's native rules are already bundled; this option is not required to play. |
 | `--renderer=opengl` | Use the OpenGL renderer instead of Vulkan (`vulkan` and `auto` work too). |
 | `--fullscreen`, `--size=1920x1080`, `--no-vsync` | Start in borderless fullscreen, or with a window of that size; draw without waiting for the screen's refresh. |
 | `--no-audio` | Start without sound or music. |
 | `--quick-start[=RACE]` | Skip the title screen and start a quick game, with `--seed`, `--systems`, `--empires` and `--turn-style` to set it up. |
 | `--tutorial=LESSON`, `--training=GAME`, `--manual` | Start a lesson or a training game, or open this manual. |
 | `--pbem=GAME.gam` | Play your turn of a play-by-e-mail game (see [Multiplayer](multiplayer#play-by-e-mail)). |
-| `--mod=MOD`, `--no-mods` | Play this run with these mods (a folder or `.zip`, or a mod's id), or none, instead of those of the Mods window (see [below](#mods)). `--no-bundled-mods` leaves out the mods that come with OpenSE4. |
+| `--mod=MOD`, `--no-mods` | Play this run with these mods (a folder or `.zip`, or a mod's id), or none, instead of those of the Mods window (see [below](#mods)). `--no-bundled-mods` leaves out the mods that come with VOIDREIGN. |
 | `--ai=MOD:PLAYER` | With `--quick-start`, a computer player of one of the mods plays every computer empire, for example `--mod=opense4.hegemon --ai=opense4.hegemon:Hegemon` (see [Computer players](computer-players-and-ministers#computer-players-of-mods)). |
 
-`opense4 --help` lists them all.
+`VOIDREIGN --help` lists the player-facing command-line options.
 
 ## Mods
 
-Mods are packages that other players make: pictures, sounds and music, changes to the game's
-data, computer players of their own, and new rules. OpenSE4 lays them over your copy of the
-game without changing it. Put a mod (a folder or a `.zip`) in the `Mods` folder of OpenSE4's
-user folder; mods made for the original game, a folder of data files and pictures, work too.
+Mods are optional packages that other players make: pictures, sounds and music, changes to the
+game's data, computer players of their own, and new rules. VOIDREIGN loads them over its bundled
+native game data without changing the installed files. Put a mod (a folder or a `.zip`) in the
+`Mods` folder of your VOIDREIGN user folder. Some original-game-format data mods are also
+supported by the engine's compatibility layer, but they are not needed for the native game.
 Then open the **Mods** window with the `Mods` button at the top right of the title screen, or
 in the bottom left corner of Game Setup and Quick Start.
 
-- The list shows your mods and the mods that come with OpenSE4: those you chose first, in the
+- The list shows your mods and the mods that come with VOIDREIGN: those you chose first, in the
   order they load, then the others. A green lamp marks a mod that is on; double-click a mod to
   switch it on or off, or use `Enable` and `Disable`. `Move Up` and `Move Down` change the
   order: a later mod wins.
@@ -201,13 +204,13 @@ in the bottom left corner of Game Setup and Quick Start.
 - `Done` reads the game's data again with your choice; it is used for the next game you
   start or load. `Cancel` leaves everything as it was.
 
-**Mods that come with OpenSE4.** OpenSE4 comes with **Hegemon**, a stronger computer player
-written as a mod. It is in the list, marked "comes with OpenSE4", and stays off until you
-switch it on: `Enable` it, press `Done`, then choose it with `Computer Players` in Game Setup
-or Quick Start (see [Computer players](computer-players-and-ministers#computer-players-of-mods)).
-Every player of the same OpenSE4 version has the same copy, so a network game only needs
-each player to switch it on. A mod in your own mods folder with the same id replaces the one
-that comes with OpenSE4, and the window says so.
+**Optional bundled AI extension.** VOIDREIGN includes **Hegemon**, a stronger computer player
+written as a mod. It is in the list, marked "comes with VOIDREIGN", and stays off until you
+enable it. The Aurelian Concord, Veyran Trade League and Khepri Ascendancy already use their
+own native computer-player research and fleet profiles; you do not need Hegemon or another
+mod to play against them. Every player of the same VOIDREIGN version has the same bundled
+copy, so a network game only needs the same mod selection when Hegemon is enabled. A mod in
+your own mods folder with the same id replaces the bundled copy, and the window says so.
 
 Besides pictures, sounds and changes to the rules, a mod can add to the game's windows: orders of
 its own in the order strip's `Mod Orders` (see [Order buttons](main-window#order-buttons)), panels
