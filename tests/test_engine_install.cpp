@@ -7,6 +7,7 @@
 #include "game/economy.hpp"
 #include "game/events.hpp"
 #include "game/government.hpp"
+#include "game/intel.hpp"
 #include "game/query.hpp"
 #include "game/turn.hpp"
 
@@ -234,6 +235,78 @@ TEST_CASE("VOIDREIGN generated economy and technology remain bounded over eight 
             CHECK(empire.intelPool >= 0);
         }
     }
+}
+
+
+TEST_CASE("VOIDREIGN random events and intelligence projects execute in the native engine (opt-in)") {
+    const Rules* r = installRules();
+    if (!r) return;
+
+    GameSetup setup;
+    setup.seed = 0x45564e54494e5445ull;
+    setup.options.systemCount = 16;
+    std::vector<const ruleset::RacePreset*> playable;
+    for (const auto& preset : r->racePresets())
+        if (!preset.neutral) playable.push_back(&preset);
+    REQUIRE(playable.size() >= 2);
+    for (size_t i = 0; i < 2; ++i) {
+        EmpireSetup empire;
+        empire.preset = playable[i]->folder;
+        empire.kind = i == 0 ? PlayerKind::Human : PlayerKind::Computer;
+        setup.empires.push_back(std::move(empire));
+    }
+    auto created = createGame(*r, setup);
+    REQUIRE_MESSAGE(created.has_value(), (created ? std::string{} : created.error()));
+    GameState game = std::move(*created);
+    const EmpireId source{0u}, target{1u};
+
+    // Trigger a real original VOIDREIGN event against a specific homeworld.
+    const auto event = std::find_if(r->data().eventTypes.begin(), r->data().eventTypes.end(),
+                                    [](const auto& e) { return e.picture == "MineralBloom"; });
+    REQUIRE(event != r->data().eventTypes.end());
+    const uint32_t eventIndex = static_cast<uint32_t>(std::distance(r->data().eventTypes.begin(), event));
+    const ObjectId planet = opense4::test::homeworld(game, target).planet;
+    const auto beforeValue = game.galaxy.object(planet).value;
+    effects::Target eventTarget;
+    eventTarget.empire = target;
+    eventTarget.object = planet;
+    TurnContext eventContext{*r, game, {}, {}, {}};
+    Rng eventRng(0x4556454e54ull);
+    REQUIRE(events::trigger(eventContext, eventIndex, eventTarget, eventRng));
+    CHECK(game.galaxy.object(planet).value != beforeValue);
+    CHECK(std::any_of(game.empire(target).log.begin(), game.empire(target).log.end(),
+                      [](const LogEntry& entry) { return entry.title == "Mineral Bloom"; }));
+
+    // Complete a funded Planetary Census against the other empire's colony.
+    // This exercises contact validation, target selection, the effect handler
+    // and the original project-message delivery on both sides.
+    GameState intelligenceGame = game;
+    intelligenceGame.empire(source).relation(target).contact = true;
+    intelligenceGame.empire(target).relation(source).contact = true;
+    const auto census = std::find_if(r->data().intelProjects.begin(), r->data().intelProjects.end(),
+                                     [](const auto& p) { return p.name == "Planetary Census"; });
+    REQUIRE(census != r->data().intelProjects.end());
+    const uint32_t censusIndex = static_cast<uint32_t>(std::distance(r->data().intelProjects.begin(), census));
+    IntelProjectOrder order;
+    order.project = censusIndex;
+    order.target = target;
+    order.targetPlanet = opense4::test::homeworld(intelligenceGame, target).planet;
+    intelligenceGame.empire(source).intel = {order};
+    intelligenceGame.empire(source).intelPool = census->cost;
+    TurnContext intelContext{*r, intelligenceGame, {}, {}, {}};
+    intel::intelStep(intelContext, source);
+    CHECK(intelligenceGame.empire(source).intel.empty());
+    CHECK(intelligenceGame.empire(source).intelPool == 0);
+    CHECK(std::any_of(intelligenceGame.empire(source).log.begin(), intelligenceGame.empire(source).log.end(),
+                      [](const LogEntry& entry) {
+                          return entry.category == LogCategory::Intelligence &&
+                                 entry.text.find("Planetary Census") != std::string::npos;
+                      }));
+    CHECK(std::any_of(intelligenceGame.empire(target).log.begin(), intelligenceGame.empire(target).log.end(),
+                      [](const LogEntry& entry) {
+                          return entry.category == LogCategory::Intelligence &&
+                                 entry.title == "Security Alert";
+                      }));
 }
 
 TEST_CASE("installed data set: a Terran Quick Start gets the observed designs (opt-in)") {
