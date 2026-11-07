@@ -9,6 +9,8 @@
 #include <doctest/doctest.h>
 
 #include <algorithm>
+#include <filesystem>
+#include <utility>
 #include <cctype>
 #include <cstdlib>
 #include <format>
