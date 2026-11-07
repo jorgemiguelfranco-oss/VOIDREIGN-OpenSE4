@@ -47,8 +47,7 @@ def test_each_starting_homeworld_receives_a_warehouse_when_there_is_room():
 
     vr_start.seed_homeworld_warehouses(game, fx)
 
-    assert [colony for colony, _ in fx.facilities] == [home1, home2]
-    assert all(facility.id == 77 for _, facility in fx.facilities)
+    assert fx.facilities == [(home1, 77), (home2, 77)]
     assert len(fx.logs) == 2
 
 
