@@ -294,7 +294,7 @@ bool App::createWindowAndDevice() {
     std::string vulkanError;  // why Vulkan did not start, for the message if OpenGL does not either
 
     if (options_.renderer != AppOptions::Renderer::OpenGL) {
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
+        window_ = SDL_CreateWindow("VOIDREIGN", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
         if (window_) {
             device_ = gfx::createVulkanDevice(window_, deviceOptions, error);
             if (!device_) {
@@ -323,7 +323,7 @@ bool App::createWindowAndDevice() {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
+        window_ = SDL_CreateWindow("VOIDREIGN", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
         if (!window_) {
             fatal(std::format("Could not create a window: {}", SDL_GetError()));
             return false;
@@ -442,7 +442,7 @@ void App::initImGui() {
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;  // fixed layout for now
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    // A widget used the wrong way goes to opense4.log. Players never see Dear
+    // A widget used the wrong way goes to voidreign.log. Players never see Dear
     // ImGui's tooltip or assert: release builds only log. Debug builds keep
     // both, but an input script fails with the message instead of asserting.
 #ifdef NDEBUG
