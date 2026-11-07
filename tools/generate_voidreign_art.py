@@ -287,6 +287,34 @@ def race_art(root: Path, style: str, color, neutral=False):
         icon(pop, size // 6, size // 6, size * 4 // 6, size * 4 // 6, 4, (238, 248, 255))
         pop.save(d / f"{style}_{suffix}.bmp")
 
+    # Each species receives its own complete ship set, with a consistent
+    # silhouette language and faction colour rather than the generic fallback.
+    for idx, code in enumerate(HULLS):
+        tint = blend(color, (232, 243, 252), .18)
+        mini = Bitmap(36, 36)
+        width = 6 + (idx % 4) * 2
+        mini.circle(18, 18, 16, blend(color, (5, 15, 29), .65), False, 1)
+        mini.line(18, 3, 18, 33, tint, 2 + idx % 2)
+        mini.line(18, 10, 18 - width, 27, color, 2)
+        mini.line(18, 10, 18 + width, 27, color, 2)
+        mini.line(18 - width, 27, 18, 23, tint, 1)
+        mini.line(18 + width, 27, 18, 23, tint, 1)
+        mini.circle(18, 8, 2 + idx % 2, (230, 246, 255))
+        mini.save(d / f"{style}_Mini_{code}.bmp")
+
+        portrait = Bitmap(128, 128, (5, 12, 25))
+        portrait.circle(64, 64, 57, blend(color, (5, 14, 28), .58))
+        portrait.circle(64, 64, 57, color, False, 2)
+        portrait.ellipse(64, 69, 40 + (idx % 3) * 6, 18 + (idx % 2) * 5,
+                         blend(color, (16, 36, 55), .25), False, 3)
+        portrait.line(64, 17, 64, 108, tint, 6 + idx % 3 * 2)
+        portrait.line(64, 34, 28 - idx % 3 * 3, 91, color, 4)
+        portrait.line(64, 34, 100 + idx % 3 * 3, 91, color, 4)
+        portrait.line(28 - idx % 3 * 3, 91, 64, 79, tint, 2)
+        portrait.line(100 + idx % 3 * 3, 91, 64, 79, tint, 2)
+        portrait.circle(64, 34, 8, (225, 244, 255))
+        portrait.save(d / f"{style}_Portrait_{code}.bmp")
+
 
 def hull_art(root: Path, code: str, idx: int):
     d = root / "Pictures" / "RaceGeneric"
@@ -426,7 +454,7 @@ def verify(root: Path):
         "Facilities/Facil_014.bmp": (128, 128),
         "RaceGeneric/Generic_Race_Portrait.bmp": (128, 128),
         "RaceGeneric/Generic_Mini_VF.bmp": (36, 36),
-        "RaceGeneric/Generic_Portrait_Fleet.bmp": (128, 128),
+        "RaceGeneric/Generic_Portrait_Fleet.bmp": (128, 128),\n        "Races/Aurel/Aurel_Mini_VF.bmp": (36, 36),\n        "Races/Aurel/Aurel_Portrait_VF.bmp": (128, 128),
         "Systems/Ion StormTile1.bmp": (72, 72),
     }
     errors = []
