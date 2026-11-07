@@ -341,6 +341,7 @@ for target in "${targets[@]}"; do
     fi
     cp -a "$build/GameData" "$stage/GameData"
     cp README.md "$stage/README.md"
+    cp docs/SETUP.md "$stage/SETUP.md"
     [ -f LICENSE ] && cp LICENSE "$stage/LICENSE"
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the
     # installer leaves it out, as an installed copy cannot be portable.
