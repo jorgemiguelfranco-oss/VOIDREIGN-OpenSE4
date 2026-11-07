@@ -126,4 +126,32 @@ Number of Tech Req  := 1
 Tech Area Req 1     := VoidReign Core Science
 Tech Level Req 1    := 1
 
+Name                := VoidReign Logistics Engineering
+Group               := Logistics
+Description         := Cargo handling, fleet supply and carrier operations for long-range expansion.
+Maximum Level       := 5
+Level Cost          := 2600
+Start Level         := 0
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
+Name                := VoidReign Sensor Networks
+Group               := Ship Systems
+Description         := Integrated active and passive sensor arrays for wide-area detection.
+Maximum Level       := 5
+Level Cost          := 2800
+Start Level         := 0
+Raise Level         := 1
+Racial Area         := 0
+Unique Area         := 0
+Can Be Removed      := True
+Number of Tech Req  := 1
+Tech Area Req 1     := VoidReign Core Science
+Tech Level Req 1    := 1
+
 *END*
