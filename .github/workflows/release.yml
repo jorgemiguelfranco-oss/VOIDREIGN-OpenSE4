@@ -160,14 +160,14 @@ jobs:
         id: sums
         working-directory: dist
         run: |
-          version=$(ls OpenSE4-*-linux-x86_64.tar.gz | sed 's/^OpenSE4-\(.*\)-linux-x86_64\.tar\.gz$/\1/')
-          sums=$(sha256sum OpenSE4-"$version"-*)
-          echo "$sums" | tee "OpenSE4-$version-SHA256SUMS.txt"
+          version=$(ls VOIDREIGN-*-linux-x86_64.tar.gz | sed 's/^VOIDREIGN-\(.*\)-linux-x86_64\.tar\.gz$/\1/')
+          sums=$(sha256sum VOIDREIGN-"$version"-*)
+          echo "$sums" | tee "VOIDREIGN-$version-SHA256SUMS.txt"
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Upload the release files
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: OpenSE4-${{ steps.sums.outputs.version }}
-          path: dist/OpenSE4-*
+          name: VOIDREIGN-${{ steps.sums.outputs.version }}
+          path: dist/VOIDREIGN-*
           if-no-files-found: error
