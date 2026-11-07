@@ -1,14 +1,10 @@
-# Warehouses give an empire real treasury capacity. Capacity applies independently
-# to minerals, organics and radioactives. Build more warehouses to expand the cap.
-[[abilities.declare]]
-name = "VoidReign Warehouse Capacity"
-combine = "sum"
-
+# Native OpenSE4 storage abilities enforce these caps in the core economy.
+# Each warehouse adds 5,000 units to each empire-wide resource storage limit.
 [[facilities.add]]
 name = "VoidReign Warehouse"
 
 [facilities.add.set]
-"Description" = "A bonded planetary warehouse. Adds 5,000 units of capacity to each treasury resource."
+"Description" = "A bonded planetary warehouse. Adds 5,000 units of capacity to minerals, organics and radioactives."
 "Facility Group" = "Logistics"
 "Pic Num" = 1
 "Facility Family" = 7402
@@ -18,7 +14,11 @@ name = "VoidReign Warehouse"
 "Cost Organics" = 100
 "Cost Radioactives" = 0
 "Number of Tech Req" = 0
-"Number of Abilities" = 1
+"Number of Abilities" = 3
 
 [facilities.add.add]
-abilities = [{ "Ability Type" = "VoidReign Warehouse Capacity", "Ability Descr" = "Adds 5,000 storage capacity to each empire resource.", "Ability Val 1" = 5000 }]
+abilities = [
+  { "Ability Type" = "Resource Storage - Mineral", "Ability Descr" = "Adds 5,000 mineral storage.", "Ability Val 1" = 5000 },
+  { "Ability Type" = "Resource Storage - Organics", "Ability Descr" = "Adds 5,000 organic storage.", "Ability Val 1" = 5000 },
+  { "Ability Type" = "Resource Storage - Radioactives", "Ability Descr" = "Adds 5,000 radioactive storage.", "Ability Val 1" = 5000 },
+]
