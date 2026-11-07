@@ -82,7 +82,7 @@ def build(output: Path) -> None:
     hull_specs = [
         ("Vanguard Frigate", "Frigate", "VF", "Ship", 220, 850, 180, 120, 1, True, 1, 1, True, 6, 0, 0, 0),
         ("Aegis Cruiser", "Cruiser", "AC", "Ship", 520, 2100, 500, 360, 2, True, 1, 1, True, 12, 0, 0, 0),
-        ("Pioneer Ark", "Ark", "PA", "Ship", 300, 1250, 350, 180, 1, True, 1, 1, True, 8, 0, 20, 0),
+        ("Pioneer Ark", "Ark", "PA", "Ship", 300, 1250, 350, 180, 1, True, 1, 1, True, 8, 0, 15, 0),
         ("Meridian Freighter", "Freighter", "MF", "Ship", 360, 1300, 500, 150, 1, True, 1, 1, True, 8, 0, 0, 25),
         ("Citadel Platform", "Citadel", "CP", "Base", 700, 2500, 400, 500, 0, True, 1, 1, False, 0, 0, 0, 0),
         ("Interceptor", "Interceptor", "IN", "Fighter", 25, 90, 10, 5, 1, False, 0, 0, True, 4, 0, 0, 0),
