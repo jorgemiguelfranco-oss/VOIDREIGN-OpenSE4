@@ -1,0 +1,36 @@
+=====
+VOIDREIGN native game rules. Original project-authored content.
+=====
+*BEGIN*
+Name                     := Silent Reach
+Number of Poss Abilities := 1
+Ability 1 Chance         := 50
+Ability 1 Type           := Sector - Sensor Interference
+Ability 1 Descr          := Sensor readings are distorted by a persistent field.
+Ability 1 Val 1          := 10
+Ability 1 Val 2          :=
+
+Name                     := Ion Storm
+Number of Poss Abilities := 1
+Ability 1 Chance         := 1000
+Ability 1 Type           := Sector - Damage
+Ability 1 Descr          := A charged storm front damages exposed objects.
+Ability 1 Val 1          := 5
+Ability 1 Val 2          :=
+
+Name                     := Ancient Relay Ruins
+Number of Poss Abilities := 1
+Ability 1 Chance         := 1000
+Ability 1 Type           := Ancient Ruins
+Ability 1 Descr          := A dormant precursor relay remains in this system.
+Ability 1 Val 1          := 1
+Ability 1 Val 2          :=
+
+Name                     := Gravity Shear
+Number of Poss Abilities := 1
+Ability 1 Chance         := 1000
+Ability 1 Type           := Warp Point - Turbulence
+Ability 1 Descr          := Warp transit is turbulent in this region.
+Ability 1 Val 1          := 10
+Ability 1 Val 2          :=
+*END*
