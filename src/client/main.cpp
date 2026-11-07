@@ -50,10 +50,10 @@ void attachParentConsole() {
 }
 #endif
 
-constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementation for Space Empires IV Deluxe
-(requires your own copy of the game; not affiliated with its publishers)
+constexpr const char* kUsage = R"(VOIDREIGN - standalone 4X space strategy
+Original game rules and content, powered by the OpenSE4 engine architecture.
 
-Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
+Usage: VOIDREIGN [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
 Plays Space Empires IV Deluxe on your own installed copy of the game. The game is
 found in your Steam libraries, or given with --classic-dir (see docs/SETUP.md).
@@ -76,11 +76,11 @@ Game:
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
-  --mods-dir=DIR                  Where mods are looked up by id (default: Mods in OpenSE4's user folder);
+  --mods-dir=DIR                  Where mods are looked up by id (default: Mods in VOIDREIGN's user folder);
                                   then among the mods that come with OpenSE4 (mods/ beside the program)
   --no-bundled-mods               Leave out the mods that come with OpenSE4
   --quick-start[=RACE]            Skip the intro: start a quick game as RACE (a Pictures/Races folder name)
-  --load=GAME.gam                 Open a saved game at once: OpenSE4's, or the original's (imported,
+  --load=GAME.gam                 Open a saved game at once: a VOIDREIGN save, or an imported legacy save (
                                   see docs/SETUP.md "Games of the original")
   --ai=MOD:PLAYER                 Every computer empire of the quick game (--quick-start) is played by
                                   this script player of a mod (its [[ai.players]], docs/sdk/ai-protocol.md);
@@ -331,7 +331,7 @@ int main(int argc, char** argv) {
             options.noAudio = true;
         } else if (key == "--audio") {
             options.audio = true;
-        } else if (key == "--classic-dir") {
+        } else if (key == "--data-dir" || key == "--classic-dir") {
             options.installDir = std::string(value);
         } else if (key == "--mod") {
             options.mods.emplace_back(value);
