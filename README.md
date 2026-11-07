@@ -25,7 +25,7 @@ Requirements: C++23 compiler (GCC 14+, Clang 18+, MSVC 17.10+ or Apple Clang 21)
     ctest --preset debug
     ./build/debug/VOIDREIGN --quick-start=Aurel
 
-The original VOIDREIGN game data is generated from `tools/generate_voidreign_data.py` as part of the build and copied beside the game executable. GitHub Actions is configured to compile the native client, run the test suite, validate the generated data and launch a headless game.
+The original VOIDREIGN ruleset and first-party artwork are generated from `tools/generate_voidreign_data.py` and `tools/generate_voidreign_art.py` as part of the build and copied beside the game executable. The bundled content includes original random events and a functioning intelligence/espionage catalogue, backed by OpenSE4's existing effect handlers. GitHub Actions is configured to compile the native client, run the test suite, validate the generated rules and art, and launch a headless game.
 
 `--classic-dir` remains an optional compatibility override for loading an external data set; it is not needed for a normal VOIDREIGN game.
 
