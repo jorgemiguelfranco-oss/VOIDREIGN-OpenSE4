@@ -1,0 +1,21 @@
+=====
+VOIDREIGN native intelligence operations.
+=====
+*BEGIN*
+Name                  := Signal Intercept
+Description           := Intercept an opponent's research traffic.
+Group                 := Espionage
+Cost                  := 5000
+Type                  := Steal Tech
+Effect Amount         := 1
+Num Source Messages   := 1
+Source Message 1      := Our analysts extracted a fragment of foreign research.
+Num Target Messages   := 1
+Target Message Title 1 := Spies!
+Target Message 1      := A research packet has been compromised.
+Source Picture        := Spy
+Target Picture        := Spy
+Number of Tech Req    := 1
+Tech Area Req 1       := VoidReign Core Science
+Tech Level Req 1      := 1
+*END*
