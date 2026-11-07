@@ -31,8 +31,8 @@
 # tools/stage_sdk_docs.py stages the SDK's files and points the links of their
 # pages, the README's and the mods' at the package's copies, or at GitHub at the
 # version's tag for files the package does not have.
-# Nothing from the original game is included: players point the game at their own
-# installed copy.
+# No proprietary Space Empires IV data or art is redistributed. VOIDREIGN ships
+# its own generated ruleset and first-party artwork in GameData.
 #
 # The Linux package also carries the desktop entry, icons and AppStream metadata
 # (packaging/linux) and install-desktop-entry.sh, which adds the game to the
@@ -199,7 +199,7 @@ notices() {  # notices <build dir> <target> <output file>
         echo "VOIDREIGN is a standalone game based on the OpenSE4 engine, licensed under"
         echo "the GNU General Public License version 3 or later (see LICENSE). It is not"
         echo "affiliated with the game's publishers and contains nothing from the game:"
-        echo "it plays with the player's own installed copy."
+        echo "It includes its own generated GameData and requires no Space Empires IV installation."
         echo "The executables include the following third-party software and fonts,"
         echo "each under its own licence."
         section() {
