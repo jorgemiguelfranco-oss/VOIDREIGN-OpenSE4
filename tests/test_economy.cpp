@@ -571,9 +571,9 @@ TEST_CASE("VoidReign: colonies need warehouses to retain resources") {
     ruleset::Ruleset rs = buildEngineRuleset();
     addTrait(rs, "Hoarders", "Mineral Storage", 100);
     addFacility(rs, "VoidReign Warehouse",
-                {ability(AbilityKind::ResourceStorageMinerals, 5000),
-                 ability(AbilityKind::ResourceStorageOrganics, 5000),
-                 ability(AbilityKind::ResourceStorageRadioactives, 5000)});
+                {ability(AbilityKind::ResourceStorageMinerals, 25000),
+                 ability(AbilityKind::ResourceStorageOrganics, 25000),
+                 ability(AbilityKind::ResourceStorageRadioactives, 25000)});
     rs.reindex();
     Rules r(std::move(rs), {}, true);
     GameState s = newGame(r);
@@ -582,7 +582,7 @@ TEST_CASE("VoidReign: colonies need warehouses to retain resources") {
     Colony& home = homeworld(s, kMe);
     const uint32_t warehouse = facilityIndex(r, "VoidReign Warehouse");
     CHECK(std::find(home.facilities.begin(), home.facilities.end(), warehouse) != home.facilities.end());
-    CHECK(economy::storageCapacity(r, s, kMe) == Resources{5000, 5000, 5000});
+    CHECK(economy::storageCapacity(r, s, kMe) == Resources{25000, 25000, 25000});
 
     // Racial storage bonuses do not bypass VoidReign's warehouse requirement.
     giveTrait(r, s, kMe, "Hoarders");
@@ -596,11 +596,11 @@ TEST_CASE("VoidReign: colonies need warehouses to retain resources") {
     CHECK(s.empire(kMe).economy.lostToStorage == Resources{1200, 800, 400});
 
     home.facilities.push_back(warehouse);
-    CHECK(economy::storageCapacity(r, s, kMe) == Resources{5000, 5000, 5000});
+    CHECK(economy::storageCapacity(r, s, kMe) == Resources{25000, 25000, 25000});
     s.empire(kMe).stockpile = {6200, 2800, 7000};
     TurnContext restored{r, s, {}, {}, {}};
     economy::applyStorageCap(restored, kMe);
-    CHECK(s.empire(kMe).stockpile == Resources{5000, 2800, 5000});
+    CHECK(s.empire(kMe).stockpile == Resources{25000, 2800, 25000});
     CHECK(s.empire(kMe).economy.lostToStorage == Resources{1200, 0, 2000});
 }
 
