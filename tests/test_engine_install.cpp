@@ -1,5 +1,5 @@
-// Engine checks against the player's installed classic data (opt-in: set
-// OPENSE4_CLASSIC_DATA=auto or to a data directory).
+// Engine checks against a supplied ruleset directory (opt-in: set
+// VOIDREIGN_DATA_DIR to generated data; OPENSE4_CLASSIC_DATA remains a legacy alias).
 
 #include "engine_fixture.hpp"
 
