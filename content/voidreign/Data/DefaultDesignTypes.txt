@@ -23,4 +23,15 @@ Name := Battleship
 Name := Carrier
 
 Name := Fighter
+Name := Frigate
+
+Name := Destroyer
+
+Name := Cruiser
+
+Name := Battleship
+
+Name := Carrier
+
+Name := Fighter
 *END*
