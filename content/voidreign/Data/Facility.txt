@@ -18,6 +18,7 @@ Ability 1 Type     := Resource Generation - Minerals
 Ability 1 Descr    := Mining output.
 Ability 1 Val 1    := 800
 Ability 1 Val 2    := 0
+
 Name                := VoidReign Organic Harvester
 Description         := Cultivates organic feedstock.
 Facility Group      := Resource Extraction
