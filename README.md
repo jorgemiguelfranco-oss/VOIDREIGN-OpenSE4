@@ -11,7 +11,7 @@ VOIDREIGN is built on the native C++ engine foundation of [OpenSE4](https://gith
 - Design ships and bases, build fleets, move through systems, and fight tactical and strategic battles.
 - Manage research, construction, trade, diplomacy, intelligence and computer-controlled rivals.
 - Choose among eight governments with different production, research, trade and fleet-maintenance effects.
-- Manage resource stockpiles: storage is limited by your infrastructure, and income beyond available warehouse capacity is lost.
+- Manage resource stockpiles: empires begin with 25,000 storage for each resource, but no free warehouse. Mineral and Organic Warehouses and Radioactive Vaults each add 30,000 capacity for their resource; a Central Warehouse adds 75,000 to all three. Stockpiles above capacity are discarded at the end of the turn.
 - Start with 12 original playable factions and three independent powers, with configurable empire and galaxy setup.
 
 VOIDREIGN keeps the engine's native fleet, design, combat, save-game and turn-processing systems. Campaign mode is not part of the game.

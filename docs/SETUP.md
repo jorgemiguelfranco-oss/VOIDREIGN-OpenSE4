@@ -22,7 +22,9 @@ In a running game:
 
 - **Galaxy Map → Chokepoints** highlights explored systems whose loss would split the warp network. Unknown routes are not exposed by this overlay.
 - **Fleet Transfer** creates fleets, renames and disbands them, moves ships into and out of fleets, and sets fleet formation and strategy. The Ships windows include retrofit selection.
-- Build resource-storage facilities such as Mineral Warehouses, Organic Warehouses and Central Warehouses. Stockpiles are capped by storage capacity; income that cannot fit is lost rather than silently retained.
+- Your empire starts with 25,000 storage capacity for each resource even before building a warehouse. This is a limited bootstrap allowance, not unlimited storage.
+- A Mineral Warehouse adds 30,000 mineral capacity; an Organic Warehouse adds 30,000 organic capacity; a Radioactive Vault adds 30,000 radioactive capacity. A Central Warehouse adds 75,000 to all three resources.
+- Build storage before your economy outgrows that allowance. After maintenance and construction have been paid, any remaining stockpile above capacity is discarded. A strong economy can therefore waste production without sufficient warehouses; a weak economy that loses too much stock can then struggle to finance the infrastructure needed to recover.
 - Develop colonies, research technologies, design ships and bases, build at shipyards, and issue movement orders through the existing native engine.
 
 ## Data, saves and troubleshooting
