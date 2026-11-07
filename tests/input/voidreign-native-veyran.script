@@ -1,0 +1,13 @@
+# Play a fresh Veyran Trade League game from VOIDREIGN's shipped native ruleset.
+# A successful launch proves this faction preset, its culture and starting economy load.
+
+options --quick-start=Veyran --empires=3 --systems=24 --seed=7 --open=none --layout=1024x768 --size=1280x800
+
+wait-screen game
+wait 5
+click sector:home
+wait-for item:Facil
+click item:Facil
+wait-for item:"VoidReign Warehouse"
+assert-present item:"VoidReign Spaceport"
+assert-present item:"VoidReign Warehouse"
