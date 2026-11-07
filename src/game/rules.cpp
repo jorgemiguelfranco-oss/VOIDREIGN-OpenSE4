@@ -7,7 +7,8 @@
 
 namespace opense4::game {
 
-Rules::Rules(ruleset::Ruleset data, std::filesystem::path gameRoot) : data_(std::move(data)), gameRoot_(std::move(gameRoot)) {
+Rules::Rules(ruleset::Ruleset data, std::filesystem::path gameRoot, bool standaloneVoidReign)
+    : data_(std::move(data)), gameRoot_(std::move(gameRoot)), standaloneVoidReign_(standaloneVoidReign) {
     for (const auto& c : data_.components) components_.push_back(parseAbilities(c.abilities));
     for (const auto& f : data_.facilities) facilities_.push_back(parseAbilities(f.abilities));
     for (const auto& h : data_.vehicleSizes) hulls_.push_back(parseAbilities(h.abilities));
