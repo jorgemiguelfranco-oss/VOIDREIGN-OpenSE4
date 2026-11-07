@@ -44,15 +44,18 @@ const std::array<std::vector<Marker>, game::kFacilityMarkerGroups>& groups() {
 std::vector<std::string> facilityMarkerGroups(const game::Rules& r, const game::Colony& c, uint16_t on) {
     const bool yardWorks = !c.cloaked;  // a cloaked colony's yard does not work (spec 01 §6.9)
     std::vector<std::string> out;
-    if (on == 0) return out;
     auto has = [&](AbilityKind k) {
         for (const uint32_t f : c.facilities)
             if (f < r.data().facilities.size() && game::hasAbility(r.facilityAbilities(f), k)) return true;
         return false;
     };
     for (size_t g = 0; g < groups().size(); ++g) {
-        if ((on & (1u << g)) == 0) continue;
+        const bool enabled = (on & (1u << g)) != 0;
         for (const Marker& m : groups()[g]) {
+            // A working planetary shipyard is a core system-map landmark in
+            // VOIDREIGN, not an optional effects overlay. Other letters remain
+            // controlled by the player's Facility Markers settings.
+            if (!enabled && !m.yard) continue;
             bool present = false;
             for (const AbilityKind k : m.abilities) present = present || has(k);
             if (m.yard) present = present && yardWorks;

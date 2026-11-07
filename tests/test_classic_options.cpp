@@ -149,11 +149,16 @@ TEST_CASE("classic options: facility marker letters and their tests (spec 06 §7
     // Srm is Reduced Maintenance Cost - System; Src is Modify Reproduction - System.
     CHECK(facilityMarkerGroups(r, c, upkeep) == std::vector<std::string>{"Srm"});
     CHECK(facilityMarkerGroups(r, c, plague) == std::vector<std::string>{"Src"});
+    // A working shipyard is always marked, even if no optional marker rows are on.
+    CHECK(facilityMarkerGroups(r, c, 0) == std::vector<std::string>{"Y"});
+    CHECK(facilityMarkers(r, c, 0) == "Y");
+    CHECK(facilityMarkerGroups(r, c, repair) == std::vector<std::string>{"Y", "Rc"});
     // R, S, Y in the table's order; Y needs a working (uncloaked) yard.
     CHECK(facilityMarkerGroups(r, c, yards) == std::vector<std::string>{"R", "S", "Y"});
     Colony cloaked = c;
     cloaked.cloaked = true;   // a cloaked colony's yard does not work (spec 01 §6.9)
     CHECK(facilityMarkerGroups(r, cloaked, yards) == std::vector<std::string>{"R", "S"});
+    CHECK(facilityMarkerGroups(r, cloaked, 0).empty());
 
     // Whose colonies are marked: ours, and Military Alliance or Partnership partners'.
     CHECK(showsFacilityMarkers(w.s, kA, kA));
