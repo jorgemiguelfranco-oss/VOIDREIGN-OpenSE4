@@ -50,8 +50,8 @@ void attachParentConsole() {
 }
 #endif
 
-constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementation for Space Empires IV Deluxe
-(requires your own copy of the game; not affiliated with its publishers)
+constexpr const char* kUsage = R"(VOIDREIGN - a standalone 4X strategy game built on the OpenSE4 engine
+(legacy classic-game compatibility mode is optional; VoidReign uses its own content)
 
 Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
