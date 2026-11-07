@@ -1,15 +1,5 @@
 =====
-VOIDREIGN native event definitions. The engine's event scheduler reads these records.
+VOIDREIGN event definitions are added as their gameplay systems are implemented.
 =====
 *BEGIN*
-Type                  := Ship - Damage
-Severity              := Low
-Effect Amount         := 5
-Message To            := Owner
-Num Messages          := 1
-Message Title 1       := Radiation surge
-Message 1             := A radiation surge has damaged an exposed vessel.
-Picture               :=
-Time Till Completion  := 0
-Num Start Messages    := 0
 *END*
