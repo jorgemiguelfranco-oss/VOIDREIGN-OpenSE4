@@ -51,7 +51,7 @@ void attachParentConsole() {
 #endif
 
 constexpr const char* kUsage = R"(VOIDREIGN - standalone 4X space strategy
-Original game rules and content, powered by the OpenSE4 engine architecture.
+Standalone VOIDREIGN game, powered by the OpenSE4 engine architecture.
 
 Usage: VOIDREIGN [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
@@ -77,8 +77,8 @@ Game:
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
   --mods-dir=DIR                  Where mods are looked up by id (default: Mods in VOIDREIGN's user folder);
-                                  then among the mods that come with OpenSE4 (mods/ beside the program)
-  --no-bundled-mods               Leave out the mods that come with OpenSE4
+                                  then among the mods bundled with VOIDREIGN (mods/ beside the program)
+  --no-bundled-mods               Leave out the mods bundled with VOIDREIGN
   --quick-start[=RACE]            Skip the intro: start a quick game as RACE (a Pictures/Races folder name)
   --load=GAME.gam                 Open a saved VOIDREIGN game at once
   --ai=MOD:PLAYER                 Every computer empire of the quick game (--quick-start) is played by
@@ -138,7 +138,7 @@ The original's command line (see docs/MULTIPLAYER.md "From the command line"):
                                   files (.plr) beside it (or in --pbem-orders=DIR), save it, write the next
                                   turn files and quit, with no window; a wrong password quits with exit code 1
   GAMEFILE PASSWORD PLAYER        Sign in as empire number PLAYER (1 or more) with its password and play its
-                                  turn: a turn file (.turn, as --pbem plays it), an OpenSE4 saved game or a
+                                  turn: a turn file (.turn, as --pbem plays it), a VOIDREIGN saved game or a
                                   saved game of the original, even a destroyed empire or one the computer
                                   plays. A wrong password, or a game made with other data files ("Invalid
                                   Data Files"), quits with exit code 2
@@ -153,7 +153,7 @@ The original's command line (see docs/MULTIPLAYER.md "From the command line"):
                                   says what was skipped); it also counts as one of the four arguments
 
 Paths:
-  --assets=DIR                    OpenSE4's own assets directory (default: auto-detect, else built in)
+  --assets=DIR                    VOIDREIGN's own assets directory (default: auto-detect, else built in)
 
 Input scripts (see docs/BUILDING.md "Input scripts"):
   --input-script=FILE             Play FILE's clicks, keys and checks through the game's own input (FILE's
@@ -455,7 +455,7 @@ int main(int argc, char** argv) {
         bo.bind = botBind;
         bo.port = static_cast<uint16_t>(botPort);
         bo.token = !botToken.empty() ? botToken : core::environment("OPENSE4_BOT_TOKEN").value_or("");
-        bo.gameName = "OpenSE4";
+        bo.gameName = "VOIDREIGN";
         bo.requestTimeout = std::chrono::seconds(botTimeout);
         auto opened = sdk::BotHost::open(std::move(bo));
         if (!opened) {
