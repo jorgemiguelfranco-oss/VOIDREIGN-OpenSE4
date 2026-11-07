@@ -25,7 +25,8 @@ In a running game:
 - Your empire starts with 25,000 storage capacity for each resource even before building a warehouse. This is a limited bootstrap allowance, not unlimited storage.
 - A Mineral Warehouse adds 30,000 mineral capacity; an Organic Warehouse adds 30,000 organic capacity; a Radioactive Vault adds 30,000 radioactive capacity. A Central Warehouse adds 75,000 to all three resources.
 - Build storage before your economy outgrows that allowance. After maintenance and construction have been paid, any remaining stockpile above capacity is discarded. A strong economy can therefore waste production without sufficient warehouses; a weak economy that loses too much stock can then struggle to finance the infrastructure needed to recover.
-- Develop colonies, research technologies, design ships and bases, build at shipyards, and issue movement orders through the existing native engine.
+- Research is now an actual unlock path: the first frigate and its basic Pulse Emitter remain available immediately; higher drive systems, three colony-core types, cruiser/freighter/platform hulls, laser and missile weapons, shields, sensors, orbital yards, warehouses, defences and terraforming unlock through their named technology areas.
+- Develop colonies, design ships and bases, build at shipyards, and issue movement orders through the existing native engine.
 
 ## Data, saves and troubleshooting
 
