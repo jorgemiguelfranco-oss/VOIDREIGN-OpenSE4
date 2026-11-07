@@ -168,7 +168,7 @@ jobs:
 
       - name: Start the programs
         run: |
-          build/release/opense4 --help > /dev/null
+          build/release/VOIDREIGN --help > /dev/null
           build/release/opense4-server --help > /dev/null
 
   # 32-bit ARM (armhf: ARMv7, hard-float, NEON), cross-compiled on x86_64 with
@@ -233,7 +233,7 @@ jobs:
 
       - name: Start the programs
         run: |
-          qemu-arm -L /usr/arm-linux-gnueabihf build/armhf/opense4 --help > /dev/null
+          qemu-arm -L /usr/arm-linux-gnueabihf build/armhf/VOIDREIGN --help > /dev/null
           qemu-arm -L /usr/arm-linux-gnueabihf build/armhf/opense4-server --help > /dev/null
 
   # The client itself, played by input scripts (docs/BUILDING.md "Input scripts"): the
@@ -360,7 +360,7 @@ jobs:
 
       - name: Start the programs
         run: |
-          build/debug/opense4 --help > /dev/null
+          build/debug/VOIDREIGN --help > /dev/null
           build/debug/opense4-server --help > /dev/null
 
   windows-msvc:
