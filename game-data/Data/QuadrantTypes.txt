@@ -1,0 +1,25 @@
+*BEGIN*
+Name := VoidReign Spiral
+Description := A broad spiral frontier with stable home systems and contested outer regions.
+Min Dist Between Systems := 2
+System Placement := Spiral
+Max Warp Points per Sys := 4
+Min Angle Between WP := 30
+Number Of System Types := 2
+Type 1 Name := VoidReign Core System
+Type 1 Chance := 700
+Type 2 Name := VoidReign Nebula System
+Type 2 Chance := 300
+
+Name := VoidReign Frontier
+Description := A loose frontier with long distances between isolated systems.
+Min Dist Between Systems := 2
+System Placement := Random
+Max Warp Points per Sys := 3
+Min Angle Between WP := 45
+Number Of System Types := 2
+Type 1 Name := VoidReign Core System
+Type 1 Chance := 850
+Type 2 Name := VoidReign Nebula System
+Type 2 Chance := 150
+*END*

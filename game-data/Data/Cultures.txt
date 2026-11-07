@@ -1,0 +1,40 @@
+*BEGIN*
+Name := Frontier Pragmatists
+Description := Practical communities that value resilient infrastructure and steady growth.
+Production := 5
+Research := 0
+Intelligence := 0
+Trade := 0
+Space Combat := 0
+Ground Combat := 0
+Happiness := 0
+Maintenance := -5
+SY Rate := 0
+Repair := 10
+
+Name := Scientific Compact
+Description := Research-led societies that invest heavily in laboratories and technical education.
+Production := -5
+Research := 10
+Intelligence := 0
+Trade := 0
+Space Combat := 0
+Ground Combat := 0
+Happiness := 0
+Maintenance := 0
+SY Rate := 0
+Repair := 5
+
+Name := Free Traders
+Description := Merchant networks that specialise in exchange and commercial development.
+Production := 0
+Research := 0
+Intelligence := 0
+Trade := 10
+Space Combat := 0
+Ground Combat := 0
+Happiness := 0
+Maintenance := -5
+SY Rate := 0
+Repair := 5
+*END*

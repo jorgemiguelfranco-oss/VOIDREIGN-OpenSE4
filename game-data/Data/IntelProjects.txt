@@ -1,0 +1,18 @@
+*BEGIN*
+Name := Counterintelligence Sweep
+Description := Trace foreign espionage networks and harden strategic systems.
+Group := Espionage
+Cost := 5000
+Type := Counter Intelligence
+Effect Amount := 1
+Num Source Messages := 1
+Source Message 1 := Our analysts have identified and disrupted a hostile intelligence network.
+Num Target Messages := 1
+Target Message Title 1 := Network exposed
+Target Message 1 := A foreign counterintelligence sweep has disrupted covert operations.
+Source Picture := Spy
+Target Picture := Spy
+Number Of Tech Req := 1
+Tech Area Req 1 := Stellar Sciences
+Tech Level Req 1 := 1
+*END*

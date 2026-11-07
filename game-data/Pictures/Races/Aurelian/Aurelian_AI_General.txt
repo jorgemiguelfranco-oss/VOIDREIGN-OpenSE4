@@ -1,0 +1,23 @@
+*BEGIN*
+Name := Aurelian Concord
+Description := The Aurelian Concord is an original VOIDREIGN faction with its own strategic character and political history.
+Empire Name := The Aurelian Concord
+Empire Type := Concord
+Emperor Name := Ari Voss
+Emperor Title := First Speaker
+Biological Description := A resilient starfaring population adapted to long-duration settlement beyond its home system.
+Society Description := Scientific Compact shape the faction's institutions, economy and approach to expansion.
+General History Description := The Concord formed after the Meridian Accords unified several threatened colonies.
+Demeanor := Steady
+Culture := Scientific Compact
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Aurelian
+Race Opt 1 Num Characteristics := 0
+Race Opt 1 Num Advanced Traits := 0
+Race Opt 2 Num Characteristics := 0
+Race Opt 2 Num Advanced Traits := 0
+Race Opt 3 Num Characteristics := 0
+Race Opt 3 Num Advanced Traits := 0
+*END*

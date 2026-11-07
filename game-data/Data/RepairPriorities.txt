@@ -1,0 +1,5 @@
+Engines
+Weapons
+Shields
+Life Support
+Command

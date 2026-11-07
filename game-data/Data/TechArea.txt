@@ -1,0 +1,97 @@
+*BEGIN*
+Name := Stellar Sciences
+Group := Science
+Description := Fundamental stellar physics, materials science and subspace measurement.
+Maximum Level := 5
+Level Cost := 1500
+Start Level := 1
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := False
+Number Of Tech Req := 0
+
+Name := VoidReign Propulsion
+Group := Propulsion
+Description := Compact fusion drives, vector control and interstellar transit.
+Maximum Level := 5
+Level Cost := 1800
+Start Level := 1
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := True
+Number Of Tech Req := 1
+Tech Area Req 1 := Stellar Sciences
+Tech Level Req 1 := 1
+
+Name := VoidReign Energy Weapons
+Group := Weapons
+Description := Pulse, beam and field weapons for fleet combat.
+Maximum Level := 5
+Level Cost := 2200
+Start Level := 1
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := True
+Number Of Tech Req := 1
+Tech Area Req 1 := Stellar Sciences
+Tech Level Req 1 := 1
+
+Name := VoidReign Industrial Engineering
+Group := Industry
+Description := Industrial automation, extraction and orbital construction.
+Maximum Level := 5
+Level Cost := 1700
+Start Level := 1
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := True
+Number Of Tech Req := 1
+Tech Area Req 1 := Stellar Sciences
+Tech Level Req 1 := 1
+
+Name := VoidReign Planetary Engineering
+Group := Expansion
+Description := Biosphere engineering for rocky, icy and gas worlds.
+Maximum Level := 5
+Level Cost := 2600
+Start Level := 0
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := True
+Number Of Tech Req := 1
+Tech Area Req 1 := Stellar Sciences
+Tech Level Req 1 := 2
+
+Name := VoidReign Logistics
+Group := Logistics
+Description := Resource storage, freight handling and interplanetary supply networks.
+Maximum Level := 5
+Level Cost := 2000
+Start Level := 0
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := True
+Number Of Tech Req := 1
+Tech Area Req 1 := VoidReign Industrial Engineering
+Tech Level Req 1 := 1
+
+Name := VoidReign Advanced Sensors
+Group := Electronics
+Description := Long-baseline detection and electronic countermeasures.
+Maximum Level := 5
+Level Cost := 2100
+Start Level := 0
+Raise Level := 0
+Racial Area := 0
+Unique Area := 0
+Can Be Removed := True
+Number Of Tech Req := 1
+Tech Area Req 1 := Stellar Sciences
+Tech Level Req 1 := 2
+*END*

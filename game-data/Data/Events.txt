@@ -1,0 +1,12 @@
+*BEGIN*
+Type := VoidReign Solar Flare
+Severity := Low
+Effect Amount := 10
+Message To := Owner
+Num Messages := 1
+Message Title 1 := Stellar flare
+Message 1 := A surge of charged particles sweeps across the system.
+Picture := Flare
+Time Till Completion := 0
+Num Start Messages := 0
+*END*

@@ -1,0 +1,20 @@
+*BEGIN*
+Name := VoidReign Line
+Description := A broad line formation for screening and coordinated fire.
+Leader Position Xpos := 0
+Leader Position Ypos := 0
+Leader Design Type := Any
+Number Of Positions := 4
+Position 1 Xpos := -1
+Position 1 Ypos := 0
+Position 1 Type := Any
+Position 2 Xpos := 1
+Position 2 Ypos := 0
+Position 2 Type := Any
+Position 3 Xpos := -2
+Position 3 Ypos := 0
+Position 3 Type := Any
+Position 4 Xpos := 2
+Position 4 Ypos := 0
+Position 4 Type := Any
+*END*

@@ -1,0 +1,12 @@
+*BEGIN*
+Maximum Number Of Systems        := 128
+Number Of Space Combat Turns     := 30
+Bases Can Join Fleets            := FALSE
+Planet Value Low Percent         := 40
+Planet Value High Percent        := 160
+Asteroids Value Low Percent     := 100
+Asteroids Value High Percent    := 200
+Plr Planet Value Low Percent     := 80
+Plr Planet Value Medium Percent  := 110
+Plr Planet Value High Percent    := 140
+*END*

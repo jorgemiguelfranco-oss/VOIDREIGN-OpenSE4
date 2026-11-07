@@ -1,0 +1,11 @@
+*BEGIN*
+Name := Pathfinder
+
+Name := Escort
+
+Name := Settlement Ark
+
+Name := Orbital Station
+
+Name := Pulse Frigate
+*END*

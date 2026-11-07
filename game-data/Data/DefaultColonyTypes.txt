@@ -1,0 +1,11 @@
+*BEGIN*
+Name := Extractive World
+
+Name := Research World
+
+Name := Industrial World
+
+Name := Logistics Hub
+
+Name := Fortress World
+*END*

@@ -1,0 +1,3 @@
+*BEGIN*
+Personality Group := 3
+*END*

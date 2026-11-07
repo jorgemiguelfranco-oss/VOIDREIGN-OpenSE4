@@ -1,0 +1,33 @@
+*BEGIN*
+Name := Quiet Space
+Number Of Poss Abilities := 1
+Ability 1 Chance := 50
+Ability 1 Type := Sector - Sensor Interference
+Ability 1 Descr := Background radiation reduces sensor clarity.
+Ability 1 Val 1 := 10
+Ability 1 Val 2 :=
+
+Name := Ion Storm
+Number Of Poss Abilities := 1
+Ability 1 Chance := 1000
+Ability 1 Type := Sector - Damage
+Ability 1 Descr := Charged particles damage exposed ships.
+Ability 1 Val 1 := 5
+Ability 1 Val 2 :=
+
+Name := Ancient Relay
+Number Of Poss Abilities := 1
+Ability 1 Chance := 1000
+Ability 1 Type := Ancient Ruins
+Ability 1 Descr := An abandoned precursor relay contains technical data.
+Ability 1 Val 1 := 1
+Ability 1 Val 2 :=
+
+Name := Turbulent Transit
+Number Of Poss Abilities := 1
+Ability 1 Chance := 1000
+Ability 1 Type := Warp Point - Turbulence
+Ability 1 Descr := The unstable corridor makes transit more dangerous.
+Ability 1 Val 1 := 10
+Ability 1 Val 2 :=
+*END*

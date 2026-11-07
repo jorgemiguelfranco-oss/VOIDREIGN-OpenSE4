@@ -1,0 +1,23 @@
+*BEGIN*
+Name := Veyran Trade League
+Description := The Veyran Trade League is an original VOIDREIGN faction with its own strategic character and political history.
+Empire Name := The Veyran Trade League
+Empire Type := League
+Emperor Name := Selene Marr
+Emperor Title := High Navigator
+Biological Description := A resilient starfaring population adapted to long-duration settlement beyond its home system.
+Society Description := Free Traders shape the faction's institutions, economy and approach to expansion.
+General History Description := The League grew from independent ports along the old trade corridors.
+Demeanor := Patient
+Culture := Free Traders
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Veyran
+Race Opt 1 Num Characteristics := 0
+Race Opt 1 Num Advanced Traits := 0
+Race Opt 2 Num Characteristics := 0
+Race Opt 2 Num Advanced Traits := 0
+Race Opt 3 Num Characteristics := 0
+Race Opt 3 Num Advanced Traits := 0
+*END*

@@ -1,0 +1,31 @@
+*BEGIN*
+Name := Adaptive Metabolism
+Description := Efficient biological systems recover more quickly from environmental stress.
+Pic Num := 1
+General Type := Advantage
+Cost := 500
+Trait Type := Luck
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+
+Name := Neural Synchronicity
+Description := A culture of rapid knowledge exchange accelerates discovery.
+Pic Num := 2
+General Type := Advantage
+Cost := 650
+Trait Type := Research
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+
+Name := Industrial Discipline
+Description := Coordinated production improves industrial output.
+Pic Num := 3
+General Type := Advantage
+Cost := 600
+Trait Type := Production
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+*END*

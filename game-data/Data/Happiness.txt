@@ -1,0 +1,8 @@
+*BEGIN*
+Name := Stable Morale
+Description := A content and steadily growing population.
+Max Positive Anger Change := 5
+Max Negative Anger Change := -5
+Any Ship Lost := 2
+Any Planet Colonized := -3
+*END*
