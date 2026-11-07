@@ -101,6 +101,7 @@ jobs:
         env:
           VOIDREIGN_DATA_DIR: ${{ github.workspace }}/build/debug/generated-voidreign-data
         run: |
+          python3 tools/generate_voidreign_art.py "$VOIDREIGN_DATA_DIR" --verify
           build/debug/opense4-datacheck "$VOIDREIGN_DATA_DIR/Data"
           build/debug/tests/opense4_tests --test-case="installed data set: race presets, setup and starting assets (opt-in)"
           build/debug/tests/opense4_tests --test-case="VOIDREIGN generated economy and technology remain bounded over eight AI-managed turns (opt-in)"
