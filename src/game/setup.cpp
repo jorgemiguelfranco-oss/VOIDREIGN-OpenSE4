@@ -58,10 +58,10 @@ AbilityKind colonizeKind(std::string_view surface) {
 
 // Facilities of a starting planet (spec 02 §9, confirmed: binary): the empire's
 // best facility for each role, while slots are free: a spaceport (unless the
-// race has No Spaceports), a space yard, a supply generator, one mineral, one
-// radioactives and one organics producer, one research facility (unless every
-// technology is known), then alternately a mineral producer and a research
-// facility, starting with minerals (only minerals once everything is known).
+// race has No Spaceports), a space yard, a supply generator, any starting
+// warehouses requested by the native data set, one mineral, one radioactives
+// and one organics producer, one research facility (unless every technology is
+// known), then alternately a mineral producer and a research facility.
 void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, Colony& col) {
     const int slots = facilitySlots(r, s, col);
     auto add = [&](AbilityKind kind) {
@@ -73,15 +73,15 @@ void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, 
     if (!r.hasTrait(e.race, "No Spaceports")) add(AbilityKind::Spaceport);
     add(AbilityKind::SpaceYard);
     add(AbilityKind::SupplyGeneration);
-    add(AbilityKind::ResourceGenMinerals);
-    add(AbilityKind::ResourceGenRadioactives);
-    add(AbilityKind::ResourceGenOrganics);
     // A native game can bootstrap its logistics economy without hard-coding a
     // particular facility name. Each starting warehouse is selected through
     // the same best-facility rule as the other starting roles.
     const int64_t startingWarehouses = std::clamp<int64_t>(r.setting("VOIDREIGN Starting Warehouse Count", 0), 0, 5);
     for (int64_t i = 0; i < startingWarehouses; ++i)
         if (!add(AbilityKind::ResourceStorageMinerals)) break;
+    add(AbilityKind::ResourceGenMinerals);
+    add(AbilityKind::ResourceGenRadioactives);
+    add(AbilityKind::ResourceGenOrganics);
     // Every technology known: the empire's levels in every area, each capped at
     // its maximum, add up to the maxima of the areas allowed in the game and
     // open to the race (spec 02 §9, confirmed: binary).
