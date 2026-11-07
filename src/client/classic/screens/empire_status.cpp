@@ -270,7 +270,7 @@ public:
                     status_.issue(ui, cmd::SetEmpireOptions{.empireType = std::string(choice.name)});
                 if (ImGui::IsItemHovered()) {
                     const std::string tooltipEffects = effectSummary(choice);
-                    ImGui::SetTooltip("%s\\n%s", choice.description.data(), tooltipEffects.c_str());
+                    ImGui::SetTooltip("%s\n%s", choice.description.data(), tooltipEffects.c_str());
                 }
             }
             ImGui::EndCombo();
