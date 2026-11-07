@@ -60,6 +60,7 @@ TEST_CASE("installed data set: VoidReign content, setup and turn economy (opt-in
     int previousSeverity = -1;
     for (const auto& event : r->data().eventTypes) {
         CHECK_MESSAGE(effects::parseEffect(event.type).has_value(), event.type);
+        CHECK_FALSE(event.picture.empty());
         CHECK_FALSE(event.messages.empty());
         if (!event.messages.empty()) {
             CHECK_FALSE(event.messages.front().title.empty());
