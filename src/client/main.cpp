@@ -55,8 +55,8 @@ Original game rules and content, powered by the OpenSE4 engine architecture.
 
 Usage: VOIDREIGN [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
-Plays Space Empires IV Deluxe on your own installed copy of the game. The game is
-found in your Steam libraries, or given with --classic-dir (see docs/SETUP.md).
+Plays VOIDREIGN using its original game data shipped beside the executable.
+For development, --data-dir can select another VOIDREIGN data directory.
 
 Rendering:
   --renderer=auto|vulkan|opengl   Graphics backend (default: auto = Vulkan, fall back to OpenGL)
@@ -65,14 +65,14 @@ Rendering:
   --fullscreen                    Start in fullscreen (Alt+Enter toggles)
   --size=WxH                      Window size (default 1600x900)
   --layout=auto|800x600|1024x768  The classic screen layout (default: auto, 800x600 on a desktop
-                                  800 px wide or less, as the original; forcing one is OpenSE4's)
-  --text-size=N                   Settings' Text size for this run, 0.75 to 1.5
+                                  800 px wide or less, as the engine's original layout; forcing one is an extension)
+  --text-size=N                   Text size for this run, 0.75 to 1.5
   --no-audio                      No sound or music
   --audio                         Sound and music even in a script or screenshot run (to check
                                   the audio, e.g. with SDL_AUDIO_DRIVER=disk: docs/SETUP.md)
 
 Game:
-  --classic-dir=DIR               Game directory of your installed copy (default: auto-detect)
+  --data-dir=DIR                  Override the native VOIDREIGN game-data directory (development only)
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
@@ -80,8 +80,7 @@ Game:
                                   then among the mods that come with OpenSE4 (mods/ beside the program)
   --no-bundled-mods               Leave out the mods that come with OpenSE4
   --quick-start[=RACE]            Skip the intro: start a quick game as RACE (a Pictures/Races folder name)
-  --load=GAME.gam                 Open a saved game at once: a VOIDREIGN save, or an imported legacy save (
-                                  see docs/SETUP.md "Games of the original")
+  --load=GAME.gam                 Open a saved VOIDREIGN game at once
   --ai=MOD:PLAYER                 Every computer empire of the quick game (--quick-start) is played by
                                   this script player of a mod (its [[ai.players]], docs/sdk/ai-protocol.md);
                                   "builtin" for the built-in AI (the default); "external:N" for the
