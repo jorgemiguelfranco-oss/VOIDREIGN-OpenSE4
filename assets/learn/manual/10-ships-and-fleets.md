@@ -28,6 +28,9 @@ between them.
 | **Pathfinder** | Scout and light patrol combatant | Starting hull |
 | **Hauler** | Cargo and population transport | Starting technology |
 | **Frigate** | Heavier frontline combatant | VoidReign Propulsion level 2 |
+| **Destroyer** | Heavy escort and fleet screening | VoidReign Propulsion level 3 |
+| **Cruiser** | Long-range heavy combatant | VoidReign Propulsion level 4 |
+| **Battleship** | Capital ship and task-force anchor | VoidReign Propulsion level 5 |
 | **Settlement Ark** | Rock-world colonisation | VoidReign Planetary Engineering level 1 |
 | **Orbital Station** | Stationary defence, sensors and orbital shipyard modules | Base hull |
 
