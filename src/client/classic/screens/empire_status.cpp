@@ -14,6 +14,7 @@
 #include "game/ai_data.hpp"
 #include "game/combat.hpp"
 #include "game/setup.hpp"
+#include "game/government.hpp"
 
 #include <algorithm>
 #include <array>
@@ -250,6 +251,20 @@ public:
         d.beginContent();
         ImGui::TextColored(kLabelBlue, "Options In Use");
         beginList(ui, "##options", ImVec2(0, 0), kListLineStep, ImGuiChildFlags_AlwaysUseWindowPadding);
+        heading(ui, "Government");
+        const game::GovernmentProfile government = game::governmentProfile(me.empireType);
+        ImGui::TextWrapped("%s", government.description.empty() ? "No government profile selected." : government.description.data());
+        ImGui::TextDisabled("Reform cost: 2,500 minerals / 1,500 organics / 1,000 radioactives");
+        ImGui::SetNextItemWidth(ui.px(250));
+        if (ImGui::BeginCombo("##government", me.empireType.c_str())) {
+            for (const game::GovernmentProfile& choice : game::kGovernmentProfiles) {
+                const bool selected = choice.name == me.empireType;
+                if (ImGui::Selectable(choice.name.data(), selected) && !selected)
+                    status_.issue(ui, cmd::SetEmpireOptions{.empireType = std::string(choice.name)});
+            }
+            ImGui::EndCombo();
+        }
+        ImGui::Spacing();
         heading(ui, "General Options");
         lampToggle(ui, "Show the log at the start of each turn", &o.showLogAtTurnStart);
         lampToggle(ui, "Confirm ending the turn", &o.confirmEndTurn);

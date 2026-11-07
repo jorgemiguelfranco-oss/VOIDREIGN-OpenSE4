@@ -4,6 +4,7 @@
 #include "game/design.hpp"
 #include "game/diplomacy.hpp"
 #include "game/economy.hpp"
+#include "game/government.hpp"
 #include "game/hooks.hpp"
 #include "game/movement.hpp"
 #include "game/movement_internal.hpp"
@@ -1339,9 +1340,24 @@ struct Applier {
         return {};
     }
     R operator()(const cmd::SetEmpireOptions& c) {
+        // Validate and price a reform before changing any option: rejected
+        // commands must not partially apply unrelated settings.
+        if (c.empireType && *c.empireType != emp().empireType) {
+            const auto& allowed = r.data().names.empireTypes;
+            if (std::find(allowed.begin(), allowed.end(), *c.empireType) == allowed.end() ||
+                governmentProfile(*c.empireType).name.empty())
+                return R::fail("Unknown government");
+            const Resources reformCost{2500, 1500, 1000};
+            if (!emp().stockpile.covers(reformCost))
+                return R::fail("Insufficient resources for government reform (2,500 minerals, 1,500 organics, 1,000 radioactives)");
+        }
         if (c.aiMinimalChanges) emp().aiMinimalChanges = *c.aiMinimalChanges;
         if (c.passwordHash) emp().passwordHash = *c.passwordHash;
         if (c.chooseColonyType) emp().chooseColonyType = *c.chooseColonyType;
+        if (c.empireType && *c.empireType != emp().empireType) {
+            emp().stockpile = emp().stockpile - Resources{2500, 1500, 1000};
+            emp().empireType = *c.empireType;
+        }
         return {};
     }
     R operator()(const cmd::SetEmail& c) {

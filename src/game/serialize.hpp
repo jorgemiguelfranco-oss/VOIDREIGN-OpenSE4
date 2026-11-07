@@ -161,7 +161,9 @@ class Rules;
 //   PlanetSize.txt, as the original's order holds it (spec 01 §9); format
 //   10's held its Special Ability ID, converted with the data set once the
 //   game is loaded (upgradeLoadedGame).
-inline constexpr uint32_t kSaveVersion = 11;
+// Version 12: VOIDREIGN government reform is carried in SetEmpireOptions.
+// Format 11 orders still read without the new optional command field.
+inline constexpr uint32_t kSaveVersion = 12;
 inline constexpr uint32_t kMinSaveVersion = 7;
 
 inline constexpr size_t kEnvelopeSize = 32;

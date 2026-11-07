@@ -159,6 +159,7 @@ game::EmpireOrders everyCommandSample(const Rules& r) {
     }
     c.push_back(cmd::SetEmpireOptions{true, std::string("verifier")});
     c.push_back(cmd::SetEmpireOptions{std::nullopt, std::nullopt});
+    c.push_back(cmd::SetEmpireOptions{.empireType = std::string("Merchant Republic")});
     c.push_back(cmd::SetMinisters{kAllMinisters, std::string("Aggressive"), true, false, std::nullopt, true});
     c.push_back(cmd::SetEncounterOptions{EncounterClear::Any});
     c.push_back(cmd::EnterSector{VehicleId{31u}, FleetId{}, {SystemId{32u}, Sector{3, 4}}, false});

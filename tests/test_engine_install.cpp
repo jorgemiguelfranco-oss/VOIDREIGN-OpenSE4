@@ -63,6 +63,18 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
     auto game = createGame(*r, setup, extras);
     REQUIRE_MESSAGE(game.has_value(), (game ? std::string{} : game.error()));
     GameState& s = *game;
+    // In-game reforms debit the treasury and persist through the existing
+    // empire type field, while invalid profile names are rejected atomically.
+    Empire& reforming = s.empires.front();
+    const std::string nextGovernment = reforming.empireType == "Merchant Republic" ? "Technocracy" : "Merchant Republic";
+    reforming.stockpile = Resources{10000, 10000, 10000};  // isolate pricing from starting-economy balance
+    const Resources beforeReform = reforming.stockpile;
+    CHECK(apply(*r, s, reforming.id, cmd::SetEmpireOptions{.empireType = nextGovernment}).ok);
+    CHECK(reforming.empireType == nextGovernment);
+    CHECK(reforming.stockpile == beforeReform - Resources{2500, 1500, 1000});
+    const Resources afterReform = reforming.stockpile;
+    CHECK_FALSE(apply(*r, s, reforming.id, cmd::SetEmpireOptions{.empireType = std::string("Independent")}).ok);
+    CHECK(reforming.stockpile == afterReform);
     for (const Empire& e : s.empires) {
         INFO(e.name);
         CHECK(e.racialPointsSpent <= s.options.racialPoints);
