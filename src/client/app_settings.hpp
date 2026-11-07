@@ -68,6 +68,8 @@ struct AppSettings {
 
 // Selects the user-data profile before settings, saves or history are read.
 void setStandaloneUserFolder(bool standaloneVoidReign);
+// Current product name for native dialogs and app metadata.
+const char* applicationName();
 AppSettings& appSettings();
 bool saveAppSettings();
 std::filesystem::path appSettingsFile();
