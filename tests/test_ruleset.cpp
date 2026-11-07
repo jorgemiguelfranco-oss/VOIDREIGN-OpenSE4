@@ -434,6 +434,17 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
         CHECK(created->vehicles[i].owner == game::EmpireId{owner});
         CHECK(created->vehicles[i].design == game::DesignId{i});
         CHECK(created->vehicles[i].location.system == created->empire(game::EmpireId{owner}).homeSystem);
+        if (i % 3 == 2) {
+            const game::Colony* capital = nullptr;
+            for (const auto& c : created->colonies)
+                if (c && c->owner == game::EmpireId{owner} && c->homeworld) {
+                    capital = &*c;
+                    break;
+                }
+            REQUIRE(capital != nullptr);
+            const game::Sector homeSector = game::locationOf(created->galaxy, capital->planet).sector;
+            CHECK(game::chebyshev(created->vehicles[i].location.sector, homeSector) > 0);
+        }
     }
     for (size_t empire = 0; empire < 2; ++empire) {
         const game::EmpireId id{empire};
