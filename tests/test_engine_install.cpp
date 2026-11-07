@@ -5,6 +5,7 @@
 
 #include "game/design.hpp"
 #include "game/economy.hpp"
+#include "game/events.hpp"
 #include "game/government.hpp"
 #include "game/query.hpp"
 #include "game/turn.hpp"
@@ -51,6 +52,27 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
     CHECK(hasName(r->data().components, "Orbital Yard Module"));
     CHECK(hasName(r->data().facilities, "Planetary Shipyard"));
     CHECK(hasName(r->data().facilities, "Central Warehouse"));
+
+    // The data pack must expose the engine's implemented event and
+    // intelligence systems; an empty catalogue would silently disable them.
+    CHECK(r->data().eventTypes.size() >= 6);
+    for (const auto& event : r->data().eventTypes)
+        CHECK_MESSAGE(effects::parseEffect(event.type).has_value(), event.type);
+    CHECK(r->data().intelProjects.size() >= 15);
+    bool defenseI = false, defenseII = false, defenseIII = false;
+    for (const auto& project : r->data().intelProjects) {
+        CHECK_MESSAGE(effects::parseEffect(project.type).has_value(), project.name);
+        CHECK_MESSAGE(project.cost > 0, project.name);
+        if (project.type == "Intelligence Defense") {
+            defenseI |= project.effectAmount == 1;
+            defenseII |= project.effectAmount == 2;
+            defenseIII |= project.effectAmount == 3;
+        }
+    }
+    CHECK(defenseI);
+    CHECK(defenseII);
+    CHECK(defenseIII);
+
     for (const auto& p : r->racePresets()) {
         CHECK_FALSE(p.name.empty());
         if (!p.neutral) {
