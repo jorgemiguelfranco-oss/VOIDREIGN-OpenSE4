@@ -1352,6 +1352,46 @@ TEST_CASE("ai: colony types at colonization") {
 
 // ---- Designs --------------------------------------------------------------------------------------
 
+TEST_CASE("VOIDREIGN starts each empire with a designed and movable patrol ship") {
+    ruleset::Ruleset data = buildEngineRuleset();
+    data.settings.set("VOIDREIGN Starting Attack Ship Count", "1");
+    data.reindex();
+    const Rules r{std::move(data)};
+
+    GameSetup setup;
+    setup.seed = 741;
+    setup.options.systemCount = 8;
+    EmpireSetup human;
+    human.name = "Human";
+    setup.empires.push_back(std::move(human));
+    setup.empires.push_back(computerSetup("Computer"));
+
+    auto created = createGame(r, setup);
+    REQUIRE_MESSAGE(created.has_value(), (created ? std::string{} : created.error()));
+    const GameState& s = *created;
+    REQUIRE(s.empires.size() == 2);
+
+    for (size_t i = 0; i < s.empires.size(); ++i) {
+        const EmpireId owner{static_cast<uint32_t>(i)};
+        int patrolShips = 0;
+        for (const Vehicle& v : s.vehicles) {
+            if (v.owner != owner) continue;
+            const Design& d = s.design(v.design);
+            if (d.designType != "Attack Ship") continue;
+            ++patrolShips;
+            CHECK(v.location.system == s.empire(owner).homeSystem);
+            CHECK(computeDesignStats(r, &s.empire(owner), d).armed());
+        }
+        CHECK(patrolShips == 1);
+    }
+}
+
+// Engine rulesets without the VOIDREIGN setting keep the original no-starting-ships behaviour.
+TEST_CASE("setup: starting attack ships are opt-in for native game data") {
+    GameState s = newEngineGame(741, 2, 8, true);
+    CHECK(s.vehicles.empty());
+}
+
 TEST_CASE("ai: the designer takes the largest allowed hull and fills it by density") {
     const Rules& r = engineRules();
     GameState s = newEngineGame(3, 1, 8, true);
