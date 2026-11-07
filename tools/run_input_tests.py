@@ -10,8 +10,8 @@ The scripts can play the standalone game's native data directly:
 
     python3 tools/run_input_tests.py --data-dir game-data voidreign-native-startup
 
-For an existing installed game, use --install or OPENSE4_CLASSIC_DATA. Without
-any data source the original-game scripts are skipped. --fixture-data runs the
+For an existing installed game, use --install or set OPENSE4_CLASSIC_DATA to
+its explicit data directory. Without any data source the original-game scripts are skipped. --fixture-data runs the
 scripts marked "# ci: fixture-data" on a game folder put together from our own
 test fixtures instead (no game install needed; CI does this).
 
@@ -364,7 +364,7 @@ def main():
     else:
         data = os.environ.get("OPENSE4_CLASSIC_DATA", "")
         if not data:
-            print("skipped: set OPENSE4_CLASSIC_DATA=auto, pass --install DIR or --data-dir DIR, "
+            print("skipped: set OPENSE4_CLASSIC_DATA to a data folder, pass --install DIR or --data-dir DIR, "
                   "or use --fixture-data")
             return 0
         if data != "auto":
