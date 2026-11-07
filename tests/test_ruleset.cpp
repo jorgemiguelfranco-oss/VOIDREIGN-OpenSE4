@@ -14,6 +14,8 @@
 #include <cctype>
 #include <cstdlib>
 #include <format>
+#include <filesystem>
+#include <utility>
 #include <fstream>
 
 using namespace opense4;
