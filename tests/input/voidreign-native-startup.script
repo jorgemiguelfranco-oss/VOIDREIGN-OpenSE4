@@ -20,3 +20,19 @@ click item:Facil
 wait-for item:"VoidReign Warehouse"
 assert-present item:"VoidReign Spaceport"
 assert-present item:"VoidReign Warehouse"
+
+# Exercise a real native research order and process the first turn.
+key Escape
+click tag:command:research
+wait-window research
+click item:* in=research nth=1
+wait 2
+assert { research_queued = 1 }
+key Escape
+wait-closed research
+click tag:button:end-turn
+click item:Yes in="End Turn"
+wait-turn 1
+assert-turn 1
+click tag:log:close optional
+assert-turn 1
