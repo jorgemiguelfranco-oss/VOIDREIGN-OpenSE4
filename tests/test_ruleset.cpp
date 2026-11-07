@@ -228,11 +228,25 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     };
     const auto livePulse2 = findComponent("VoidReign Pulse Cannon II");
     const auto liveDrive2 = findComponent("VoidReign Vector Drive II");
+    const auto liveDrive3 = findComponent("VoidReign Vector Drive III");
+    const auto liveDrive4 = findComponent("VoidReign Vector Drive IV");
+    const auto liveCargo3 = findComponent("VoidReign Cargo Hold III");
+    const auto liveCargo4 = findComponent("VoidReign Cargo Hold IV");
+    const auto liveCargo5 = findComponent("VoidReign Cargo Hold V");
     const auto liveWarehouse2 = findFacility("VoidReign Warehouse II");
+    const auto liveWarehouse3 = findFacility("VoidReign Warehouse III");
+    const auto liveWarehouse4 = findFacility("VoidReign Warehouse IV");
     const auto liveExtractor2 = findFacility("VoidReign Mineral Extractor II");
     REQUIRE(livePulse2 != gameRules.data().components.end());
     REQUIRE(liveDrive2 != gameRules.data().components.end());
+    REQUIRE(liveDrive3 != gameRules.data().components.end());
+    REQUIRE(liveDrive4 != gameRules.data().components.end());
+    REQUIRE(liveCargo3 != gameRules.data().components.end());
+    REQUIRE(liveCargo4 != gameRules.data().components.end());
+    REQUIRE(liveCargo5 != gameRules.data().components.end());
     REQUIRE(liveWarehouse2 != gameRules.data().facilities.end());
+    REQUIRE(liveWarehouse3 != gameRules.data().facilities.end());
+    REQUIRE(liveWarehouse4 != gameRules.data().facilities.end());
     REQUIRE(liveExtractor2 != gameRules.data().facilities.end());
     const auto liveShield2 = findComponent("VoidReign Shield Projector II");
     const auto livePulse3 = findComponent("VoidReign Pulse Cannon III");
@@ -273,7 +287,14 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     };
     const uint32_t pulse2Index = indexOfComponent(livePulse2);
     const uint32_t drive2Index = indexOfComponent(liveDrive2);
+    const uint32_t drive3Index = indexOfComponent(liveDrive3);
+    const uint32_t drive4Index = indexOfComponent(liveDrive4);
+    const uint32_t cargo3Index = indexOfComponent(liveCargo3);
+    const uint32_t cargo4Index = indexOfComponent(liveCargo4);
+    const uint32_t cargo5Index = indexOfComponent(liveCargo5);
     const uint32_t warehouse2Index = indexOfFacility(liveWarehouse2);
+    const uint32_t warehouse3Index = indexOfFacility(liveWarehouse3);
+    const uint32_t warehouse4Index = indexOfFacility(liveWarehouse4);
     const uint32_t extractor2Index = indexOfFacility(liveExtractor2);
     const uint32_t shield2Index = indexOfComponent(liveShield2);
     const uint32_t pulse3Index = indexOfComponent(livePulse3);
@@ -291,7 +312,14 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const uint32_t supplyDepot2Index = indexOfFacility(liveSupplyDepot2);
     CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse2Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, drive2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo5Index));
     CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse3Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse4Index));
     CHECK_FALSE(gameRules.facilityAvailable(techProbe, extractor2Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, shield2Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse3Index));
@@ -365,6 +393,34 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const auto warehouseUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse2->family);
     REQUIRE(warehouseUpgrade);
     CHECK(*warehouseUpgrade == warehouse2Index);
+    setTech("VoidReign Logistics", 3);
+    CHECK(gameRules.componentAvailable(techProbe, cargo3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo4Index));
+    const auto cargoUpgrade3 = gameRules.componentUpgradeTarget(techProbe, liveCargo3->family);
+    REQUIRE(cargoUpgrade3);
+    CHECK(*cargoUpgrade3 == cargo3Index);
+
+    setTech("VoidReign Logistics", 4);
+    CHECK(gameRules.facilityAvailable(techProbe, warehouse3Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse4Index));
+    CHECK(gameRules.componentAvailable(techProbe, cargo4Index));
+    const auto warehouseUpgrade3 = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse3->family);
+    const auto cargoUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveCargo4->family);
+    REQUIRE(warehouseUpgrade3);
+    REQUIRE(cargoUpgrade4);
+    CHECK(*warehouseUpgrade3 == warehouse3Index);
+    CHECK(*cargoUpgrade4 == cargo4Index);
+
+    setTech("VoidReign Logistics", 5);
+    CHECK(gameRules.facilityAvailable(techProbe, warehouse4Index));
+    CHECK(gameRules.componentAvailable(techProbe, cargo5Index));
+    const auto warehouseUpgrade4 = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse4->family);
+    const auto cargoUpgrade5 = gameRules.componentUpgradeTarget(techProbe, liveCargo5->family);
+    REQUIRE(warehouseUpgrade4);
+    REQUIRE(cargoUpgrade5);
+    CHECK(*warehouseUpgrade4 == warehouse4Index);
+    CHECK(*cargoUpgrade5 == cargo5Index);
+    setTech("VoidReign Logistics", 2);
     setTech("VoidReign Industrial Engineering", 2);
     CHECK(gameRules.facilityAvailable(techProbe, extractor2Index));
     const auto extractorUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveExtractor2->family);
@@ -392,6 +448,20 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(*sensorUpgrade == sensor2Index);
     setTech("VoidReign Propulsion", 3);
     CHECK(gameRules.componentAvailable(techProbe, drive2Index));
+    const auto driveUpgrade2 = gameRules.componentUpgradeTarget(techProbe, liveDrive2->family);
+    REQUIRE(driveUpgrade2);
+    CHECK(*driveUpgrade2 == drive2Index);
+    setTech("VoidReign Propulsion", 4);
+    CHECK(gameRules.componentAvailable(techProbe, drive3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive4Index));
+    const auto driveUpgrade3 = gameRules.componentUpgradeTarget(techProbe, liveDrive3->family);
+    REQUIRE(driveUpgrade3);
+    CHECK(*driveUpgrade3 == drive3Index);
+    setTech("VoidReign Propulsion", 5);
+    CHECK(gameRules.componentAvailable(techProbe, drive4Index));
+    const auto driveUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveDrive4->family);
+    REQUIRE(driveUpgrade4);
+    CHECK(*driveUpgrade4 == drive4Index);
     REQUIRE(gameRules.racePresets().size() == 3);
     for (const auto& [folder, name] : std::array<std::pair<std::string_view, std::string_view>, 3>{
              std::pair{"Aurelian", "Aurelian Concord"}, std::pair{"Khepri", "Khepri Ascendancy"},
@@ -436,6 +506,13 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     // to the shared empire treasury on top of the starting Warehouse I.
     (*home)->facilities.push_back(warehouse2Index);
     CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{90000, 90000, 90000});
+    (*home)->facilities.pop_back();
+    (*home)->facilities.push_back(warehouse3Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{120000, 120000, 120000});
+    (*home)->facilities.pop_back();
+    (*home)->facilities.push_back(warehouse4Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{150000, 150000, 150000});
+    (*home)->facilities.pop_back();
     (*home)->facilities.pop_back();
     for (size_t resource = 0; resource < 3; ++resource)
         CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
