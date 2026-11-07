@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=VoidReign
+GenericName=4X Space Strategy
+Comment=Explore star systems, build fleets and lead a space-faring civilization
+Icon=io.voidreign.VoidReign
+Exec=opense4
+TryExec=opense4
+Terminal=false
+Categories=Game;StrategyGame;
+Keywords=space;strategy;4X;empire;fleets;colonization;
+StartupNotify=true
+StartupWMClass=io.voidreign.VoidReign
+SingleMainWindow=true
