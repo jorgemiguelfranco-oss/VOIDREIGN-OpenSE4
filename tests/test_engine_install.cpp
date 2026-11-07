@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace opense4;
@@ -88,6 +89,24 @@ TEST_CASE("installed data set: VoidReign content, setup and turn economy (opt-in
     CHECK(defenseI);
     CHECK(defenseII);
     CHECK(defenseIII);
+
+    const auto espionageArea = r->data().findTechArea("Espionage");
+    REQUIRE(espionageArea.has_value());
+    const std::vector<std::pair<std::string_view, int>> gatedProjects{
+        {"Countermeasure Net II", 2}, {"Countermeasure Net III", 4},
+        {"Diplomatic Cipher Scan", 1}, {"Research Extraction", 3},
+        {"Supply Sabotage", 1}, {"Drive-System Sabotage", 3},
+        {"Facility Sabotage", 4}, {"Trade Network Disruption", 2},
+        {"Message Interception", 2},
+    };
+    for (const auto& [name, level] : gatedProjects) {
+        const auto project = std::find_if(r->data().intelProjects.begin(), r->data().intelProjects.end(),
+                                          [&](const auto& p) { return p.name == name; });
+        REQUIRE_MESSAGE(project != r->data().intelProjects.end(), name);
+        REQUIRE(project->requirements.size() == 1);
+        CHECK(project->requirements.front().area == *espionageArea);
+        CHECK(project->requirements.front().level == level);
+    }
 
     for (const auto& p : r->racePresets()) {
         CHECK_FALSE(p.name.empty());
