@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(OpenSE4
-    VERSION 0.15.1
-    DESCRIPTION "Open-source engine reimplementation for Space Empires IV Deluxe"
+project(VoidReign
+    VERSION 0.2.0
+    DESCRIPTION "Standalone 4X space strategy game built on the OpenSE4 engine"
     LANGUAGES C CXX)
 
 # Apple's linker warns about a static library listed twice, as CMake lists our
