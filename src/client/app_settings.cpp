@@ -91,6 +91,8 @@ const char* displayName(LayoutChoice l) {
 
 void setStandaloneUserFolder(bool standaloneVoidReign) { standaloneUserFolder() = standaloneVoidReign; }
 
+const char* applicationName() { return standaloneUserFolder() ? "VoidReign" : "OpenSE4"; }
+
 std::filesystem::path systemUserDirectory() {
     std::filesystem::path dir;
     const char* app = standaloneUserFolder() ? "VoidReign" : "OpenSE4";
