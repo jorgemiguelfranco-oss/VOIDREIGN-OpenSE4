@@ -65,6 +65,7 @@ click sector:home
 wait-for item:"Accord II 0001"
 click item:"Accord II 0001"
 assert { design_type = "Base Space Yard" }
+wait-for item:Comps
 click item:Comps
 wait-for item:"VoidReign Orbital Shipyard"
 assert-present item:"VoidReign Orbital Shipyard"
