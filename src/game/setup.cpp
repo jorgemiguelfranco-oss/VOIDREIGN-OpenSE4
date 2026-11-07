@@ -676,12 +676,15 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         for (size_t i = 0; i < n; ++i) {
             Empire& empire = s.empires[i];
             if (!empire.alive || empire.kind == PlayerKind::Neutral) continue;
+            const std::string empireLabel = !empire.name.empty() ? empire.name
+                                            : !empire.race.name.empty() ? empire.race.name
+                                                                        : std::format("Empire {}", i + 1);
 
             const std::vector<uint32_t> escortParts{*bridge, *lifeSupport, *crewQuarters, *drive, *cargo, *cannon, *supply,
                                                     *sensors, *shields};
             Design pathfinder;
             pathfinder.owner = empire.id;
-            pathfinder.name = uniqueDesignName(s, empire.race.style + " Pathfinder");
+            pathfinder.name = uniqueDesignName(s, empireLabel + " Pathfinder");
             pathfinder.designType = "Scout Ship";
             pathfinder.hull = *pathfinderHull;
             for (uint32_t component : escortParts) pathfinder.entries.push_back({component, -1});
@@ -702,7 +705,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
 
             Design colonizer;
             colonizer.owner = empire.id;
-            colonizer.name = uniqueDesignName(s, empire.race.style + " " + surface + " Colonizer");
+            colonizer.name = uniqueDesignName(s, empireLabel + " " + surface + " Colonizer");
             colonizer.designType = std::format("Colony ({})", surface);
             colonizer.hull = *colonizerHull;
             for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *drive, *cannon, *supply, *sensors, *shields,
@@ -718,7 +721,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             const VehicleId colonizerShip = s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i]))).id;
 
             cmd::CreateFleet firstFleet;
-            firstFleet.name = empire.race.style + " Expeditionary Fleet";
+            firstFleet.name = empireLabel + " Expeditionary Fleet";
             firstFleet.members = {pathfinderShip, colonizerShip};
             const CommandResult fleetResult = apply(r, s, empire.id, Command{std::move(firstFleet)});
             if (!fleetResult.ok)
@@ -729,7 +732,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             // strategic object on the system map, not stacked on the planet.
             Design station;
             station.owner = empire.id;
-            station.name = uniqueDesignName(s, empire.race.style + " Orbital Station");
+            station.name = uniqueDesignName(s, empireLabel + " Orbital Station");
             station.designType = "Station";
             station.hull = *stationHull;
             for (uint32_t component : {*bridge, *lifeSupport, *crewQuarters, *cannon, *supply, *sensors, *shields, *shipyard})
