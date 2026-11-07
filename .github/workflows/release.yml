@@ -1,4 +1,4 @@
-# Builds the release packages for a version tag (v*) with tools/package_release.sh
+# Builds the release packages for a VOIDREIGN version tag (voidreign-v*) with tools/package_release.sh
 # and keeps them as workflow artifacts (docs/BUILDING.md, "Release packages").
 # It publishes nothing: the owner downloads the artifacts and makes the release.
 #
@@ -8,7 +8,7 @@ name: Release packages
 
 on:
   push:
-    tags: ['v*']
+    tags: ['voidreign-v*']
   workflow_dispatch:
 
 permissions:

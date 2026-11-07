@@ -91,11 +91,11 @@ for i in "${!targets[@]}"; do
     fi
 done
 
-# A tagged commit (v0.1.0) is packaged as that version; anything else as the
+# A tagged commit (voidreign-v0.1.0) is packaged as that version; anything else as the
 # project version plus the commit.
 project_version=$(sed -n 's/^ *VERSION \([0-9.]*\)$/\1/p' CMakeLists.txt | head -1)
-if tag=$(git describe --tags --exact-match --match 'v*' 2>/dev/null); then
-    version="${tag#v}"
+if tag=$(git describe --tags --exact-match --match 'voidreign-v*' 2>/dev/null); then
+    version="${tag#voidreign-v}"
 else
     version="${project_version}-$(git rev-parse --short HEAD)"
 fi
