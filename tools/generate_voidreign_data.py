@@ -35,6 +35,13 @@ def add_ability(fields: list[tuple[str, object]], index: int, value: list[tuple[
     for suffix, content in value:
         fields.append((f"Ability {index} {suffix}", content))
 
+
+def add_tech_requirements(fields: list[tuple[str, object]], requirements: tuple[tuple[str, int], ...]) -> None:
+    fields.append(("Number of Tech Req", len(requirements)))
+    for index, (area, level) in enumerate(requirements, 1):
+        fields.append((f"Tech Area Req {index}", area))
+        fields.append((f"Tech Level Req {index}", level))
+
 def build(output: Path) -> None:
     data = output / "Data"
     races_dir = output / "Pictures" / "Races"
@@ -81,21 +88,33 @@ def build(output: Path) -> None:
         ("Interceptor", "Interceptor", "IN", "Fighter", 25, 90, 10, 5, 1, False, 0, 0, True, 4, 0, 0, 0),
         ("Recon Satellite", "Recon", "RS", "Satellite", 60, 180, 30, 20, 0, False, 0, 0, False, 0, 0, 0, 0),
     ]
+    # First-generation hulls are available immediately; later ship classes
+    # unlock as their supporting technologies are researched.
+    hull_tech = {
+        "Aegis Cruiser": (("Ship Construction", 2),),
+        "Pioneer Ark": (("Colonization", 1),),
+        "Meridian Freighter": (("Logistics", 1),),
+        "Citadel Platform": (("Ship Construction", 3),),
+        "Interceptor": (("Weapons", 1),),
+        "Recon Satellite": (("Sensors", 1),),
+    }
     hull_records = []
     for name, short, code, kind, tonnage, minerals, organics, radioactives, engines, bridge, life, crew, uses, max_engines, fighter_pct, colony_pct, cargo_pct in hull_specs:
-        hull_records.append([
+        fields = [
             ("Name", name), ("Short Name", short), ("Description", f"VOIDREIGN {short.lower()} hull."),
             ("Code", code), ("Primary Bitmap Name", code), ("Alternate Bitmap Name", code),
             ("Vehicle Type", kind), ("Tonnage", tonnage), ("Cost Minerals", minerals),
             ("Cost Organics", organics), ("Cost Radioactives", radioactives),
-            ("Engines Per Move", engines), ("Number of Tech Req", 0), ("Number of Abilities", 0),
+            ("Engines Per Move", engines), ("Number of Abilities", 0),
             ("Requirement Must Have Bridge", "True" if bridge else "False"),
             ("Requirement Can Have Aux Con", "True" if kind == "Ship" and tonnage >= 300 else "False"),
             ("Requirement Min Life Support", life), ("Requirement Min Crew Quarters", crew),
             ("Requirement Uses Engines", "True" if uses else "False"), ("Requirement Max Engines", max_engines),
             ("Requirement Pct Fighter Bays", fighter_pct), ("Requirement Pct Colony Mods", colony_pct),
             ("Requirement Pct Cargo", cargo_pct),
-        ])
+        ]
+        add_tech_requirements(fields, hull_tech.get(name, ()))
+        hull_records.append(fields)
     write_records(data, "VehicleSize.txt", hull_records)
 
     # Ship modules. Their ability names are the engine's typed rules, so these
@@ -130,6 +149,20 @@ def build(output: Path) -> None:
             "Weapon Seeker Speed": 3, "Weapon Seeker Dmg Res": 0,
         }),
     ]
+    component_tech = {
+        "Fusion Drive": (("Drive Systems", 2),),
+        "Rock Colony Core": (("Colonization", 1),),
+        "Ice Colony Core": (("Colonization", 2),),
+        "Gas Colony Core": (("Colonization", 3),),
+        "Cargo Hold": (("Logistics", 1),),
+        "Shield Generator": (("Defensive Systems", 1),),
+        "Armour Plating": (("Defensive Systems", 1),),
+        "Sensor Array": (("Sensors", 1),),
+        "Supply Matrix": (("Logistics", 2),),
+        "Orbital Yard Module": (("Ship Construction", 2),),
+        "Laser Battery": (("Weapons", 1),),
+        "Missile Rack": (("Weapons", 3),),
+    }
     component_records = []
     for name, vehicle, tonnage, structure, minerals, radioactives, group, family, abilities, weapon in component_specs:
         fields = [
@@ -137,9 +170,10 @@ def build(output: Path) -> None:
             ("Pic Num", family % 64), ("Tonnage Space Taken", tonnage), ("Tonnage Structure", structure),
             ("Cost Minerals", minerals), ("Cost Organics", 0), ("Cost Radioactives", radioactives),
             ("Vehicle Type", vehicle), ("Supply Amount Used", 1), ("Restrictions", "None"),
-            ("General Group", group), ("Family", family), ("Roman Numeral", 1), ("Custom Group", 0),
-            ("Number of Tech Req", 0), ("Number of Abilities", len(abilities)),
+            ("General Group", group), ("Family", family), ("Roman Numeral", 1),
+            ("Number of Abilities", len(abilities)),
         ]
+        add_tech_requirements(fields, component_tech.get(name, ()))
         for index, value in enumerate(abilities, 1):
             add_ability(fields, index, value)
         fields.append(("Weapon Type", "None") if weapon is None else ("Weapon Type", weapon["Weapon Type"]))
@@ -176,6 +210,14 @@ def build(output: Path) -> None:
         ("Orbital Defence Grid", "Defence", (800, 100, 500), [ability("Planet Shield Generation", "Protects the colony from bombardment.", 100)]),
         ("Terraforming Array", "Planetary Engineering", (1000, 400, 400), [ability("Planet Change Conditions", "Improves planetary habitability.", 1)]),
     ]
+    facility_tech = {
+        "Mineral Warehouse": (("Logistics", 1),),
+        "Organic Warehouse": (("Logistics", 1),),
+        "Radioactive Vault": (("Logistics", 2),),
+        "Central Warehouse": (("Logistics", 4),),
+        "Orbital Defence Grid": (("Defensive Systems", 2),),
+        "Terraforming Array": (("Planetology", 2),),
+    }
     facility_records = []
     for index, (name, group, cost, abilities) in enumerate(facility_specs, 1):
         minerals, organics, radioactives = cost
@@ -184,8 +226,9 @@ def build(output: Path) -> None:
             ("Facility Group", group), ("Facility Family", 10 + index),
             ("Roman Numeral", 1), ("Restrictions", "None"), ("Pic Num", index),
             ("Cost Minerals", minerals), ("Cost Organics", organics), ("Cost Radioactives", radioactives),
-            ("Number of Tech Req", 0), ("Number of Abilities", len(abilities)),
+            ("Number of Abilities", len(abilities)),
         ]
+        add_tech_requirements(fields, facility_tech.get(name, ()))
         for ability_index, value in enumerate(abilities, 1):
             add_ability(fields, ability_index, value)
         facility_records.append(fields)
