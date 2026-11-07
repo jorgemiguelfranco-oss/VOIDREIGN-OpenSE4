@@ -179,7 +179,7 @@ def build(output: Path) -> None:
             ("Pic Num", family % 64), ("Tonnage Space Taken", tonnage), ("Tonnage Structure", structure),
             ("Cost Minerals", minerals), ("Cost Organics", 0), ("Cost Radioactives", radioactives),
             ("Vehicle Type", vehicle), ("Supply Amount Used", 1), ("Restrictions", "None"),
-            ("General Group", group), ("Family", family), ("Roman Numeral", 1),
+            ("General Group", group), ("Family", family), ("Roman Numeral", 1), ("Custom Group", 0),
             ("Number of Abilities", len(abilities)),
         ]
         add_tech_requirements(fields, component_tech.get(name, ()))
