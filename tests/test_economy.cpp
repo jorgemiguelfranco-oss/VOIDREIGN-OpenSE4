@@ -597,7 +597,7 @@ TEST_CASE("VoidReign: colonies need warehouses to retain resources") {
 
     home.facilities.push_back(warehouse);
     CHECK(economy::storageCapacity(r, s, kMe) == Resources{25000, 25000, 25000});
-    s.empire(kMe).stockpile = {6200, 2800, 7000};
+    s.empire(kMe).stockpile = {26200, 2800, 27000};
     TurnContext restored{r, s, {}, {}, {}};
     economy::applyStorageCap(restored, kMe);
     CHECK(s.empire(kMe).stockpile == Resources{25000, 2800, 25000});
