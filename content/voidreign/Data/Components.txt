@@ -53,9 +53,10 @@ Weapon Display Type   := Beam
 Weapon Display        := 4
 Weapon Modifier       := 0
 Weapon Sound          :=
-Weapon Family         := 5
+Weapon Family         := 78
 Weapon Seeker Speed   := 0
 Weapon Seeker Dmg Res := 0
+
 Name                  := VoidReign Bridge
 Description           := Command and control nexus for a crewed vessel.
 Pic Num               := 3
