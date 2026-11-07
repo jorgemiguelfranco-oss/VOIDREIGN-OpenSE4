@@ -106,6 +106,7 @@ jobs:
           build/debug/tests/opense4_tests --test-case="installed data set: VoidReign content, setup and turn economy (opt-in)"
           build/debug/tests/opense4_tests --test-case="VOIDREIGN random events and intelligence projects execute in the native engine (opt-in)"
           build/debug/tests/opense4_tests --test-case="VOIDREIGN technology unlocks ship, colonization, defence and logistics progression (opt-in)"
+          build/debug/tests/opense4_tests --test-case="VOIDREIGN factions and neutral powers load their own native AI research doctrines (opt-in)"
           build/debug/tests/opense4_tests --test-case="VOIDREIGN research progress unlocks a real ship weapon through the engine turn step (opt-in)"
           build/debug/tests/opense4_tests --test-case="VOIDREIGN generated economy and technology remain bounded over eight AI-managed turns (opt-in)"
           SDL_VIDEO_DRIVER=offscreen build/debug/VOIDREIGN --quick-start=Aurel --turns=3 --open=none --screenshot="$RUNNER_TEMP/voidreign-smoke.png"
