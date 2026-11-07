@@ -167,7 +167,18 @@ int App::run(const AppOptions& options) {
     classic::setNoDialogs(options.noDialogs);
     // The game is the player's own installed copy: without one there is nothing
     // to play. Checked before any window or renderer exists.
-    const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
+    std::filesystem::path dataHint = options.installDir;
+    if (options.standaloneVoidReign && dataHint.empty()) {
+        // Prefer the bundled first-party game content next to the executable.
+        dataHint = sdk::executableDir() / "content" / "voidreign";
+#ifdef OPENSE4_SOURCE_DIR
+        // Development builds keep the authored content in the source checkout.
+        std::error_code ec;
+        if (!std::filesystem::exists(dataHint / "Data" / "Components.txt", ec))
+            dataHint = std::filesystem::path(OPENSE4_SOURCE_DIR) / "content" / "voidreign";
+#endif
+    }
+    const auto dataDir = ruleset::findInstalledDataDir(dataHint);
     if (!dataDir) {
         fatal(options.standaloneVoidReign ? missingVoidReignMessage(options.installDir) : missingInstallMessage(options.installDir));
         SDL_Quit();
