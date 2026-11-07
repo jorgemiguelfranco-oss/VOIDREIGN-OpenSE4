@@ -147,8 +147,8 @@ TEST_CASE("classic options: facility marker letters and their tests (spec 06 §7
     // Rc is Resource Conversion, not Component Repair.
     CHECK(facilityMarkerGroups(r, c, repair) == std::vector<std::string>{"Rc"});
     // Srm is Reduced Maintenance Cost - System; Src is Modify Reproduction - System.
-    CHECK(facilityMarkerGroups(r, c, upkeep) == std::vector<std::string>{"Srm"});
-    CHECK(facilityMarkerGroups(r, c, plague) == std::vector<std::string>{"Src"});
+    CHECK(facilityMarkerGroups(r, c, upkeep) == std::vector<std::string>{"Y", "Srm"});
+    CHECK(facilityMarkerGroups(r, c, plague) == std::vector<std::string>{"Y", "Src"});
     // A working shipyard is always marked, even if no optional marker rows are on.
     CHECK(facilityMarkerGroups(r, c, 0) == std::vector<std::string>{"Y"});
     CHECK(facilityMarkers(r, c, 0) == "Y");
