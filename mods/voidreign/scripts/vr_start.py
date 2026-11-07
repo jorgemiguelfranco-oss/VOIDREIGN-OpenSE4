@@ -21,7 +21,7 @@ def seed_homeworld_warehouses(game, fx):
         facilities = home.facilities or []
         slots = home.facility_slots or 0
         if warehouse.id not in facilities and len(facilities) < slots:
-            fx.add_facility(home, warehouse)
+            fx.add_facility(home, warehouse.id)
             fx.log(empire,
                    "A VoidReign Warehouse is commissioned on the homeworld. Build additional warehouses to expand resource storage.",
                    title="Logistics established", category="economy")
