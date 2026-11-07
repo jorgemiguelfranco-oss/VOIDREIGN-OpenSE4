@@ -4,6 +4,7 @@
 #include "client/script/items.hpp"
 #include "datafile/datafile.hpp"
 #include "game/economy.hpp"
+#include "game/government.hpp"
 
 #include <algorithm>
 #include <array>
@@ -107,7 +108,7 @@ void EmpireEditor::openPicker(Pick what) {
     picking_ = what;
     switch (what) {
         case Pick::EmpireName: pickRows_ = names.empireNames; picker_.open("Select Empire Name", "Empire Names", pickRows_); break;
-        case Pick::EmpireType: pickRows_ = names.empireTypes; picker_.open("Select Empire Type", "Empire Types", pickRows_); break;
+        case Pick::EmpireType: pickRows_ = names.empireTypes; picker_.open("Select Government", "Government Types", pickRows_); break;
         case Pick::EmperorTitle: pickRows_ = names.emperorTitles; picker_.open("Select Emperor Title", "Emperor Titles", pickRows_); break;
         case Pick::EmperorName: pickRows_ = names.emperorNames; picker_.open("Select Emperor Name", "Emperor Names", pickRows_); break;
         case Pick::DesignNames: pickRows_ = designFiles_; picker_.open("Select Design Name File", "Files", pickRows_); break;
@@ -225,7 +226,7 @@ void EmpireEditor::pageGeneral(SetupArea& a) {
     };
     const std::array<Row, 4> rows{{
         {"Empire Name", 21, &draft_.setup.name, Pick::EmpireName, &names.empireNames},
-        {"Empire Type", 45, &draft_.setup.empireType, Pick::EmpireType, &names.empireTypes},
+        {"Government", 45, &draft_.setup.empireType, Pick::EmpireType, &names.empireTypes},
         {"Emperor Title", 69, &draft_.setup.leaderTitle, Pick::EmperorTitle, &names.emperorTitles},
         {"Emperor Name", 93, &draft_.setup.leaderName, Pick::EmperorName, &names.emperorNames},
     }};
@@ -287,6 +288,11 @@ void EmpireEditor::pageGeneral(SetupArea& a) {
     a.text({405, 437}, std::to_string(draft_.setup.experience));
     a.heading({231, 461}, "Race Age");
     a.text({405, 461}, game::economy::raceAge(draft_.setup.experience));
+    const game::GovernmentProfile government = game::governmentProfile(draft_.setup.empireType);
+    if (!government.name.empty()) {
+        a.heading({231, 485}, "Government Effects");
+        a.text({405, 485}, elided(government.description, a.px(378)), kExplainRgb, Face::Small);
+    }
 
     // OpenSE4's own: the style's preset builds and the race's name.
     if (const ruleset::RacePreset* p = preset(); p && !p->tiers.empty()) {

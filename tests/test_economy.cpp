@@ -16,6 +16,7 @@
 #include "game/design.hpp"
 #include "game/diplomacy.hpp"
 #include "game/economy.hpp"
+#include "game/government.hpp"
 #include "game/events.hpp"
 #include "game/query.hpp"
 #include "game/setup.hpp"
@@ -2596,3 +2597,24 @@ TEST_CASE("economy: installed data set keeps the books straight over many turns 
     }
     for (DesignId d : built) CHECK(s.design(d).built >= 5);
 }
+TEST_CASE("VOIDREIGN government profiles produce meaningful strategic trade-offs") {
+    const auto republic = governmentProfile("Democratic Republic");
+    const auto merchant = governmentProfile("Merchant Republic");
+    const auto technocracy = governmentProfile("Technocracy");
+    const auto industrial = governmentProfile("Industrial Directorate");
+    const auto junta = governmentProfile("Military Junta");
+    const auto collective = governmentProfile("Collective");
+    const auto autocracy = governmentProfile("Imperial Autocracy");
+    const auto frontier = governmentProfile("Frontier Compact");
+
+    CHECK(republic.name == "Democratic Republic");
+    CHECK(merchant.tradePercent > republic.tradePercent);
+    CHECK(technocracy.researchPercent > merchant.researchPercent);
+    CHECK(industrial.resourceProductionPercent > technocracy.resourceProductionPercent);
+    CHECK(junta.maintenancePercent > merchant.maintenancePercent);
+    CHECK(collective.resourceProductionPercent > 0);
+    CHECK(autocracy.researchPercent > 0);
+    CHECK(frontier.tradePercent > 0);
+    CHECK(governmentProfile("Unrecognised Government").name.empty());
+}
+

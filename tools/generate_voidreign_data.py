@@ -414,8 +414,10 @@ def build(output: Path) -> None:
         "Myriad Trade Assembly", "Nyx Protectorate", "Olyss Covenant", "Qorathi Hegemony",
         "Solari Commonwealth", "Teran Union", "Veyran Compact", "Vosk Directorate",
     ])
-    write_list(data, "EmpireTypes.txt", ["Accord", "Dominion", "Continuum", "Imperium", "Assembly", "Protectorate",
-                                        "Covenant", "Hegemony", "Commonwealth", "Union", "Compact", "Directorate"])
+    write_list(data, "EmpireTypes.txt", [
+        "Democratic Republic", "Merchant Republic", "Technocracy", "Industrial Directorate",
+        "Military Junta", "Collective", "Imperial Autocracy", "Frontier Compact", "Independent",
+    ])
     write_list(data, "EmperorNames.txt", ["Arius", "Vael", "Soryn", "Kara", "Ilyra", "Drex", "Nima", "Orren", "Talia", "Varek"])
     write_list(data, "EmperorTitles.txt", ["Chancellor", "First Speaker", "High Commander", "Archon", "Prime Minister",
                                           "Protector", "Matriarch", "Strategos", "Consul", "Director"])
@@ -432,18 +434,18 @@ def build(output: Path) -> None:
     # Twelve original species factions. Their tier-2 and tier-3 presets expose
     # different trait combinations in the native race editor.
     factions = [
-        ("Aurel", "Aureli", "Aurel Stellar Accord", "Accord", "Rock", "Oxygen", "Balanced", "Civic Stability", "Calm", "Deep Vaults", "Industrial Efficiency"),
-        ("Dravak", "Dravaki", "Dravak Dominion", "Dominion", "Ice", "Methane", "Industrial", "Disciplined", "Aggressive", "High Yield Mining", "Fleet Doctrine"),
-        ("Keth", "Kethari", "Keth Continuum", "Continuum", "Gas", "Hydrogen", "Scholarly", "Stoic", "Cautious", "Research Networks", "Neural Logic"),
-        ("Kharel", "Khareli", "Kharel Imperium", "Imperium", "Rock", "Oxygen", "Martial", "Disciplined", "Aggressive", "Fleet Doctrine", "Reinforced Hulls"),
-        ("Myriads", "Myriad", "Myriad Trade Assembly", "Assembly", "Ice", "Methane", "Commercial", "Communal", "Diplomatic", "Trade Houses", "Organic Granaries"),
-        ("Nyx", "Nyxian", "Nyx Protectorate", "Protectorate", "Rock", "Oxygen", "Scholarly", "Stoic", "Cautious", "Precision Gunnery", "Deep Vaults"),
-        ("Olyss", "Olyssian", "Olyss Covenant", "Covenant", "Rock", "Oxygen", "Balanced", "Communal", "Diplomatic", "Hydroponic Expertise", "Rapid Reproduction"),
-        ("Qorathi", "Qorathi", "Qorathi Hegemony", "Hegemony", "Gas", "Hydrogen", "Industrial", "Disciplined", "Expansionist", "Radioactive Casks", "Efficient Maintenance"),
-        ("Solari", "Solarian", "Solari Commonwealth", "Commonwealth", "Rock", "Oxygen", "Martial", "Civic Stability", "Aggressive", "Fleet Doctrine", "Precision Gunnery"),
-        ("Teran", "Teran", "Teran Union", "Union", "Rock", "Oxygen", "Balanced", "Civic Stability", "Calm", "Industrial Efficiency", "Research Networks"),
-        ("Veyran", "Veyran", "Veyran Compact", "Compact", "Ice", "Methane", "Commercial", "Stoic", "Diplomatic", "Trade Houses", "Deep Vaults"),
-        ("Vosk", "Voski", "Vosk Directorate", "Directorate", "Gas", "Hydrogen", "Industrial", "Disciplined", "Expansionist", "High Yield Mining", "Radioactive Casks"),
+        ("Aurel", "Aureli", "Aurel Stellar Accord", "Democratic Republic", "Rock", "Oxygen", "Balanced", "Civic Stability", "Calm", "Deep Vaults", "Industrial Efficiency"),
+        ("Dravak", "Dravaki", "Dravak Dominion", "Military Junta", "Ice", "Methane", "Industrial", "Disciplined", "Aggressive", "High Yield Mining", "Fleet Doctrine"),
+        ("Keth", "Kethari", "Keth Continuum", "Technocracy", "Gas", "Hydrogen", "Scholarly", "Stoic", "Cautious", "Research Networks", "Neural Logic"),
+        ("Kharel", "Khareli", "Kharel Imperium", "Imperial Autocracy", "Rock", "Oxygen", "Martial", "Disciplined", "Aggressive", "Fleet Doctrine", "Reinforced Hulls"),
+        ("Myriads", "Myriad", "Myriad Trade Assembly", "Merchant Republic", "Ice", "Methane", "Commercial", "Communal", "Diplomatic", "Trade Houses", "Organic Granaries"),
+        ("Nyx", "Nyxian", "Nyx Protectorate", "Technocracy", "Rock", "Oxygen", "Scholarly", "Stoic", "Cautious", "Precision Gunnery", "Deep Vaults"),
+        ("Olyss", "Olyssian", "Olyss Covenant", "Democratic Republic", "Rock", "Oxygen", "Balanced", "Communal", "Diplomatic", "Hydroponic Expertise", "Rapid Reproduction"),
+        ("Qorathi", "Qorathi", "Qorathi Hegemony", "Industrial Directorate", "Gas", "Hydrogen", "Industrial", "Disciplined", "Expansionist", "Radioactive Casks", "Efficient Maintenance"),
+        ("Solari", "Solarian", "Solari Commonwealth", "Military Junta", "Rock", "Oxygen", "Martial", "Civic Stability", "Aggressive", "Fleet Doctrine", "Precision Gunnery"),
+        ("Teran", "Teran", "Teran Union", "Frontier Compact", "Rock", "Oxygen", "Balanced", "Civic Stability", "Calm", "Industrial Efficiency", "Research Networks"),
+        ("Veyran", "Veyran", "Veyran Compact", "Merchant Republic", "Ice", "Methane", "Commercial", "Stoic", "Diplomatic", "Trade Houses", "Deep Vaults"),
+        ("Vosk", "Voski", "Vosk Directorate", "Industrial Directorate", "Gas", "Hydrogen", "Industrial", "Disciplined", "Expansionist", "High Yield Mining", "Radioactive Casks"),
     ]
     first_names = ["Ari", "Bel", "Cyr", "Dara", "Evan", "Fara", "Galen", "Hira", "Iven", "Jora", "Kelan", "Lira"]
     design_names = [

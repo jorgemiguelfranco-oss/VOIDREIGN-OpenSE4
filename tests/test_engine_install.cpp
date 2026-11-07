@@ -5,6 +5,7 @@
 
 #include "game/design.hpp"
 #include "game/economy.hpp"
+#include "game/government.hpp"
 #include "game/query.hpp"
 #include "game/turn.hpp"
 
@@ -41,7 +42,10 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
     CHECK(r->racePresets().size() >= 10);
     for (const auto& p : r->racePresets()) {
         CHECK_FALSE(p.name.empty());
-        if (!p.neutral) CHECK_FALSE(p.tiers.empty());
+        if (!p.neutral) {
+            CHECK_FALSE(p.tiers.empty());
+            CHECK_FALSE(governmentProfile(p.empireType).name.empty());
+        }
     }
 
     GameSetup setup;
