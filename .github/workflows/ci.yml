@@ -643,12 +643,25 @@ jobs:
             --output "$env:RUNNER_TEMP\voidreign-windows-native" `
             voidreign-native-startup voidreign-native-veyran voidreign-native-khepri voidreign-native-fleet-control voidreign-native-save-load voidreign-native-ai-turns
 
+      - name: Verify the installed VOIDREIGN Files settings UI
+        run: |
+          $source = Join-Path $env:GITHUB_WORKSPACE 'source'
+          python "$source\tools\run_input_tests.py" `
+            --exe "$env:INSTALL_DIR\VOIDREIGN.exe" `
+            --fixture-data `
+            --renderer opengl `
+            --jobs 1 `
+            --output "$env:RUNNER_TEMP\voidreign-windows-files-settings" `
+            settings-files
+
       - name: Keep screenshots from a failed installed Windows game
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: voidreign-windows-native-failure
-          path: ${{ runner.temp }}/voidreign-windows-native
+          path: |
+            ${{ runner.temp }}/voidreign-windows-native
+            ${{ runner.temp }}/voidreign-windows-files-settings
           if-no-files-found: ignore
           retention-days: 14
 
