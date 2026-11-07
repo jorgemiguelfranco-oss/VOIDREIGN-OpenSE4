@@ -1,368 +1,63 @@
 # VOIDREIGN
 
-[![CI](https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/actions/workflows/ci.yml/badge.svg?branch=voidreign/standalone-engine-core)](https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/actions/workflows/ci.yml)
-
 **A standalone 4X space strategy game built on the OpenSE4 C++23 engine.**
 
-VoidReign is the default game launched by the client. Its first-party content lives in `content/voidreign/` and is loaded directly by the engine's ruleset, simulation, design validation, turn processor, save system and client. It is **not a mod** and does not require a copy of Space Empires IV to launch its own game data.
+VoidReign is the default game launched by the client. Its native game rules and content live in `content/voidreign/` and are loaded directly by the existing simulation, galaxy model, ship designer, command system, turn processor and save system. VoidReign is **not a mod** and does not require a copy of Space Empires IV to play.
 
-- **Standalone game mode:** `opense4` starts VoidReign using the bundled `content/voidreign` directory. Use `--voidreign-dir=<folder>` to point at another native VoidReign content bundle.
-- **Legacy compatibility is optional:** `--classic-dir=<folder>` explicitly selects the old OpenSE4 compatibility path, which reads a player's own installed Space Empires IV data. Nothing from that game is redistributed.
-- **OpenSE4 is the engine foundation:** the repository's existing C++23 rules engine, deterministic `GameState`, command validation, galaxy/system model, ship designer, combat, AI, saves and multiplayer infrastructure are being evolved into VoidReign's own game. Engine capabilities in compatibility mode are not automatically claims that the corresponding VoidReign feature is complete.
-- **Original content:** VoidReign's rules, factions/species, ships, facilities, technologies and assets are authored for this game. No original Space Empires IV data, art, music or text is shipped.
+The OpenSE4 codebase is being evolved into VoidReign's engine foundation. The original engine's clean-room implementation and optional legacy compatibility path remain available, but classic-mode parity is not treated as completion of VoidReign features.
 
-## Current implementation status
+## Current game foundation
 
-The standalone engine integration is under active development. The current foundation includes a native VoidReign data bundle, initial Helion Concord and Veyran Collective species presets, starter Pathfinder design/ship, technology and ship components, a colonizer hull with Rock/Ice/Gas modules, an orbital shipyard module and warehouse-based storage rules. The implementation is **not yet a complete playable release**: full original art and interface, AI/faction depth, progression, events/diplomacy, balancing, runtime-tested save/reload and release verification remain in progress.
+The standalone profile currently includes:
 
-Development targets a sandbox 4X game. **No campaign mode is planned.**
+- Native rules and galaxy-generation tables in `content/voidreign/Data/`.
+- Two original playable species presets: Helion Concord and Veyran Collective.
+- A starting Pathfinder exploration/escort ship and a species-matched Rock or Ice colonizer for each human or computer empire.
+- A starting orbital station in a separate sector of each home system, equipped with a real Space Yard module, sensors and defensive systems.
+- Native ship components, an initial pulse weapon, propulsion, three planetary colonization modules, resource extraction and research facilities.
+- Warehouse-based resource storage: there is no free empire-wide resource capacity. Resource stockpiles are limited by actual colony warehouses; overflow is lost when production exceeds storage.
+- Original transparent ship and station sprites and a VoidReign Windows application icon.
 
-The engine architecture is documented in [docs/ENGINE.md](docs/ENGINE.md); [content/voidreign/README.md](content/voidreign/README.md) describes the standalone content bundle.
+This is an **early engine/content foundation, not a finished playable release**. Full interface redesign, complete faction rosters and AI profiles, ship/technology progression, diplomacy and events, deeper economy balancing, original art sets, save/reload and multiplayer verification, and Windows release testing remain in development.
 
-## Screenshots
+There is no campaign mode planned. The target is a complete sandbox 4X game.
 
-| | | |
-|---|---|---|
-| ![A star system in the main window, about a hundred turns into a game](docs/screenshots/system-view.webp) | ![Designing a warship in the Ship Design window](docs/screenshots/ship-design.webp) | ![A guided tutorial step: the lesson panel and the outlined design list](docs/screenshots/tutorial.webp) |
-| A star system, a hundred turns in | Designing a warship | A guided tutorial |
+## Running the game
 
-These screenshots show the optional legacy OpenSE4 compatibility mode using a player's own installed Space Empires IV Deluxe files. They are not screenshots of the standalone VoidReign game.
-
-## OpenSE4 engine capabilities being reused
-
-The rules and the classic windows stay as they were. Around them, OpenSE4 brings the
-game to today's machines and adds what a newcomer or a multiplayer group needs.
-
-**Modern screens and systems**
-- **Widescreen:** the 1024x768 layout stretches to use the whole width, up to 21:9, with
-  a larger system view and galaxy map. Classic 4:3 with bars is a setting away.
-- **Any resolution:** the classic layouts are scaled to any window or screen, windowed,
-  borderless or fullscreen, and a window can do without the system's title bar (the game's
-  own top row moves it). There are options for sharp pixels, whole-number scaling and a
-  larger text size.
-- **Portable if you like:** an unpacked copy can keep its saved games and settings in its
-  own folder, on a USB stick for example; saved games can also have a folder of their own.
-- **Native on Linux and Windows**, built for macOS too, with Vulkan rendering and an OpenGL
-  fallback. A Windows installer and a Linux desktop entry come with the release.
-
-**Learning the game**
-- **Seven guided tutorials:**
-  - every step points at what to use and waits until you have done it;
-  - close a window the lesson still needs and it shows you how to reopen it;
-  - steps that take several turns count your progress;
-  - you can leave a lesson and resume it later.
-- **Five training games** with goals to meet: a land rush, a research sprint, holding a
-  fortress, a first treaty and a conquest.
-- **A built-in manual** of 24 chapters, linked from the lessons. Shift+F1 opens the page
-  for the window in front.
-
-**Playing together**
-- **Network play** over TCP:
-  - simultaneous turns, or one player after another (an OpenSE4 extension);
-  - the router is set up automatically over UPnP, and games on the local network are found
-    on their own;
-  - connections are encrypted, and the game remembers each host's key, so an impostor
-    can't pose as your host;
-  - passwords never travel.
-- **Dropped connections and desyncs:** a dropped player reconnects without losing the
-  turn. A copy of the game that drifts from the host's is detected, reported and repaired.
-- **Play by e-mail**, through mail or a shared folder: each player's turn file holds only
-  that player's view, encrypted for them and signed by the host.
-- **A dedicated server** (`opense4-server`) hosts network games and processes e-mail turns
-  without a player at the keyboard.
-- **The same game on every machine:** the engine is deterministic, so a Linux host and a
-  Windows player see exactly the same results. Hotseat play on one machine works too.
-
-**Comfort**
-- **Hotkeys you can change:** the classic keys work, and every one can be rebound
-  (Settings → Controls).
-- **Small additions:**
-  - the Galaxy Map can show jump distances;
-  - Help can search;
-  - combat replays can list each turn's events.
-- **Your games from the original:** Load Game opens the original's saved games and
-  converts them, and Save Game can write a game back for the original, so a game moves
-  between the two (docs/SETUP.md, "Games of the original"). `opense4-convert` does the same
-  on the command line.
-
-**Modding**
-- **Mods** layer over your installed game without changing it, and you choose them in the
-  Mods window. Pictures may be PNG and larger than the original's, sounds and music OGG
-  Vorbis, and a design may show a picture of its own. Data patches change single records,
-  so mods combine, and classic mods load as packages too.
-- **A modding SDK** with Python:
-  - computer players with full control of an empire, or of only the decisions they choose,
-    with the classic AI as a library for the rest;
-  - rules scripts that hook into the turn, with new abilities, orders, events, game
-    options, victory conditions and scenarios;
-  - interface extensions: report panels, list columns, buttons and keys for a mod's
-    orders, translations.
-
-  Scripts run in a sandbox inside the game, the same on every computer, so they work in
-  network and e-mail games. External bots on ordinary Python can play too, with an arena
-  and a training environment for machine learning. `opense4-sdk` makes, checks, tests and
-  packs mods, and the modder's guide is [docs/sdk/README.md](docs/sdk/README.md).
-  `opense4-datacheck` names the file, line and record of anything in a data set it doesn't
-  understand, a classic mod's included.
-- **Hegemon, a stronger computer player** written with the SDK, comes with OpenSE4 as a
-  mod: switch it on in the Mods window, then choose it under Computer Players in Game
-  Setup or Quick Start.
-
-**Planned:** a Steam release with multiplayer through Steam, and Steam Workshop support for
-sharing mods. See "Future goals" in [docs/PARITY_PLAN.md](docs/PARITY_PLAN.md#future-goals).
-
-## System requirements
-
-- **Your own copy of Space Empires IV Deluxe** (see "Setting up the game data").
-- **Windows:** 64-bit Windows 7 with Service Pack 1, 8, 8.1, 10 or 11, with nothing else
-  to install. Windows 7 drivers seldom offer Vulkan 1.3, so there the game draws with
-  OpenGL 3.3. That needs the current driver from the graphics card's maker (NVIDIA, AMD
-  or Intel): Windows' own basic display driver has no OpenGL 3.3. Graphics chips older
-  than about 2012 may have none either (Intel HD Graphics 2000 and 3000, for example).
-  Windows 7, 8 and 8.1 support is checked by analysing the programs' imports and by
-  running them under Wine set to Windows 7; it has not been tested on real Windows 7.
-- **Linux:** glibc 2.34 or later (Ubuntu 22.04, Debian 12, Fedora 35, SteamOS 3 and
-  newer; on ARM also Raspberry Pi OS 12 and Fedora Asahi Remix), and Vulkan 1.3 or
-  OpenGL 3.3. Each release has a package for each architecture:
-  - `OpenSE4-<version>-linux-x86_64.tar.gz`: 64-bit PCs;
-  - `OpenSE4-<version>-linux-aarch64.tar.gz`: 64-bit ARM;
-  - `OpenSE4-<version>-linux-armhf.tar.gz`: 32-bit ARM, ARMv7 or newer with NEON (a
-    Raspberry Pi 2 or later on the 32-bit Raspberry Pi OS, for example).
-
-  Nothing else needs installing: SDL is built in and loads X11 or Wayland, the GPU
-  driver and the sound server at run time. Every architecture computes the same game,
-  so they play together over the network and by e-mail.
-- **macOS:** builds from source (see [docs/BUILDING.md](docs/BUILDING.md)); there is no
-  package.
-- **Python** is not needed to play or to mod: the game has its own. Only external bots and
-  the training environment of the modding SDK need Python 3.10 or newer.
-
-### Graphics on ARM
-
-On ARM, whether the GPU offers Vulkan 1.3 or OpenGL 3.3 depends on the chip and the
-Mesa version:
-
-| Device | Vulkan 1.3 | OpenGL 3.3 |
-|---|---|---|
-| Raspberry Pi 5 and Pi 4 (with Pi 400, CM4, CM5) | Yes, V3DV from Mesa 24.3: Raspberry Pi OS 13, 64-bit and 32-bit. Raspberry Pi OS 12 (Mesa 24.2) has Vulkan 1.2 only | No: V3D offers OpenGL 3.1 |
-| Rockchip RK3588 and RK3588S (Mali-G610) | Yes, PanVK from Mesa 25.2 (Ubuntu 25.10 or newer; Debian 13's Mesa 25.0 is too old) | No: Panfrost offers OpenGL 3.1 |
-| Rockchip RK356x, RK3576 and others with Bifrost Mali (G52, G31) | Experimental in PanVK and off by default | No (OpenGL 3.1) |
-| Apple M1 and M2 Macs under Asahi Linux | Yes (Vulkan 1.4) | Yes (OpenGL 4.6). M3 graphics are still in development |
-| Snapdragon X Elite laptops (Adreno X1-85) | Yes, Turnip | Yes, Freedreno (Mesa 24.2 or newer), where the laptop's Linux support enables the GPU |
-| Raspberry Pi 3 and older, Pi Zero and Zero 2; other boards with only OpenGL ES 2 | No | No (OpenGL 2.1) |
-
-`--renderer=auto` (the default) picks whichever works. Machines that have neither, such
-as the Raspberry Pi 3 and older 32-bit boards, cannot run the game, but they can host
-it: the dedicated server `opense4-server` needs no GPU and no display (the armhf package
-on ARMv7 boards such as the Pi 2, aarch64 on 64-bit systems; the ARMv6 Pi 1, Pi Zero and
-Zero W are not supported). On ARM, copy the game's files from a PC, since Steam does not
-run there (see [docs/SETUP.md](docs/SETUP.md)).
-
-## Building
-
-Full instructions for Linux, Windows and macOS are in
-[docs/BUILDING.md](docs/BUILDING.md). In short, you need:
-
-- a C++23 compiler (GCC 14+, Clang 18+, MSVC 17.10+ or Apple Clang 21), CMake 3.25+ and Ninja;
-- SDL3, which CMake fetches if the system has none;
-- `glslc`, from the Vulkan SDK or `shaderc`.
+A development build looks for the native content at `content/voidreign/` in the source tree. Installed builds ship it beside the executable.
 
 ```sh
-cmake --preset debug              # or: release, asan
+cmake --preset debug
 cmake --build --preset debug
-ctest --preset debug
 ./build/debug/opense4
 ```
 
-On Arch Linux, install them with `pacman -S cmake ninja sdl3 shaderc vulkan-headers`.
-
-## Setting up the game data
-
-OpenSE4 reads your installed copy of Space Empires IV Deluxe in place.
-[docs/SETUP.md](docs/SETUP.md) explains:
-
-- how to get the files, including on Linux and macOS;
-- how OpenSE4 finds them;
-- how to check a data set or a classic mod with `opense4-datacheck` (mods made with the SDK
-  are checked with `opense4-sdk check`).
-
-## Multiplayer
-
-Games are hosted from the client or with the dedicated `opense4-server`.
-
-- **TCP:** direct play over the network, with simultaneous turns or one player after
-  another. Connections are encrypted, the game remembers each host's key, and a
-  dropped player reconnects without losing the turn. The default port is 6720, and the
-  router is forwarded automatically over UPnP when the router allows it.
-- **Hotseat:** several players on one machine.
-- **PBEM:** turn files passed by mail or a shared folder. Each player's turn file holds
-  only their own view, encrypted for them and signed by the host.
-
-See [docs/MULTIPLAYER.md](docs/MULTIPLAYER.md).
-
-## Running
-
-```
-opense4 [--renderer=auto|vulkan|opengl] [--classic-dir=DIR] [--quick-start[=RACE]] [--seed=N]
-opense4 [options] GAMEFILE PASSWORD [PLAYER [MODFOLDER]] [-nd]
-```
-
-`--help` lists every option. With `--renderer=auto` (the default) the game tries
-Vulkan 1.3 and falls back to OpenGL 3.3 if Vulkan is missing or unsuitable.
-
-The second form is the original's command line. Without a player number the game is the
-host of a play-by-e-mail game: given the game's master password, it processes the turn
-from the players' orders files, saves the game and quits without opening a window (exit
-code 1 for a wrong password). With a player number, that empire signs in with its
-password and plays its turn, from a turn file, an OpenSE4 saved game or a saved game of
-the original (exit code 2 for a wrong password, or for a game made with other data
-files). The fourth argument names a mod folder, and `-nd` shows no message boxes. See
-[docs/MULTIPLAYER.md](docs/MULTIPLAYER.md), "From the command line".
-
-The game has the original's two screen layouts, 800x600 and 1024x768, drawn with your
-install's art, fonts and mouse pointers and scaled to the window. Like the original,
-OpenSE4 picks 800x600 when the desktop is at most 800 pixels wide and 1024x768
-otherwise. `--layout=800x600` or `--layout=1024x768` forces one for a run, and
-Settings → Graphics → Screen layout keeps the choice (forcing a layout is OpenSE4's
-addition).
+The game starts in VoidReign mode by default. To use another VoidReign content root:
 
 ```sh
-./build/debug/opense4                                # auto-detects a Steam install
-./build/debug/opense4 --classic-dir=/path/to/se4     # or point at it
-./build/debug/opense4 --quick-start=Terran           # skip the intro
-./build/debug/opense4-datacheck                      # validate an installed data set (or a classic mod's)
-./build/debug/opense4 --mod=path/to/a/mod            # play with a mod (docs/sdk/packages-and-data.md)
-./build/debug/opense4 --load=/path/to/se4/SaveGame/GAME.gam   # play on a saved game of the original
-./build/debug/opense4 campaign.gam boss              # host an e-mail game's turn, as the original's command line
-./build/debug/opense4 campaign_02.turn secret 2      # play empire 2's turn of it
-./build/debug/opense4-convert --info GAME.gam        # describe a saved game of the original
-./build/debug/opense4-server --players=2 --ai=3      # host a network game without playing
+opense4 --voidreign-dir=/path/to/voidreign
 ```
 
-On Windows, the release's `-setup.exe` installs OpenSE4 for all users. It goes into
-Program Files with a Start menu entry and, if you choose, a desktop shortcut, and you
-remove it from Apps & features. The zip holds the same programs to run from any folder.
-Saved games and settings live in `%APPDATA%\OpenSE4` either way, unless you make an unpacked
-copy portable (Settings → Files, or a file named `portable.txt` beside `opense4.exe`; see
-`PORTABLE-README.txt`): it then keeps them in `userdata` beside its programs. See
-[docs/SETUP.md](docs/SETUP.md), "Where OpenSE4 keeps its own files".
-
-On Linux, the game can appear in the desktop's application list (GNOME, KDE Plasma
-and other freedesktop.org desktops):
-
-- **Release package:** run `./install-desktop-entry.sh` in the unpacked folder. It adds
-  the entry and icon for your user and starts the game from that folder. Run it again
-  after moving the folder; `--uninstall` removes the entry.
-- **Source build:** `cmake --install build/release --prefix ~/.local` (or
-  `/usr/local`, with `sudo`) installs the programs, the desktop entry, the icons and
-  the AppStream metadata.
-
-The intro has the original's buttons: Quick Start, New Game (the full game and empire
-setup), Resume Game (the last game you saved), Load Game, Tutorial, Scenario, Credits and
-Quit Game. Tutorial and Scenario open OpenSE4's own guided lessons and training games
-([docs/LEARNING.md](docs/LEARNING.md)); Multiplayer, Settings and the Manual sit at the top
-right. During a game the Game Menu's Learn button opens them and Shift+F1 shows the
-manual page for the window in front. In the game, the classic hotkeys work: F1–F12 open
-the windows and End Turn, and letter and Ctrl keys give orders while their button is lit.
-Pointing at a button names it and its key at the top of the system view; Help → Hotkeys
-lists every key as bound, and Settings → Controls changes them. Autosaves are named
-AutoSav0 to AutoSav9, and each player's statistics, history and log files go to
-`History/` in the user data folder and travel with saved games. See
-[docs/SETUP.md](docs/SETUP.md) and [docs/MULTIPLAYER.md](docs/MULTIPLAYER.md).
-
-Headless screenshots, used for testing, work with SDL's offscreen driver:
+The old OpenSE4 compatibility mode is explicit and optional:
 
 ```sh
-SDL_VIDEO_DRIVER=offscreen ./build/debug/opense4 --quick-start=Terran --turns=30 --open=colonies --screenshot=shot.png
-SDL_VIDEO_DRIVER=offscreen ./build/debug/opense4 --quick-start=Terran --turn-style=simultaneous --turns=20 --screenshot=sim.png
-SDL_VIDEO_DRIVER=offscreen ./build/debug/opense4 --quick-start=Terran --turns=10 --open=none --screenshot=main.png  # no Log on top
-SDL_VIDEO_DRIVER=offscreen ./build/debug/opense4 --quick-start=Terran --open=help:hotkeys --screenshot=keys.png
-SDL_VIDEO_DRIVER=offscreen ./build/debug/opense4 --quick-start=Terran --layout=800x600 --size=800x600 --screenshot=small.png
+opense4 --classic-dir=/path/to/SpaceEmpiresIV
 ```
 
-## Modding
+That mode reads a player's own classic game data in place. Nothing from Space Empires IV is distributed with VoidReign.
 
-OpenSE4 can be modded at every level, always layered over your installed game in memory
-and never written into it:
+## Building and validation
 
-- **Pictures, sounds and music**: replacements and additions, PNG with transparency,
-  larger pictures for sharp screens, OGG; a design can wear a picture of its own.
-- **Data**: data patches add, change and remove single records of any data file or computer
-  players' table by the data files' own field names, so several mods combine; Python data
-  generators build records from a rule; mods may declare new abilities.
-- **Computer players** in Python, with full control of an empire or only the decisions they
-  choose, the classic AI as a library for the rest; also as external bots on ordinary
-  CPython, with an arena and a training environment.
-- **Rules scripts**: hooks into turn processing, effects, abilities with effects, new orders,
-  events, intelligence projects, game options, victory conditions and scenarios.
-- **Interface**: panels in the reports, columns in the lists, pages in the Empires window,
-  buttons and keys for a mod's orders, and translations of a mod's text.
+See [docs/BUILDING.md](docs/BUILDING.md) for compiler and dependency requirements. The repository's CMake build includes the engine test suite. The current standalone VoidReign ruleset and new-game tests have been added, but this branch has not yet produced a confirmed CI run or a successful local build; compilation and runtime validation are still outstanding.
 
-Classic mods (replacement data files and pictures) load as packages too. Hegemon, a
-computer player written this way ([mods/hegemon](mods/hegemon/README.md)), ships with
-OpenSE4 in the `mods` folder beside the programs, ready to switch on in the Mods window.
+The Windows and Linux release pipeline is based on `tools/package_release.sh`. Release staging now includes `content/voidreign/`; the Windows installer installs and uninstalls that content beside the game executable. Release packages are named `VoidReign-<version>-<platform>-<architecture>`.
 
-```sh
-opense4 --mod=path/to/mymod                       # play with a mod (or choose it in the Mods window)
-opense4-sdk new data mymod --id=me.mymod          # start one from a template
-opense4-sdk new --from-example small-ai my-ai --id=me.my-ai   # or from one of the example mods
-opense4-sdk check mymod                           # apply it to your game and report every problem
-opense4-sdk test mymod                            # its tests, then its players, rules and scenarios in short games
-opense4-sdk arena --mod=my-ai --ai=me.my-ai:Pioneer --ai=builtin   # a computer player against the classic AI
-opense4-sdk pack mymod                            # a .zip to share
-```
+## Project structure
 
-Every error names the mod, file, line and record; typos are errors. Network and e-mail
-games check that every player has the same game-changing mods. Start with the modder's
-guide, [docs/sdk/README.md](docs/sdk/README.md): getting started, the data files table by
-table, assets, computer players, rules scripts, tutorials and the API reference. The
-example mods are in [mods/examples](mods/examples/README.md); a release has both in its
-`sdk` folder. The plan behind it all is [docs/MODDING_SDK.md](docs/MODDING_SDK.md).
+- `src/game/` — deterministic simulation, economy, research, ship design, movement, combat and turn processing.
+- `src/client/` — game client and existing interface framework.
+- `content/voidreign/Data/` — native VoidReign rules and galaxy data.
+- `content/voidreign/Pictures/` — VoidReign species presets and original game art.
+- `packaging/` — desktop metadata, application icons and Windows installer.
 
-## Layout
-
-```
-src/core      math, deterministic RNG, typed ids, logging
-src/datafile  reader for the classic "Key := Value" data format
-src/ruleset   typed model of a complete classic data set
-src/mods      mod packages, mod sets, the layered game files, data patches
-src/game      classic-rules engine (implemented from docs/spec/)
-src/script    the modding SDK's script runtime: MicroPython in a sandbox, script values, JSON
-src/sdk       the engine's side of the SDK: views, commands, computer players, rules hooks, interface files
-src/learn     tutorials, training games and the manual
-src/net       multiplayer: sessions, protocol, UPnP port mapping
-src/server    opense4-server: dedicated host and PBEM turn processor
-src/assets    runtime access to the installed classic art
-src/gfx       RHI with Vulkan and OpenGL backends, 2D batch renderer, ImGui bridge
-src/client    the app shell and the classic client (windows, front end, multiplayer)
-python/       the opense4 Python package for mods and external bots
-tools/        opense4-datacheck, opense4-convert (saved games), opense4-sdk (mods), opense4-observe (drive the original), cleanroom_check.py, generators
-mods/hegemon  Hegemon, the mod that comes with OpenSE4 (mods/bundled.txt lists those)
-mods/examples the modding SDK's example mods (docs/sdk/README.md)
-docs/spec/    rules specs, written in our own words
-docs/sdk/     the modder's guide and the SDK's reference
-shaders/      GLSL shared by both backends
-assets/       fonts (Noto Sans, SIL OFL), the lessons and the manual
-packaging/    Linux desktop entry, application icon and AppStream metadata
-third_party/  MicroPython (with our patches) and the Khronos headers
-tests/        doctest unit tests (our own fixtures only), the SDK's Python tests, input scripts
-```
-
-## License
-
-OpenSE4 is free software: you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation,
-either version 3 of the License, or (at your option) any later version. See
-[LICENSE](LICENSE).
-
-The Noto Sans fonts are under the SIL Open Font License (see
-`assets/fonts/OFL.txt`). Bundled third-party libraries keep their own licences,
-which the release packages list in `THIRD_PARTY_NOTICES.txt`. The GPL covers only
-OpenSE4's own code and content; the original game's files stay the property of
-their owners and are never part of OpenSE4.
-
-## Trademarks
-
-Space Empires is a trademark of its respective owner. OpenSE4 is an independent
-project. It is not affiliated with, endorsed by or sponsored by Strategy First or
-Malfador Machinations. The name is used only to say which game this engine is for.
+The engine architecture is described in [docs/ENGINE.md](docs/ENGINE.md). The standalone content bundle has its own notes in [content/voidreign/README.md](content/voidreign/README.md).
