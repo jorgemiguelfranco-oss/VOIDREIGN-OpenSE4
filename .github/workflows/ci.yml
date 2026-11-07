@@ -1,6 +1,6 @@
 # Builds and tests VOIDREIGN on Linux, macOS and Windows (docs/BUILDING.md,
 # "Continuous integration"). Nothing here needs the original game: the tests
-# that read an installed copy are opt-in (OPENSE4_CLASSIC_DATA) and stay off,
+# that read an installed copy are opt-in (VOIDREIGN_DATA_DIR) and stay off,
 # and the input scripts that CI plays run on our own test fixtures.
 #
 # Third-party actions are pinned to a full commit SHA; the comment names the tag.
@@ -10,6 +10,7 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
