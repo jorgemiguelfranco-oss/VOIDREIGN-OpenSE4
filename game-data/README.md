@@ -19,3 +19,12 @@ technology and a Pathfinder hull. The roster also includes Hauler, Frigate, Dest
 assigned to a one-ship **Home Patrol** fleet, ready for the player to rename,
 expand and issue movement orders. The starting count is controlled by
 `VOIDREIGN Starting Attack Ship Count`.
+
+## Native computer-player profiles
+
+Each faction has its own `AI_Research`, `AI_Fleets` and `AI_Settings` tables.
+The Aurelian profile prioritises sensors and defensive fleet allocation; the
+Veyran profile prioritises logistics and industrial development; and the
+Khepri profile accelerates industrial, propulsion and weapons research with
+a more attack-oriented fleet allocation. These files feed the engine's built-in
+computer player and do not require a separately installed AI mod.
