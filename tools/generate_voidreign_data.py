@@ -123,34 +123,34 @@ def build(output: Path) -> None:
         ("Command Bridge", "Ship", 10, 18, 45, 5, "Control", 11, [ability("Ship Bridge", "Provides command and control.")], None),
         ("Life Support", "Ship", 10, 12, 35, 5, "Control", 11, [ability("Ship Life Support", "Supports the crew.")], None),
         ("Crew Quarters", "Ship", 10, 10, 30, 5, "Control", 11, [ability("Ship Crew Quarters", "Houses the crew.")], None),
-        ("Ion Drive", "Ship\\Base\\Drone", 20, 20, 70, 18, "Engines", 10, [ability("Standard Ship Movement", "Generates strategic thrust.", 1)], None),
-        ("Fusion Drive", "Ship\\Base\\Drone", 25, 24, 90, 22, "Engines", 10, [ability("Standard Ship Movement", "Improved strategic thrust.", 2)], None),
+        ("Ion Drive", "Ship\\Base\\Drone\\Fighter", 20, 20, 70, 18, "Engines", 10, [ability("Standard Ship Movement", "Generates strategic thrust.", 1)], None),
+        ("Fusion Drive", "Ship\\Base\\Drone\\Fighter", 25, 24, 90, 22, "Engines", 10, [ability("Standard Ship Movement", "Improved strategic thrust.", 2)], None),
         ("Rock Colony Core", "Ship", 45, 35, 130, 35, "Colonization", 30, [ability("Colonize Planet - Rock", "Allows colonization of rocky planets.", 1), ability("Cargo Storage", "Carries colonists and equipment.", 80)], None),
         ("Ice Colony Core", "Ship", 45, 35, 130, 35, "Colonization", 31, [ability("Colonize Planet - Ice", "Allows colonization of icy planets.", 1), ability("Cargo Storage", "Carries colonists and equipment.", 80)], None),
         ("Gas Colony Core", "Ship", 50, 40, 150, 40, "Colonization", 32, [ability("Colonize Planet - Gas", "Allows colonization of gas worlds.", 1), ability("Cargo Storage", "Carries colonists and equipment.", 80)], None),
         ("Cargo Hold", "Ship", 20, 18, 55, 12, "Logistics", 33, [ability("Cargo Storage", "Expands cargo capacity.", 100)], None),
-        ("Shield Generator", "Ship\\Base\\Sat", 20, 14, 80, 28, "Defence", 40, [ability("Shield Generation", "Generates defensive shields.", 25)], None),
+        ("Shield Generator", "Ship\\Base\\Sat\\Fighter", 20, 14, 80, 28, "Defence", 40, [ability("Shield Generation", "Generates defensive shields.", 25)], None),
         ("Armour Plating", "Ship\\Base\\Sat", 10, 28, 35, 4, "Defence", 41, [ability("Armor", "Adds structural armour.")], None),
         ("Sensor Array", "Ship\\Base", 12, 12, 45, 16, "Sensors", 50, [ability("Sensor Level", "Improves detection.", "EM Active", 2)], None),
-        ("Supply Matrix", "Ship\\Base", 18, 14, 60, 18, "Logistics", 51, [ability("Supply Storage", "Stores ship supplies.", 500)], None),
+        ("Supply Matrix", "Ship\\Base\\Fighter", 18, 14, 60, 18, "Logistics", 51, [ability("Supply Storage", "Stores ship supplies.", 500)], None),
         ("Orbital Yard Module", "Ship\\Base", 55, 30, 220, 60, "Shipyards", 60, [ability("Space Yard", "Builds and repairs ships.", 1, 500)], None),
         # A basic sidearm remains available from the beginning so the first
         # generation of frigates can defend itself before Weapons research.
-        ("Pulse Emitter", "Ship\\Base\\Sat", 18, 12, 42, 12, "Weapons", 19, [], {
+        ("Pulse Emitter", "Ship\\Base\\Sat\\Fighter", 18, 12, 42, 12, "Weapons", 19, [], {
             "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
             "Weapon Damage At Rng": "12 12 10 8 6 4", "Weapon Damage Type": "Normal",
             "Weapon Reload Rate": 1, "Weapon Display Type": "Beam", "Weapon Display": 4,
             "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 199,
             "Weapon Seeker Speed": 0, "Weapon Seeker Dmg Res": 0,
         }),
-        ("Laser Battery", "Ship\\Base\\Sat", 20, 15, 55, 18, "Weapons", 20, [], {
+        ("Laser Battery", "Ship\\Base\\Sat\\Fighter", 20, 15, 55, 18, "Weapons", 20, [], {
             "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
             "Weapon Damage At Rng": "16 16 14 12 10 8", "Weapon Damage Type": "Normal",
             "Weapon Reload Rate": 1, "Weapon Display Type": "Beam", "Weapon Display": 4,
             "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 200,
             "Weapon Seeker Speed": 0, "Weapon Seeker Dmg Res": 0,
         }),
-        ("Missile Rack", "Ship\\Base", 25, 16, 75, 28, "Weapons", 21, [], {
+        ("Missile Rack", "Ship\\Base\\Fighter", 25, 16, 75, 28, "Weapons", 21, [], {
             "Weapon Type": "Seeking", "Weapon Target": "Ships\\Planets",
             "Weapon Damage At Rng": "28 28 28 28 28 28 28 28", "Weapon Damage Type": "Normal",
             "Weapon Reload Rate": 2, "Weapon Display Type": "Missile", "Weapon Display": 1,
