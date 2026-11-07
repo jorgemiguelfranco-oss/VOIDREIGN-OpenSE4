@@ -57,7 +57,7 @@ VIAddVersionKey /LANG=1033 "LegalCopyright" "Free software under the GNU GPL 3.0
 !define MUI_ABORTWARNING
 !define MUI_COMPONENTSPAGE_NODESC
 
-!define MUI_WELCOMEPAGE_TEXT "This will install ${APP_NAME} ${VERSION}, an open-source engine for Space Empires IV Deluxe.$\r$\n$\r$\n${APP_NAME} plays with your own installed copy of Space Empires IV Deluxe and reads its data, art and sound in place. Nothing from the original game is included, so install the game (for example from Steam) as well.$\r$\n$\r$\n${APP_NAME} is not affiliated with the game's publishers.$\r$\n$\r$\n$_CLICK"
+!define MUI_WELCOMEPAGE_TEXT "This will install ${APP_NAME} ${VERSION}, a standalone 4X space strategy game built on the OpenSE4 engine.$\\r$\\n$\\r$\\nVoidReign includes its own game rules, species and content. You do not need to own or install Space Empires IV to play VoidReign.$\\r$\\n$\\r$\\nA separate legacy compatibility mode can read a player-owned classic installation, but it is optional and no original game data or assets are included.$\\r$\\n$\\r$\\n$_CLICK"
 !insertmacro MUI_PAGE_WELCOME
 
 ; The GPL needs no acceptance to use the program: the page only shows it.
