@@ -159,6 +159,7 @@ std::string videoDriver() {
 
 int App::run(const AppOptions& options) {
     options_ = options;
+    setStandaloneUserFolder(options.standaloneVoidReign);
     // The identifier is the Wayland app ID and X11 window class, which desktops
     // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
     SDL_SetAppMetadata(options.standaloneVoidReign ? "VoidReign" : "OpenSE4", OPENSE4_CLIENT_VERSION,
