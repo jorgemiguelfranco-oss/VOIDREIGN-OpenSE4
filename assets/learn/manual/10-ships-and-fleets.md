@@ -7,6 +7,34 @@ Ships explore, colonize, carry cargo and fight. This chapter explains how to giv
 how they move, how to group them into fleets and how to send them to waypoints. Keeping them
 supplied, loaded and repaired is explained in [Supply, cargo and repair](logistics).
 
+## Your opening fleet
+
+Every VOIDREIGN empire begins with a **Home Patrol** at its homeworld: one armed
+**Pathfinder** scout designed from that faction's starting technology. Select its
+fleet row in the home system to inspect the member ship. Use `N` to rename the ship or
+`F` for Fleet Transfer to add another ship, split the patrol or disband the
+fleet. Select the fleet and give it a **Move To** (`M`) order to send the patrol
+toward an explored system or a sector in its current system.
+
+The starting ship is an opening asset, not a replacement for ship construction.
+Build more ships at a Space Yard, design specialist hulls as research unlocks them,
+and use additional fleets to guard valuable systems and control the warp points
+between them.
+
+## Native hull roster
+
+| Hull | Role | Availability |
+|---|---|---|
+| **Pathfinder** | Scout and light patrol combatant | Starting hull |
+| **Hauler** | Cargo and population transport | Starting technology |
+| **Frigate** | Heavier frontline combatant | VoidReign Propulsion level 2 |
+| **Settlement Ark** | Rock-world colonisation | VoidReign Planetary Engineering level 1 |
+| **Orbital Station** | Stationary defence, sensors and orbital shipyard modules | Base hull |
+
+The AI uses cargo-capable hulls for transport designs and can move to the Frigate
+when its propulsion research reaches level 2. The same hull rules apply to player
+ship designs and computer empires.
+
 ## Orders
 
 Every ship (and every fleet) has a **list of orders**. Select a ship, then click an order button
