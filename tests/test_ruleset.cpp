@@ -417,6 +417,18 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     CHECK(created->designs[4].entries.size() == 9);
     CHECK(created->designs[5].name == "Veyran Orbital Station");
     REQUIRE(created->vehicles.size() == 6);
+    REQUIRE(created->fleets.size() == 2);
+    CHECK(created->fleets[0].name == "Helion Expeditionary Fleet");
+    CHECK(created->fleets[1].name == "Veyran Expeditionary Fleet");
+    for (size_t empire = 0; empire < 2; ++empire) {
+        const game::Fleet& fleet = created->fleets[empire];
+        CHECK(fleet.owner == game::EmpireId{empire});
+        REQUIRE(fleet.members.size() == 2);
+        CHECK(fleet.leader == fleet.members.front());
+        CHECK(created->vehicles[empire * 3].fleet == fleet.id);
+        CHECK(created->vehicles[empire * 3 + 1].fleet == fleet.id);
+        CHECK(!created->vehicles[empire * 3 + 2].fleet.valid());
+    }
     for (size_t i = 0; i < 6; ++i) {
         const size_t owner = i < 3 ? 0 : 1;
         CHECK(created->vehicles[i].owner == game::EmpireId{owner});
