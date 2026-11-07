@@ -14,7 +14,7 @@ The native `game-data/` directory currently defines:
 - **Original technology branches:** Stellar Sciences, Propulsion, Energy Weapons, Industrial Engineering, Planetary Engineering, Logistics and Advanced Sensors.
 - **Original ships and installations:** Pathfinder, Settlement Ark and Orbital Station hulls, with ship systems, engines, cargo, pulse weapons, shields, colonisation modules, orbital shipyards and sensor arrays.
 - **Planetary infrastructure:** mineral extraction, hydroponics, isotope refining, research, intelligence, spaceports and bonded warehouses.
-- **Storage-driven economy:** the base reserve is 10,000 of each strategic resource; the starting homeworld receives one warehouse for another 10,000 of each. Every additional warehouse adds 10,000 to all three caps. Resources above capacity are discarded at end of turn, while a sustained inability to meet maintenance can cost ships.
+- **Storage-driven economy:** the base reserve is 20,000 of each strategic resource; the starting homeworld receives one warehouse for another 10,000 of each. Every additional warehouse adds 10,000 to all three caps. Resources above capacity are discarded at end of turn, while a sustained inability to meet maintenance can cost ships.
 - **Original galaxy definitions:** VoidReign Core and Nebula systems, Spiral and Frontier quadrants, stellar anomalies and fleet formation data.
 
 The game data is authored as the engine's **base ruleset**, not as `mods/voidreign`. The former VoidReign mod directory has been removed. The optional engine computer-player modules remain separate from the game itself.
