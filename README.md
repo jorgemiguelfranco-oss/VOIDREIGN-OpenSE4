@@ -31,7 +31,7 @@ The original VOIDREIGN game data is generated from `tools/generate_voidreign_dat
 
 ## Development status
 
-VOIDREIGN is under active development. The native engine foundation and the initial standalone ruleset are in the repository; Windows/Linux packaging, integration tests and the remaining original faction and ship artwork are still being completed and verified. Do not treat a draft branch or a queued CI check as a released, tested game.
+VOIDREIGN is under active development. The native engine foundation, standalone ruleset and a build-time first-party artwork generator are in the repository. The generator now covers faction and neutral portraits, faction-specific ship miniatures/portraits, planet art, module icons, system backgrounds and the core UI sprite sheets. Higher-polish art, full integration/runtime validation and Windows/Linux release testing remain outstanding. Do not treat a draft branch or a queued CI check as a released, tested game.
 
 ## Credits and licence
 
