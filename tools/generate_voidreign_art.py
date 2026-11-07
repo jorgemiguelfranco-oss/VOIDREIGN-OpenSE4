@@ -380,8 +380,10 @@ def build(root: Path):
         dims = {
             "Top.bmp": (width, 29), "Toptitle.bmp": (width, 77),
             "Topsys.bmp": (width, 7), "Bottom.bmp": (width, 8),
-            "Left.bmp": (10, height), "Middle.bmp": (16, height - 106),
-            "Right.bmp": (67, height), "Topgal.bmp": (360 if width > 800 else 300, 9),
+            "Left.bmp": (10, height), "Middle.bmp": (16, 662 if width > 800 else 565),
+            "Right.bmp": (67 if width > 800 else 12, height),
+            "Bottom.bmp": (width, 8 if width > 800 else 6),
+            "Topgal.bmp": (360 if width > 800 else 300, 9),
         }
         for name, (w, h) in dims.items():
             panel(w, h).save(d / name)
@@ -443,6 +445,9 @@ def verify(root: Path):
         "Game/Screens/1024X768/Intro.bmp": (1024, 768),
         "Game/Screens/1024X768/Top.bmp": (1024, 29),
         "Game/Screens/1024X768/Toptitle.bmp": (1024, 77),
+        "Game/Screens/800X600/Middle.bmp": (16, 565),
+        "Game/Screens/800X600/Right.bmp": (12, 600),
+        "Game/Screens/800X600/Bottom.bmp": (800, 6),
         "Systems/1024X768/Starmap.bmp": (660, 660),
         "Systems/1024X768/Starfield.bmp": (660, 660),
         "Systems/800X600/Starfield.bmp": (490, 490),
