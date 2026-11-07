@@ -34,6 +34,20 @@ between them.
 | **Settlement Ark** | Rock-world colonisation | VoidReign Planetary Engineering level 1 |
 | **Orbital Station** | Stationary defence, sensors and orbital shipyard modules | Base hull |
 
+## Researchable component upgrades
+
+The technology tree improves existing ship roles as well as unlocking larger hulls:
+
+- **Energy Weapons II** unlocks the stronger Pulse Cannon II and Shield Projector II.
+- **Propulsion III** unlocks Vector Drive II, which provides two strategic movement units.
+- **Logistics II** unlocks Cargo Hold II for larger freight and population transports.
+- **Advanced Sensors I–III** unlocks Sensor Suite I and II, plus the upgraded orbital Sensor Array II.
+- **Industrial Engineering III** unlocks Orbital Shipyard II for faster base construction in orbit.
+
+An Orbital Station uses Base components and can mount the Orbital Shipyard or Sensor
+Array. The native **Base Space Yard** design can be queued at a Planetary Shipyard;
+build and deploy orbital bases to add construction and sensor coverage in key systems.
+
 The AI uses cargo-capable hulls for transport designs and can move to the Frigate
 when its propulsion research reaches level 2. The same hull rules apply to player
 ship designs and computer empires.
