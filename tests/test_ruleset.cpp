@@ -235,6 +235,12 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     REQUIRE(liveWarehouse2 != gameRules.data().facilities.end());
     REQUIRE(liveExtractor2 != gameRules.data().facilities.end());
     const auto liveShield2 = findComponent("VoidReign Shield Projector II");
+    const auto livePulse3 = findComponent("VoidReign Pulse Cannon III");
+    const auto livePulse4 = findComponent("VoidReign Pulse Cannon IV");
+    const auto livePulse5 = findComponent("VoidReign Pulse Cannon V");
+    const auto liveShield3 = findComponent("VoidReign Shield Projector III");
+    const auto liveShield4 = findComponent("VoidReign Shield Projector IV");
+    const auto liveShield5 = findComponent("VoidReign Shield Projector V");
     const auto liveCargo2 = findComponent("VoidReign Cargo Hold II");
     const auto liveSensor1 = findComponent("VoidReign Sensor Suite I");
     const auto liveSensor2 = findComponent("VoidReign Sensor Suite II");
@@ -243,6 +249,12 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const auto liveShipyard2 = findFacility("VoidReign Planetary Shipyard II");
     const auto liveSupplyDepot2 = findFacility("VoidReign Supply Depot II");
     REQUIRE(liveShield2 != gameRules.data().components.end());
+    REQUIRE(livePulse3 != gameRules.data().components.end());
+    REQUIRE(livePulse4 != gameRules.data().components.end());
+    REQUIRE(livePulse5 != gameRules.data().components.end());
+    REQUIRE(liveShield3 != gameRules.data().components.end());
+    REQUIRE(liveShield4 != gameRules.data().components.end());
+    REQUIRE(liveShield5 != gameRules.data().components.end());
     REQUIRE(liveCargo2 != gameRules.data().components.end());
     REQUIRE(liveSensor1 != gameRules.data().components.end());
     REQUIRE(liveSensor2 != gameRules.data().components.end());
@@ -264,6 +276,12 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const uint32_t warehouse2Index = indexOfFacility(liveWarehouse2);
     const uint32_t extractor2Index = indexOfFacility(liveExtractor2);
     const uint32_t shield2Index = indexOfComponent(liveShield2);
+    const uint32_t pulse3Index = indexOfComponent(livePulse3);
+    const uint32_t pulse4Index = indexOfComponent(livePulse4);
+    const uint32_t pulse5Index = indexOfComponent(livePulse5);
+    const uint32_t shield3Index = indexOfComponent(liveShield3);
+    const uint32_t shield4Index = indexOfComponent(liveShield4);
+    const uint32_t shield5Index = indexOfComponent(liveShield5);
     const uint32_t cargo2Index = indexOfComponent(liveCargo2);
     const uint32_t sensor1Index = indexOfComponent(liveSensor1);
     const uint32_t sensor2Index = indexOfComponent(liveSensor2);
@@ -276,6 +294,12 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse2Index));
     CHECK_FALSE(gameRules.facilityAvailable(techProbe, extractor2Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, shield2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse5Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield5Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo2Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, sensor1Index));
     CHECK_FALSE(gameRules.componentAvailable(techProbe, sensor2Index));
@@ -297,6 +321,45 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const auto pulseUpgrade = gameRules.componentUpgradeTarget(techProbe, livePulse2->family);
     REQUIRE(pulseUpgrade);
     CHECK(*pulseUpgrade == pulse2Index);
+    // Energy Weapons research must unlock each advanced weapon and shield
+    // tier in order, and the ship-design upgrade picker must select the
+    // highest tier the empire has actually researched.
+    setTech("VoidReign Energy Weapons", 3);
+    CHECK(gameRules.componentAvailable(techProbe, pulse3Index));
+    CHECK(gameRules.componentAvailable(techProbe, shield3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield4Index));
+    auto pulseUpgrade3 = gameRules.componentUpgradeTarget(techProbe, livePulse3->family);
+    auto shieldUpgrade3 = gameRules.componentUpgradeTarget(techProbe, liveShield3->family);
+    REQUIRE(pulseUpgrade3);
+    REQUIRE(shieldUpgrade3);
+    CHECK(*pulseUpgrade3 == pulse3Index);
+    CHECK(*shieldUpgrade3 == shield3Index);
+
+    setTech("VoidReign Energy Weapons", 4);
+    CHECK(gameRules.componentAvailable(techProbe, pulse4Index));
+    CHECK(gameRules.componentAvailable(techProbe, shield4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse5Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield5Index));
+    auto pulseUpgrade4 = gameRules.componentUpgradeTarget(techProbe, livePulse4->family);
+    auto shieldUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveShield4->family);
+    REQUIRE(pulseUpgrade4);
+    REQUIRE(shieldUpgrade4);
+    CHECK(*pulseUpgrade4 == pulse4Index);
+    CHECK(*shieldUpgrade4 == shield4Index);
+
+    setTech("VoidReign Energy Weapons", 5);
+    CHECK(gameRules.componentAvailable(techProbe, pulse5Index));
+    CHECK(gameRules.componentAvailable(techProbe, shield5Index));
+    auto pulseUpgrade5 = gameRules.componentUpgradeTarget(techProbe, livePulse5->family);
+    auto shieldUpgrade5 = gameRules.componentUpgradeTarget(techProbe, liveShield5->family);
+    REQUIRE(pulseUpgrade5);
+    REQUIRE(shieldUpgrade5);
+    CHECK(*pulseUpgrade5 == pulse5Index);
+    CHECK(*shieldUpgrade5 == shield5Index);
+
+    // Return to tier II for the earlier checks below.
+    setTech("VoidReign Energy Weapons", 2);
     setTech("VoidReign Logistics", 2);
     CHECK(gameRules.facilityAvailable(techProbe, warehouse2Index));
     const auto warehouseUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse2->family);
