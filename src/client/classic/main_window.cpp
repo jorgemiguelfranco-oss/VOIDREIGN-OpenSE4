@@ -3104,9 +3104,10 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
             r.rect(Rect::fromPosSize({std::floor(p.x), std::floor(p.y)}, {1, 1}), c);
         }
     };
-    // Vehicles (§2.4 "Sector contents"): one owner without a stellar object
-    // shows its largest vehicle (or the fleet's icon), otherwise the owners'
-    // small flags stacked down the left edge; counts are drawn by overlayText.
+    // Vehicles (§2.4 "Sector contents"): an uncontested empty sector keeps
+    // the original large single-vehicle/fleet icon and count. Sectors with a
+    // stellar object or mixed ownership also show compact markers for each
+    // visible ship/base (one marker per own fleet), alongside owner flags.
     for (const ShownSector& sec : sectors_) {
         const SectorView& view = sec.view;
         const Vec2 square = spriteSquare(sec.sector);

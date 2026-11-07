@@ -1356,7 +1356,6 @@ TEST_CASE("main window: what a sector shows") {
 }
 
 
-
 TEST_CASE("main window: ships, fleet markers and mobile shipyards remain visible beside stellar objects") {
     const Rules& r = engineRules();
     GameState s = newEngineGame();

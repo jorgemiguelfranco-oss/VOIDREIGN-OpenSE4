@@ -3,7 +3,6 @@
 #include "game/design.hpp"
 #include "game/query.hpp"
 #include "game/sight.hpp"
-#include "game/query.hpp"
 
 #include <algorithm>
 #include <array>

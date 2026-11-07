@@ -1,9 +1,9 @@
 #pragma once
 
 // What the system panel draws in one sector (docs/spec/06 §2.4 "Sector
-// contents", §7 Q49, confirmed: binary): the stellar object shown and how many
-// there are, and the vehicles as one sprite with a count or as owner flags
-// with counts. Headless, tested in tests/test_main_window.cpp.
+// contents"): the stellar object and owner-presence markers, plus compact
+// faction-specific ship/fleet/base markers when vehicles share the sector with
+// a stellar object or another empire. Headless, tested in tests/test_main_window.cpp.
 
 #include "game/rules.hpp"
 #include "game/state.hpp"
