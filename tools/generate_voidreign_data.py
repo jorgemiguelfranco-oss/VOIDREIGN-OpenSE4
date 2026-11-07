@@ -136,11 +136,20 @@ def build(output: Path) -> None:
         ("Orbital Yard Module", "Ship\\Base", 55, 30, 220, 60, "Shipyards", 60, [ability("Space Yard", "Builds and repairs ships.", 1, 500)], None),
         # A basic sidearm remains available from the beginning so the first
         # generation of frigates can defend itself before Weapons research.
-        ("Pulse Emitter", "Ship\\Base\\Sat\\Fighter", 18, 12, 42, 12, "Weapons", 19, [], {
+        ("Pulse Emitter", "Ship\\Base\\Sat", 18, 12, 42, 12, "Weapons", 19, [], {
             "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
             "Weapon Damage At Rng": "12 12 10 8 6 4", "Weapon Damage Type": "Normal",
             "Weapon Reload Rate": 1, "Weapon Display Type": "Beam", "Weapon Display": 4,
-            "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 199,
+            "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 200,
+            "Weapon Seeker Speed": 0, "Weapon Seeker Dmg Res": 0,
+        }),
+        # Light fighter emitters use the engine AI's fighter weapon family,
+        # so the native Fighter design template can select one at game start.
+        ("Fighter Pulse Emitter", "Fighter", 12, 9, 32, 9, "Weapons", 24, [], {
+            "Weapon Type": "Direct Fire", "Weapon Target": "Ships\\Planets",
+            "Weapon Damage At Rng": "8 8 7 6 5 4", "Weapon Damage Type": "Normal",
+            "Weapon Reload Rate": 1, "Weapon Display Type": "Beam", "Weapon Display": 4,
+            "Weapon Modifier": 0, "Weapon Sound": "laser", "Weapon Family": 204,
             "Weapon Seeker Speed": 0, "Weapon Seeker Dmg Res": 0,
         }),
         ("Laser Battery", "Ship\\Base\\Sat\\Fighter", 20, 15, 55, 18, "Weapons", 20, [], {
