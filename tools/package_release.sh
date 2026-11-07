@@ -193,13 +193,13 @@ check_linux_libraries() {  # check_linux_libraries <build dir>
 notices() {  # notices <build dir> <target> <output file>
     local deps="$1/_deps" out="$3"
     {
-        echo "OpenSE4 third-party notices"
+        echo "VoidReign third-party notices"
         echo "==========================="
         echo
-        echo "OpenSE4 is an open-source engine for Space Empires IV Deluxe, licensed under"
-        echo "the GNU General Public License version 3 or later (see LICENSE). It is not"
-        echo "affiliated with the game's publishers and contains nothing from the game:"
-        echo "it plays with the player's own installed copy."
+        echo "VoidReign is a standalone space strategy game built on the OpenSE4 engine, licensed under"
+        echo "the GNU General Public License version 3 or later (see LICENSE)."
+        echo "It includes no Space Empires IV game data, artwork, sound or text."
+        echo "Legacy compatibility mode can optionally read a player-owned classic installation."
         echo "The executables include the following third-party software and fonts,"
         echo "each under its own licence."
         section() {
