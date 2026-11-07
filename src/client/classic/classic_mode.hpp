@@ -31,7 +31,8 @@
 namespace opense4::client {
 
 struct ClassicOptions {
-    std::string installDir;  // empty = auto-detect
+    std::string installDir;  // resolved Data directory
+    bool standaloneVoidReign = false; // VoidReign content is the game's native data set, not a mod
     // Mods: these (paths, or ids in modsDir) when modsGiven, else the ones
     // the settings enable (docs/sdk/packages-and-data.md).
     std::vector<std::string> mods;
