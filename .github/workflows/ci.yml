@@ -103,6 +103,7 @@ jobs:
         run: |
           build/debug/opense4-datacheck "$VOIDREIGN_DATA_DIR/Data"
           build/debug/tests/opense4_tests --test-case="installed data set: race presets, setup and starting assets (opt-in)"
+          build/debug/tests/opense4_tests --test-case="VOIDREIGN generated economy and technology remain bounded over eight AI-managed turns (opt-in)"
           SDL_VIDEO_DRIVER=offscreen build/debug/VOIDREIGN --quick-start=Aurel --turns=3 --open=none --screenshot="$RUNNER_TEMP/voidreign-smoke.png"
           test -s "$RUNNER_TEMP/voidreign-smoke.png"
 
