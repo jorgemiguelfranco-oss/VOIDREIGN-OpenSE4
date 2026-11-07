@@ -354,6 +354,7 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     // levels needed to support a growing economy and its resource stockpiles.
     gate(r->hull(hullIndex("Aegis Cruiser")), "Ship Construction", 2);
     gate(r->hull(hullIndex("Pioneer Ark")), "Colonization", 1);
+    CHECK(r->hull(hullIndex("Pioneer Ark")).minPercentColonyModules == 15);
     gate(r->hull(hullIndex("Meridian Freighter")), "Logistics", 1);
     gate(r->hull(hullIndex("Citadel Platform")), "Ship Construction", 3);
     gate(r->hull(hullIndex("Interceptor")), "Weapons", 1);
@@ -418,6 +419,22 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     }
     CHECK(hasFighterDrive);
     CHECK(hasFighterWeapon);
+
+    // The same design minister must be able to create each planetary
+    // settlement variant with one matching core and the Pioneer Ark hull.
+    for (const auto& [templateName, coreName] :
+         std::array<std::pair<std::string_view, std::string_view>, 3>{{
+             {"Colony (Rock)", "Rock Colony Core"},
+             {"Colony (Ice)", "Ice Colony Core"},
+             {"Colony (Gas)", "Gas Colony Core"},
+         }}) {
+        const auto colonyDesign = std::find_if(empire.designs.begin(), empire.designs.end(),
+                                               [&](const Design& design) { return design.templateName == templateName; });
+        REQUIRE_MESSAGE(colonyDesign != empire.designs.end(), templateName);
+        CHECK(r->hull(colonyDesign->hull).name == "Pioneer Ark");
+        CHECK(std::any_of(colonyDesign->entries.begin(), colonyDesign->entries.end(),
+                          [&](const DesignEntry& entry) { return r->component(entry.component).name == coreName; }));
+    }
     for (std::string_view name : {"Mineral Warehouse", "Organic Warehouse", "Radioactive Vault",
                                   "Central Warehouse", "Orbital Defence Grid", "Terraforming Array"})
         CHECK(r->facilityAvailable(empire, facilityIndex(name)));
