@@ -1,0 +1,15 @@
+=====
+VOIDREIGN native ship design categories.
+=====
+*BEGIN*
+Name := Attack Vessel
+
+Name := Pathfinder
+Name := Colony (Rock)
+
+Name := Colony (Ice)
+
+Name := Colony (Gas)
+
+Name := Station
+*END*
