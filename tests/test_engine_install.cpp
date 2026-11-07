@@ -335,6 +335,15 @@ TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistic
     CHECK(r->component(starterWeapon).isWeapon());
     CHECK(r->component(starterWeapon).weapon.kind == ruleset::WeaponKind::DirectFire);
     CHECK(r->component(starterWeapon).weapon.damageAtRange.size() == 6);
+
+    // The stock AI Fighter template must be capable of producing a legal
+    // interceptor: it needs both a movement drive and a weapon fitting Fighter.
+    const auto fighterMask = ruleset::maskOf(ruleset::VehicleType::Fighter);
+    CHECK((r->component(componentIndex("Ion Drive")).vehicles & fighterMask) != 0);
+    CHECK((r->component(starterWeapon).vehicles & fighterMask) != 0);
+    CHECK((r->component(componentIndex("Laser Battery")).vehicles & fighterMask) != 0);
+    CHECK((r->component(componentIndex("Missile Rack")).vehicles & fighterMask) != 0);
+    CHECK((r->component(componentIndex("Shield Generator")).vehicles & fighterMask) != 0);
     CHECK_FALSE(r->hullAvailable(empire, hullIndex("Aegis Cruiser")));
     CHECK_FALSE(r->componentAvailable(empire, componentIndex("Fusion Drive")));
     CHECK_FALSE(r->componentAvailable(empire, componentIndex("Rock Colony Core")));
