@@ -24,12 +24,12 @@ expand and issue movement orders. The starting count is controlled by
 
 The native technology areas unlock tangible upgrades, not only larger hulls. Energy Weapons now has a complete five-level combat ladder: Pulse Cannon and Shield Projector tiers I–V, with higher tiers gated by the matching research level, increasing tonnage and supply demands, and stronger damage or shield output:
 
-- **Propulsion III:** Vector Drive II, which provides two strategic movement units per engine.
+- **Propulsion III–V:** Vector Drive II–IV, increasing strategic movement from two to four units per engine as the empire progresses.
 - **Energy Weapons II–V:** Pulse Cannon II–V and Shield Projector II–V, progressively increasing weapon damage, shield points, component tonnage, construction cost and supply use.
 - **Industrial Engineering II:** Mineral Extractor II, Hydroponics II and Isotope Reactor II.
 - **Industrial Engineering III:** Research Institute II and Orbital Shipyard II.
 - **Industrial Engineering IV:** Planetary Shipyard II.
-- **Logistics II:** Cargo Hold II and Warehouse II. Each Warehouse II adds 60,000 units of capacity for each strategic resource.
+- **Logistics II–V:** Cargo Hold II–V progressively increases ship cargo from 120 to 500 units. Warehouse II–IV unlock at Logistics II, IV and V and add 60,000, 90,000 and 120,000 units of capacity per strategic resource, respectively.
 - **Logistics III:** Supply Depot II.
 - **Advanced Sensors I:** Sensor Suite I; **II:** Sensor Array II and Intelligence Bureau II; **III:** Sensor Suite II.
 
