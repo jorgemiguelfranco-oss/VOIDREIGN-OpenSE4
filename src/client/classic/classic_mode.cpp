@@ -82,6 +82,14 @@ std::string missingInstallMessage(const std::string& installDir) {
                        kIntro, installDir, kHelp);
 }
 
+std::string missingVoidReignMessage(const std::string& gameDir) {
+    if (gameDir.empty())
+        return "VoidReign's standalone game data was not found. Install the VoidReign content bundle beside the game, "
+               "or start with --voidreign-dir=<folder> pointing to a folder containing Data/, Pictures/ and Sounds/.";
+    return std::format("VoidReign game data was not found at {}. The folder must contain Data/Components.txt, "
+                       "Data/TechArea.txt and the original VoidReign Pictures/ and Sounds/ assets.", gameDir);
+}
+
 std::expected<ClassicMode::DataSet, std::string> ClassicMode::readDataSet(const std::filesystem::path& dataDir, const mods::ModChoice& choice,
                                                                           const std::optional<std::string>& modFolder) {
     const std::filesystem::path gameRoot = dataDir.parent_path();
@@ -188,7 +196,7 @@ std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const
     exitCode = 1;
     const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
     if (!dataDir) {
-        error = missingInstallMessage(options.installDir);
+        error = options.standaloneVoidReign ? missingVoidReignMessage(options.installDir) : missingInstallMessage(options.installDir);
         return nullptr;
     }
     std::unique_ptr<ClassicMode> mode(new ClassicMode(platform));
