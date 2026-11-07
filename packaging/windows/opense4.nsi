@@ -25,7 +25,7 @@ RequestExecutionLevel admin
 
 !define APP_NAME "VOIDREIGN"
 !define PUBLISHER "The VOIDREIGN developers"
-!define HOMEPAGE "https://github.com/lowlevelmetal/VOIDREIGN"
+!define HOMEPAGE "https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\VOIDREIGN"
 !define SETTINGS_KEY "Software\VOIDREIGN"
 
