@@ -38,7 +38,7 @@ const Rules* installRules() {
 
 } // namespace
 
-TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)") {
+TEST_CASE("installed data set: VoidReign content, setup and turn economy (opt-in)") {
     const Rules* r = installRules();
     if (!r) return;
     CHECK(std::count_if(r->racePresets().begin(), r->racePresets().end(), [](const auto& p) { return !p.neutral; }) == 12);
@@ -56,8 +56,13 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
     // The data pack must expose the engine's implemented event and
     // intelligence systems; an empty catalogue would silently disable them.
     CHECK(r->data().eventTypes.size() >= 6);
-    for (const auto& event : r->data().eventTypes)
+    int previousSeverity = -1;
+    for (const auto& event : r->data().eventTypes) {
         CHECK_MESSAGE(effects::parseEffect(event.type).has_value(), event.type);
+        const int severity = static_cast<int>(events::parseSeverity(event.severity));
+        CHECK(severity >= previousSeverity);  // severity filtering is file-order sensitive
+        previousSeverity = severity;
+    }
     CHECK(r->data().intelProjects.size() >= 15);
     bool defenseI = false, defenseII = false, defenseIII = false;
     for (const auto& project : r->data().intelProjects) {
