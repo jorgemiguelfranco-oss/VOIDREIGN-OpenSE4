@@ -1,5 +1,5 @@
 #!/bin/sh
-# Adds OpenSE4 to the desktop's application list (GNOME, KDE Plasma and other
+# Adds VOIDREIGN to the desktop's application list (GNOME, KDE Plasma and other
 # freedesktop.org desktops) for the current user. The entry runs the game from
 # the folder this script is in: run the script again after moving the folder.
 #
@@ -8,7 +8,7 @@
 
 set -eu
 
-id=io.github.lowlevelmetal.OpenSE4
+id=io.github.voidreign.VOIDREIGN
 here=$(cd "$(dirname "$0")" && pwd -P)
 data=${XDG_DATA_HOME:-$HOME/.local/share}
 apps="$data/applications"
@@ -31,24 +31,24 @@ case "${1:-}" in
             [ -e "$icon" ] && rm -f "$icon"
         done
         refresh
-        echo "Removed OpenSE4 from the application list."
+        echo "Removed VOIDREIGN from the application list."
         exit 0 ;;
     *)
         echo "usage: $0 [--uninstall]" >&2
         exit 2 ;;
 esac
 
-game="$here/opense4"
+game="$here/VOIDREIGN"
 template="$here/share/applications/$id.desktop"
 if [ ! -x "$game" ] || [ ! -f "$template" ]; then
-    echo "Run this script from the unpacked OpenSE4 folder (opense4 and share/ are missing)." >&2
+    echo "Run this script from the unpacked VOIDREIGN folder (VOIDREIGN and share/ are missing)." >&2
     exit 1
 fi
 # GLib (GNOME) checks that the program exists before undoing the "%%" escape a
 # percent sign needs, so such an entry would never show up there.
 case "$game" in
     *"
-"* | *%*) echo "The folder's path contains a line break or a percent sign, which desktops cannot start programs from. Move OpenSE4 to another folder." >&2; exit 1 ;;
+"* | *%*) echo "The folder's path contains a line break or a percent sign, which desktops cannot start programs from. Move VOIDREIGN to another folder." >&2; exit 1 ;;
 esac
 
 for dir in "$here"/share/icons/hicolor/*/apps; do
@@ -75,5 +75,5 @@ done < "$template" > "$tmp"
 mv "$tmp" "$apps/$id.desktop"
 refresh
 
-echo "Added OpenSE4 to the application list ($apps/$id.desktop)."
+echo "Added VOIDREIGN to the application list ($apps/$id.desktop)."
 echo "It runs $game."
