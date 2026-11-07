@@ -55,8 +55,8 @@ constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementati
 
 Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
-Plays Space Empires IV Deluxe on your own installed copy of the game. The game is
-found in your Steam libraries, or given with --classic-dir (see docs/SETUP.md).
+Runs an OpenSE4-based strategy game. Use --voidreign-dir for the standalone VoidReign content;
+--classic-dir is retained only for compatibility and engine-development testing.
 
 Rendering:
   --renderer=auto|vulkan|opengl   Graphics backend (default: auto = Vulkan, fall back to OpenGL)
@@ -72,7 +72,8 @@ Rendering:
                                   the audio, e.g. with SDL_AUDIO_DRIVER=disk: docs/SETUP.md)
 
 Game:
-  --classic-dir=DIR               Game directory of your installed copy (default: auto-detect)
+  --voidreign-dir=DIR             Run the standalone VoidReign game from its own Data/Pictures/Sounds folder
+  --classic-dir=DIR               Developer compatibility: use an installed classic game data folder
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
@@ -331,8 +332,13 @@ int main(int argc, char** argv) {
             options.noAudio = true;
         } else if (key == "--audio") {
             options.audio = true;
+        } else if (key == "--voidreign-dir") {
+            options.installDir = std::string(value);
+            options.standaloneVoidReign = true;
+            ok = !value.empty();
         } else if (key == "--classic-dir") {
             options.installDir = std::string(value);
+            options.standaloneVoidReign = false;
         } else if (key == "--mod") {
             options.mods.emplace_back(value);
             options.modsGiven = true;
