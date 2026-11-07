@@ -193,7 +193,8 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
                                    [&](const auto& colony) { return colony && colony->owner == playerId && colony->homeworld; });
     REQUIRE(home != opening->colonies.end());
     const game::Resources cap = game::economy::storageCapacity(gameRules, *opening, playerId);
-    CHECK(cap == game::Resources{30000, 30000, 30000});
+    const game::Resources expectedCap{30000, 30000, 30000};
+    CHECK(cap == expectedCap);
     for (size_t resource = 0; resource < 3; ++resource)
         CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
     bool hasWarehouse = false, hasShipyard = false, hasSupplyDepot = false;
