@@ -1,0 +1,17 @@
+=====
+VOIDREIGN native game rules. Original project-authored content.
+=====
+*BEGIN*
+Name                  := VoidReign Line
+Description           := A balanced line for coordinated fleet movement.
+Leader Position Xpos  := 0
+Leader Position Ypos  := 0
+Leader Design Type    := Any
+Number of Positions   := 2
+Position 1 Xpos       := -1
+Position 1 Ypos       := 0
+Position 1 Type       := Any
+Position 2 Xpos       := 1
+Position 2 Ypos       := 0
+Position 2 Type       := Any
+*END*
