@@ -204,7 +204,8 @@ target_compile_definitions(opense4_tests PRIVATE
     OPENSE4_SDK_TEST_DIR="${CMAKE_CURRENT_SOURCE_DIR}/sdk"
     OPENSE4_ASSETS_DIR="${CMAKE_SOURCE_DIR}/assets"
     OPENSE4_DOCS_DIR="${CMAKE_SOURCE_DIR}/docs"
-    OPENSE4_MODS_DIR="${CMAKE_SOURCE_DIR}/mods")
+    OPENSE4_MODS_DIR="${CMAKE_SOURCE_DIR}/mods"
+    VOIDREIGN_GAME_DATA_DIR="${CMAKE_SOURCE_DIR}/game-data")
 
 if(OPENSE4_DEV_PATHS)
     # Developer builds find the bundled mods in the source tree (src/mods/mod_set.cpp).
