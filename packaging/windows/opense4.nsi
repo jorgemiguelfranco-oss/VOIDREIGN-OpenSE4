@@ -4,9 +4,9 @@
 ;   makensis -DVERSION=0.2.1 -DVERSION_NUMBER=0.2.1 -DSTAGE=<staged folder>
 ;            -DOUTFILE=<setup.exe> packaging/windows/opense4.nsi
 ;
-; It installs for all users into Program Files, adds OpenSE4 to the Start menu
-; (and, if chosen, the desktop) and to Apps & features. Saved games and settings
-; live in %APPDATA%\OpenSE4 and are left alone by the uninstaller.
+; It installs the standalone VoidReign game and its first-party content for all
+; users into Program Files, adds VoidReign to the Start menu (and, if chosen,
+; the desktop) and to Apps & features.
 
 Unicode true
 ManifestDPIAware true
@@ -23,11 +23,11 @@ RequestExecutionLevel admin
 !insertmacro REQUIRE_DEFINE STAGE
 !insertmacro REQUIRE_DEFINE OUTFILE
 
-!define APP_NAME "OpenSE4"
-!define PUBLISHER "The OpenSE4 developers"
-!define HOMEPAGE "https://github.com/lowlevelmetal/OpenSE4"
-!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenSE4"
-!define SETTINGS_KEY "Software\OpenSE4"
+!define APP_NAME "VoidReign"
+!define PUBLISHER "The VoidReign developers"
+!define HOMEPAGE "https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\VoidReign"
+!define SETTINGS_KEY "Software\VoidReign"
 
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
@@ -37,7 +37,7 @@ RequestExecutionLevel admin
 
 Name "${APP_NAME}"
 OutFile "${OUTFILE}"
-InstallDir "$PROGRAMFILES64\OpenSE4"
+InstallDir "$PROGRAMFILES64\VoidReign"
 BrandingText "${APP_NAME} ${VERSION}"
 
 VIProductVersion "${VERSION_NUMBER}.0"
@@ -110,7 +110,7 @@ Function .onInit
     ; explicit /D= on the command line still wins.
     ReadRegStr $0 HKLM "${SETTINGS_KEY}" "InstallDir"
     ${If} $0 != ""
-    ${AndIf} $INSTDIR == "$PROGRAMFILES64\OpenSE4"
+    ${AndIf} $INSTDIR == "$PROGRAMFILES64\VoidReign"
         StrCpy $INSTDIR $0
     ${EndIf}
 FunctionEnd
@@ -126,6 +126,11 @@ Section "${APP_NAME}" SecGame
     File "${STAGE}\README.md"
     File "${STAGE}\LICENSE"
     File "${STAGE}\THIRD_PARTY_NOTICES.txt"
+
+    ; VoidReign's own rules, species presets and artwork are mandatory game content.
+    SetOutPath "$INSTDIR\content\voidreign"
+    File /r "${STAGE}\content\voidreign\*.*"
+    SetOutPath "$INSTDIR"
     WriteUninstaller "$INSTDIR\uninstall.exe"
 
     CreateShortcut "$SMPROGRAMS\${APP_NAME}.lnk" "$INSTDIR\opense4.exe" "" "$INSTDIR\opense4.exe" 0
@@ -182,6 +187,8 @@ Section "Uninstall"
     Delete "$INSTDIR\THIRD_PARTY_NOTICES.txt"
     RMDir /r "$INSTDIR\sdk"
     RMDir /r "$INSTDIR\mods"
+    RMDir /r "$INSTDIR\content\voidreign"
+    RMDir "$INSTDIR\content"
     Delete "$INSTDIR\uninstall.exe"
     RMDir "$INSTDIR"
 
