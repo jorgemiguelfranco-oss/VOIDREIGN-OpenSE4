@@ -385,6 +385,52 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     REQUIRE(rules.data().findVehicleSize("VoidReign Cruiser") != nullptr);
     REQUIRE(rules.data().findVehicleSize("VoidReign Battleship") != nullptr);
     REQUIRE(rules.data().findVehicleSize("VoidReign Carrier") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Interceptor") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Fighter Bay") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Fighter Thruster") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Fighter Pulse Cannon") != nullptr);
+
+    const auto componentId = [&](std::string_view name) {
+        const auto* component = rules.data().findComponent(name);
+        REQUIRE(component != nullptr);
+        return static_cast<uint32_t>(component - rules.data().components.data());
+    };
+    const uint32_t fighterBay = componentId("VoidReign Fighter Bay");
+    const auto fighterBayAbilities = rules.componentAbilities(fighterBay);
+    const auto fighterLaunch = std::find_if(fighterBayAbilities.begin(), fighterBayAbilities.end(), [](const game::ParsedAbility& a) {
+        return a.kind == game::AbilityKind::LaunchRecoverFighters;
+    });
+    REQUIRE(fighterLaunch != fighterBayAbilities.end());
+    CHECK(fighterLaunch->value1 == 90);
+    CHECK(fighterLaunch->value2 == 12);
+
+    // A valid carrier must meet the hull's 20% fighter-bay requirement and
+    // have actual launch capacity. Use no empire pointer here so the test is
+    // about physical design validity, not later-game research ownership.
+    std::vector<game::DesignEntry> carrierParts;
+    for (std::string_view name : {"VoidReign Bridge", "VoidReign Life Support", "VoidReign Crew Quarters",
+                                  "VoidReign Ion Drive", "VoidReign Pulse Cannon I", "VoidReign Supply Cell",
+                                  "VoidReign EM Sensor Array", "VoidReign Deflector Array"})
+        carrierParts.push_back({componentId(name), -1});
+    for (int i = 0; i < 5; ++i) carrierParts.push_back({fighterBay, -1});
+    const auto* carrierHull = rules.data().findVehicleSize("VoidReign Carrier");
+    REQUIRE(carrierHull != nullptr);
+    const uint32_t carrierHullId = static_cast<uint32_t>(carrierHull - rules.data().vehicleSizes.data());
+    const game::DesignStats carrierStats = game::computeDesignStats(rules, nullptr, carrierHullId, carrierParts);
+    CHECK(carrierStats.problems.empty());
+    CHECK(carrierStats.cargoCapacity >= 5 * 120);
+
+    // The interceptor is a real fighter unit with fighter-only propulsion and
+    // weapon components, so the carrier has a buildable unit to launch.
+    const auto* interceptor = rules.data().findVehicleSize("VoidReign Interceptor");
+    REQUIRE(interceptor != nullptr);
+    const uint32_t interceptorHullId = static_cast<uint32_t>(interceptor - rules.data().vehicleSizes.data());
+    const std::vector<game::DesignEntry> interceptorParts{{componentId("VoidReign Fighter Thruster"), -1},
+                                                          {componentId("VoidReign Fighter Pulse Cannon"), -1}};
+    const game::DesignStats interceptorStats = game::computeDesignStats(rules, nullptr, interceptorHullId, interceptorParts);
+    CHECK(interceptorStats.problems.empty());
+    CHECK(interceptorStats.movement > 0);
+    CHECK(interceptorStats.armed());
     REQUIRE(rules.data().findTechArea("VoidReign Defensive Systems").has_value());
     REQUIRE(rules.data().findTechArea("VoidReign Sensor Networks").has_value());
     REQUIRE(rules.data().findTechArea("VoidReign Logistics Engineering").has_value());
