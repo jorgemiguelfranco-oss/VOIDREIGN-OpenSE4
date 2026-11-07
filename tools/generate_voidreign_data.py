@@ -361,14 +361,22 @@ def build(output: Path) -> None:
 
     def intel_project(name, description, group, cost, effect, amount=1,
                       source="Our agents completed the operation against [%TargetEmpireName].",
-                      target="Our intelligence services detected hostile activity from [%SourceEmpireName]."):
-        intel_records.append([
+                      target="Our intelligence services detected hostile activity from [%SourceEmpireName].",
+                      tech_level=0):
+        record = [
             ("Name", name), ("Description", description), ("Group", group),
             ("Cost", cost), ("Type", effect), ("Effect Amount", amount),
             ("Num Source Messages", 1), ("Source Message 1", source),
             ("Num Target Messages", 1), ("Target Message Title 1", "Security Alert"),
             ("Target Message 1", target),
-        ])
+        ]
+        if tech_level > 0:
+            record.extend([
+                ("Number of Tech Req", 1),
+                ("Tech Area Req 1", "Espionage"),
+                ("Tech Level Req 1", tech_level),
+            ])
+        intel_records.append(record)
 
     intel_project("Countermeasure Net I", "A standing signal-analysis network that reduces the impact of hostile intelligence operations.",
                   "Counter-intelligence", 1800, "Intelligence Defense", 1,
@@ -377,11 +385,11 @@ def build(output: Path) -> None:
     intel_project("Countermeasure Net II", "A denser defensive network with stronger coverage of strategic communications.",
                   "Counter-intelligence", 4200, "Intelligence Defense", 2,
                   "Our second countermeasure net is active against hostile intelligence operations.",
-                  "Our security network reports an upgraded countermeasure deployment.")
+                  "Our security network reports an upgraded countermeasure deployment.", tech_level=2)
     intel_project("Countermeasure Net III", "An empire-wide intelligence shield with the strongest available defensive coverage.",
                   "Counter-intelligence", 8500, "Intelligence Defense", 3,
                   "Our third countermeasure net is active against hostile intelligence operations.",
-                  "Our security network reports a maximum-level countermeasure deployment.")
+                  "Our security network reports a maximum-level countermeasure deployment.", tech_level=4)
 
     intel_project("Deep-Space Reconnaissance", "Map the target empire's active ships and their current locations.",
                   "Reconnaissance", 650, "Ship - Locations", 1,
@@ -406,32 +414,32 @@ def build(output: Path) -> None:
     intel_project("Diplomatic Cipher Scan", "Recover information about the target empire's current treaty relationships.",
                   "Diplomacy", 900, "Politics - Treaty Info", 1,
                   "Treaty intelligence recovered from [%TargetEmpireName].",
-                  "Our diplomatic communications may have been compromised.")
+                  "Our diplomatic communications may have been compromised.", tech_level=1)
 
     intel_project("Research Extraction", "Steal a level of research from a target empire where our own science can make use of it.",
                   "Espionage", 2800, "Research - Steal", 1,
                   "Research extraction against [%TargetEmpireName] returned [%ActualAmount] usable result(s).",
-                  "A hostile operation has targeted our research programme.")
+                  "A hostile operation has targeted our research programme.", tech_level=3)
     intel_project("Supply Sabotage", "Disrupt the supply reserves of one target ship.",
                   "Sabotage", 1900, "Ship - Lose Supply", 18,
                   "Supply sabotage against [%VehicleName] was completed.",
-                  "A hostile operation has depleted the supply reserves of [%VehicleName].")
+                  "A hostile operation has depleted the supply reserves of [%VehicleName].", tech_level=1)
     intel_project("Drive-System Sabotage", "Damage the components of one target ship before it can return to a repair yard.",
                   "Sabotage", 3100, "Ship - Damage", 7,
                   "Ship sabotage against [%VehicleName] inflicted [%ActualAmount] damage.",
-                  "An intelligence operation damaged [%VehicleName].")
+                  "An intelligence operation damaged [%VehicleName].", tech_level=3)
     intel_project("Facility Sabotage", "Damage a facility on a target colony and disrupt its local economy.",
                   "Sabotage", 3600, "Planet - Facility Damage", 1,
                   "Facility sabotage was completed at [%PlanetName] in [%SystemName].",
-                  "A hostile operation damaged infrastructure at [%PlanetName].")
+                  "A hostile operation damaged infrastructure at [%PlanetName].", tech_level=4)
     intel_project("Trade Network Disruption", "Interfere with trade between the target empire and its partners.",
                   "Economic Warfare", 2500, "Politics - Disrupt Trade", 1,
                   "Trade disruption was initiated against [%TargetEmpireName].",
-                  "Our trade network reports hostile disruption activity.")
+                  "Our trade network reports hostile disruption activity.", tech_level=2)
     intel_project("Message Interception", "Intercept diplomatic and strategic messages sent by the target empire.",
                   "Signals Intelligence", 1750, "Politics - Intercept Messages", 1,
                   "Message interception against [%TargetEmpireName] returned [%ActualAmount] report(s).",
-                  "Our diplomatic traffic may have been intercepted.")
+                  "Our diplomatic traffic may have been intercepted.", tech_level=2)
 
     write_records(data, "IntelProjects.txt", intel_records)
 
