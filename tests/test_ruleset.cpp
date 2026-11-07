@@ -107,6 +107,44 @@ TEST_CASE("ruleset: the fixture data set loads completely") {
     CHECK(rs.names.empireNames.size() == 2);
 }
 
+TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable economy") {
+    const dataDir = std::filesystem::path(OPENSE4_FIXTURE_DIR).parent_path().parent_path() / "game-data" / "Data";
+    const auto result = ruleset::loadRuleset(dataDir);
+    std::string errors;
+    for (const auto& e : result.diagnostics.errors) errors += e + "\n";
+    INFO(errors);
+    REQUIRE(result.ruleset);
+    CHECK(result.diagnostics.errors.empty());
+
+    const ruleset::Ruleset& rs = *result.ruleset;
+    const auto warehouse = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                        [](const ruleset::Facility& f) { return f.name == "VoidReign Warehouse"; });
+    const auto shipyard = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                       [](const ruleset::Facility& f) { return f.name == "VoidReign Planetary Shipyard"; });
+    const auto depot = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                    [](const ruleset::Facility& f) { return f.name == "VoidReign Supply Depot"; });
+    REQUIRE(warehouse != rs.facilities.end());
+    REQUIRE(shipyard != rs.facilities.end());
+    REQUIRE(depot != rs.facilities.end());
+    REQUIRE(warehouse->abilities.size() == 3);
+    CHECK(warehouse->abilities[0].number1() == 10000);
+    CHECK(warehouse->abilities[1].number1() == 10000);
+    CHECK(warehouse->abilities[2].number1() == 10000);
+    REQUIRE(shipyard->abilities.size() == 1);
+    CHECK(shipyard->abilities[0].type == "Space Yard");
+    REQUIRE(depot->abilities.size() == 1);
+    CHECK(depot->abilities[0].type == "Supply Generation");
+
+    const auto pulse = std::find_if(rs.components.begin(), rs.components.end(),
+                                    [](const ruleset::Component& c) { return c.name == "VoidReign Pulse Cannon I"; });
+    REQUIRE(pulse != rs.components.end());
+    CHECK(pulse->weapon.family == 200);
+    const std::vector<std::string> expectedColonyTypes{
+        "Construction Yard", "Farming Colony", "Homeworld", "Intelligence Compound", "Military Installation",
+        "Mining Colony", "Refining Colony", "Research Compound", "Resupply Base"};
+    CHECK(rs.names.colonyTypes == expectedColonyTypes);
+}
+
 TEST_CASE("ruleset: problems are reported with file, line and record") {
     namespace fs = std::filesystem;
     const test::TempDir tmp("bad_classic_data");
