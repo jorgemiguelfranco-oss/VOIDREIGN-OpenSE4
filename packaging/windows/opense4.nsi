@@ -1,4 +1,4 @@
-; OpenSE4 installer for Windows (NSIS 3). tools/package_release.sh builds it from
+; VoidReign installer for Windows (NSIS 3). tools/package_release.sh builds it from
 ; the staged Windows package:
 ;
 ;   makensis -DVERSION=0.2.1 -DVERSION_NUMBER=0.2.1 -DSTAGE=<staged folder>
@@ -50,8 +50,8 @@ VIAddVersionKey /LANG=1033 "CompanyName" "${PUBLISHER}"
 VIAddVersionKey /LANG=1033 "LegalCopyright" "Free software under the GNU GPL 3.0 or later"
 
 ; --- pages ----------------------------------------------------------------------
-!define MUI_ICON "opense4.ico"
-!define MUI_UNICON "opense4.ico"
+!define MUI_ICON "voidreign.ico"
+!define MUI_UNICON "voidreign.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
 !define MUI_ABORTWARNING
