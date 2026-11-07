@@ -5,6 +5,14 @@ options --quick-start=Veyran --empires=3 --systems=24 --seed=7 --open=none --lay
 
 wait-screen game
 wait 5
+# The home sector contains the automatically created Home Patrol fleet.
+click sector:home
+wait-for item:report:fleet
+click item:report:fleet
+wait-for item:report:fleet-member
+assert { selected = "fleet", design_type = "Attack Ship" }
+key Escape
+wait 5
 click sector:home
 wait-for item:Facil
 click item:Facil
