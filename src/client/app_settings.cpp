@@ -19,7 +19,7 @@ namespace opense4::client {
 namespace {
 
 bool& standaloneUserFolder() {
-    static bool standalone = true;
+    static bool standalone = false;
     return standalone;
 }
 
