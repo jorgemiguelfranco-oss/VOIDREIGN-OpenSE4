@@ -57,7 +57,7 @@ std::filesystem::path findDir(const std::string& override, const char* name, con
 void fatal(const std::string& message) {
     log::error("{}", message);
     // -nd: no box for the whole run (spec 05 §9.2).
-    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", message.c_str(), nullptr);
+    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "VOIDREIGN", message.c_str(), nullptr);
 }
 
 // Neither renderer started: what the game needs, what to do about it, and why each
@@ -65,7 +65,7 @@ void fatal(const std::string& message) {
 // driver, so there the OpenGL 3.3 of the graphics card maker's driver is what counts.
 std::string noRendererMessage(const std::string& vulkanError, const std::string& openglError) {
     std::string text =
-        "OpenSE4 found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
+        "VOIDREIGN found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
         "Install the current driver for your graphics card from its maker (NVIDIA, AMD or Intel). "
         "The basic display driver that comes with Windows has no OpenGL 3.3, and a Remote "
         "Desktop session may have none either.\n";
@@ -102,7 +102,7 @@ SDL_HitTestResult SDLCALL windowHitTest(SDL_Window*, const SDL_Point* point, voi
 int hostFromCommandLine(const AppOptions& options, const classic::CommandLineGame& line, const std::filesystem::path& dataDir) {
     auto refuse = [&](const std::string& why, bool box) {
         log::error("{}", why);
-        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", why.c_str(), nullptr);
+        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "VOIDREIGN", why.c_str(), nullptr);
         return classic::kHostRefused;
     };
     const std::filesystem::path gameRoot = dataDir.parent_path();
@@ -161,12 +161,12 @@ int App::run(const AppOptions& options) {
     options_ = options;
     // The identifier is the Wayland app ID and X11 window class, which desktops
     // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
-    SDL_SetAppMetadata("OpenSE4", OPENSE4_CLIENT_VERSION, "io.github.lowlevelmetal.OpenSE4");
+    SDL_SetAppMetadata("VOIDREIGN", OPENSE4_CLIENT_VERSION, "io.github.voidreign.VOIDREIGN");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
     // The game is the player's own installed copy: without one there is nothing
     // to play. Checked before any window or renderer exists.
-    const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
+    const auto dataDir = findGameDataDirectory(options.installDir);
     if (!dataDir) {
         fatal(missingInstallMessage(options.installDir));
         SDL_Quit();
