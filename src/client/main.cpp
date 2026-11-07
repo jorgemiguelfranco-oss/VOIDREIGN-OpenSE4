@@ -50,13 +50,12 @@ void attachParentConsole() {
 }
 #endif
 
-constexpr const char* kUsage = R"(OpenSE4 - an open-source engine reimplementation for Space Empires IV Deluxe
-(requires your own copy of the game; not affiliated with its publishers)
+constexpr const char* kUsage = R"(VOIDREIGN - standalone 4X space strategy game
+(native engine foundation based on the OpenSE4 project)
 
-Usage: opense4 [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
+Usage: VOIDREIGN [options] [GAMEFILE PASSWORD [PLAYER [MODFOLDER]]] [-nd]
 
-Plays Space Empires IV Deluxe on your own installed copy of the game. The game is
-found in your Steam libraries, or given with --classic-dir (see docs/SETUP.md).
+Plays VOIDREIGN with its bundled game data. --classic-dir is an optional compatibility override for a classic data set.
 
 Rendering:
   --renderer=auto|vulkan|opengl   Graphics backend (default: auto = Vulkan, fall back to OpenGL)
@@ -65,22 +64,22 @@ Rendering:
   --fullscreen                    Start in fullscreen (Alt+Enter toggles)
   --size=WxH                      Window size (default 1600x900)
   --layout=auto|800x600|1024x768  The classic screen layout (default: auto, 800x600 on a desktop
-                                  800 px wide or less, as the original; forcing one is OpenSE4's)
+                                  800 px wide or less, as the original; forcing one is VOIDREIGN's)
   --text-size=N                   Settings' Text size for this run, 0.75 to 1.5
   --no-audio                      No sound or music
   --audio                         Sound and music even in a script or screenshot run (to check
                                   the audio, e.g. with SDL_AUDIO_DRIVER=disk: docs/SETUP.md)
 
 Game:
-  --classic-dir=DIR               Game directory of your installed copy (default: auto-detect)
+  --classic-dir=DIR               Optional directory of a compatible classic data set (default: bundled GameData)
   --mod=MOD                       Play with this mod (a folder or .zip, or the id of one in the mods folder);
                                   repeat for several, in load order. In place of the mods the settings enable
   --no-mods                       Play without the mods the settings enable
-  --mods-dir=DIR                  Where mods are looked up by id (default: Mods in OpenSE4's user folder);
-                                  then among the mods that come with OpenSE4 (mods/ beside the program)
-  --no-bundled-mods               Leave out the mods that come with OpenSE4
+  --mods-dir=DIR                  Where mods are looked up by id (default: Mods in VOIDREIGN's user folder);
+                                  then among the mods that come with VOIDREIGN (mods/ beside the program)
+  --no-bundled-mods               Leave out the mods that come with VOIDREIGN
   --quick-start[=RACE]            Skip the intro: start a quick game as RACE (a Pictures/Races folder name)
-  --load=GAME.gam                 Open a saved game at once: OpenSE4's, or the original's (imported,
+  --load=GAME.gam                 Open a saved game at once: a VOIDREIGN save or an imported classic save (
                                   see docs/SETUP.md "Games of the original")
   --ai=MOD:PLAYER                 Every computer empire of the quick game (--quick-start) is played by
                                   this script player of a mod (its [[ai.players]], docs/sdk/ai-protocol.md);
@@ -139,14 +138,14 @@ The original's command line (see docs/MULTIPLAYER.md "From the command line"):
                                   files (.plr) beside it (or in --pbem-orders=DIR), save it, write the next
                                   turn files and quit, with no window; a wrong password quits with exit code 1
   GAMEFILE PASSWORD PLAYER        Sign in as empire number PLAYER (1 or more) with its password and play its
-                                  turn: a turn file (.turn, as --pbem plays it), an OpenSE4 saved game or a
+                                  turn: a turn file (.turn, as --pbem plays it), a VOIDREIGN saved game or a
                                   saved game of the original, even a destroyed empire or one the computer
                                   plays. A wrong password, or a game made with other data files ("Invalid
                                   Data Files"), quits with exit code 2
   GAMEFILE PASSWORD PLAYER MODFOLDER
                                   The fourth names a mod folder (in the game folder, or a path) to play as
                                   a classic mod, in place of the one Path.txt names
-                                  Passwords count without the spaces around them and, as far as OpenSE4's
+                                  Passwords count without the spaces around them and, as far as VOIDREIGN's
                                   password hashes allow, without regard to letter case. GAMEFILE is looked
                                   for as given, then in the mod folder, the saves folder and the pbem
                                   folder; one that is not found quits at once with exit code 0
@@ -154,13 +153,13 @@ The original's command line (see docs/MULTIPLAYER.md "From the command line"):
                                   says what was skipped); it also counts as one of the four arguments
 
 Paths:
-  --assets=DIR                    OpenSE4's own assets directory (default: auto-detect, else built in)
+  --assets=DIR                    VOIDREIGN's bundled assets directory (default: auto-detect, else built in)
 
 Input scripts (see docs/BUILDING.md "Input scripts"):
   --input-script=FILE             Play FILE's clicks, keys and checks through the game's own input (FILE's
                                   options line adds options); exits with 1 when a step fails, with a picture
   --script-output=DIR             Where a script's screenshots and failure picture go (default: the system's
-                                  temporary folder, opense4-scripts)
+                                  temporary folder, voidreign-scripts)
   --record-input=FILE             Record what you do as an input script, to start one from
 
 Automation:
@@ -269,7 +268,7 @@ int main(int argc, char** argv) {
             // Where the player's files are, and why there (core/user_folder.hpp).
             const core::UserFolder folder = client::userFolderInUse();
             const char* why = folder.source == core::UserFolderSource::Portable      ? "a portable copy: portable.txt lies beside the program"
-                              : folder.source == core::UserFolderSource::Environment ? "named by OPENSE4_USER_DIR"
+                              : folder.source == core::UserFolderSource::Environment ? "named by VOIDREIGN_USER_DIR (or the legacy OPENSE4_USER_DIR)"
                                                                                      : "your user folder";
             std::printf("\nSaved games, settings and logs: %s\n  (%s; see Settings, Files)\n", folder.path.string().c_str(), why);
             return 0;
@@ -429,10 +428,10 @@ int main(int argc, char** argv) {
     // given (multiplayer.cpp), since its players must not guess it.
     options.seedGiven = options.seed != 0 || options.inputScript;
     if (options.seed == 0) options.seed = options.inputScript ? 1 : static_cast<uint64_t>(std::time(nullptr));
-    // The log also goes to opense4.log in the user data folder: on Windows the
+    // The log also goes to voidreign.log in the user data folder: on Windows the
     // game has no console, so that file is where a player finds it. The last
-    // run's log, a crash report perhaps, stays beside it as opense4.previous.log.
-    const std::filesystem::path logFile = client::userDataDirectory() / "opense4.log";
+    // run's log, a crash report perhaps, stays beside it as voidreign.previous.log.
+    const std::filesystem::path logFile = client::userDataDirectory() / "voidreign.log";
     client::keepPreviousLog(logFile);
     log::setFile(logFile);
     // A crash or an exception nothing caught leaves a report there; a message
@@ -456,7 +455,7 @@ int main(int argc, char** argv) {
         bo.bind = botBind;
         bo.port = static_cast<uint16_t>(botPort);
         bo.token = !botToken.empty() ? botToken : core::environment("OPENSE4_BOT_TOKEN").value_or("");
-        bo.gameName = "OpenSE4";
+        bo.gameName = "VOIDREIGN";
         bo.requestTimeout = std::chrono::seconds(botTimeout);
         auto opened = sdk::BotHost::open(std::move(bo));
         if (!opened) {

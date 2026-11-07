@@ -318,6 +318,7 @@ struct SetEmpireOptions {
     std::optional<bool> aiMinimalChanges;
     std::optional<std::string> passwordHash;
     std::optional<bool> chooseColonyType;  // Empire::chooseColonyType (spec 03 §8)
+    std::optional<std::string> empireType;  // VOIDREIGN government reform
 };
 // Change Email (Empire Status, spec 06 §7 Q95): the empire's e-mail address,
 // kept as game::cleanEmail gives it; the password is kept.

@@ -6,6 +6,7 @@
 #include "game/design.hpp"
 #include "game/diplomacy.hpp"
 #include "game/economy_internal.hpp"
+#include "game/government.hpp"
 #include "game/hooks.hpp"
 #include "game/query.hpp"
 #include "game/research.hpp"
@@ -584,7 +585,9 @@ Resources storageCapacity(const Rules& r, const GameState& s, EmpireId e) {
 }
 
 int maintenancePercent(const Rules& r, const Empire& e) {
-    const int64_t pct = r.setting("Empire Starting Percent Maint Cost", 25) - racialEffect(r, e.race, RacialEffect::Maintenance);
+    const GovernmentProfile government = governmentProfile(e.empireType);
+    const int64_t pct = r.setting("Empire Starting Percent Maint Cost", 25) - racialEffect(r, e.race, RacialEffect::Maintenance) +
+                        government.maintenancePercent;
     return static_cast<int>(std::max<int64_t>(pct, 5));  // at least 5 % (confirmed: binary)
 }
 
@@ -721,6 +724,11 @@ struct Income {
 Income computeIncome(const Rules& r, const GameState& s, EmpireId e) {
     Income inc;
     inc.produced = produce(r, s, e, &inc.drawn);
+    const GovernmentProfile government = governmentProfile(s.empire(e).empireType);
+    for (int64_t& amount : inc.produced.resources.v)
+        amount = pctRound(amount, 100 + government.resourceProductionPercent);
+    inc.produced.research = pctRound(inc.produced.research, 100 + government.researchPercent);
+    inc.produced.intelligence = pctRound(inc.produced.intelligence, 100 + government.intelligencePercent);
     inc.mined = remoteMining(r, s, e);
     for (const Extraction& x : inc.mined) inc.remote.v[x.resource] += x.amount;
 
@@ -802,6 +810,10 @@ TradeIncome computeTrade(const Rules& r, const GameState& s, EmpireId e) {
     t.trade = fromDiplomacy - t.tariffsIn;
     t.research = std::max<int64_t>(0, diplomacy::researchTradeIncome(r, s, e));
     t.intelligence = std::max<int64_t>(0, diplomacy::intelTradeIncome(r, s, e));
+    const GovernmentProfile government = governmentProfile(s.empire(e).empireType);
+    for (int64_t& amount : t.trade.v) amount = pctRound(amount, 100 + government.tradePercent);
+    t.research = pctRound(t.research, 100 + government.tradePercent);
+    t.intelligence = pctRound(t.intelligence, 100 + government.tradePercent);
     return t;
 }
 

@@ -1,5 +1,5 @@
-// Where OpenSE4 keeps a player's own files (core/user_folder.hpp): the order
-// of the rules (OPENSE4_USER_DIR, a portable copy's marker, the system's
+// Where VOIDREIGN keeps a player's own files (core/user_folder.hpp): the order
+// of the rules (VOIDREIGN_USER_DIR, a portable copy's marker, the system's
 // folder), each platform's folder, the Files page's switch (the marker made
 // and removed), copying a player's files without deleting or replacing any,
 // the refusal of a folder that cannot be written, and a program copied into a
@@ -58,20 +58,20 @@ bool samePath(const fs::path& a, const fs::path& b) {
 
 } // namespace
 
-TEST_CASE("user folder: OPENSE4_USER_DIR first, then a portable copy's userdata, then the system's folder") {
+TEST_CASE("user folder: VOIDREIGN_USER_DIR first, then a portable copy's userdata, then the system's folder") {
     const test::TempDir dir("user_folder_order");
-    const fs::path program = dir.path() / "OpenSE4";
+    const fs::path program = dir.path() / "VOIDREIGN";
     fs::create_directories(program);
     int asked = 0;
     const auto system = [&] {
         ++asked;
-        return dir.path() / "system" / "OpenSE4";
+        return dir.path() / "system" / "VOIDREIGN";
     };
 
     // No marker: the system's folder.
     core::UserFolder f = core::resolveUserFolder(std::nullopt, program, system);
     CHECK(f.source == core::UserFolderSource::System);
-    CHECK(f.path == dir.path() / "system" / "OpenSE4");
+    CHECK(f.path == dir.path() / "system" / "VOIDREIGN");
     CHECK(asked == 1);
     // A set but empty variable counts as not set.
     f = core::resolveUserFolder(std::string(), program, system);
@@ -87,7 +87,7 @@ TEST_CASE("user folder: OPENSE4_USER_DIR first, then a portable copy's userdata,
     CHECK(f.path == program / "userdata");
     CHECK(asked == 0);
 
-    // OPENSE4_USER_DIR wins over the marker (the tests rely on it).
+    // VOIDREIGN_USER_DIR wins over the marker (the tests rely on it).
     f = core::resolveUserFolder(std::string((dir.path() / "scratch").string()), program, system);
     CHECK(f.source == core::UserFolderSource::Environment);
     CHECK(f.path == dir.path() / "scratch");
@@ -104,33 +104,33 @@ TEST_CASE("user folder: OPENSE4_USER_DIR first, then a portable copy's userdata,
     f = core::resolveUserFolder(std::nullopt, fs::path(), [] { return fs::path(); });
     CHECK(f.source == core::UserFolderSource::System);
     CHECK(f.path == fs::current_path() / "userdata");
-    CHECK(core::userFolderSourceName(core::UserFolderSource::Environment) == "OPENSE4_USER_DIR");
+    CHECK(core::userFolderSourceName(core::UserFolderSource::Environment) == "VOIDREIGN_USER_DIR");
 }
 
 TEST_CASE("user folder: each platform's own folder for a user's files") {
     using core::OsFamily;
     CHECK(core::systemUserFolderFor(OsFamily::Windows, variables({{"APPDATA", "C:/Users/Ann/AppData/Roaming"}, {"HOME", "/home/ann"}})) ==
-          fs::path("C:/Users/Ann/AppData/Roaming") / "OpenSE4");
+          fs::path("C:/Users/Ann/AppData/Roaming") / "VOIDREIGN");
     CHECK(core::systemUserFolderFor(OsFamily::Windows, variables({{"HOME", "/home/ann"}})).empty());
     CHECK(core::systemUserFolderFor(OsFamily::MacOS, variables({{"HOME", "/Users/ann"}, {"XDG_DATA_HOME", "/x"}})) ==
-          fs::path("/Users/ann") / "Library" / "Application Support" / "OpenSE4");
+          fs::path("/Users/ann") / "Library" / "Application Support" / "VOIDREIGN");
     CHECK(core::systemUserFolderFor(OsFamily::Unix, variables({{"HOME", "/home/ann"}, {"XDG_DATA_HOME", "/data/ann"}})) ==
-          fs::path("/data/ann") / "OpenSE4");
+          fs::path("/data/ann") / "VOIDREIGN");
     CHECK(core::systemUserFolderFor(OsFamily::Unix, variables({{"HOME", "/home/ann"}, {"XDG_DATA_HOME", ""}})) ==
-          fs::path("/home/ann") / ".local" / "share" / "OpenSE4");
+          fs::path("/home/ann") / ".local" / "share" / "VOIDREIGN");
     CHECK(core::systemUserFolderFor(OsFamily::Unix, variables({})).empty());
     CHECK(core::systemUserFolderFor(OsFamily::Unix, nullptr).empty());
 }
 
 TEST_CASE("user folder: beside the program, or beside a macOS application bundle") {
     using core::OsFamily;
-    CHECK(core::programFolderFor(OsFamily::Unix, "/opt/games/OpenSE4/opense4") == fs::path("/opt/games/OpenSE4"));
-    CHECK(core::programFolderFor(OsFamily::Windows, fs::path("D:/Games/OpenSE4/opense4.exe")) == fs::path("D:/Games/OpenSE4"));
-    CHECK(core::programFolderFor(OsFamily::MacOS, "/Applications/Games/OpenSE4.app/Contents/MacOS/opense4") ==
+    CHECK(core::programFolderFor(OsFamily::Unix, "/opt/games/VOIDREIGN/VOIDREIGN") == fs::path("/opt/games/VOIDREIGN"));
+    CHECK(core::programFolderFor(OsFamily::Windows, fs::path("D:/Games/VOIDREIGN/VOIDREIGN.exe")) == fs::path("D:/Games/VOIDREIGN"));
+    CHECK(core::programFolderFor(OsFamily::MacOS, "/Applications/Games/VOIDREIGN.app/Contents/MacOS/VOIDREIGN") ==
           fs::path("/Applications/Games"));
     // A plain folder on macOS (a build folder), or a bundle's look-alike elsewhere.
-    CHECK(core::programFolderFor(OsFamily::MacOS, "/Users/ann/OpenSE4/opense4") == fs::path("/Users/ann/OpenSE4"));
-    CHECK(core::programFolderFor(OsFamily::Unix, "/x/OpenSE4.app/Contents/MacOS/opense4") == fs::path("/x/OpenSE4.app/Contents/MacOS"));
+    CHECK(core::programFolderFor(OsFamily::MacOS, "/Users/ann/VOIDREIGN/VOIDREIGN") == fs::path("/Users/ann/VOIDREIGN"));
+    CHECK(core::programFolderFor(OsFamily::Unix, "/x/VOIDREIGN.app/Contents/MacOS/VOIDREIGN") == fs::path("/x/VOIDREIGN.app/Contents/MacOS"));
     CHECK(core::programFolderFor(OsFamily::Unix, fs::path()).empty());
     // This process knows where it runs from.
     CHECK_FALSE(core::executablePath().empty());
@@ -139,7 +139,7 @@ TEST_CASE("user folder: beside the program, or beside a macOS application bundle
 
 TEST_CASE("user folder: the setting makes and removes the marker, and the folder follows; the files stay") {
     const test::TempDir dir("user_folder_switch");
-    const fs::path program = dir.path() / "OpenSE4";
+    const fs::path program = dir.path() / "VOIDREIGN";
     fs::create_directories(program);
     const auto system = [&] { return dir.path() / "system"; };
     CHECK_FALSE(core::portableProblem(program).has_value());
@@ -150,8 +150,8 @@ TEST_CASE("user folder: the setting makes and removes the marker, and the folder
     CHECK(read(program / "portable.txt").find("portable") != std::string::npos);
     CHECK(core::resolveUserFolder(std::nullopt, program, system).path == program / "userdata");
     // Nothing left behind by the write tests.
-    CHECK_FALSE(fs::exists(program / ".opense4-write-test"));
-    CHECK_FALSE(fs::exists(program / "userdata" / ".opense4-write-test"));
+    CHECK_FALSE(fs::exists(program / ".voidreign-write-test"));
+    CHECK_FALSE(fs::exists(program / "userdata" / ".voidreign-write-test"));
 
     write(program / "userdata" / "saves" / "Mine.gam", "game");
     REQUIRE(core::setPortable(program, false).has_value());
@@ -167,7 +167,7 @@ TEST_CASE("user folder: the setting makes and removes the marker, and the folder
 
 TEST_CASE("user folder: copying a player's files keeps both folders' files and never deletes one") {
     const test::TempDir dir("user_folder_copy");
-    const fs::path from = dir.path() / "system", to = dir.path() / "OpenSE4" / "userdata";
+    const fs::path from = dir.path() / "system", to = dir.path() / "VOIDREIGN" / "userdata";
     write(from / "settings.toml", "[graphics]\n");
     write(from / "classic_settings.toml", "music = true\n");
     write(from / "saves" / "Alpha.gam", "alpha");
@@ -175,8 +175,8 @@ TEST_CASE("user folder: copying a player's files keeps both folders' files and n
     write(from / "saves" / "Space Empires IV" / "ForSE4.gam", "classic");
     write(from / "History" / "plr_1_log.txt", "log");
     write(from / "Mods" / "my-mod" / "mod.toml", "id = \"x\"\n");
-    write(from / "opense4.log", "this run's log");
-    write(from / "opense4.previous.log", "the last run's log");
+    write(from / "voidreign.log", "this run's log");
+    write(from / "voidreign.previous.log", "the last run's log");
     write(from / "ModCache" / "abc" / "data.bin", "cache");
     write(to / "saves" / "Beta.gam", "beta (new)");
 
@@ -191,12 +191,12 @@ TEST_CASE("user folder: copying a player's files keeps both folders' files and n
     CHECK(read(to / "Mods" / "my-mod" / "mod.toml") == "id = \"x\"\n");
     CHECK(fs::exists(to / "settings.toml"));
     // Each folder's own logs and mod cache stay where they are.
-    CHECK_FALSE(fs::exists(to / "opense4.log"));
-    CHECK_FALSE(fs::exists(to / "opense4.previous.log"));
+    CHECK_FALSE(fs::exists(to / "voidreign.log"));
+    CHECK_FALSE(fs::exists(to / "voidreign.previous.log"));
     CHECK_FALSE(fs::exists(to / "ModCache"));
     // Nothing in the old folder changed.
     CHECK(read(from / "saves" / "Beta.gam") == "beta (old)");
-    CHECK(read(from / "opense4.log") == "this run's log");
+    CHECK(read(from / "voidreign.log") == "this run's log");
     CHECK(fs::exists(from / "ModCache" / "abc" / "data.bin"));
 
     // Again: everything is there already.
@@ -231,7 +231,7 @@ TEST_CASE("user folder: paths inside a folder") {
 #if !defined(_WIN32)
 TEST_CASE("user folder: a program folder that cannot be written is refused, and nothing is made in it") {
     const test::TempDir dir("user_folder_readonly");
-    const fs::path program = dir.path() / "Program Files" / "OpenSE4";
+    const fs::path program = dir.path() / "Program Files" / "VOIDREIGN";
     fs::create_directories(program);
     fs::permissions(program, fs::perms::owner_read | fs::perms::owner_exec | fs::perms::group_read | fs::perms::group_exec |
                                  fs::perms::others_read | fs::perms::others_exec);
@@ -251,7 +251,7 @@ TEST_CASE("user folder: a program folder that cannot be written is refused, and 
 
 TEST_CASE("user folder: a copy of a program finds the folder beside it, in a process of its own") {
     const test::TempDir dir("user_folder_probe");
-    const fs::path program = dir.path() / "OpenSE4 copy";
+    const fs::path program = dir.path() / "VOIDREIGN copy";
     const fs::path probe = fs::path(OPENSE4_USER_FOLDER_PROBE_EXE);
     fs::create_directories(program);
     const fs::path exe = program / probe.filename();
@@ -259,15 +259,16 @@ TEST_CASE("user folder: a copy of a program finds the folder beside it, in a pro
     const fs::path home = dir.path() / "home";
     fs::create_directories(home);
     // The program's run: the system's folder under the scratch home on every
-    // platform; OPENSE4_USER_DIR empty, which counts as not set.
-    auto run = [&](const std::string& userDir) {
+    // platform; VOIDREIGN_USER_DIR empty, which counts as not set.
+    auto run = [&](const std::string& userDir, const std::string& legacyUserDir = std::string()) {
         sdk::ProcessOptions po;
         if (const char* runner = std::getenv("OPENSE4_TEST_RUNNER"); runner && *runner) {   // a cross build's emulator
             std::istringstream words{std::string(runner)};
             for (std::string w; words >> w;) po.args.push_back(w);
         }
         po.args.push_back(exe.string());
-        po.environment = {{"OPENSE4_USER_DIR", userDir},
+        po.environment = {{"VOIDREIGN_USER_DIR", userDir},
+                          {"OPENSE4_USER_DIR", legacyUserDir},
                           {"HOME", home.string()},
                           {"XDG_DATA_HOME", (home / "data").string()},
                           {"APPDATA", (home / "AppData").string()}};
@@ -296,6 +297,9 @@ TEST_CASE("user folder: a copy of a program finds the folder beside it, in a pro
     CHECK(samePath(portable.second, program / "userdata"));
 
     const auto named = run((dir.path() / "scratch").string());
-    CHECK(named.first == "OPENSE4_USER_DIR");
+    CHECK(named.first == "VOIDREIGN_USER_DIR");
     CHECK(samePath(named.second, dir.path() / "scratch"));
+    const auto legacy = run("", (dir.path() / "legacy-scratch").string());
+    CHECK(legacy.first == "VOIDREIGN_USER_DIR");
+    CHECK(samePath(legacy.second, dir.path() / "legacy-scratch"));
 }

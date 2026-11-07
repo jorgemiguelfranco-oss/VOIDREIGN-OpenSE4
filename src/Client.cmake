@@ -140,7 +140,7 @@ if(OPENSE4_DEV_PATHS)
     # leave it out so the build machine's paths stay out of the binary.
     target_compile_definitions(opense4 PRIVATE OPENSE4_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 endif()
-set_target_properties(opense4 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+set_target_properties(opense4 PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}" OUTPUT_NAME "VOIDREIGN"
 opense4_copy_runtime_dlls(opense4)
 opense4_windows_manifest(opense4)
 if(WIN32)
@@ -149,7 +149,7 @@ if(WIN32)
     set_target_properties(opense4 PROPERTIES WIN32_EXECUTABLE ON)
     # The icon and version information (packaging/windows).
     enable_language(RC)
-    set(OPENSE4_ICON "${CMAKE_SOURCE_DIR}/packaging/windows/opense4.ico")
+    set(OPENSE4_ICON "${CMAKE_SOURCE_DIR}/packaging/windows/VOIDREIGN.ico")
     configure_file("${CMAKE_SOURCE_DIR}/packaging/windows/opense4.rc.in" "${CMAKE_CURRENT_BINARY_DIR}/generated/opense4.rc" @ONLY)
     target_sources(opense4 PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/opense4.rc")
     set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/generated/opense4.rc" PROPERTIES OBJECT_DEPENDS "${OPENSE4_ICON}")

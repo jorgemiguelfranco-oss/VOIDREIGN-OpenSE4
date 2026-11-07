@@ -64,22 +64,9 @@ constexpr float kFrontTitleBand = 36.0f;
 } // namespace
 
 std::string missingInstallMessage(const std::string& installDir) {
-    constexpr const char* kIntro =
-        "OpenSE4 is an engine for Space Empires IV Deluxe. It plays with your own installed copy of the game, "
-        "reading its data, art and sound in place; nothing from the game ships with OpenSE4.";
-    constexpr const char* kHelp = "docs/SETUP.md explains how to get the game files, also on Linux and macOS, and how to point OpenSE4 at them.";
     if (installDir.empty())
-        return std::format("{}\n\n"
-                           "No copy of the game was found. OpenSE4 looks in every Steam library on this computer for "
-                           "steamapps/common/Space Empires IV Deluxe (Steam app 1610).\n\n"
-                           "If your copy is somewhere else, start OpenSE4 with --classic-dir=<game directory>: the folder that "
-                           "holds Data, Pictures and Sounds, or its Data folder.\n\n{}",
-                           kIntro, kHelp);
-    return std::format("{}\n\n"
-                       "No copy of the game was found at {}.\n\n"
-                       "--classic-dir takes the game directory (the folder that holds Data, Pictures and Sounds), its se4 "
-                       "folder, or its Data folder.\n\n{}",
-                       kIntro, installDir, kHelp);
+        return "VOIDREIGN could not find its bundled GameData/Data/Components.txt. Reinstall VOIDREIGN or restore the GameData folder beside the game executable.";
+    return std::format("VOIDREIGN could not load a valid data set from {}. The directory must contain Data/Components.txt. Use --classic-dir only when intentionally loading a compatible external data set.", installDir);
 }
 
 std::expected<ClassicMode::DataSet, std::string> ClassicMode::readDataSet(const std::filesystem::path& dataDir, const mods::ModChoice& choice,
@@ -226,7 +213,7 @@ std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const
             if (end > at) loaded.startProblems.push_back(data.error().substr(at, end - at));
             at = end + 1;
         }
-        mode->frontError_ = "Your mods could not be loaded: OpenSE4 started without them (see Mods).";
+        mode->frontError_ = "Your mods could not be loaded: VOIDREIGN started without them (see Mods).";
         choice.mods.clear();
         data = readDataSet(*dataDir, choice, mode->commandLineModFolder());
     }
@@ -1584,7 +1571,7 @@ void ClassicMode::drawImportNotes(UiContext& ui) {
         ImGui::TextUnformatted(note.c_str());
     }
     ImGui::Spacing();
-    ImGui::TextDisabled("Every detail is in opense4.log. Save Game keeps the game in OpenSE4's format.");
+    ImGui::TextDisabled("Every detail is in voidreign.log. Save Game keeps the game in VOIDREIGN's native save format.");
     ImGui::PopTextWrapPos();
     if (ImGui::Button("OK", ui.size({120, 26})) || okKey()) importNotes_.clear();   // a message box: Esc or Enter is OK
     ImGui::End();
@@ -2336,7 +2323,7 @@ void ClassicMode::drawQuitQuestion(UiContext& ui) {
     if (ImGui::BeginPopupModal(kId, nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                                                  ImGuiWindowFlags_AlwaysAutoResize | kPromptFlags)) {
         ui.promptWindow();
-        ImGui::TextWrapped("End this game and quit OpenSE4? Anything not saved is lost.");
+        ImGui::TextWrapped("End this game and quit VOIDREIGN? Anything not saved is lost.");
         ImGui::Spacing();
         // A Yes/No message box: Y means Yes; N, Esc and Enter mean No (spec 06 §3.4).
         const std::optional<bool> key = yesNoKey();

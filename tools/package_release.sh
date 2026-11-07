@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
+# Builds the redistributable VOIDREIGN packages (docs/BUILDING.md, "Release packages"):
 #
-#   dist/OpenSE4-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
-#   dist/OpenSE4-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
-#   dist/OpenSE4-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
-#   dist/OpenSE4-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
-#   dist/OpenSE4-<version>-windows-x86_64-setup.exe   the same, as an installer
-#   dist/OpenSE4-<version>-SHA256SUMS.txt
+#   dist/VOIDREIGN-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
+#   dist/VOIDREIGN-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
+#   dist/VOIDREIGN-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
+#   dist/VOIDREIGN-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
+#   dist/VOIDREIGN-<version>-windows-x86_64-setup.exe   the same, as an installer
+#   dist/VOIDREIGN-<version>-SHA256SUMS.txt
 #
 # On Linux both are built (Windows cross-compiled). In MSYS2 on Windows the
 # Windows packages are built natively instead. Either way the Windows programs
@@ -26,13 +26,13 @@
 # copy portable), the licence (GPL 3.0 or later) and the third-party notices, the
 # modding SDK's documentation and example mods in sdk/ beside opense4-sdk (sdk/docs
 # from docs/sdk and docs/MODDING_SDK.md, sdk/examples from mods/examples), and the
-# mods that come with OpenSE4 in mods/ beside the programs (the folders
+# mods that come with VOIDREIGN in mods/ beside the programs (the folders
 # mods/bundled.txt names, such as mods/hegemon; their files as git tracks them).
 # tools/stage_sdk_docs.py stages the SDK's files and points the links of their
 # pages, the README's and the mods' at the package's copies, or at GitHub at the
 # version's tag for files the package does not have.
-# Nothing from the original game is included: players point the game at their own
-# installed copy.
+# No proprietary Space Empires IV data or art is redistributed. VOIDREIGN ships
+# its own generated ruleset and first-party artwork in GameData.
 #
 # The Linux package also carries the desktop entry, icons and AppStream metadata
 # (packaging/linux) and install-desktop-entry.sh, which adds the game to the
@@ -91,25 +91,25 @@ for i in "${!targets[@]}"; do
     fi
 done
 
-# A tagged commit (v0.1.0) is packaged as that version; anything else as the
+# A tagged commit (voidreign-v0.1.0) is packaged as that version; anything else as the
 # project version plus the commit.
 project_version=$(sed -n 's/^ *VERSION \([0-9.]*\)$/\1/p' CMakeLists.txt | head -1)
-if tag=$(git describe --tags --exact-match --match 'v*' 2>/dev/null); then
-    version="${tag#v}"
+if tag=$(git describe --tags --exact-match --match 'voidreign-v*' 2>/dev/null); then
+    version="${tag#voidreign-v}"
 else
     version="${project_version}-$(git rev-parse --short HEAD)"
 fi
 dist="$root/dist"
 mkdir -p "$dist"
 
-app_id=io.github.lowlevelmetal.OpenSE4
+app_id=io.github.voidreign.game
 metainfo="packaging/linux/$app_id.metainfo.xml"
 if [[ "$version" != *-* ]] && ! grep -q "<release version=\"$version\"" "$metainfo"; then
     echo "$metainfo has no <release> entry for $version: add one first." >&2
     exit 1
 fi
 
-# The mods that come with OpenSE4: the folders mods/bundled.txt names, one a line.
+# The mods that come with VOIDREIGN: the folders mods/bundled.txt names, one a line.
 bundled_mods() {
     sed -e 's/#.*//' -e 's/[[:space:]]*$//' -e 's/^[[:space:]]*//' mods/bundled.txt | grep -v '^$'
 }
@@ -169,7 +169,7 @@ installer() {  # installer <staged Windows folder> <output .exe>
 # a backend out.
 check_linux_libraries() {  # check_linux_libraries <build dir>
     local bin lib status=0
-    for bin in "$1/opense4" "$1/opense4-server" "$1/opense4-datacheck" "$1/opense4-convert" "$1/opense4-sdk"; do
+    for bin in "$1/VOIDREIGN" "$1/opense4-server" "$1/opense4-datacheck" "$1/opense4-convert" "$1/opense4-sdk"; do
         for lib in $(readelf -d "$bin" | sed -n 's/.*(NEEDED).*\[\(.*\)\]/\1/p'); do
             case "$lib" in
                 libc.so.6 | libm.so.6 | ld-linux*.so.*) ;;
@@ -178,11 +178,11 @@ check_linux_libraries() {  # check_linux_libraries <build dir>
         done
     done
     local loads
-    loads=$(strings "$1/opense4")
+    loads=$(strings "$1/VOIDREIGN")
     for lib in libX11.so.6 libwayland-client.so.0 libxkbcommon.so.0 libdecor-0.so.0 libvulkan.so.1 libGL.so.1 libEGL.so.1 \
                libasound.so.2 libpulse.so.0 libpipewire-0.3.so.0 libudev.so.1; do
         if ! grep -qx "$lib" <<< "$loads"; then
-            echo "$1/opense4 does not load $lib: SDL was built without it" >&2
+            echo "$1/VOIDREIGN does not load $lib: SDL was built without it" >&2
             status=1
         fi
     done
@@ -193,13 +193,13 @@ check_linux_libraries() {  # check_linux_libraries <build dir>
 notices() {  # notices <build dir> <target> <output file>
     local deps="$1/_deps" out="$3"
     {
-        echo "OpenSE4 third-party notices"
+        echo "VOIDREIGN third-party notices"
         echo "==========================="
         echo
-        echo "OpenSE4 is an open-source engine for Space Empires IV Deluxe, licensed under"
+        echo "VOIDREIGN is a standalone game based on the OpenSE4 engine, licensed under"
         echo "the GNU General Public License version 3 or later (see LICENSE). It is not"
         echo "affiliated with the game's publishers and contains nothing from the game:"
-        echo "it plays with the player's own installed copy."
+        echo "It includes its own generated GameData and requires no Space Empires IV installation."
         echo "The executables include the following third-party software and fonts,"
         echo "each under its own licence."
         section() {
@@ -282,7 +282,7 @@ for target in "${targets[@]}"; do
     if [ "$platform" = windows ]; then
         strip=$(sed -n 's/^CMAKE_STRIP:FILEPATH=//p' "$build/CMakeCache.txt")  # the toolchain's
         echo "==> $target: imports (Windows 7 SP1)"
-        python3 tools/check_windows_imports.py "$build/opense4.exe" "$build/opense4-server.exe" \
+        python3 tools/check_windows_imports.py "$build/VOIDREIGN.exe" "$build/opense4-server.exe" \
             "$build/opense4-datacheck.exe" "$build/opense4-convert.exe" "$build/opense4-sdk.exe" "$build/tests/opense4_tests.exe"
     fi
 
@@ -300,7 +300,7 @@ for target in "${targets[@]}"; do
                     "$build/tests/opense4_tests"
                 fi
             fi
-            tools/check_glibc.sh "$build/opense4" "$build/opense4-server" "$build/opense4-datacheck" "$build/opense4-convert" "$build/opense4-sdk"
+            tools/check_glibc.sh "$build/VOIDREIGN" "$build/opense4-server" "$build/opense4-datacheck" "$build/opense4-convert" "$build/opense4-sdk"
             check_linux_libraries "$build"
         elif [ "$native_windows" = 1 ]; then
             "$build/tests/opense4_tests.exe"
@@ -323,20 +323,30 @@ for target in "${targets[@]}"; do
         fi
     fi
 
-    name="OpenSE4-${version}-${platform}-${arch}"
+    name="VOIDREIGN-${version}-${platform}-${arch}"
     stage="$dist/$name"
     rm -rf "$stage"
     mkdir -p "$stage"
-    for bin in opense4 opense4-server opense4-datacheck opense4-convert opense4-sdk; do
+    cp "$build/VOIDREIGN$exe" "$stage/"
+    "$strip" "$stage/VOIDREIGN$exe"
+    for bin in opense4-server opense4-datacheck opense4-convert opense4-sdk; do
         cp "$build/$bin$exe" "$stage/"
         "$strip" "$stage/$bin$exe"
     done
+    # A release must carry the original VOIDREIGN data set: it is not a
+    # patch, a mod, or a dependency on the player's proprietary game files.
+    if [ ! -f "$build/GameData/Data/Settings.txt" ]; then
+        echo "$build/GameData is missing the generated VOIDREIGN data set" >&2
+        exit 1
+    fi
+    cp -a "$build/GameData" "$stage/GameData"
     cp README.md "$stage/README.md"
+    cp docs/SETUP.md "$stage/SETUP.md"
     [ -f LICENSE ] && cp LICENSE "$stage/LICENSE"
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the
     # installer leaves it out, as an installed copy cannot be portable.
     cp packaging/PORTABLE-README.txt "$stage/PORTABLE-README.txt"
-    # The mods that come with OpenSE4, which the programs find in mods/ beside them.
+    # The mods that come with VOIDREIGN, which the programs find in mods/ beside them.
     stage_mods "$stage"
     # The modding SDK's guide, reference and example mods, beside opense4-sdk, which
     # finds the examples there (opense4-sdk new --from-example). Their links, the
@@ -379,5 +389,5 @@ for target in "${targets[@]}"; do
 done
 
 # Checksums for whatever this version's archives are in dist/.
-(cd "$dist" && sha256sum OpenSE4-"${version}"-*.tar.gz OpenSE4-"${version}"-*.zip OpenSE4-"${version}"-*-setup.exe 2> /dev/null > "OpenSE4-${version}-SHA256SUMS.txt" || true)
-echo "==> checksums: $dist/OpenSE4-${version}-SHA256SUMS.txt"
+(cd "$dist" && sha256sum VOIDREIGN-"${version}"-*.tar.gz VOIDREIGN-"${version}"-*.zip VOIDREIGN-"${version}"-*-setup.exe 2> /dev/null > "VOIDREIGN-${version}-SHA256SUMS.txt" || true)
+echo "==> checksums: $dist/VOIDREIGN-${version}-SHA256SUMS.txt"

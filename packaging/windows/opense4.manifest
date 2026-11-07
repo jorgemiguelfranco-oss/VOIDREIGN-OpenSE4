@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  The application manifest of every OpenSE4 program on Windows (CMakeLists.txt,
+  The application manifest of every VOIDREIGN program on Windows (CMakeLists.txt,
   opense4_windows_manifest).
 
   - supportedOS: the programs run on Windows 7 SP1, 8, 8.1, 10 and 11, and get each

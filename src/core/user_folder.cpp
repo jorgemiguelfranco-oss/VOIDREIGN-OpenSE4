@@ -29,9 +29,9 @@ namespace fs = std::filesystem;
 namespace {
 
 // What every user folder makes for itself: not copied from one to another.
-constexpr std::array<std::string_view, 2> kOwnLogs{"opense4.log", "opense4.previous.log"};
+constexpr std::array<std::string_view, 2> kOwnLogs{"voidreign.log", "voidreign.previous.log"};
 constexpr std::string_view kModCache = "ModCache";
-constexpr std::string_view kWriteTest = ".opense4-write-test";
+constexpr std::string_view kWriteTest = ".voidreign-write-test";
 
 // One component of a path against another: letter case ignored on Windows,
 // whose file systems ignore it too.
@@ -60,7 +60,7 @@ std::optional<std::string> writeProblem(const fs::path& folder) {
     const fs::path probe = folder / kWriteTest;
     {
         std::ofstream out(probe, std::ios::binary | std::ios::trunc);
-        if (!out || !(out << "OpenSE4\n") || !out.flush()) return std::format("cannot write in {}", folder.string());
+        if (!out || !(out << "VOIDREIGN\n") || !out.flush()) return std::format("cannot write in {}", folder.string());
     }
     std::error_code ec;
     fs::remove(probe, ec);
@@ -99,14 +99,14 @@ fs::path systemUserFolderFor(OsFamily os, const VariableLookup& lookup) {
     };
     switch (os) {
         case OsFamily::Windows:
-            if (const std::string appData = variable("APPDATA"); !appData.empty()) return fs::path(appData) / "OpenSE4";
+            if (const std::string appData = variable("APPDATA"); !appData.empty()) return fs::path(appData) / "VOIDREIGN";
             break;
         case OsFamily::MacOS:
-            if (const std::string home = variable("HOME"); !home.empty()) return fs::path(home) / "Library" / "Application Support" / "OpenSE4";
+            if (const std::string home = variable("HOME"); !home.empty()) return fs::path(home) / "Library" / "Application Support" / "VOIDREIGN";
             break;
         case OsFamily::Unix:
-            if (const std::string data = variable("XDG_DATA_HOME"); !data.empty()) return fs::path(data) / "OpenSE4";
-            if (const std::string home = variable("HOME"); !home.empty()) return fs::path(home) / ".local" / "share" / "OpenSE4";
+            if (const std::string data = variable("XDG_DATA_HOME"); !data.empty()) return fs::path(data) / "VOIDREIGN";
+            if (const std::string home = variable("HOME"); !home.empty()) return fs::path(home) / ".local" / "share" / "VOIDREIGN";
             break;
     }
     return {};
@@ -120,7 +120,7 @@ fs::path programFolderFor(OsFamily os, const fs::path& executable) {
     if (executable.empty()) return {};
     const fs::path folder = executable.parent_path();
     if (os == OsFamily::MacOS) {
-        // OpenSE4.app/Contents/MacOS/opense4: beside the bundle, which must stay as it was signed.
+        // VOIDREIGN.app/Contents/MacOS/VOIDREIGN: beside the bundle, which must stay as it was signed.
         const fs::path contents = folder.parent_path();
         const fs::path bundle = contents.parent_path();
         if (folder.filename() == "MacOS" && contents.filename() == "Contents" && bundle.extension() == ".app") return bundle.parent_path();
@@ -162,7 +162,10 @@ fs::path programFolder() {
 }
 
 UserFolder userFolder(const std::function<fs::path()>& systemFolder) {
-    return resolveUserFolder(environment(std::string(kUserDirVariable).c_str()), programFolder(), systemFolder);
+    std::optional<std::string> configured = environment(std::string(kUserDirVariable).c_str());
+    if (!configured || configured->empty())
+        configured = environment(std::string(kLegacyUserDirVariable).c_str());
+    return resolveUserFolder(configured, programFolder(), systemFolder);
 }
 
 fs::path portableMarker(const fs::path& programFolder) { return programFolder / kPortableMarkerName; }
@@ -174,7 +177,7 @@ bool portableMarkerPresent(const fs::path& programFolder) {
 }
 
 std::optional<std::string> portableProblem(const fs::path& programFolder) {
-    if (programFolder.empty()) return std::string("the system did not say which folder OpenSE4 runs from");
+    if (programFolder.empty()) return std::string("the system did not say which folder VOIDREIGN runs from");
     // The marker goes beside the program, the files into userdata.
     if (auto problem = writeProblem(programFolder)) return problem;
     std::error_code ec;
@@ -185,7 +188,7 @@ std::optional<std::string> portableProblem(const fs::path& programFolder) {
 }
 
 std::expected<void, std::string> setPortable(const fs::path& programFolder, bool on) {
-    if (programFolder.empty()) return std::unexpected(std::string("the system did not say which folder OpenSE4 runs from"));
+    if (programFolder.empty()) return std::unexpected(std::string("the system did not say which folder VOIDREIGN runs from"));
     const fs::path marker = portableMarker(programFolder);
     std::error_code ec;
     if (!on) {
@@ -199,11 +202,11 @@ std::expected<void, std::string> setPortable(const fs::path& programFolder, bool
     // own editors want CRLF line ends.
     const char* eol = currentOs() == OsFamily::Windows ? "\r\n" : "\n";
     std::ofstream out(marker, std::ios::binary | std::ios::trunc);
-    out << "This file makes this copy of OpenSE4 portable: it keeps its saved games, settings," << eol
+    out << "This file makes this copy of VOIDREIGN portable: it keeps its saved games, settings," << eol
         << "logs, mods and history in the folder \"userdata\" beside it, instead of in your" << eol
         << "user folder." << eol << eol
         << "To use your user folder again, delete this file, or untick \"Keep saves and settings" << eol
-        << "in OpenSE4's folder\" in Settings, Files. The files in userdata stay where they are." << eol;
+        << "in VOIDREIGN's folder\" in Settings, Files. The files in userdata stay where they are." << eol;
     if (!out.flush()) return std::unexpected(std::format("cannot write {}", marker.string()));
     return {};
 }

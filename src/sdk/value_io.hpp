@@ -981,6 +981,7 @@ void fields(A& a, cmd::SetEmpireOptions& x) {
     a("ai_minimal_changes", x.aiMinimalChanges);
     a("password_hash", x.passwordHash);
     a("choose_colony_type", x.chooseColonyType);
+    a("empire_type", x.empireType);
 }
 template <class A>
 void fields(A& a, cmd::SetEmail& x) {

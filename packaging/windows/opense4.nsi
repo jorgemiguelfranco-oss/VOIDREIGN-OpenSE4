@@ -1,12 +1,12 @@
-; OpenSE4 installer for Windows (NSIS 3). tools/package_release.sh builds it from
+; VOIDREIGN installer for Windows (NSIS 3). tools/package_release.sh builds it from
 ; the staged Windows package:
 ;
 ;   makensis -DVERSION=0.2.1 -DVERSION_NUMBER=0.2.1 -DSTAGE=<staged folder>
 ;            -DOUTFILE=<setup.exe> packaging/windows/opense4.nsi
 ;
-; It installs for all users into Program Files, adds OpenSE4 to the Start menu
+; It installs for all users into Program Files, adds VOIDREIGN to the Start menu
 ; (and, if chosen, the desktop) and to Apps & features. Saved games and settings
-; live in %APPDATA%\OpenSE4 and are left alone by the uninstaller.
+; live in %APPDATA%\VOIDREIGN and are left alone by the uninstaller.
 
 Unicode true
 ManifestDPIAware true
@@ -23,11 +23,11 @@ RequestExecutionLevel admin
 !insertmacro REQUIRE_DEFINE STAGE
 !insertmacro REQUIRE_DEFINE OUTFILE
 
-!define APP_NAME "OpenSE4"
-!define PUBLISHER "The OpenSE4 developers"
-!define HOMEPAGE "https://github.com/lowlevelmetal/OpenSE4"
-!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenSE4"
-!define SETTINGS_KEY "Software\OpenSE4"
+!define APP_NAME "VOIDREIGN"
+!define PUBLISHER "VOIDREIGN contributors"
+!define HOMEPAGE "https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\VOIDREIGN"
+!define SETTINGS_KEY "Software\VOIDREIGN"
 
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
@@ -37,7 +37,7 @@ RequestExecutionLevel admin
 
 Name "${APP_NAME}"
 OutFile "${OUTFILE}"
-InstallDir "$PROGRAMFILES64\OpenSE4"
+InstallDir "$PROGRAMFILES64\VOIDREIGN"
 BrandingText "${APP_NAME} ${VERSION}"
 
 VIProductVersion "${VERSION_NUMBER}.0"
@@ -50,14 +50,14 @@ VIAddVersionKey /LANG=1033 "CompanyName" "${PUBLISHER}"
 VIAddVersionKey /LANG=1033 "LegalCopyright" "Free software under the GNU GPL 3.0 or later"
 
 ; --- pages ----------------------------------------------------------------------
-!define MUI_ICON "opense4.ico"
-!define MUI_UNICON "opense4.ico"
+!define MUI_ICON "${__FILEDIR__}\VOIDREIGN.ico"
+!define MUI_UNICON "${__FILEDIR__}\VOIDREIGN.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-side.bmp"
 !define MUI_ABORTWARNING
 !define MUI_COMPONENTSPAGE_NODESC
 
-!define MUI_WELCOMEPAGE_TEXT "This will install ${APP_NAME} ${VERSION}, an open-source engine for Space Empires IV Deluxe.$\r$\n$\r$\n${APP_NAME} plays with your own installed copy of Space Empires IV Deluxe and reads its data, art and sound in place. Nothing from the original game is included, so install the game (for example from Steam) as well.$\r$\n$\r$\n${APP_NAME} is not affiliated with the game's publishers.$\r$\n$\r$\n$_CLICK"
+!define MUI_WELCOMEPAGE_TEXT "This installs ${APP_NAME} ${VERSION}, a standalone 4X space strategy game. Its original factions, rules and game data are included with the installation.$\r$\n$\r$\n${APP_NAME} does not require a copy of Space Empires IV.$\r$\n$\r$\n$_CLICK"
 !insertmacro MUI_PAGE_WELCOME
 
 ; The GPL needs no acceptance to use the program: the page only shows it.
@@ -84,7 +84,7 @@ VIAddVersionKey /LANG=1033 "LegalCopyright" "Free software under the GNU GPL 3.0
 
 ; --- install --------------------------------------------------------------------
 Function StartGame
-    Exec '"$WINDIR\explorer.exe" "$INSTDIR\opense4.exe"'
+    Exec '"$WINDIR\explorer.exe" "$INSTDIR\VOIDREIGN.exe"'
 FunctionEnd
 
 Function .onInit
@@ -110,7 +110,7 @@ Function .onInit
     ; explicit /D= on the command line still wins.
     ReadRegStr $0 HKLM "${SETTINGS_KEY}" "InstallDir"
     ${If} $0 != ""
-    ${AndIf} $INSTDIR == "$PROGRAMFILES64\OpenSE4"
+    ${AndIf} $INSTDIR == "$PROGRAMFILES64\VOIDREIGN"
         StrCpy $INSTDIR $0
     ${EndIf}
 FunctionEnd
@@ -118,23 +118,31 @@ FunctionEnd
 Section "${APP_NAME}" SecGame
     SectionIn RO
     SetOutPath "$INSTDIR"
-    File "${STAGE}\opense4.exe"
+    File "${STAGE}\VOIDREIGN.exe"
     File "${STAGE}\opense4-server.exe"
     File "${STAGE}\opense4-datacheck.exe"
     File "${STAGE}\opense4-convert.exe"
     File "${STAGE}\opense4-sdk.exe"
     File "${STAGE}\README.md"
+    File "${STAGE}\SETUP.md"
     File "${STAGE}\LICENSE"
     File "${STAGE}\THIRD_PARTY_NOTICES.txt"
+
+    ; VOIDREIGN's rules, faction presets and AI profiles are part of the game.
+    ; Replace the folder as a whole on upgrades to avoid stale data files.
+    RMDir /r "$INSTDIR\GameData"
+    SetOutPath "$INSTDIR\GameData"
+    File /r "${STAGE}\GameData\*.*"
+    SetOutPath "$INSTDIR"
     WriteUninstaller "$INSTDIR\uninstall.exe"
 
-    CreateShortcut "$SMPROGRAMS\${APP_NAME}.lnk" "$INSTDIR\opense4.exe" "" "$INSTDIR\opense4.exe" 0
+    CreateShortcut "$SMPROGRAMS\${APP_NAME}.lnk" "$INSTDIR\VOIDREIGN.exe" "" "$INSTDIR\VOIDREIGN.exe" 0
 
     ; The modding SDK's guide, reference and example mods, beside opense4-sdk.exe.
     SetOutPath "$INSTDIR\sdk"
     File /r "${STAGE}\sdk\*.*"
 
-    ; The mods that come with OpenSE4 (Hegemon), beside the programs, which find
+    ; The mods that come with VOIDREIGN (Hegemon), beside the programs, which find
     ; them there. Replaced as a whole: a file an older version left behind would
     ; change a mod's identity, and network players need the same.
     RMDir /r "$INSTDIR\mods"
@@ -146,7 +154,7 @@ Section "${APP_NAME}" SecGame
     WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
     WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayVersion" "${VERSION}"
     WriteRegStr HKLM "${UNINSTALL_KEY}" "Publisher" "${PUBLISHER}"
-    WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\opense4.exe,0"
+    WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\VOIDREIGN.exe,0"
     WriteRegStr HKLM "${UNINSTALL_KEY}" "InstallLocation" "$INSTDIR"
     WriteRegStr HKLM "${UNINSTALL_KEY}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
     WriteRegStr HKLM "${UNINSTALL_KEY}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
@@ -159,7 +167,7 @@ Section "${APP_NAME}" SecGame
 SectionEnd
 
 Section "Desktop shortcut" SecDesktop
-    CreateShortcut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\opense4.exe" "" "$INSTDIR\opense4.exe" 0
+    CreateShortcut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\VOIDREIGN.exe" "" "$INSTDIR\VOIDREIGN.exe" 0
 SectionEnd
 
 ; --- uninstall ------------------------------------------------------------------
@@ -172,14 +180,16 @@ Section "Uninstall"
     Delete "$SMPROGRAMS\${APP_NAME}.lnk"
     Delete "$DESKTOP\${APP_NAME}.lnk"
 
-    Delete "$INSTDIR\opense4.exe"
+    Delete "$INSTDIR\VOIDREIGN.exe"
     Delete "$INSTDIR\opense4-server.exe"
     Delete "$INSTDIR\opense4-datacheck.exe"
     Delete "$INSTDIR\opense4-convert.exe"
     Delete "$INSTDIR\opense4-sdk.exe"
     Delete "$INSTDIR\README.md"
+    Delete "$INSTDIR\SETUP.md"
     Delete "$INSTDIR\LICENSE"
     Delete "$INSTDIR\THIRD_PARTY_NOTICES.txt"
+    RMDir /r "$INSTDIR\GameData"
     RMDir /r "$INSTDIR\sdk"
     RMDir /r "$INSTDIR\mods"
     Delete "$INSTDIR\uninstall.exe"

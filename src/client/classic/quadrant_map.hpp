@@ -31,6 +31,7 @@ struct QuadrantMapOptions {
     bool distances = false;   // light-years from the hovered system
     std::optional<game::SystemId> current;         // the symbol filled, with a ring outside the cell
     std::vector<game::SystemId> highlight;         // extra marker ring (e.g. waypoints)
+    std::vector<game::SystemId> chokepoints;      // explored systems whose removal disconnects known warp routes
     std::vector<std::pair<game::SystemId, std::string>> tags;  // short labels above a system
     bool avoidRings = false;  // also ring avoided systems (in our colour) on other overlays
     // With a value: the systems claimed by these empires in their colours, a

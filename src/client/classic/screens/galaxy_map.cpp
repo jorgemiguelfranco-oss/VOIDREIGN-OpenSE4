@@ -55,6 +55,7 @@ public:
         opt.overlay = destination ? MapOverlay::Presence : overlay_;
         opt.names = names_;
         opt.distances = destination ? destinationDistances_ : distances_;
+        if (!destination && showChokepoints_) opt.chokepoints = game::exploredChokepoints(s.galaxy, me);
         opt.frameColor = palette::kFrameLight;
         opt.nearestAnywhere = true;   // a click anywhere takes the nearest system, explored or not (§2.6)
         if (destination) opt.current = origin_;
@@ -92,6 +93,10 @@ public:
                 ImGui::SameLine();
             }
             ImGui::TextUnformatted(note.c_str());
+            if (std::binary_search(opt.chokepoints.begin(), opt.chokepoints.end(), sys.id)) {
+                ImGui::SameLine();
+                ImGui::TextColored(ImVec4(1.0f, 0.68f, 0.24f, 1.0f), "DEFENSIVE CHOKEPOINT");
+            }
             if (!note.empty()) script::reportItem("notes:" + note);   // for input scripts
         }
         ImGui::EndChild();
@@ -126,9 +131,13 @@ public:
                 distances_ = !distances_;
                 clicked = true;
             }
+            if (d.check("Chokepoints", showChokepoints_)) {
+                showChokepoints_ = !showChokepoints_;
+                clicked = true;
+            }
             ui.tag("galaxy-map:overlays", *overlaysMin, ImGui::GetItemRectMax());   // for lessons: what the map shows
         }
-        legend(ui, d.skipSlots(3), opt.overlay);
+        legend(ui, d.skipSlots(destination ? 3 : 2), opt.overlay);
         if (d.button("Goto System")) {
             filter_.clear();
             ImGui::OpenPopup("Goto System");
@@ -305,6 +314,7 @@ private:
     bool distances_ = false;              // ours, in the plain mode: each opening starts without
     bool destinationDistances_ = false;   // the destination mode's (an empire option)
     bool names_ = false;
+    bool showChokepoints_ = true;
 };
 
 } // namespace

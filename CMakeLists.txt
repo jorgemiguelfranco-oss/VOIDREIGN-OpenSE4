@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(OpenSE4
-    VERSION 0.15.1
-    DESCRIPTION "Open-source engine reimplementation for Space Empires IV Deluxe"
+project(VOIDREIGN
+    VERSION 0.1.0
+    DESCRIPTION "Standalone 4X space strategy game"
     LANGUAGES C CXX)
 
 # Apple's linker warns about a static library listed twice, as CMake lists our
@@ -26,6 +26,22 @@ option(OPENSE4_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 option(OPENSE4_STATIC "Link statically for redistribution: SDL3 is built as a static library, and so are the C++ runtime (and on Windows everything else)" OFF)
 option(OPENSE4_EMBED_RESOURCES "Build our own fonts into the executable (files on disk still win)" ON)
 option(OPENSE4_DEV_PATHS "Let the client fall back to assets/ in the source tree" ON)
+
+# VOIDREIGN ships an original game data set in the same open text format read
+# by the engine. Generate it at build time so source archives and CI builds
+# always contain a reproducible, validated data set.
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+set(VOIDREIGN_GENERATED_DATA_DIR "${CMAKE_BINARY_DIR}/generated-voidreign-data")
+add_custom_command(
+    OUTPUT "${VOIDREIGN_GENERATED_DATA_DIR}/Data/Settings.txt"
+    COMMAND "${CMAKE_COMMAND}" -E rm -rf "${VOIDREIGN_GENERATED_DATA_DIR}"
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_data.py" "${VOIDREIGN_GENERATED_DATA_DIR}"
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_art.py" "${VOIDREIGN_GENERATED_DATA_DIR}"
+    DEPENDS "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_data.py"
+            "${CMAKE_SOURCE_DIR}/tools/generate_voidreign_art.py"
+    COMMENT "Generating the original VOIDREIGN game data"
+    VERBATIM)
+add_custom_target(voidreign_game_data DEPENDS "${VOIDREIGN_GENERATED_DATA_DIR}/Data/Settings.txt")
 
 if(OPENSE4_STATIC AND NOT MSVC)
     if(WIN32)
@@ -125,6 +141,17 @@ endfunction()
 add_subdirectory(src)
 add_subdirectory(tools)
 
+# The client is a standalone game: its original rules, factions and presets
+# travel with the executable instead of requiring a proprietary install.
+if(TARGET opense4)
+    add_dependencies(opense4 voidreign_game_data)
+    add_custom_command(TARGET opense4 POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+                "${VOIDREIGN_GENERATED_DATA_DIR}" "$<TARGET_FILE_DIR:opense4>/GameData"
+        COMMENT "Bundling VOIDREIGN game data beside the client"
+        VERBATIM)
+endif()
+
 # `cmake --install`: the programs, and on Linux the desktop entry, icons and
 # AppStream metadata that let desktops list the game (packaging/linux).
 include(GNUInstallDirs)
@@ -133,8 +160,9 @@ if(TARGET opense4)
     install(TARGETS opense4 RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 install(FILES README.md LICENSE DESTINATION "${CMAKE_INSTALL_DOCDIR}")
+install(DIRECTORY "${VOIDREIGN_GENERATED_DATA_DIR}/" DESTINATION "${CMAKE_INSTALL_BINDIR}/GameData")
 if(UNIX AND NOT APPLE)
-    set(opense4_app_id io.github.lowlevelmetal.OpenSE4)
+    set(opense4_app_id io.github.voidreign.game)
     install(FILES "packaging/linux/${opense4_app_id}.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
     install(FILES "packaging/linux/${opense4_app_id}.metainfo.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo")
     install(DIRECTORY packaging/linux/icons/hicolor DESTINATION "${CMAKE_INSTALL_DATADIR}/icons")

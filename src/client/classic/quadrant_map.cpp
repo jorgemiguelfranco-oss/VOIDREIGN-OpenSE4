@@ -194,6 +194,11 @@ QuadrantMapResult quadrantMap(UiContext& ui, const char* id, Vec2 frameSize, con
                 break;
         }
         if (sym.outerRing) dl->AddCircle(p, r + ui.px(2), c, 0, thick);
+        if (std::binary_search(opt.chokepoints.begin(), opt.chokepoints.end(), sys.id)) {
+            const ImU32 amber = IM_COL32(255, 176, 56, 255);
+            dl->AddCircle(p, r + ui.px(5), amber, 0, thick);
+            dl->AddCircle(p, r + ui.px(8), amber, 0, thick);
+        }
         // Ours: the systems to avoid on the other tabs of Systems To Avoid, in the viewer's colour.
         if (opt.avoidRings && std::binary_search(me.systemsToAvoid.begin(), me.systemsToAvoid.end(), sys.id))
             dl->AddCircle(p, r + ui.px(4), empireColor(s, me.id), 0, thick);
