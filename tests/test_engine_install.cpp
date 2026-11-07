@@ -3,6 +3,7 @@
 
 #include "engine_fixture.hpp"
 
+#include "game/ai_data.hpp"
 #include "game/design.hpp"
 #include "game/economy.hpp"
 #include "game/events.hpp"
@@ -239,6 +240,37 @@ TEST_CASE("VOIDREIGN generated economy and technology remain bounded over eight 
 }
 
 
+
+
+TEST_CASE("VOIDREIGN factions and neutral powers load their own native AI research doctrines (opt-in)") {
+    const Rules* r = installRules();
+    if (!r) return;
+
+    REQUIRE(r->racePresets().size() == 15);
+    for (const auto& preset : r->racePresets()) {
+        const ai::AiProfile profile = ai::loadProfile(r->gameRoot(), preset.folder);
+        CHECK_MESSAGE_FALSE(profile.researchErrors, preset.folder);
+        CHECK_MESSAGE(profile.research.size() == 30, preset.folder);
+        CHECK_MESSAGE(std::any_of(profile.sources.begin(), profile.sources.end(), [](const std::string& path) {
+            return path.find("_AI_Research.txt") != std::string::npos;
+        }), preset.folder);
+        for (const auto& row : profile.research) {
+            CHECK_MESSAGE(!row.area.empty(), preset.folder);
+            CHECK_MESSAGE(row.level > 0, preset.folder);
+            CHECK_MESSAGE(row.minPercent > 0, preset.folder);
+            CHECK_MESSAGE(r->data().findTechArea(row.area).has_value(), row.area);
+        }
+    }
+
+    // Each of the twelve playable species gets a recognisably different
+    // opening focus rather than falling back to the same random AI queue.
+    const ai::AiProfile aurel = ai::loadProfile(r->gameRoot(), "Aurel");
+    const ai::AiProfile dravak = ai::loadProfile(r->gameRoot(), "Dravak");
+    REQUIRE_FALSE(aurel.research.empty());
+    REQUIRE_FALSE(dravak.research.empty());
+    CHECK(aurel.research.front().area == "Colonization");
+    CHECK(dravak.research.front().area == "Weapons");
+}
 
 TEST_CASE("VOIDREIGN technology unlocks ship, colonization, defence and logistics progression (opt-in)") {
     const Rules* r = installRules();
