@@ -652,6 +652,13 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
+      - name: Seed a per-user save before uninstall
+        run: |
+          $saveDir = Join-Path $env:APPDATA 'VOIDREIGN\saves'
+          New-Item -ItemType Directory -Path $saveDir -Force | Out-Null
+          $save = Join-Path $saveDir 'Installer-Preservation-Check.gam'
+          [System.IO.File]::WriteAllText($save, 'VOIDREIGN uninstall preservation check')
+
       - name: Uninstall silently
         run: |
           $dir = $env:INSTALL_DIR
@@ -666,6 +673,11 @@ jobs:
 
       - name: Check that nothing is left
         run: |
+          $save = Join-Path $env:APPDATA 'VOIDREIGN\saves\Installer-Preservation-Check.gam'
+          if (-not (Test-Path -LiteralPath $save)) { throw 'The uninstaller deleted the per-user save folder' }
+          if ([System.IO.File]::ReadAllText($save) -ne 'VOIDREIGN uninstall preservation check') {
+            throw 'The uninstaller changed a per-user save file'
+          }
           foreach ($path in $env:INSTALL_DIR, $env:UNINSTALL_KEY, $env:SETTINGS_KEY,
                             "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\VOIDREIGN.lnk",
                             "$env:PUBLIC\Desktop\VOIDREIGN.lnk") {
