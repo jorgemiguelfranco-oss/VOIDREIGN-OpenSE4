@@ -3,6 +3,8 @@
 #include "ruleset/races.hpp"
 #include "ruleset/ruleset.hpp"
 #include "game/rules.hpp"
+#include "game/economy.hpp"
+#include "game/setup.hpp"
 #include "temp_dir.hpp"
 
 #include <doctest/doctest.h>
@@ -166,7 +168,52 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
         CHECK(it->tiers.size() == 3);
         CHECK_FALSE(it->culture.empty());
         CHECK_FALSE(it->happinessType.empty());
+        for (int tier = 0; tier < 3; ++tier) {
+            const game::Race race = game::raceFromPreset(gameRules, *it, tier);
+            CHECK(game::racialPointCost(gameRules, race) <= 2000);
+        }
     }
+
+    // Exercise the same native Quick Start path used by a new single-player game.
+    game::GameSetup setup;
+    setup.seed = 0x564f494452454947ULL;
+    setup.options.systemCount = 14;
+    game::EmpireSetup player;
+    player.preset = "Aurelian";
+    player.presetTier = 0;
+    player.kind = game::PlayerKind::Human;
+    setup.empires.push_back(std::move(player));
+    game::StartExtras extras;
+    extras.designMinisterRun.push_back(game::EmpireId{0});
+    auto opening = game::createGame(gameRules, setup, extras);
+    REQUIRE_MESSAGE(opening.has_value(), opening ? "" : opening.error());
+    const game::EmpireId playerId{0};
+    const game::Empire& empire = opening->empire(playerId);
+    const auto home = std::find_if(opening->colonies.begin(), opening->colonies.end(),
+                                   [&](const auto& colony) { return colony && colony->owner == playerId && colony->homeworld; });
+    REQUIRE(home != opening->colonies.end());
+    const game::Resources cap = game::economy::storageCapacity(gameRules, *opening, playerId);
+    CHECK(cap == game::Resources{30000, 30000, 30000});
+    for (size_t resource = 0; resource < 3; ++resource)
+        CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
+    bool hasWarehouse = false, hasShipyard = false, hasSupplyDepot = false;
+    for (uint32_t id : (*home)->facilities) {
+        const std::string& name = gameRules.facility(id).name;
+        hasWarehouse |= name == "VoidReign Warehouse";
+        hasShipyard |= name == "VoidReign Planetary Shipyard";
+        hasSupplyDepot |= name == "VoidReign Supply Depot";
+    }
+    CHECK(hasWarehouse);
+    CHECK(hasShipyard);
+    CHECK(hasSupplyDepot);
+    bool hasAttackShip = false, hasRockColonyShip = false;
+    for (game::DesignId id : empire.designs) {
+        const game::Design& design = opening->design(id);
+        hasAttackShip |= design.templateName == "Attack Ship";
+        hasRockColonyShip |= design.templateName == "Colony (Rock)";
+    }
+    CHECK(hasAttackShip);
+    CHECK(hasRockColonyShip);
 }
 
 TEST_CASE("ruleset: problems are reported with file, line and record") {
