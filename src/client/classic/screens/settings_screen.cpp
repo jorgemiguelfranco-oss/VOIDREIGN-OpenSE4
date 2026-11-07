@@ -167,7 +167,7 @@ public:
         changed |= lampToggle(ui, "Display Ship Movement Lines", &s.showMovementLines);
         // OpenSE4's own, beside the original's rows: how fast ships move in the system window.
         ImGui::Spacing();
-        heading(ui, "OpenSE4");
+        heading(ui, "VOIDREIGN");
         changed |= movementSpeedRow(ui, s);
         changed |= shipMovementRows(ui, s);
         changed |= lampToggle(ui, "Say on the map why a click fired nothing", &s.tacticalShotNotes);
@@ -186,7 +186,7 @@ public:
         changed |= lampToggle(ui, "More in item reports", &s.reportExtras);
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("The Component Report shows the original's lines. With this on it also shows\n"
-                              "OpenSE4's own: the component's group, its limit per vehicle, the technology\n"
+                              "VOIDREIGN's own: the component's group, its limit per vehicle, the technology\n"
                               "it requires and a weapon mount's to-hit modifier.");
         changed |= lampToggle(ui, "Game Setup's Save To File saves the designs", &s.setupSavesDesigns);
         if (ImGui::IsItemHovered())
@@ -399,7 +399,7 @@ void moddingSettingsPage(float px, const game::Rules* rules) {
     ImGui::Spacing();
     ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + 520 * px);
     ImGui::TextDisabled("When such a player fails, the game says so in the main window, and its Details show what went wrong. "
-                        "The game's log file (opense4.log in OpenSE4's user folder) has every failure too.");
+                        "The game's log file (voidreign.log in the VOIDREIGN user folder) has every failure too.");
     ImGui::PopTextWrapPos();
     if (changed) saveSettings();
 }
