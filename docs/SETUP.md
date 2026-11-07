@@ -55,7 +55,7 @@ For a silent launch, use:
 The current native game-data package does not include a soundtrack or a bank of
 sound-effects files. This does not prevent the game from being played.
 
-## Saves, settings and logs
+## Where VOIDREIGN keeps its own files
 
 VOIDREIGN keeps your own files outside Program Files, so an update or uninstall does
 not remove your saves.
@@ -73,7 +73,7 @@ The game's **Settings → Files** page shows the active user folder and can open
 The Windows uninstaller removes the installed program, shortcuts and registry entries.
 It deliberately leaves `%APPDATA%\\VOIDREIGN\\` untouched.
 
-## Portable copy
+## A portable copy
 
 A portable copy keeps its own saved games and settings in a `userdata/` folder beside
 the executable instead of using your Windows user profile. This is intended for the
