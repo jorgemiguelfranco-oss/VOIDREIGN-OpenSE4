@@ -374,6 +374,20 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     REQUIRE(rules.data().findComponent("VoidReign Ice Colonization Module") != nullptr);
     REQUIRE(rules.data().findComponent("VoidReign Gas Colonization Module") != nullptr);
     REQUIRE(rules.data().findComponent("VoidReign Orbital Shipyard Module") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Ion Drive II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Pulse Cannon II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Pulse Cannon III") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Deflector Array II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign EM Sensor Array II") != nullptr);
+    REQUIRE(rules.data().findComponent("VoidReign Cargo Rack II") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Frigate") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Destroyer") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Cruiser") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Battleship") != nullptr);
+    REQUIRE(rules.data().findVehicleSize("VoidReign Carrier") != nullptr);
+    REQUIRE(rules.data().findTechArea("VoidReign Defensive Systems").has_value());
+    REQUIRE(rules.data().findTechArea("VoidReign Sensor Networks").has_value());
+    REQUIRE(rules.data().findTechArea("VoidReign Logistics Engineering").has_value());
 
     game::GameSetup setup;
     setup.seed = 402711;
