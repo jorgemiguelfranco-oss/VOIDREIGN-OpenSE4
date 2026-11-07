@@ -742,12 +742,13 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             const DesignId stationId = addDesign(s, std::move(station));
             Location stationLocation = locationOf(s.galaxy, (*homes)[i]);
             const std::vector<Sector> freeSectors = emptySectors(s.galaxy, empire.homeSystem);
-            if (!freeSectors.empty()) {
-                const auto nearest = std::min_element(freeSectors.begin(), freeSectors.end(), [&](Sector left, Sector right) {
-                    return chebyshev(left, stationLocation.sector) < chebyshev(right, stationLocation.sector);
-                });
-                stationLocation.sector = *nearest;
-            }
+            if (freeSectors.empty())
+                return std::unexpected(std::format("VoidReign cannot place {}'s orbital station: the home system has no vacant sector.",
+                                                   empire.name));
+            const auto nearest = std::min_element(freeSectors.begin(), freeSectors.end(), [&](Sector left, Sector right) {
+                return chebyshev(left, stationLocation.sector) < chebyshev(right, stationLocation.sector);
+            });
+            stationLocation.sector = *nearest;
             s.addVehicle(makeVehicle(r, s, s.design(stationId), stationLocation));
         }
     }
