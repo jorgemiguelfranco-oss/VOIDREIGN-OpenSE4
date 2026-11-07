@@ -2,9 +2,9 @@
 VOIDREIGN native ship design categories.
 =====
 *BEGIN*
-Name := Attack Vessel
+Name := Attack Ship
 
-Name := Pathfinder
+Name := Scout Ship
 Name := Colony (Rock)
 
 Name := Colony (Ice)
