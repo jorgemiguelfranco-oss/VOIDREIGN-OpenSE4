@@ -428,10 +428,10 @@ int main(int argc, char** argv) {
     // given (multiplayer.cpp), since its players must not guess it.
     options.seedGiven = options.seed != 0 || options.inputScript;
     if (options.seed == 0) options.seed = options.inputScript ? 1 : static_cast<uint64_t>(std::time(nullptr));
-    // The log also goes to opense4.log in the user data folder: on Windows the
+    // The log also goes to voidreign.log in the user data folder: on Windows the
     // game has no console, so that file is where a player finds it. The last
-    // run's log, a crash report perhaps, stays beside it as opense4.previous.log.
-    const std::filesystem::path logFile = client::userDataDirectory() / "opense4.log";
+    // run's log, a crash report perhaps, stays beside it as voidreign.previous.log.
+    const std::filesystem::path logFile = client::userDataDirectory() / "voidreign.log";
     client::keepPreviousLog(logFile);
     log::setFile(logFile);
     // A crash or an exception nothing caught leaves a report there; a message
