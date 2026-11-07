@@ -159,13 +159,13 @@ std::string videoDriver() {
 
 int App::run(const AppOptions& options) {
     options_ = options;
-    // The identifier is the Wayland app ID and X11 window class, which desktops
-    // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
+    // The identifier is the Wayland app ID and X11 window class used by the
+    // standalone VOIDREIGN desktop entry.
     SDL_SetAppMetadata("VOIDREIGN", OPENSE4_CLIENT_VERSION, "io.github.voidreign.VOIDREIGN");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
-    // The game is the player's own installed copy: without one there is nothing
-    // to play. Checked before any window or renderer exists.
+    // VOIDREIGN is self-contained: load the native game-data shipped beside the
+    // executable (or the explicit development override) before opening a window.
     const auto dataDir = findGameDataDirectory(options.installDir);
     if (!dataDir) {
         fatal(missingInstallMessage(options.installDir));
