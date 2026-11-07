@@ -555,7 +555,10 @@ jobs:
         with:
           persist-credentials: false
           path: source
-          sparse-checkout: tests/fixtures
+          sparse-checkout: |
+            tests/fixtures
+            tests/input
+            tools/run_input_tests.py
 
       - name: Install silently
         run: |
@@ -626,6 +629,17 @@ jobs:
           $out = & "$dir\opense4-datacheck.exe" $fixture 2>&1 | Out-String
           if ($LASTEXITCODE -ne 0 -or $out -notmatch '0 errors') { throw "opense4-datacheck.exe on the fixtures: $LASTEXITCODE $out" }
           exit 0
+
+      - name: Play a fresh VOIDREIGN game from the installed Windows build
+        run: |
+          $source = Join-Path $env:GITHUB_WORKSPACE 'source'
+          python "$source\tools\run_input_tests.py" `
+            --exe "$env:INSTALL_DIR\VOIDREIGN.exe" `
+            --data-dir "$env:INSTALL_DIR\game-data" `
+            --renderer opengl `
+            --jobs 1 `
+            --output "$env:RUNNER_TEMP\voidreign-windows-native" `
+            voidreign-native-startup voidreign-native-veyran voidreign-native-khepri
 
       - name: Uninstall silently
         run: |
