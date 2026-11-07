@@ -5,9 +5,10 @@ VOIDREIGN is being built **on the OpenSE4 engine**, not as a second renderer or 
 ## Current implementation
 
 - Native OpenSE4 mod manifest and data-patch structure.
-- Original, buildable VoidReign Pathfinder hull.
+- Original, buildable VoidReign Pathfinder hull with dedicated 36×36 map art and 128×128 portrait art.
 - VoidReign Cargo Rack component, using the engine's real cargo-storage ability.
-- Automated SDK tests verify the hull, component and a legal starting design.
+- Five-level VoidReign Energy Weapons technology with a deterministic, upgradeable Pulse Cannon line.
+- SDK tests for hull metadata, cargo storage, a legal starting design, weapon unlocks, range and upgrade ordering.
 
 ## Design constraints
 
