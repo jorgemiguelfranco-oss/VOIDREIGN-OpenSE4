@@ -27,12 +27,13 @@ Racial Area         := 0
 Unique Area         := 0
 Can Be Removed      := False
 Number of Tech Req  := 0
+
 Name                := VoidReign Energy Weapons
 Group               := Weapons
 Description         := High-output energy projection and directed plasma systems.
 Maximum Level       := 5
 Level Cost          := 2600
-Start Level         := 0
+Start Level         := 1
 Raise Level         := 1
 Racial Area         := 0
 Unique Area         := 0
