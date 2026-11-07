@@ -130,7 +130,7 @@ private:
     };
     // `modFolder`: the command line's mod folder, read in Path.txt's place (none: Path.txt's).
     static std::expected<DataSet, std::string> readDataSet(const std::filesystem::path& dataDir, const mods::ModChoice& choice,
-                                                           const std::optional<std::string>& modFolder);
+                                                           const std::optional<std::string>& modFolder, bool standaloneVoidReign);
     mods::ModChoice modChoice(std::vector<std::string> ids) const;
     // The command line's mod folder as Path.txt would name it (relative to
     // the game folder; empty when it lies elsewhere), or none.
