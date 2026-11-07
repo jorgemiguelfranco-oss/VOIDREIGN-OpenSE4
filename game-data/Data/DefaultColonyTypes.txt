@@ -1,11 +1,19 @@
 *BEGIN*
-Name := Extractive World
+Name := Construction Yard
 
-Name := Research World
+Name := Farming Colony
 
-Name := Industrial World
+Name := Homeworld
 
-Name := Logistics Hub
+Name := Intelligence Compound
 
-Name := Fortress World
+Name := Military Installation
+
+Name := Mining Colony
+
+Name := Refining Colony
+
+Name := Research Compound
+
+Name := Resupply Base
 *END*
