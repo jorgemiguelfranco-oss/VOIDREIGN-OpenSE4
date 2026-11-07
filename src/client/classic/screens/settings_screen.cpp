@@ -191,7 +191,7 @@ public:
         changed |= lampToggle(ui, "Game Setup's Save To File saves the designs", &s.setupSavesDesigns);
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("Off, as in the original: Save To File on Game Setup's Players page writes no design, whatever is\n"
-                              "answered to Save Designs. On: Yes keeps the empire's designs in OpenSE4's empire file. The file\n"
+                              "answered to Save Designs. On: Yes keeps the empire's designs in VOIDREIGN's empire file. The file\n"
                               "for Space Empires IV written there never holds designs; Save Empire during a game saves them.");
         // The original keeps the tags whatever single object is selected (spec 06 §2.5).
         changed |= lampToggle(ui, "Clear tags when selecting a ship elsewhere", &s.clearTagsElsewhere);
