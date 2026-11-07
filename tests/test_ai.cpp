@@ -30,6 +30,7 @@
 #include <doctest/doctest.h>
 
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <initializer_list>
 #include <map>
@@ -561,6 +562,37 @@ TEST_CASE("ai: a random computer player's race uses the Race Opt of the racial-p
     const Race none = ai::randomPlayerRace(rules, *preset, 0, rng);
     CHECK(none.characteristic(Characteristic::Intelligence) == 100);
     CHECK(none.traits.empty());
+}
+
+// The native race profiles are part of the shipped standalone game-data tree.
+// Loading them here catches misspelled table names, malformed values and missing
+// faction overrides before the client input smoke tests launch a new game.
+TEST_CASE("VOIDREIGN: native faction AI profiles load their own research and fleet doctrine") {
+    const std::filesystem::path data{VOIDREIGN_GAME_DATA_DIR};
+    const auto aurelian = ai::loadProfile(data, "Aurelian");
+    const auto veyran = ai::loadProfile(data, "Veyran");
+    const auto khepri = ai::loadProfile(data, "Khepri");
+
+    for (const ai::AiProfile* p : {&aurelian, &veyran, &khepri}) {
+        CHECK_FALSE(p->researchErrors);
+        CHECK_FALSE(p->research.empty());
+        CHECK(p->fleets.defaultFormation == "VoidReign Line");
+        CHECK(p->fleets.defaultStrategy == "VoidReign Standard");
+        CHECK(p->fleets.divisions.size() == 4);
+        CHECK(p->fleets.percentInFleets >= 50);
+        CHECK(p->fleets.percentInFleets <= 100);
+        CHECK(p->fleets.percentForDefense >= 0);
+        CHECK(p->fleets.percentForDefense <= 100);
+    }
+    REQUIRE(aurelian.research.size() >= 6);
+    REQUIRE(veyran.research.size() >= 6);
+    REQUIRE(khepri.research.size() >= 6);
+    CHECK(aurelian.research.front().area == "VoidReign Advanced Sensors");
+    CHECK(veyran.research.front().area == "VoidReign Logistics");
+    CHECK(khepri.research.front().area == "VoidReign Industrial Engineering");
+    CHECK(aurelian.settings.turnsBetweenAttacks == 8);
+    CHECK(veyran.settings.turnsBetweenAttacks == 7);
+    CHECK(khepri.settings.turnsBetweenAttacks == 2);
 }
 
 // ---- Research and intelligence ----------------------------------------------------------------
