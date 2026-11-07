@@ -8,10 +8,13 @@
 #include <doctest/doctest.h>
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cstdlib>
 #include <format>
 #include <fstream>
+#include <string_view>
+#include <utility>
 
 using namespace opense4;
 
