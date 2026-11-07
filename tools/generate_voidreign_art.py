@@ -379,10 +379,9 @@ def build(root: Path):
         d = pic / f"Game/Screens/{layout}"
         dims = {
             "Top.bmp": (width, 29), "Toptitle.bmp": (width, 77),
-            "Topsys.bmp": (width, 7), "Bottom.bmp": (width, 8),
+            "Topsys.bmp": (width, 7), "Bottom.bmp": (width, 8 if width > 800 else 6),
             "Left.bmp": (10, height), "Middle.bmp": (16, 662 if width > 800 else 565),
             "Right.bmp": (67 if width > 800 else 12, height),
-            "Bottom.bmp": (width, 8 if width > 800 else 6),
             "Topgal.bmp": (360 if width > 800 else 300, 9),
         }
         for name, (w, h) in dims.items():
@@ -468,17 +467,44 @@ def verify(root: Path):
         if actual != expected:
             errors.append(f"Pictures/{name}: got {actual}, expected {expected}")
     for name, _ in FACTIONS:
+        d = p / "Races" / name
         for suffix, size in (("Main.bmp", (100, 20)), ("Race_Portrait.bmp", (128, 128)),
                              ("Pop_Mini.bmp", (20, 20)), ("Pop_Portrait.bmp", (36, 36))):
-            path = p / "Races" / name / f"{name}_{suffix}"
+            path = d / f"{name}_{suffix}"
             if dimensions(path) != size:
                 errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected {size}")
+        for code in HULLS:
+            for kind, size in (("Mini", (36, 36)), ("Portrait", (128, 128))):
+                path = d / f"{name}_{kind}_{code}.bmp"
+                if dimensions(path) != size:
+                    errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected {size}")
     for name, _ in NEUTRALS:
+        d = p / "RaceNeutral" / name
         for suffix, size in (("Main.bmp", (100, 20)), ("Race_Portrait.bmp", (128, 128)),
                              ("Pop_Mini.bmp", (20, 20)), ("Pop_Portrait.bmp", (36, 36))):
-            path = p / "RaceNeutral" / name / f"{name}_{suffix}"
+            path = d / f"{name}_{suffix}"
             if dimensions(path) != size:
                 errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected {size}")
+        for code in HULLS:
+            for kind, size in (("Mini", (36, 36)), ("Portrait", (128, 128))):
+                path = d / f"{name}_{kind}_{code}.bmp"
+                if dimensions(path) != size:
+                    errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected {size}")
+    for index in range(1, 61):
+        path = p / f"Components/Comp_{index:03d}.bmp"
+        if dimensions(path) != (128, 128):
+            errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected (128, 128)")
+    for index in range(1, 15):
+        path = p / f"Facilities/Facil_{index:03d}.bmp"
+        if dimensions(path) != (128, 128):
+            errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected (128, 128)")
+    for code in HULLS + ("Fleet", "FighterGroup"):
+        for kind, size in (("Mini", (36, 36)), ("Portrait", (128, 128))):
+            path = p / "RaceGeneric" / f"Generic_{kind}_{code}.bmp"
+            if dimensions(path) != size:
+                errors.append(f"{path.relative_to(root)}: got {dimensions(path)}, expected {size}")
+    if sum(1 for path in p.rglob("*.bmp")) < 400:
+        errors.append("Generated artwork coverage unexpectedly contains fewer than 400 BMP files")
     if errors:
         raise SystemExit("VOIDREIGN art validation failed:\n" + "\n".join(errors))
     count = sum(1 for path in p.rglob("*.bmp"))
