@@ -150,7 +150,7 @@ The buttons open your empire's settings windows:
 | `Waypoints` | Your ten waypoints ([Ships and fleets](ships-and-fleets#waypoints)). |
 | `Strategies` | Combat strategies ([Combat](combat#strategies)). |
 | `Repair Priorities` | The order in which components are repaired ([Supply, cargo and repair](logistics#repair)). |
-| `Change Email` | Dim in OpenSE4: the game keeps no e-mail address for your empire yet. |
+| `Change Email` | Dim in VOIDREIGN: the game keeps no e-mail address for your empire yet. |
 | `Change Password` | Set or remove your empire's password. |
 
 Your research and intelligence points per turn are in the [Colonies](window:colonies) window's
