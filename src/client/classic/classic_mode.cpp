@@ -1571,7 +1571,7 @@ void ClassicMode::drawImportNotes(UiContext& ui) {
         ImGui::TextUnformatted(note.c_str());
     }
     ImGui::Spacing();
-    ImGui::TextDisabled("Every detail is in voidreign.log. Save Game keeps the game in OpenSE4's format.");
+    ImGui::TextDisabled("Every detail is in voidreign.log. Save Game keeps the game in VOIDREIGN's native save format.");
     ImGui::PopTextWrapPos();
     if (ImGui::Button("OK", ui.size({120, 26})) || okKey()) importNotes_.clear();   // a message box: Esc or Enter is OK
     ImGui::End();

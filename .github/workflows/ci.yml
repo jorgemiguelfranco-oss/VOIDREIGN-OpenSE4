@@ -98,7 +98,7 @@ jobs:
       - name: Validate VOIDREIGN data and start a complete game
         if: ${{ matrix.name == 'GCC debug' }}
         env:
-          OPENSE4_CLASSIC_DATA: ${{ github.workspace }}/build/debug/generated-voidreign-data
+          VOIDREIGN_DATA_DIR: ${{ github.workspace }}/build/debug/generated-voidreign-data
         run: |
           build/debug/opense4-datacheck "$OPENSE4_CLASSIC_DATA/Data"
           build/debug/tests/opense4_tests --test-case="installed data set: race presets, setup and starting assets (opt-in)"

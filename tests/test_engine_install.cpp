@@ -23,7 +23,8 @@ namespace {
 
 const Rules* installRules() {
     static const std::unique_ptr<Rules> rules = []() -> std::unique_ptr<Rules> {
-        const char* env = std::getenv("OPENSE4_CLASSIC_DATA");
+        const char* env = std::getenv("VOIDREIGN_DATA_DIR");
+        if (!env || !*env) env = std::getenv("OPENSE4_CLASSIC_DATA");  // legacy CI/test variable
         if (!env) return nullptr;
         auto dir = ruleset::findInstalledDataDir(std::string_view(env) == "auto" ? std::filesystem::path{} : std::filesystem::path(env));
         if (!dir) return nullptr;
@@ -39,7 +40,16 @@ const Rules* installRules() {
 TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)") {
     const Rules* r = installRules();
     if (!r) return;
-    CHECK(r->racePresets().size() >= 10);
+    CHECK(r->racePresets().size() == 12);
+    const auto hasName = [](const auto& records, std::string_view name) {
+        return std::any_of(records.begin(), records.end(), [&](const auto& record) { return record.name == name; });
+    };
+    CHECK(r->data().vehicleSizes.size() >= 7);
+    CHECK(hasName(r->data().vehicleSizes, "Vanguard Frigate"));
+    CHECK(hasName(r->data().vehicleSizes, "Aegis Cruiser"));
+    CHECK(hasName(r->data().components, "Orbital Yard Module"));
+    CHECK(hasName(r->data().facilities, "Planetary Shipyard"));
+    CHECK(hasName(r->data().facilities, "Central Warehouse"));
     for (const auto& p : r->racePresets()) {
         CHECK_FALSE(p.name.empty());
         if (!p.neutral) {
