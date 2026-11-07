@@ -83,7 +83,7 @@ These rules from [Combat](combat) matter when you design:
 - Once a design has been built, it cannot change. Use **Copy** to start a new design from it.
 - **Upgrade** opens the designer on a copy of the design in which every component is replaced by the newest one of its family that you have researched, the one listed last in the game's component list (so a newer line of engines replaces an older line's best). Create it as a new design; the old one stays. Then build the new design, or retrofit old ships to it (see [Supply, cargo and repair](logistics#scrapping-and-mothballing)).
 - **Make Obsolete** marks a design you no longer want; **Hide Obsolete** hides such designs from your lists. An obsolete design is removed for good once no vehicle of it exists, it is in no queue and no other empire has seen it for 50 turns.
-- Design names must be unique among all the designs in the game, every empire's included, letter case counting. A design needs a name in OpenSE4 (the original lets one go without).
+- Design names must be unique among all the designs in the game, every empire's included, letter case counting. A design needs a name in VOIDREIGN (the original lets one go without).
 
 Each design has a **design type**, such as attack ship, colony ship or transport. The type is a
 label: your ministers use it to find ships for each job. Each design also has a **default
