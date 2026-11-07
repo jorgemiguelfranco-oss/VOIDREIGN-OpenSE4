@@ -9,7 +9,8 @@ VOIDREIGN is built on the native C++ engine foundation of [OpenSE4](https://gith
 - Build an interstellar empire across a procedurally generated galaxy.
 - Explore warp networks, secure strategic chokepoints and expand through colonisation.
 - Design ships and bases, build fleets, move through systems, and fight tactical and strategic battles.
-- Manage research, construction, trade, diplomacy, intelligence and computer-controlled rivals.
+- Research technologies to unlock advanced hulls, engines, colony cores, weapons, defences, sensors, shipyards, terraforming and storage infrastructure.
+- Manage construction, trade, diplomacy, intelligence and computer-controlled rivals.
 - Choose among eight governments with different production, research, trade and fleet-maintenance effects.
 - Manage resource stockpiles: empires begin with 25,000 storage for each resource, but no free warehouse. Mineral and Organic Warehouses and Radioactive Vaults each add 30,000 capacity for their resource; a Central Warehouse adds 75,000 to all three. Stockpiles above capacity are discarded at the end of the turn.
 - Start with 12 original playable factions and three independent powers, with configurable empire and galaxy setup.
