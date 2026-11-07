@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=VOIDREIGN
+GenericName=4X Space Strategy Game
+Comment=Explore, colonize, develop worlds and command fleets across a living galaxy
+Icon=io.github.voidreign.VOIDREIGN
+Exec=VOIDREIGN
+TryExec=VOIDREIGN
+Terminal=false
+Categories=Game;StrategyGame;
+Keywords=space;strategy;4X;empire;turn-based;galaxy;fleets;
+StartupNotify=true
+StartupWMClass=VOIDREIGN
+SingleMainWindow=true
