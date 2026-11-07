@@ -689,7 +689,7 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             if (!pathfinderStats.problems.empty())
                 return std::unexpected(std::format("VoidReign's starter Pathfinder is invalid: {}", pathfinderStats.problems.front()));
             const DesignId pathfinderId = addDesign(s, std::move(pathfinder));
-            Vehicle& pathfinderShip = s.addVehicle(makeVehicle(r, s, s.design(pathfinderId), locationOf(s.galaxy, (*homes)[i])));
+            const VehicleId pathfinderShip = s.addVehicle(makeVehicle(r, s, s.design(pathfinderId), locationOf(s.galaxy, (*homes)[i]))).id;
 
             const std::string surface = keysEqual(empire.race.nativeSurface, "Ice") ? "Ice"
                                         : keysEqual(empire.race.nativeSurface, "Gas Giant") ||
@@ -715,11 +715,11 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
             if (!colonizerStats.canColonize(surface))
                 return std::unexpected(std::format("VoidReign's starter colonizer cannot colonize {} worlds.", surface));
             const DesignId colonizerId = addDesign(s, std::move(colonizer));
-            Vehicle& colonizerShip = s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i])));
+            const VehicleId colonizerShip = s.addVehicle(makeVehicle(r, s, s.design(colonizerId), locationOf(s.galaxy, (*homes)[i]))).id;
 
             cmd::CreateFleet firstFleet;
             firstFleet.name = empire.race.style + " Expeditionary Fleet";
-            firstFleet.members = {pathfinderShip.id, colonizerShip.id};
+            firstFleet.members = {pathfinderShip, colonizerShip};
             const CommandResult fleetResult = apply(r, s, empire.id, Command{std::move(firstFleet)});
             if (!fleetResult.ok)
                 return std::unexpected(std::format("VoidReign could not create the starting fleet for {}: {}", empire.name, fleetResult.error));
