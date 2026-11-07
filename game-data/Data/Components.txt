@@ -143,7 +143,7 @@ Weapon Reload Rate := 1
 Weapon Display Type := Beam
 Weapon Display := 4
 Weapon Modifier := 0
-Weapon Family := 8401
+Weapon Family := 200
 Weapon Seeker Speed := 0
 Weapon Seeker Dmg Res := 0
 
