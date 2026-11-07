@@ -1,0 +1,37 @@
+# Save and reload a game created from VOIDREIGN's native standalone ruleset.
+# This verifies persistence without an installed Space Empires IV data folder or mod.
+options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --open=none --layout=1024x768 --size=1280x800
+
+wait-screen game
+wait 5
+click item:Close in=finale optional
+click item:Yes in=finale optional
+click item:"*(suggested)" in="Colony Type" optional
+
+# Save using the standalone user's own save directory.
+key F2
+wait-window game-menu
+click item:"Save Game" in=game-menu
+wait-window save-game
+click item:##name in=save-game
+key End
+type " [Native Save]"
+click item:Save in=save-game
+wait-for item:"* [Native Save]" in=save-game
+click item:Close in=save-game
+wait-closed save-game
+
+# Load the same save from the game menu, then inspect the restored Home Patrol.
+key F2
+wait-window game-menu
+click item:Load in=game-menu
+wait-window load-game
+wait-for item:"* [Native Save]" in=load-game
+click item:"* [Native Save]" in=load-game
+wait-screen game
+wait 5
+click sector:home
+wait-for item:report:fleet
+click item:report:fleet
+wait-for item:report:fleet-member
+assert { selected = "fleet", design_type = "Attack Ship" }
