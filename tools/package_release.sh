@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
+# Builds the redistributable VOIDREIGN packages (docs/BUILDING.md, "Release packages"):
 #
 #   dist/VOIDREIGN-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
 #   dist/VOIDREIGN-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
@@ -24,15 +24,15 @@
 # Each holds the game, the dedicated server and the data checker, with our own
 # fonts built in, plus the README, PORTABLE-README.txt (how to make the unpacked
 # copy portable), the licence (GPL 3.0 or later) and the third-party notices, the
-# modding SDK's documentation and example mods in sdk/ beside opense4-sdk (sdk/docs
+# optional engine SDK documentation and example integrations in sdk/ beside opense4-sdk (sdk/docs
 # from docs/sdk and docs/MODDING_SDK.md, sdk/examples from mods/examples), and the
-# mods that come with OpenSE4 in mods/ beside the programs (the folders
+# optional AI modules supplied by the engine foundation in mods/ beside the programs (the folders
 # mods/bundled.txt names, such as mods/hegemon; their files as git tracks them).
 # tools/stage_sdk_docs.py stages the SDK's files and points the links of their
 # pages, the README's and the mods' at the package's copies, or at GitHub at the
 # version's tag for files the package does not have.
-# Nothing from the original game is included: players point the game at their own
-# installed copy.
+# Each package includes VOIDREIGN's own native game data and original content.
+# No Space Empires IV installation or proprietary game assets are required.
 #
 # The Linux package also carries the desktop entry, icons and AppStream metadata
 # (packaging/linux) and install-desktop-entry.sh, which adds the game to the
@@ -193,13 +193,13 @@ check_linux_libraries() {  # check_linux_libraries <build dir>
 notices() {  # notices <build dir> <target> <output file>
     local deps="$1/_deps" out="$3"
     {
-        echo "OpenSE4 third-party notices"
+        echo "VOIDREIGN third-party notices"
         echo "==========================="
         echo
-        echo "OpenSE4 is an open-source engine for Space Empires IV Deluxe, licensed under"
-        echo "the GNU General Public License version 3 or later (see LICENSE). It is not"
-        echo "affiliated with the game's publishers and contains nothing from the game:"
-        echo "it plays with the player's own installed copy."
+        echo "VOIDREIGN is a standalone 4X space strategy game built on the OpenSE4 engine architecture,"
+        echo "distributed under the GNU General Public License version 3 or later (see LICENSE). It is not"
+        echo "affiliated with the publishers of Space Empires IV. The package includes VOIDREIGN's"
+        echo "own native rules, factions and original game content; no commercial game install is needed."
         echo "The executables include the following third-party software and fonts,"
         echo "each under its own licence."
         section() {
