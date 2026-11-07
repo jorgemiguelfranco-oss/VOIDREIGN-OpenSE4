@@ -398,4 +398,11 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     CHECK(created->vehicles[0].owner == game::EmpireId{0});
     CHECK(created->vehicles[0].design == game::DesignId{0});
     CHECK(created->vehicles[0].location.system == created->empire(game::EmpireId{0}).homeSystem);
+    CHECK(created->designs[0].entries.size() == 9);
+    const game::DesignStats starterStats = game::computeDesignStats(rules, &created->empire(game::EmpireId{0}), created->designs[0]);
+    CHECK(starterStats.problems.empty());
+    CHECK(starterStats.armed());
+    CHECK(starterStats.movement > 0);
+    CHECK(starterStats.cargoCapacity >= 60);
+    CHECK(starterStats.shields >= 20);
 }
