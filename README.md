@@ -21,15 +21,17 @@ The game data is authored as the engine's **base ruleset**, not as `mods/voidrei
 
 ## Windows installer
 
-The Windows release pipeline builds a self-contained x64 package and an NSIS setup executable:
+The Windows release workflow is configured to build a self-contained x64 package and an NSIS setup executable. A verified installer artifact is not available yet; the workflow and native gameplay checks still need to run successfully:
 
 - `VOIDREIGN.exe` — the player-facing game executable.
 - `game-data/` — the native VOIDREIGN rules and faction definitions.
-- Original VOIDREIGN ship artwork included in the data directory.
+- Initial original art for the Pathfinder and Orbital Station; several other hulls still reuse placeholder Pathfinder art and need dedicated final artwork.
 - Runtime engine utilities, documentation, license and third-party notices.
 - Start Menu and optional desktop shortcuts, uninstall entry and uninstaller.
 
 The installer is intended to work on 64-bit Windows 7 SP1 through Windows 11, subject to the graphics-driver requirements of the engine. The player does not need to install a separate commercial game.
+
+For normal installation, see [Installing and setting up VOIDREIGN](docs/SETUP.md). The guide covers the Windows setup, saves, user settings, portable ZIP copies and troubleshooting.
 
 ## Building from source
 
@@ -57,7 +59,7 @@ The resulting files are written to `dist/`.
 
 The project runs its engine unit tests and checks the Windows executable imports. The installer CI job installs the generated setup file, checks the installed files and shortcuts, launches `VOIDREIGN.exe --help`, and runs the engine data checker against the installed `game-data/Data` directory.
 
-A successful installer build is not by itself a claim that every planned VOIDREIGN subsystem is complete. New mechanics and content are only treated as finished after their rules, presentation and gameplay paths have been implemented and tested.
+The Windows installer workflow is configured to install the package, validate the native data, run the installed game through native faction, fleet, construction, save/load and AI tests, then uninstall it. GitHub Actions has not yet reported a run for this branch, so these checks remain unverified. A successful installer build alone would not mean every planned VOIDREIGN subsystem is complete: mechanics, art, balance and gameplay still need to be implemented and tested.
 
 ## Project structure
 
