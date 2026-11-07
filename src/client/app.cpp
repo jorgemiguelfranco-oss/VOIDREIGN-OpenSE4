@@ -102,7 +102,7 @@ SDL_HitTestResult SDLCALL windowHitTest(SDL_Window*, const SDL_Point* point, voi
 int hostFromCommandLine(const AppOptions& options, const classic::CommandLineGame& line, const std::filesystem::path& dataDir) {
     auto refuse = [&](const std::string& why, bool box) {
         log::error("{}", why);
-        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", why.c_str(), nullptr);
+        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, applicationName(), why.c_str(), nullptr);
         return classic::kHostRefused;
     };
     const std::filesystem::path gameRoot = dataDir.parent_path();
@@ -161,7 +161,7 @@ int App::run(const AppOptions& options) {
     options_ = options;
     setStandaloneUserFolder(options.standaloneVoidReign);
     // The identifier is the Wayland app ID and X11 window class, which desktops
-    // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
+    // match to packaging/linux/io.voidreign.VoidReign.desktop.
     SDL_SetAppMetadata(options.standaloneVoidReign ? "VoidReign" : "OpenSE4", OPENSE4_CLIENT_VERSION,
                        options.standaloneVoidReign ? "io.voidreign.VoidReign" : "io.github.lowlevelmetal.OpenSE4");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
