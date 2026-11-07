@@ -411,6 +411,8 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     CHECK(created->designs[2].name == "Veyran Pathfinder");
     CHECK(created->designs[3].name == "Veyran Ice Colonizer");
     CHECK(created->designs[3].designType == "Colony (Ice)");
+    CHECK(created->designs[1].entries.size() == 9);
+    CHECK(created->designs[3].entries.size() == 9);
     REQUIRE(created->vehicles.size() == 4);
     for (size_t i = 0; i < 4; ++i) {
         const size_t owner = i < 2 ? 0 : 1;
