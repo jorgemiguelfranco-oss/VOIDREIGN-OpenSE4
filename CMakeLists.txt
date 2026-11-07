@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(OpenSE4
-    VERSION 0.15.1
-    DESCRIPTION "Open-source engine reimplementation for Space Empires IV Deluxe"
+project(VOIDREIGN
+    VERSION 0.1.0
+    DESCRIPTION "Standalone space strategy game built on the OpenSE4 engine architecture"
     LANGUAGES C CXX)
 
 # Apple's linker warns about a static library listed twice, as CMake lists our
@@ -138,6 +138,22 @@ if(UNIX AND NOT APPLE)
     install(FILES "packaging/linux/${opense4_app_id}.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
     install(FILES "packaging/linux/${opense4_app_id}.metainfo.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo")
     install(DIRECTORY packaging/linux/icons/hicolor DESTINATION "${CMAKE_INSTALL_DATADIR}/icons")
+endif()
+
+# Ship VOIDREIGN's own base data beside the executable in developer builds.
+# The same directory is staged into the redistributable packages and Windows installer.
+if(TARGET opense4 AND EXISTS "${CMAKE_SOURCE_DIR}/game-data")
+    add_custom_target(voidreign_game_data ALL
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+                "${CMAKE_SOURCE_DIR}/game-data"
+                "$<TARGET_FILE_DIR:opense4>/game-data"
+        COMMENT "Staging VOIDREIGN native game data")
+    add_dependencies(opense4 voidreign_game_data)
+    add_custom_command(TARGET opense4 POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+                "$<TARGET_FILE:opense4>"
+                "$<TARGET_FILE_DIR:opense4>/VOIDREIGN${CMAKE_EXECUTABLE_SUFFIX}"
+        VERBATIM)
 endif()
 
 if(OPENSE4_BUILD_TESTS)
