@@ -2012,8 +2012,7 @@ void MainWindow::overlayText(UiContext& ui) {
         // Facility letter markers (§2.4, §7 Q44): on colonies of ours and of our
         // Military Alliance and Partnership partners, in the owner's colour, in
         // the small face, packed right to left from the sprite square's bottom right.
-        if (opts.facilityMarkers != 0)
-            for (game::ObjectId id : sys.objects) {
+        for (game::ObjectId id : sys.objects) {
                 const game::SpaceObject& o = s.galaxy.object(id);
                 const game::Colony* col = s.colony(id);
                 if (o.kind != game::ObjectKind::Planet || !col || !showsFacilityMarkers(s, ui.session.player(), col->owner)) continue;
