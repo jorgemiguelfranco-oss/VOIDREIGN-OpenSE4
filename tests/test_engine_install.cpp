@@ -260,6 +260,24 @@ TEST_CASE("VOIDREIGN random events and intelligence projects execute in the nati
     GameState game = std::move(*created);
     const EmpireId source{0u}, target{1u};
 
+    // The command boundary must enforce the same Espionage tech gates as
+    // the Intelligence screen: level II cannot be queued before the research.
+    const auto espionageArea = r->data().findTechArea("Espionage");
+    REQUIRE(espionageArea.has_value());
+    const auto countermeasureII = std::find_if(r->data().intelProjects.begin(), r->data().intelProjects.end(),
+                                                [](const auto& p) { return p.name == "Countermeasure Net II"; });
+    REQUIRE(countermeasureII != r->data().intelProjects.end());
+    const uint32_t countermeasureIndex = static_cast<uint32_t>(std::distance(r->data().intelProjects.begin(), countermeasureII));
+    GameState progression = game;
+    IntelProjectOrder lockedDefense;
+    lockedDefense.project = countermeasureIndex;
+    cmd::SetIntel lockedQueue;
+    lockedQueue.queue.push_back(lockedDefense);
+    CHECK_FALSE(apply(*r, progression, source, lockedQueue).ok);
+    progression.empire(source).techLevels[espionageArea->index()] = 2;
+    CHECK(apply(*r, progression, source, lockedQueue).ok);
+    CHECK(progression.empire(source).intel.size() == 1);
+
     // Trigger a real original VOIDREIGN event against a specific homeworld.
     const auto event = std::find_if(r->data().eventTypes.begin(), r->data().eventTypes.end(),
                                     [](const auto& e) { return e.picture == "MineralBloom"; });
