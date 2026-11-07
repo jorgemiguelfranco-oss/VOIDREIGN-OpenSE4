@@ -59,6 +59,11 @@ TEST_CASE("installed data set: VoidReign content, setup and turn economy (opt-in
     int previousSeverity = -1;
     for (const auto& event : r->data().eventTypes) {
         CHECK_MESSAGE(effects::parseEffect(event.type).has_value(), event.type);
+        CHECK_FALSE(event.messages.empty());
+        if (!event.messages.empty()) {
+            CHECK_FALSE(event.messages.front().title.empty());
+            CHECK_FALSE(event.messages.front().text.empty());
+        }
         const int severity = static_cast<int>(events::parseSeverity(event.severity));
         CHECK(severity >= previousSeverity);  // severity filtering is file-order sensitive
         previousSeverity = severity;
@@ -68,6 +73,12 @@ TEST_CASE("installed data set: VoidReign content, setup and turn economy (opt-in
     for (const auto& project : r->data().intelProjects) {
         CHECK_MESSAGE(effects::parseEffect(project.type).has_value(), project.name);
         CHECK_MESSAGE(project.cost > 0, project.name);
+        CHECK_FALSE(project.sourceMessages.empty());
+        CHECK_FALSE(project.targetMessages.empty());
+        if (!project.targetMessages.empty()) {
+            CHECK_FALSE(project.targetMessages.front().title.empty());
+            CHECK_FALSE(project.targetMessages.front().text.empty());
+        }
         if (project.type == "Intelligence Defense") {
             defenseI |= project.effectAmount == 1;
             defenseII |= project.effectAmount == 2;
