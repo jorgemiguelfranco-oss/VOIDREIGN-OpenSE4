@@ -252,8 +252,15 @@ public:
         ImGui::TextColored(kLabelBlue, "Options In Use");
         beginList(ui, "##options", ImVec2(0, 0), kListLineStep, ImGuiChildFlags_AlwaysUseWindowPadding);
         heading(ui, "Government");
+        const auto effectSummary = [](const game::GovernmentProfile& profile) {
+            return std::format("Resources {:+}%  |  Research {:+}%  |  Intelligence {:+}%  |  Trade {:+}%  |  Fleet maintenance {:+}%",
+                               profile.resourceProductionPercent, profile.researchPercent, profile.intelligencePercent,
+                               profile.tradePercent, profile.maintenancePercent);
+        };
         const game::GovernmentProfile government = game::governmentProfile(me.empireType);
         ImGui::TextWrapped("%s", government.description.empty() ? "No government profile selected." : government.description.data());
+        const std::string currentEffects = effectSummary(government);
+        ImGui::TextWrapped("%s", currentEffects.c_str());
         ImGui::TextDisabled("Reform cost: 2,500 minerals / 1,500 organics / 1,000 radioactives");
         ImGui::SetNextItemWidth(ui.px(250));
         if (ImGui::BeginCombo("##government", me.empireType.c_str())) {
@@ -261,6 +268,10 @@ public:
                 const bool selected = choice.name == me.empireType;
                 if (ImGui::Selectable(choice.name.data(), selected) && !selected)
                     status_.issue(ui, cmd::SetEmpireOptions{.empireType = std::string(choice.name)});
+                if (ImGui::IsItemHovered()) {
+                    const std::string tooltipEffects = effectSummary(choice);
+                    ImGui::SetTooltip("%s\\n%s", choice.description.data(), tooltipEffects.c_str());
+                }
             }
             ImGui::EndCombo();
         }
