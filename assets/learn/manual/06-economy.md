@@ -76,11 +76,25 @@ amount of it instead (200 with the stock settings).
 
 ## Storage
 
-Each of minerals, organics and radioactives has a storage capacity: 50,000 with the stock
-settings, plus what your storage facilities add. Late in each turn, after construction, anything
-above the capacity is lost. Research and intelligence points have no limit.
+VOIDREIGN gives every empire a **20,000-unit starter reserve** for each strategic resource.
+Warehouses expand that shared empire-wide limit:
 
-> If your treasury sits at its capacity, you are wasting income. Build more, research storage facilities, or convert the surplus into ships.
+- Each **VoidReign Warehouse** adds 10,000 minerals, 10,000 organics and 10,000 radioactives of storage.
+- Your homeworld starts with one warehouse, for a starting capacity of 30,000 of each resource.
+- Warehouses on any of your colonies contribute to the same empire-wide treasury limit; build more as production and expansion grow.
+
+Late in each turn, after construction has spent what it can, anything above the capacity is
+permanently lost. Research and intelligence points have no storage limit. The Empire Status
+window shows both your current treasury and its maximum capacity, while the Economy report shows
+resources lost to storage.
+
+A positive net income does **not** mean the resources are safely banked. Once your treasury is
+full, further production is lost. If you later need those resources for ship or facility
+construction, trade obligations or fleet maintenance, the missing reserve can put your economy
+under pressure; an unpaid maintenance bill can cost you ships.
+
+> Treat warehouse construction as core infrastructure. Add capacity before your economy
+> consistently produces more than your treasury can hold.
 
 ## Maintenance
 
