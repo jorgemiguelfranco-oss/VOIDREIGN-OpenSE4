@@ -230,7 +230,7 @@ Requirement Min Life Support  := 1
 Requirement Min Crew Quarters := 1
 Requirement Uses Engines      := True
 Requirement Max Engines       := 10
-Requirement Pct Fighter Bays  := 0
+Requirement Pct Fighter Bays  := 20
 Requirement Pct Colony Mods   := 0
-Requirement Pct Cargo         := 10
+Requirement Pct Cargo         := 0
 *END*
