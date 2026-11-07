@@ -390,6 +390,17 @@ TEST_CASE("VOIDREIGN: standalone ruleset loads and creates a warehouse-backed st
     REQUIRE(rules.data().findComponent("VoidReign Fighter Thruster") != nullptr);
     REQUIRE(rules.data().findComponent("VoidReign Fighter Pulse Cannon") != nullptr);
 
+    const auto hasTechArea = [&](std::string_view name) {
+        return std::any_of(rules.data().techAreas.begin(), rules.data().techAreas.end(),
+                           [&](const auto& area) { return area.name == name; });
+    };
+    CHECK(hasTechArea("VoidReign Logistics Engineering"));
+    CHECK(hasTechArea("VoidReign Sensor Networks"));
+    const auto propulsion = std::find_if(rules.data().techAreas.begin(), rules.data().techAreas.end(),
+                                         [](const auto& area) { return area.name == "VoidReign Propulsion"; });
+    REQUIRE(propulsion != rules.data().techAreas.end());
+    CHECK(propulsion->maxLevel >= 4);
+
     const auto componentId = [&](std::string_view name) {
         const auto* component = rules.data().findComponent(name);
         REQUIRE(component != nullptr);
