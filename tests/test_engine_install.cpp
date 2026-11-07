@@ -134,6 +134,50 @@ TEST_CASE("installed data set: race presets, setup and starting assets (opt-in)"
         if (e.kind == PlayerKind::Computer) CHECK_FALSE(e.designs.empty());  // designed in the first turn
 }
 
+TEST_CASE("VOIDREIGN generated economy and technology remain bounded over eight AI-managed turns (opt-in)") {
+    const Rules* r = installRules();
+    if (!r) return;
+
+    GameSetup setup;
+    setup.seed = 0x564f494452454947ull;
+    setup.options.systemCount = 24;
+    std::vector<const ruleset::RacePreset*> playable;
+    for (const auto& preset : r->racePresets())
+        if (!preset.neutral) playable.push_back(&preset);
+    REQUIRE(playable.size() >= 7);
+
+    for (size_t i = 0; i < 4; ++i) {
+        EmpireSetup empire;
+        empire.preset = playable[i * 2]->folder;
+        empire.kind = i == 0 ? PlayerKind::Human : PlayerKind::Computer;
+        setup.empires.push_back(std::move(empire));
+    }
+
+    auto created = createGame(*r, setup);
+    REQUIRE_MESSAGE(created.has_value(), (created ? std::string{} : created.error()));
+    GameState& game = *created;
+    const std::vector<EmpireOrders> noOrders;
+
+    for (uint32_t turn = 1; turn <= 8; ++turn) {
+        processTurn(*r, game, noOrders);
+        CHECK(game.turn == turn);
+
+        for (const Empire& empire : game.empires) {
+            INFO(empire.name);
+            const Resources cap = economy::storageCapacity(*r, game, empire.id);
+            CHECK(cap.covers(empire.stockpile));
+            CHECK(empire.economy.storageCap == cap);
+            CHECK(empire.techLevels.size() == r->data().techAreas.size());
+            for (size_t area = 0; area < empire.techLevels.size() && area < r->data().techAreas.size(); ++area) {
+                CHECK(empire.techLevels[area] >= 0);
+                CHECK(empire.techLevels[area] <= r->data().techAreas[area].maxLevel);
+            }
+            CHECK(empire.researchPool >= 0);
+            CHECK(empire.intelligencePool >= 0);
+        }
+    }
+}
+
 TEST_CASE("installed data set: a Terran Quick Start gets the observed designs (opt-in)") {
     // Spec 07 session 3: eleven designs, one per design type, dated 2400.0,
     // all prototypes, and no ship.
