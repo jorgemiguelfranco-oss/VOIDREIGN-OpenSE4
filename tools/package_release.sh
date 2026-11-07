@@ -2,11 +2,11 @@
 # Builds the redistributable OpenSE4 packages (docs/BUILDING.md, "Release packages"):
 #
 #   dist/VoidReign-<version>-linux-x86_64.tar.gz        static except the C library (glibc 2.34+)
-#   dist/OpenSE4-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
-#   dist/OpenSE4-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
-#   dist/OpenSE4-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
-#   dist/OpenSE4-<version>-windows-x86_64-setup.exe   the same, as an installer
-#   dist/OpenSE4-<version>-SHA256SUMS.txt
+#   dist/VoidReign-<version>-linux-aarch64.tar.gz       the same for 64-bit ARM
+#   dist/VoidReign-<version>-linux-armhf.tar.gz         the same for 32-bit ARM (ARMv7, hard-float, NEON)
+#   dist/VoidReign-<version>-windows-x86_64.zip         static, Windows 7 SP1 to 11 (llvm-mingw, msvcrt.dll)
+#   dist/VoidReign-<version>-windows-x86_64-setup.exe   the same, as an installer
+#   dist/VoidReign-<version>-SHA256SUMS.txt
 #
 # On Linux both are built (Windows cross-compiled). In MSYS2 on Windows the
 # Windows packages are built natively instead. Either way the Windows programs
