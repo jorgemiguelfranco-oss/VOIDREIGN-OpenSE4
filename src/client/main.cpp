@@ -475,7 +475,7 @@ int main(int argc, char** argv) {
         bo.bind = botBind;
         bo.port = static_cast<uint16_t>(botPort);
         bo.token = !botToken.empty() ? botToken : core::environment("OPENSE4_BOT_TOKEN").value_or("");
-        bo.gameName = "OpenSE4";
+        bo.gameName = options.standaloneVoidReign ? "VoidReign" : "OpenSE4";
         bo.requestTimeout = std::chrono::seconds(botTimeout);
         auto opened = sdk::BotHost::open(std::move(bo));
         if (!opened) {
