@@ -66,6 +66,8 @@ struct AppSettings {
     FileSettings files;
 };
 
+// Selects the user-data profile before settings, saves or history are read.
+void setStandaloneUserFolder(bool standaloneVoidReign);
 AppSettings& appSettings();
 bool saveAppSettings();
 std::filesystem::path appSettingsFile();
