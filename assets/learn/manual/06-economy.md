@@ -84,6 +84,13 @@ banked between turns.
 - Your homeworld starts with one warehouse, giving your new empire 30,000 capacity for each resource.
 - Warehouses on any of your colonies contribute to the same empire-wide treasury limit; build more as production and expansion grow.
 
+Research improves the logistics ceiling as your empire grows. **VoidReign Logistics II**
+unlocks the **VoidReign Warehouse II**, which adds 60,000 minerals, 60,000 organics and
+60,000 radioactives of empire-wide storage capacity. It is an upgrade in the same
+facility family as the original Warehouse. Build or upgrade warehouses before the
+treasury repeatedly reaches its cap; a higher income does not protect resources that
+overflow at the end of a turn.
+
 Late in each turn, after construction has spent what it can, anything above the capacity is
 permanently lost. Research and intelligence points have no storage limit. The Empire Status
 window shows both your current treasury and its maximum capacity, while the Economy report shows
