@@ -101,7 +101,7 @@ jobs:
         env:
           VOIDREIGN_DATA_DIR: ${{ github.workspace }}/build/debug/generated-voidreign-data
         run: |
-          build/debug/opense4-datacheck "$OPENSE4_CLASSIC_DATA/Data"
+          build/debug/opense4-datacheck "$VOIDREIGN_DATA_DIR/Data"
           build/debug/tests/opense4_tests --test-case="installed data set: race presets, setup and starting assets (opt-in)"
           SDL_VIDEO_DRIVER=offscreen build/debug/VOIDREIGN --quick-start=Aurel --turns=3 --open=none --screenshot="$RUNNER_TEMP/voidreign-smoke.png"
           test -s "$RUNNER_TEMP/voidreign-smoke.png"
@@ -568,7 +568,7 @@ jobs:
         run: |
           $dir = $env:INSTALL_DIR
           Get-ChildItem $dir | Format-Table Name, Length -AutoSize
-          foreach ($f in 'VOIDREIGN.exe', 'opense4-server.exe', 'opense4-datacheck.exe', 'opense4-convert.exe', 'opense4-sdk.exe', 'README.md', 'LICENSE',
+          foreach ($f in 'VOIDREIGN.exe', 'opense4-server.exe', 'opense4-datacheck.exe', 'opense4-convert.exe', 'opense4-sdk.exe', 'README.md', 'SETUP.md', 'LICENSE',
                          'THIRD_PARTY_NOTICES.txt', 'uninstall.exe', 'sdk\docs\README.md', 'sdk\examples\small-ai\mod.toml',
                          'mods\hegemon\mod.toml', 'mods\hegemon\ai\hegemon\player.py') {
             if (-not (Test-Path -LiteralPath (Join-Path $dir $f))) { throw "Not installed: $f" }
