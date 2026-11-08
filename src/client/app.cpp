@@ -155,6 +155,31 @@ std::string videoDriver() {
     return name ? name : "?";
 }
 
+WindowSize fitToDisplay(SDL_DisplayID display, int width, int height, SDL_Rect* usableBounds = nullptr) {
+    SDL_Rect bounds{};
+    if (!display || !SDL_GetDisplayUsableBounds(display, &bounds)) return fitWindowSize(width, height, 0, 0);
+    if (usableBounds) *usableBounds = bounds;
+    return fitWindowSize(width, height, bounds.w, bounds.h);
+}
+
+void centerWindowInside(SDL_Window* window, const SDL_Rect& usable) {
+    if (!window) return;
+    SDL_SyncWindow(window);
+    int width = 0, height = 0;
+    SDL_GetWindowSize(window, &width, &height);
+    int top = 0, left = 0, bottom = 0, right = 0;
+    SDL_GetWindowBordersSize(window, &top, &left, &bottom, &right);
+    const int outerWidth = width + left + right;
+    const int outerHeight = height + top + bottom;
+    // SDL positions the client origin on Windows; add the native frame's
+    // top/left border so the entire decorated window, not just its client
+    // area, is centred inside the taskbar-free desktop.
+    const int x = usable.x + std::max(0, (usable.w - outerWidth) / 2) + left;
+    const int y = usable.y + std::max(0, (usable.h - outerHeight) / 2) + top;
+    SDL_SetWindowPosition(window, x, y);
+    SDL_SyncWindow(window);
+}
+
 } // namespace
 
 int App::run(const AppOptions& options) {
@@ -183,6 +208,23 @@ int App::run(const AppOptions& options) {
         fatal(std::format("SDL_Init failed: {}", SDL_GetError()));
         return 1;
     }
+
+    // A saved window size can outlive the monitor it was chosen for. Fit it
+    // before SDL creates the first window, so a 1600x900 preference cannot
+    // open partly outside a 1366x768 laptop desktop.
+    SDL_Rect startupUsable{};
+    const WindowSize fitted = fitToDisplay(SDL_GetPrimaryDisplay(), options_.width, options_.height, &startupUsable);
+    if (fitted.width != options_.width || fitted.height != options_.height) {
+        log::warn("Window size {}x{} exceeds the usable desktop {}x{}; fitting it to {}x{}",
+                  options_.width, options_.height, startupUsable.w, startupUsable.h, fitted.width, fitted.height);
+        options_.width = fitted.width;
+        options_.height = fitted.height;
+        GraphicsSettings& graphics = appSettings().graphics;
+        graphics.windowWidth = fitted.width;
+        graphics.windowHeight = fitted.height;
+        if (options.screenshotPath.empty() && !options.inputScript) saveAppSettings();
+    }
+
     assetsDir_ = findDir(options.assetsDir, "assets", "fonts");
 
     if (!createWindowAndDevice()) {
@@ -258,6 +300,11 @@ int App::run(const AppOptions& options) {
     if (!options.recordInput.empty()) recorder_ = std::make_unique<script::Recorder>(options.recordInput, options.recordOptions);
 
     SDL_ShowWindow(window_);
+    SDL_SyncWindow(window_);
+    if (!(SDL_GetWindowFlags(window_) & SDL_WINDOW_FULLSCREEN)) {
+        SDL_Rect shownUsable{};
+        if (SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(window_), &shownUsable)) centerWindowInside(window_, shownUsable);
+    }
     lastTicks_ = SDL_GetTicksNS();
     while (frame()) {
     }
@@ -337,7 +384,15 @@ bool App::createWindowAndDevice() {
 
     rendererInfo_ = std::format("{}: {}", gfx::backendName(device_->backend()), device_->deviceName());
     log::info("Renderer: {}", rendererInfo_);
-    SDL_SetWindowMinimumSize(window_, 800, 600);  // the classic 800x600 layout fits (docs/spec/06 §2.1.1)
+
+    SDL_Rect usable{};
+    const SDL_DisplayID display = SDL_GetDisplayForWindow(window_);
+    if (display && SDL_GetDisplayUsableBounds(display, &usable)) {
+        // Keep manual resizing inside the usable desktop too; the caption and
+        // native resize frame sit outside the SDL client-area dimensions.
+        SDL_SetWindowMaximumSize(window_, std::max(1, usable.w - 24), std::max(1, usable.h - 48));
+    }
+    SDL_SetWindowMinimumSize(window_, std::min(800, options_.width), std::min(600, options_.height));
     renderer_ = std::make_unique<gfx::Renderer2D>(*device_);
     return true;
 }
@@ -397,13 +452,31 @@ void App::publishHitAreas(int windowWidth, int windowHeight) {
 }
 
 void App::applyGraphics() {
-    const GraphicsSettings& g = appSettings().graphics;
+    GraphicsSettings& g = appSettings().graphics;
     device_->setVSync(g.vsync);
     switch (g.displayMode) {
-        case DisplayMode::Windowed:
+        case DisplayMode::Windowed: {
             SDL_SetWindowFullscreen(window_, false);
+            SDL_Rect usable{};
+            const SDL_DisplayID display = SDL_GetDisplayForWindow(window_);
+            const WindowSize fitted = fitToDisplay(display, g.windowWidth, g.windowHeight, &usable);
+            if (fitted.width != g.windowWidth || fitted.height != g.windowHeight) {
+                log::warn("Requested window size {}x{} exceeds the usable desktop; using {}x{}",
+                          g.windowWidth, g.windowHeight, fitted.width, fitted.height);
+                g.windowWidth = fitted.width;
+                g.windowHeight = fitted.height;
+                options_.width = fitted.width;
+                options_.height = fitted.height;
+            }
+            if (display && usable.w > 0 && usable.h > 0) {
+                SDL_SetWindowMaximumSize(window_, std::max(1, usable.w - 24), std::max(1, usable.h - 48));
+                SDL_SetWindowPosition(window_, usable.x + (usable.w - g.windowWidth) / 2,
+                                      usable.y + (usable.h - g.windowHeight) / 2);
+            }
+            SDL_SetWindowMinimumSize(window_, std::min(800, g.windowWidth), std::min(600, g.windowHeight));
             SDL_SetWindowSize(window_, g.windowWidth, g.windowHeight);
             break;
+        }
         case DisplayMode::Borderless:
             SDL_SetWindowFullscreenMode(window_, nullptr);  // the desktop mode
             SDL_SetWindowFullscreen(window_, true);
@@ -424,6 +497,10 @@ void App::applyGraphics() {
     }
     SDL_SyncWindow(window_);
     applyTitleBar();
+    if (g.displayMode == DisplayMode::Windowed) {
+        SDL_Rect usable{};
+        if (SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(window_), &usable)) centerWindowInside(window_, usable);
+    }
 }
 
 std::vector<DisplayModeInfo> App::displayModes() const {

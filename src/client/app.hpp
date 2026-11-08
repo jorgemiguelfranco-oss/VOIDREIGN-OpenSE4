@@ -33,8 +33,8 @@ struct AppOptions {
     bool noAudio = false;
     bool audio = false;              // --audio: sound even in a script or screenshot run
     bool fullscreen = false;
-    int width = 1600;
-    int height = 900;
+    int width = 1280;
+    int height = 720;
     std::string assetsDir;
 
     // The player's installed copy of the game (its data set and art).

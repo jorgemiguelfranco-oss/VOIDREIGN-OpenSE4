@@ -63,7 +63,7 @@ Rendering:
   --validation                    Enable Vulkan validation layers / GL debug output
   --no-vsync                      Disable vertical sync
   --fullscreen                    Start in fullscreen (Alt+Enter toggles)
-  --size=WxH                      Window size (default 1600x900)
+  --size=WxH                      Window size (default 1280x720, automatically fitted to the desktop)
   --layout=auto|800x600|1024x768  The classic screen layout (default: auto, 800x600 on a desktop
                                   800 px wide or less, as the engine's original layout; forcing one is an extension)
   --text-size=N                   Text size for this run, 0.75 to 1.5

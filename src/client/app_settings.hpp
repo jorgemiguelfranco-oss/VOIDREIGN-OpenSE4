@@ -24,8 +24,8 @@ enum class LayoutChoice { Auto, Small800, Large1024 };
 struct GraphicsSettings {
     RendererChoice renderer = RendererChoice::Auto;  // applies when the game starts
     DisplayMode displayMode = DisplayMode::Windowed;
-    int windowWidth = 1600;
-    int windowHeight = 900;
+    int windowWidth = 1280;
+    int windowHeight = 720;
     int fullscreenWidth = 0;     // exclusive fullscreen mode; 0 = the desktop mode
     int fullscreenHeight = 0;
     float fullscreenRefresh = 0.0f;
@@ -42,6 +42,16 @@ struct GraphicsSettings {
     // (client/window_hit.hpp).
     bool hideTitleBar = false;
 };
+
+struct WindowSize {
+    int width = 0;
+    int height = 0;
+    friend bool operator==(const WindowSize&, const WindowSize&) = default;
+};
+
+// Fits a requested client area inside a usable desktop rectangle, leaving room
+// for the operating-system frame and taskbar. The aspect ratio is preserved.
+WindowSize fitWindowSize(int requestedWidth, int requestedHeight, int availableWidth, int availableHeight) noexcept;
 
 struct ControlSettings {
     Bindings bindings;

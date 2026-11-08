@@ -9,6 +9,7 @@
 #include <toml++/toml.hpp>
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <fstream>
 #include <memory>
@@ -81,6 +82,22 @@ const char* displayName(LayoutChoice l) {
         case LayoutChoice::Large1024: return "1024x768";
     }
     return "?";
+}
+
+WindowSize fitWindowSize(int requestedWidth, int requestedHeight, int availableWidth, int availableHeight) noexcept {
+    const int width = std::clamp(requestedWidth, 640, 16384);
+    const int height = std::clamp(requestedHeight, 480, 16384);
+    if (availableWidth <= 0 || availableHeight <= 0) return {width, height};
+
+    // SDL's usable bounds exclude the taskbar/dock. Leave additional room for
+    // the native caption and resize frame, which are outside the client size.
+    constexpr int kHorizontalFrameAllowance = 24;
+    constexpr int kVerticalFrameAllowance = 48;
+    const int maxWidth = std::max(1, availableWidth - kHorizontalFrameAllowance);
+    const int maxHeight = std::max(1, availableHeight - kVerticalFrameAllowance);
+    const double scale = std::min({1.0, double(maxWidth) / width, double(maxHeight) / height});
+    return {std::max(1, static_cast<int>(std::lround(width * scale))),
+            std::max(1, static_cast<int>(std::lround(height * scale)))};
 }
 
 std::filesystem::path systemUserDirectory() {
