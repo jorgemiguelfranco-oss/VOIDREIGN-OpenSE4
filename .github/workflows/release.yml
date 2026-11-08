@@ -163,7 +163,11 @@ jobs:
         working-directory: dist
         run: |
           version=$(ls VOIDREIGN-*-linux-x86_64.tar.gz | sed 's/^VOIDREIGN-\(.*\)-linux-x86_64\.tar\.gz$/\1/')
-          sums=$(sha256sum VOIDREIGN-"$version"-*)
+          setup_source="VOIDREIGN-$version-windows-x86_64-setup.exe"
+          setup_target="VOIDREIGN-Setup-$version.exe"
+          test -f "$setup_source"
+          mv "$setup_source" "$setup_target"
+          sums=$(sha256sum VOIDREIGN-"$version"-* "$setup_target")
           echo "$sums" | tee "VOIDREIGN-$version-SHA256SUMS.txt"
           echo "version=$version" >> "$GITHUB_OUTPUT"
 

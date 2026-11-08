@@ -22,7 +22,7 @@ The game data is authored as the engine's **base ruleset**, not as `mods/voidrei
 
 ## Windows installer
 
-The Windows release workflow builds a self-contained x64 portable ZIP and an NSIS setup executable. When a version tag (`v*`) is pushed, the workflow assembles SHA-256 checksums and publishes the packages as a GitHub Release. A verified installer artifact is not available yet; the workflow and native gameplay checks still need to run successfully:
+The Windows release workflow builds a self-contained x64 portable ZIP containing `VOIDREIGN.exe` and `game-data/`, plus an NSIS installer named `VOIDREIGN-Setup-<version>.exe`. When a version tag (`v*`) is pushed, the workflow normalizes the installer filename, calculates SHA-256 checksums for the final assets, and publishes the packages as a GitHub Release. A verified installer artifact is not available yet; the workflow and native gameplay checks still need to run successfully:
 
 - `VOIDREIGN.exe` — the player-facing game executable.
 - `game-data/` — the native VOIDREIGN rules and faction definitions.
