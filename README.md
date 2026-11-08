@@ -26,7 +26,7 @@ The Windows release workflow builds a self-contained x64 portable ZIP containing
 
 - `VOIDREIGN.exe` — the player-facing game executable.
 - `game-data/` — the native VOIDREIGN rules and faction definitions.
-- Initial original art for the Pathfinder and Orbital Station; several other hulls still reuse placeholder Pathfinder art and need dedicated final artwork.
+- Distinct original hull miniatures are now mapped for Pathfinder, Frigate, Destroyer, Cruiser, Battleship, Settlement Ark and Orbital Station; Hauler still uses Pathfinder placeholder art. Veyran faction artwork is included, while Aurelian/Khepri portraits and broader environmental art remain incomplete and need an in-game visual review.
 - Runtime engine utilities, documentation, license and third-party notices.
 - Start Menu and optional desktop shortcuts, uninstall entry and uninstaller.
 
