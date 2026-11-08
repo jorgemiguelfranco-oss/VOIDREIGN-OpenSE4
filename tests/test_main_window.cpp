@@ -1392,6 +1392,16 @@ TEST_CASE("main window: ships, fleet markers and mobile shipyards remain visible
     CHECK_FALSE(empty.flags);
     REQUIRE(empty.vehicleMarkers.size() == 2);
     CHECK(empty.count == 3);
+    CHECK(view.mobileShipyard);
+
+    // A lone mobile yard in empty space keeps the large ship icon and receives
+    // its own yard indicator instead of losing the symbol with compact markers.
+    const std::vector<const Vehicle*> loneYardVehicles{s.vehicle(yard)};
+    const SectorView loneYard = sectorView(r, s, kMe, {}, loneYardVehicles, 50);
+    CHECK(loneYard.mobileShipyard);
+    REQUIRE(loneYard.sprite);
+    CHECK(*loneYard.sprite == yard);
+    CHECK(loneYard.vehicleMarkers.empty());
 }
 
 TEST_CASE("main window: the sector's list shows each own fleet as one row, sorted as the original sorts it (spec 06 §2.5)") {

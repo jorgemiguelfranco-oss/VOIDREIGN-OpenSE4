@@ -25,6 +25,7 @@ struct SectorView {
         bool operator==(const VehicleMarker&) const = default;
     };
     std::vector<VehicleMarker> vehicleMarkers;
+    bool mobileShipyard = false; // the single large icon also gets a yard badge when no compact markers are needed
 
     // The stellar object drawn (planet, asteroid field, star, storm, warp
     // point, comet): the first in the system's object list unless a later

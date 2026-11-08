@@ -70,6 +70,8 @@ SectorView sectorView(const game::Rules& r, const game::GameState& s, game::Empi
 
     // Vehicles per owner; objects without an owner are not counted.
     for (const game::Vehicle* v : vehicles) {
+        if (!v) continue;
+        out.mobileShipyard = out.mobileShipyard || game::vehicleHasSpaceYard(r, s, *v);
         if (!v->owner.valid()) continue;
         auto it = std::find_if(out.owners.begin(), out.owners.end(), [&](const SectorView::Owner& o) { return o.empire == v->owner; });
         if (it == out.owners.end()) out.owners.push_back({v->owner, 1});

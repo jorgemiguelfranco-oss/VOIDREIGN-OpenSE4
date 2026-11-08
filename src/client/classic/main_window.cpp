@@ -2059,7 +2059,9 @@ void MainWindow::overlayText(UiContext& ui) {
         } else if (view.count) {
             const std::string n = std::to_string(*view.count);
             const ImU32 color = view.unitCount ? IM_COL32_WHITE : empireColor(s, view.owners.front().empire);
-            count(square + Vec2{kSpriteSize - widthOf(tiny, tinySize, n), kSpriteSize - kTinyCell}, color, !view.unitCount, n);
+            // The lower-right is reserved for compact ship/fleet markers.
+            const float x = view.vehicleMarkers.empty() ? kSpriteSize - widthOf(tiny, tinySize, n) : 0.0f;
+            count(square + Vec2{x, kSpriteSize - kTinyCell}, color, !view.unitCount, n);
         }
     }
 
@@ -3160,6 +3162,7 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
         const std::string& style = v.owner.valid() ? s.empire(v.owner).race.style : std::string{};
         const Sprite sprite = view.fleetIcon ? ui.art.groupMini(style, "Fleet", true) : miniOf(v, headingOf(v));
         if (!spriteAt(sprite, square)) placeholder(square + Vec2{18, 18}, v.owner);
+        if (view.mobileShipyard) r.disc(square + Vec2{30, 6}, 2.5f, Color::hex(0xffc45b));
         // A cloaked vehicle shown this way: a 1 px dotted circle inscribed in its square.
         if (view.cloakRing) cloakCircle(square + Vec2{kSpriteSize * 0.5f, kSpriteSize * 0.5f}, v.owner);
     }
