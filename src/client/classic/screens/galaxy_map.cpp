@@ -9,6 +9,7 @@
 #include "client/classic/screens/screens.hpp"
 #include "client/classic/widgets.hpp"
 #include "client/script/items.hpp"
+#include "game/chokepoints.hpp"
 
 #include <array>
 #include <format>

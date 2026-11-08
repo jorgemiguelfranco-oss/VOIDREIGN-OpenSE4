@@ -155,11 +155,6 @@ if(TARGET opense4 AND EXISTS "${CMAKE_SOURCE_DIR}/game-data")
                 "$<TARGET_FILE_DIR:opense4>/game-data"
         COMMENT "Staging VOIDREIGN native game data")
     add_dependencies(opense4 voidreign_game_data)
-    add_custom_command(TARGET opense4 POST_BUILD
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-                "$<TARGET_FILE:opense4>"
-                "$<TARGET_FILE_DIR:opense4>/VOIDREIGN${CMAKE_EXECUTABLE_SUFFIX}"
-        VERBATIM)
 endif()
 
 if(OPENSE4_BUILD_TESTS)
@@ -177,5 +172,9 @@ endif()
 # from paths as UTF-8 on every Windows version (cmake/WindowsCompat.cmake).
 if(WIN32 AND NOT MSVC)
     include(WindowsCompat)
-    opense4_apply_windows_compat("${CMAKE_SOURCE_DIR}/src" "${CMAKE_SOURCE_DIR}/tools" "${CMAKE_SOURCE_DIR}/tests")
+    set(voidreign_windows_compat_dirs "${CMAKE_SOURCE_DIR}/src" "${CMAKE_SOURCE_DIR}/tools")
+    if(OPENSE4_BUILD_TESTS)
+        list(APPEND voidreign_windows_compat_dirs "${CMAKE_SOURCE_DIR}/tests")
+    endif()
+    opense4_apply_windows_compat(${voidreign_windows_compat_dirs})
 endif()

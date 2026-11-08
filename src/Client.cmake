@@ -154,3 +154,11 @@ if(WIN32)
     target_sources(opense4 PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/opense4.rc")
     set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/generated/opense4.rc" PROPERTIES OBJECT_DEPENDS "${OPENSE4_ICON}")
 endif()
+
+# Keep the player-facing executable name beside the engine-named build target.
+# This command must be declared in the directory that creates opense4.
+add_custom_command(TARGET opense4 POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "$<TARGET_FILE:opense4>"
+            "$<TARGET_FILE_DIR:opense4>/VOIDREIGN${CMAKE_EXECUTABLE_SUFFIX}"
+    VERBATIM)
