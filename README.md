@@ -22,7 +22,7 @@ The game data is authored as the engine's **base ruleset**, not as `mods/voidrei
 
 ## Windows installer
 
-The Windows release workflow is configured to build a self-contained x64 package and an NSIS setup executable. A verified installer artifact is not available yet; the workflow and native gameplay checks still need to run successfully:
+The Windows release workflow builds a self-contained x64 portable ZIP and an NSIS setup executable. When a version tag (`v*`) is pushed, the workflow assembles SHA-256 checksums and publishes the packages as a GitHub Release. A verified installer artifact is not available yet; the workflow and native gameplay checks still need to run successfully:
 
 - `VOIDREIGN.exe` — the player-facing game executable.
 - `game-data/` — the native VOIDREIGN rules and faction definitions.
@@ -60,7 +60,7 @@ The resulting files are written to `dist/`.
 
 The CI configuration is set up to run the engine unit tests, Windows executable-import checks, native-data validation and installed-game smoke tests. The Windows installer job also checks shortcuts and registry entries, exercises native faction starts, fleet control, construction, save/load and AI turns, and verifies that uninstalling the program leaves per-user saves intact.
 
-GitHub Actions has not yet reported a run for this branch, so none of those checks can be marked as passing and no verified installer artifact is available yet. A successful installer build alone would not mean every planned VOIDREIGN subsystem is complete: mechanics, art, balance and gameplay still need to be implemented and tested.
+At the time of this update, this branch has no successful CI or installer run, so none of those checks can be marked as passing and no verified installer artifact is available yet. A successful installer build alone would not mean every planned VOIDREIGN subsystem is complete: mechanics, art, balance and gameplay still need to be implemented and tested.
 
 ## Project structure
 
