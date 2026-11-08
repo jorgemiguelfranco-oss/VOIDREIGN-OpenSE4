@@ -21,7 +21,7 @@ namespace {
 // In the order of the client's ScreenId enum (client/classic/screen_id.hpp).
 constexpr WindowInfo kWindows[] = {
     {"game-menu"}, {"designs"}, {"create-design"}, {"planets"}, {"colonies"}, {"ships"}, {"queues"}, {"set-queue"},
-    {"research"}, {"tech-tree"}, {"empires"}, {"log"}, {"empire-status"}, {"help"}, {"galaxy-map"},
+    {"research"}, {"tech-tree"}, {"empires"}, {"leaders"}, {"log"}, {"empire-status"}, {"help"}, {"galaxy-map"},
     {"empire-options"}, {"ministers"}, {"systems-to-avoid"}, {"waypoints"}, {"strategies"}, {"repair-priorities"},
     {"fleet-transfer"}, {"cargo-transfer"}, {"launch-recover"}, {"scrap"}, {"view-orders"}, {"select-waypoint"},
     {"stellar-manipulation"}, {"rename"}, {"abandon-planet", false}, {"jettison-cargo", false}, {"convert-resources", false},
@@ -123,7 +123,7 @@ constexpr std::pair<std::string_view, std::string_view> kOrderStrip[] = {
 constexpr std::string_view kOtherTags[] = {
     // The command buttons (their ids are the windows they open) and End Turn.
     "command:game-menu", "command:designs", "command:planets", "command:colonies", "command:ships", "command:queues",
-    "command:research", "command:empires", "command:log", "command:empire-status", "command:help", "button:end-turn",
+    "command:research", "command:empires", "command:leaders", "command:log", "command:empire-status", "command:help", "button:end-turn",
     // The status bar; status:lesson is the T button, shown during a lesson,
     // status:scenario the same button in a game of the original's tutorial.
     "status:empire", "status:leader", "status:date", "status:resources", "status:minerals", "status:organics",
@@ -157,7 +157,9 @@ constexpr std::string_view kOtherTags[] = {
     "colonies:list",
     "research:divide-evenly", "research:repeat",
     "log:messages", "log:details", "log:categories", "log:send-reply",
-    "empires:list", "empires:intelligence", "empires:treaty-grid", "empires:scores", "empires:victory-conditions", "empires:our-race",
+    "empires:list", "empires:leaders", "empires:intelligence", "empires:treaty-grid", "empires:scores", "empires:victory-conditions", "empires:our-race",
+    "leaders:assign-colony", "leaders:assign-fleet", "leaders:dismiss",
+    "leaders:recruit-Governor", "leaders:recruit-Admiral", "leaders:recruit-Scientist", "leaders:recruit-General",
     "intelligence:projects", "intelligence:queue",
     "tech-tree:list", "tech-tree:export",
     "strategies:list", "strategies:pages", "strategies:page", "view-orders:list",

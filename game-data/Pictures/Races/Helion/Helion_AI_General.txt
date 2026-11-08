@@ -1,0 +1,32 @@
+*BEGIN*
+Name := Helion Directorate
+Description := Helion Directorate is a native VOIDREIGN civilisation with a distinct biological origin, political tradition and strategic doctrine.
+Empire Name := The Helion Directorate
+Empire Type := Directorate
+Emperor Name := Aster Valen
+Emperor Title := Solar Prefect
+Biological Description := Broad-shouldered, copper-gold humanoids with heat-resistant dermal plates, luminous amber eyes and crown-like thermal vanes that regulate body temperature. Their physiology evolved around high-radiation worlds and their communities favour precision, endurance and coordinated effort.
+Society Description := The Directorate is a meritocratic union of solar foundry-cities. Technical guilds elect Prefects from proven fleet, industrial and scientific service; public prestige is earned through reliable production and protection of the interstellar power grid.
+General History Description := The Directorate formed after the Helion flare decade, when competing orbital factories standardised reactor shielding and joined their shipyards to keep the inner colonies alive. Their shared grid later became the backbone of a disciplined industrial state.
+Demeanor := Assertive
+Culture := Solar Directorate
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Helion.txt
+Race Opt 1 Num Characteristics := 1
+Race Opt 1 Characteristic 1 Type := Construction Aptitude
+Race Opt 1 Characteristic 1 Amount := 110
+Race Opt 1 Num Advanced Traits := 1
+Race Opt 1 Adv Trait 1 := Solar Foundries
+Race Opt 2 Num Characteristics := 1
+Race Opt 2 Characteristic 1 Type := Construction Aptitude
+Race Opt 2 Characteristic 1 Amount := 115
+Race Opt 2 Num Advanced Traits := 1
+Race Opt 2 Adv Trait 1 := Solar Foundries
+Race Opt 3 Num Characteristics := 1
+Race Opt 3 Characteristic 1 Type := Construction Aptitude
+Race Opt 3 Characteristic 1 Amount := 120
+Race Opt 3 Num Advanced Traits := 1
+Race Opt 3 Adv Trait 1 := Solar Foundries
+*END*

@@ -572,8 +572,11 @@ TEST_CASE("VOIDREIGN: native faction AI profiles load their own research and fle
     const auto aurelian = ai::loadProfile(data, "Aurelian");
     const auto veyran = ai::loadProfile(data, "Veyran");
     const auto khepri = ai::loadProfile(data, "Khepri");
+    const auto meridian = ai::loadProfile(data, "Meridian");
+    const auto outer = ai::loadProfile(data, "Outer");
+    const auto helion = ai::loadProfile(data, "Helion");
 
-    for (const ai::AiProfile* p : {&aurelian, &veyran, &khepri}) {
+    for (const ai::AiProfile* p : {&aurelian, &veyran, &khepri, &meridian, &outer, &helion}) {
         CHECK_FALSE(p->researchErrors);
         CHECK_FALSE(p->research.empty());
         CHECK(p->fleets.defaultFormation == "VoidReign Line");
@@ -584,15 +587,19 @@ TEST_CASE("VOIDREIGN: native faction AI profiles load their own research and fle
         CHECK(p->fleets.percentForDefense >= 0);
         CHECK(p->fleets.percentForDefense <= 100);
     }
-    REQUIRE(aurelian.research.size() >= 6);
-    REQUIRE(veyran.research.size() >= 6);
-    REQUIRE(khepri.research.size() >= 6);
+    for (const ai::AiProfile* p : {&aurelian, &veyran, &khepri, &meridian, &outer, &helion}) REQUIRE(p->research.size() >= 6);
     CHECK(aurelian.research.front().area == "VoidReign Advanced Sensors");
     CHECK(veyran.research.front().area == "VoidReign Logistics");
     CHECK(khepri.research.front().area == "VoidReign Industrial Engineering");
+    CHECK(meridian.research.front().area == "VoidReign Advanced Sensors");
+    CHECK(outer.research.front().area == "VoidReign Propulsion");
+    CHECK(helion.research.front().area == "VoidReign Energy Weapons");
     CHECK(aurelian.settings.turnsBetweenAttacks == 8);
     CHECK(veyran.settings.turnsBetweenAttacks == 7);
     CHECK(khepri.settings.turnsBetweenAttacks == 2);
+    CHECK(meridian.settings.turnsBetweenAttacks == 8);
+    CHECK(outer.settings.turnsBetweenAttacks == 6);
+    CHECK(helion.settings.turnsBetweenAttacks == 6);
 }
 
 // ---- Research and intelligence ----------------------------------------------------------------

@@ -1,5 +1,6 @@
 #include "game/log_picture.hpp"
 #include "game/commands.hpp"
+#include "game/leaders.hpp"
 
 #include "game/design.hpp"
 #include "game/diplomacy.hpp"
@@ -1473,6 +1474,73 @@ struct Applier {
 
     // ---- Reports -------------------------------------------------------------------------------------
 
+    // ---- VOIDREIGN leadership corps ---------------------------------------------------------------
+    R operator()(const cmd::RecruitLeader& c) {
+        if (!r.settingFlag("VOIDREIGN Enable Leadership Corps", false))
+            return R::fail("The leadership corps is not enabled in this ruleset");
+        if (c.role >= LeaderRole::Count) return R::fail("Unknown leader role");
+        if (c.role == LeaderRole::Ruler) return R::fail("The Sovereign is appointed through succession, not recruitment");
+        const size_t active = static_cast<size_t>(std::count_if(emp().leaders.begin(), emp().leaders.end(),
+            [](const Leader& leader) { return leader.alive; }));
+        if (active >= leaders::kMaximumActiveLeaders) return R::fail("The leadership corps is full");
+        if (c.role == LeaderRole::Scientist && std::any_of(emp().leaders.begin(), emp().leaders.end(),
+            [](const Leader& leader) { return leader.alive && leader.role == LeaderRole::Scientist; }))
+            return R::fail("Your empire already has a Chief Scientist");
+        const Resources cost{leaders::kRecruitMinerals, leaders::kRecruitOrganics, leaders::kRecruitRadioactives};
+        if (!emp().stockpile.covers(cost)) return R::fail("Insufficient resources to recruit a leader");
+        emp().stockpile -= cost;
+        Leader recruit = leaders::generateRecruit(s, e, c.role);
+        const std::string details = std::format("{} — {}, Level {}, {} trait", recruit.name, leaders::displayName(recruit.rarity),
+                                                  recruit.level, leaders::displayName(recruit.trait));
+        emp().leaders.push_back(std::move(recruit));
+        addLog(s, e, LogCategory::Misc, "Leader recruited", details);
+        return {};
+    }
+
+    R operator()(const cmd::AssignLeader& c) {
+        if (!r.settingFlag("VOIDREIGN Enable Leadership Corps", false))
+            return R::fail("The leadership corps is not enabled in this ruleset");
+        auto it = std::find_if(emp().leaders.begin(), emp().leaders.end(),
+            [&](const Leader& leader) { return leader.id == c.leader; });
+        if (it == emp().leaders.end() || !it->alive) return R::fail("Leader not found");
+        const std::string problem = leaders::assignmentProblem(s, e, *it, c.planet, c.fleet);
+        if (!problem.empty()) return R::fail(problem);
+        // One governor per colony and one admiral per fleet. Replacing an
+        // incumbent is explicit and preserves that officer's career record.
+        if (it->role == LeaderRole::Governor && c.planet.valid()) {
+            for (Leader& other : emp().leaders)
+                if (other.id != it->id && other.alive && other.role == LeaderRole::Governor &&
+                    other.assignedColony == c.planet) other.assignedColony = {};
+        }
+        if (it->role == LeaderRole::Admiral && c.fleet.valid()) {
+            for (Leader& other : emp().leaders)
+                if (other.id != it->id && other.alive && other.role == LeaderRole::Admiral &&
+                    other.assignedFleet == c.fleet) other.assignedFleet = {};
+        }
+        it->assignedColony = c.planet;
+        it->assignedFleet = c.fleet;
+        const std::string target = c.planet.valid() ? s.galaxy.object(c.planet).name
+                                 : c.fleet.valid() ? s.fleet(c.fleet)->name : "Empire reserve";
+        addLog(s, e, LogCategory::Misc, "Leader assigned", std::format("{} is now assigned to {}.", it->name, target));
+        return {};
+    }
+
+    R operator()(const cmd::DismissLeader& c) {
+        if (!r.settingFlag("VOIDREIGN Enable Leadership Corps", false))
+            return R::fail("The leadership corps is not enabled in this ruleset");
+        auto it = std::find_if(emp().leaders.begin(), emp().leaders.end(),
+            [&](const Leader& leader) { return leader.id == c.leader; });
+        if (it == emp().leaders.end() || !it->alive) return R::fail("Leader not found");
+        if (it->role == LeaderRole::Ruler) return R::fail("The Sovereign cannot be dismissed");
+        it->alive = false;
+        it->deathTurn = s.turn;
+        it->deathCause = "Dismissed from service";
+        it->assignedColony = {};
+        it->assignedFleet = {};
+        addLog(s, e, LogCategory::Misc, "Leader dismissed", std::format("{} has been dismissed from the leadership corps.", it->name));
+        return {};
+    }
+
     R operator()(const cmd::OpenVehicleReport& c) {
         const Vehicle* v = s.vehicle(c.vehicle);
         if (!v || v->owner == e) return R::fail("Not a foreign vehicle");
@@ -1547,6 +1615,9 @@ OPENSE4_CMD_NAME(CloakVehicles)
 OPENSE4_CMD_NAME(LaunchUnitsNow)
 OPENSE4_CMD_NAME(RecoverUnitsNow)
 OPENSE4_CMD_NAME(SetQueueTypes)
+OPENSE4_CMD_NAME(RecruitLeader)
+OPENSE4_CMD_NAME(AssignLeader)
+OPENSE4_CMD_NAME(DismissLeader)
 #undef OPENSE4_CMD_NAME
 
 } // namespace

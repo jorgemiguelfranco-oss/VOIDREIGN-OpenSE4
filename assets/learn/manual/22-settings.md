@@ -56,7 +56,7 @@ is used where a mod has no text in that language. The game's own windows stay in
 **Show the computer players' notes** (off at first) is a view for people who make computer
 players for mods: the notes those players write about what they think, in a list in the system
 view, framed sectors, rings around systems in the galaxy view, and boxes in the reports (see
-[Computer players](computer-players-and-ministers#computer-players-of-mods)). `Ctrl+Shift+N`
+[Computer players](computer-players-and-ministers#optional-ai-extensions)). `Ctrl+Shift+N`
 switches it in a game. It shows every note, whatever your empire knows.
 
 ### Files
@@ -176,7 +176,7 @@ VOIDREIGN also understands options on its command line, for example:
 | `--tutorial=LESSON`, `--training=GAME`, `--manual` | Start a lesson or a training game, or open this manual. |
 | `--pbem=GAME.gam` | Play your turn of a play-by-e-mail game (see [Multiplayer](multiplayer#play-by-e-mail)). |
 | `--mod=MOD`, `--no-mods` | Play this run with these mods (a folder or `.zip`, or a mod's id), or none, instead of those of the Mods window (see [below](#mods)). `--no-bundled-mods` leaves out the mods that come with VOIDREIGN. |
-| `--ai=MOD:PLAYER` | With `--quick-start`, a computer player of one of the mods plays every computer empire, for example `--mod=opense4.hegemon --ai=opense4.hegemon:Hegemon` (see [Computer players](computer-players-and-ministers#computer-players-of-mods)). |
+| `--ai=MOD:PLAYER` | With `--quick-start`, a computer player of one of the mods plays every computer empire, for example `--mod=opense4.hegemon --ai=opense4.hegemon:Hegemon` (see [Computer players](computer-players-and-ministers#optional-ai-extensions)). |
 
 `VOIDREIGN --help` lists the player-facing command-line options.
 

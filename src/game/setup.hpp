@@ -50,6 +50,7 @@ struct EmpireSetup {
     // (0..2, the preset's "Race Opt" sets) or a fully custom race.
     std::string preset;
     int presetTier = 0;
+    StartingOrigin origin = StartingOrigin::None;
     std::optional<Race> customRace;
     uint32_t color = 0;           // 0: automatic
     PlayerKind kind = PlayerKind::Human;

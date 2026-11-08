@@ -8,29 +8,32 @@ The engine foundation supplies a deterministic turn-based strategy simulation, g
 
 ## Current VOIDREIGN content
 
-The native `game-data/` directory currently defines:
+The native `game-data/` directory defines the actual game rules and starting content:
 
-- **Three original factions:** the Aurelian Concord, Veyran Trade League and Khepri Ascendancy, with distinct cultures, leaders, naming lists, research priorities and fleet doctrines.
-- **Original technology branches:** Stellar Sciences, Propulsion, Energy Weapons, Industrial Engineering, Planetary Engineering, Logistics and Advanced Sensors.
-- **Research-backed upgrade tiers:** level-II drives, pulse weapons, shields, cargo holds, sensors, extraction facilities, research institutes, intelligence bureaus, orbital shipyards, planetary shipyards, supply depots and warehouses, gated by their relevant technology areas.
-- **Original ships and installations:** Pathfinder scout, Hauler cargo hull, Frigate, research-gated Destroyer, Cruiser and Battleship, Settlement Ark colony ship and Orbital Station. The native hull progression is backed by original ship systems, engines, cargo, pulse weapons, shields, colonisation modules, orbital shipyards and sensors. Each new empire begins with a designed Pathfinder Attack Ship grouped into its own Home Patrol fleet.
-- **Planetary infrastructure:** mineral extraction, hydroponics, isotope refining, research, intelligence, spaceports and bonded warehouses.
-- **Warehouse-dependent economy:** without a warehouse anywhere in the empire, strategic-resource storage is zero. Each VoidReign Warehouse adds 30,000 minerals, organics and radioactives to the shared empire-wide capacity; Warehouse II adds 60,000 of each. Every starting homeworld receives one first-tier warehouse for a 30,000-unit opening capacity. Overflow is permanently discarded at end of turn, while a sustained inability to meet maintenance can cost ships.
+- **Six original factions:** Aurelian Concord, Veyran Trade League, Khepri Ascendancy, Meridian Assembly, Outer Systems Compact and Helion Directorate. Each has its own culture, names, research priorities, fleet doctrine and computer-player personality.
+- **Twenty starting origins plus No Origin:** each background contributes two characteristic bonuses, a trade-off and, for selected origins, founding reserves or additional starting assets. The choice persists in empire files and saved games; AI origins are seed-deterministic. See [Starting Origins](docs/STARTING_ORIGINS.md).
+- **A native officer/leader system:** recruitable leaders with roles, rarity, traits, experience and progression; governors can be assigned to colonies, admirals to fleets, and leader records are saved with the empire. Leadership is enabled by the VOIDREIGN ruleset rather than imposed on generic engine scenarios.
+- **Original technology branches:** Stellar Sciences, Propulsion, Energy Weapons, Industrial Engineering, Planetary Engineering, Logistics and Advanced Sensors, with research-gated upgrades for drives, weapons, shields, cargo, sensors, facilities, shipyards, supply and storage.
+- **Twelve native hull classes:** Pathfinder, Hauler, Frigate, Destroyer, Cruiser, Battleship, Settlement Ark, Orbital Station, Corvette, Science Vessel, Dreadnought and Mobile Shipyard, supported by native components, designs and fleet roles.
+- **Planetary infrastructure and logistics:** extraction, hydroponics, isotope refining, research, intelligence, spaceports, planetary shipyards, orbital shipyards, supply depots and warehouses.
+- **Warehouse-dependent strategic-resource economy:** without warehouse capacity, strategic resources cannot be stockpiled. The empire shares capacity across its warehouses; end-of-turn overflow is discarded, and sustained maintenance shortfalls can cause ships to be lost.
 - **Original galaxy definitions:** VoidReign Core and Nebula systems, Spiral and Frontier quadrants, stellar anomalies and fleet formation data.
 
-The game data is authored as the engine's **base ruleset**, not as `mods/voidreign`. The former VoidReign mod directory has been removed. The optional engine computer-player modules remain separate from the game itself.
+The game data is authored as the engine's **native base ruleset**, not as `mods/voidreign`. VOIDREIGN is a standalone game built on the OpenSE4-derived C++ engine and does not require the original commercial game or a separate mod installation. The package also includes the engine's optional computer-player modules and SDK tools.
 
 ## Windows installer
 
-The Windows release workflow builds a self-contained x64 portable ZIP containing `VOIDREIGN.exe` and `game-data/`, plus an NSIS installer named `VOIDREIGN-Setup-<version>.exe`. When a version tag (`v*`) is pushed, the workflow normalizes the installer filename, calculates SHA-256 checksums for the final assets, and publishes the packages as a GitHub Release. A verified installer artifact is not available yet; the workflow and native gameplay checks still need to run successfully:
+The native Windows x64 package is built from the C++ game and its base `game-data/` ruleset. The current locally verified development artifacts are:
 
-- `VOIDREIGN.exe` — the player-facing game executable.
-- `game-data/` — the native VOIDREIGN rules and faction definitions.
-- Distinct original hull miniatures are now mapped for Pathfinder, Frigate, Destroyer, Cruiser, Battleship, Settlement Ark and Orbital Station; Hauler still uses Pathfinder placeholder art. Veyran faction artwork is included, while Aurelian/Khepri portraits and broader environmental art remain incomplete and need an in-game visual review.
-- Runtime engine utilities, documentation, license and third-party notices.
-- Start Menu and optional desktop shortcuts, uninstall entry and uninstaller.
+- `dist/VOIDREIGN-0.1.0-2cba5ea-dirty-windows-x86_64-setup.exe` — NSIS installer.
+- `dist/VOIDREIGN-0.1.0-2cba5ea-dirty-windows-x86_64.zip` — portable package.
+- `dist/VOIDREIGN-0.1.0-2cba5ea-dirty-SHA256SUMS.txt` — SHA-256 checksums.
 
-The installer is intended to work on 64-bit Windows 7 SP1 through Windows 11, subject to the graphics-driver requirements of the engine. The player does not need to install a separate commercial game.
+The package includes `VOIDREIGN.exe`, the six native faction data sets, twelve hull classes, native pictures and atlases, SDK tools and documentation, bundled engine utilities and third-party notices. Its installer has been installed into a clean directory and the installed game has been launched successfully. The native-data checker reports zero errors, zero warnings and zero unread fields. Windows 7 SP1 import checks pass for the game, server, data checker, converter, SDK and test executables. The complete native test suite passes 1,666 cases and 566,251 assertions, with one opt-in test skipped.
+
+The picture conversion is documented in `game-data/Pictures/ART-PROVENANCE.md`. All six factions have native picture sets and hull miniatures/portraits for the twelve VOIDREIGN hull classes. Some faction race portraits are palette adaptations of five original portrait masters rather than six fully distinct species paintings; additional commissioned/generated species portraits and a full in-game art review remain desirable.
+
+This is a local development package built from a modified working tree (`0.1.0-2cba5ea-dirty`), not a clean tagged public release. The current package does not include a soundtrack or sound-effects bank. The installer is intended to work on 64-bit Windows 7 SP1 through Windows 11, subject to graphics-driver requirements. The player does not need a separate commercial game.
 
 For normal installation, see [Installing and setting up VOIDREIGN](docs/SETUP.md). The guide covers the Windows setup, saves, user settings, portable ZIP copies and troubleshooting.
 
@@ -60,7 +63,7 @@ The resulting files are written to `dist/`.
 
 The CI configuration is set up to run the engine unit tests, Windows executable-import checks, native-data validation and installed-game smoke tests. The Windows installer job also checks shortcuts and registry entries, exercises native faction starts, fleet control, construction, save/load and AI turns, and verifies that uninstalling the program leaves per-user saves intact.
 
-At the time of this update, this branch has no successful CI or installer run, so none of those checks can be marked as passing and no verified installer artifact is available yet. A successful installer build alone would not mean every planned VOIDREIGN subsystem is complete: mechanics, art, balance and gameplay still need to be implemented and tested.
+The current local Windows validation on the development laptop has completed the full native C++ test suite: **1,666 test cases, 566,251 assertions passed, zero failures and one skipped opt-in case**. The release package is rebuilt and its installer, launch and uninstall behaviour are checked separately; a package build is not treated as a substitute for gameplay tests or a visual review. The native game currently has no bundled soundtrack or sound-effects bank, and visual balance and presentation still merit continued playtesting.
 
 ## Project structure
 

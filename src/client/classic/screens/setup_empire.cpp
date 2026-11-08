@@ -4,6 +4,7 @@
 #include "client/script/items.hpp"
 #include "datafile/datafile.hpp"
 #include "game/economy.hpp"
+#include "game/origins.hpp"
 
 #include <algorithm>
 #include <array>
@@ -16,7 +17,7 @@ namespace opense4::client::classic::setup {
 namespace {
 
 constexpr std::array<const char*, static_cast<size_t>(EmpirePage::Count)> kPageTitles{
-    "General", "Environment", "Culture", "Characteristics", "Advanced Traits", "Description"};
+    "General", "Starting Origin", "Environment", "Culture", "Characteristics", "Advanced Traits", "Description"};
 
 std::string squash(std::string_view s) {
     std::string out;
@@ -66,6 +67,7 @@ EmpireEditor::EmpireEditor(std::shared_ptr<const game::Rules> rules, EmpireDraft
     designFiles_ = designNameFiles(*rules_);
     ministerStyles_ = ministerStyleChoices(*rules_);
     offersPlayers_ = offersComputerPlayers(*rules_);
+    if (isNew_) page_ = EmpirePage::Origin;
 }
 
 const ruleset::RacePreset* EmpireEditor::preset() const { return presetOf(rules(), draft_.setup); }
@@ -84,6 +86,7 @@ void EmpireEditor::resetToTier(int tier) {
     if (const ruleset::RacePreset* p = preset()) {
         EmpireDraft next = draftFromPreset(rules(), *p, tier);
         next.setup.kind = draft_.setup.kind;
+        next.setup.origin = draft_.setup.origin;
         next.setup.passwordHash = draft_.setup.passwordHash;
         next.setup.email = draft_.setup.email;
         next.setup.color = draft_.setup.color;
@@ -138,6 +141,7 @@ EmpireEditor::Result EmpireEditor::draw(MenuContext& ctx) {
 
     switch (page_) {
         case EmpirePage::General: pageGeneral(a); break;
+        case EmpirePage::Origin: pageOrigin(a); break;
         case EmpirePage::Environment: pageEnvironment(a); break;
         case EmpirePage::Culture: pageCulture(a); break;
         case EmpirePage::Characteristics: pageCharacteristics(a); break;
@@ -545,6 +549,78 @@ void EmpireEditor::pageTraits(SetupArea& a) {
         const TraitCheck check = canAddTrait(rules(), draft_.race, static_cast<uint32_t>(hovered));
         if (!check.ok) ImGui::SetTooltip("%s", check.reason.c_str());
     }
+}
+
+// ---- Starting Origin ----------------------------------------------------------------------------
+
+void EmpireEditor::pageOrigin(SetupArea& a) {
+    const auto origins = game::origins::all();
+    std::vector<std::string> labels;
+    labels.reserve(origins.size() + 1);
+    labels.emplace_back("No Origin — Standard Start");
+    for (const game::origins::StartingOriginInfo& origin : origins) labels.emplace_back(origin.name);
+
+    int selected = static_cast<int>(draft_.setup.origin);
+    if (selected < 0 || selected > static_cast<int>(game::StartingOrigin::VoidbornNomads)) selected = 0;
+    a.heading({231, 21}, "Choose Your Civilisation's Starting Origin");
+    a.textWrapped({231, 39}, "Choose one of 20 histories to shape your empire's strengths and weaknesses. Named origins can also change your starting colonies, reserves or fleet. No Origin keeps the standard start. Bonuses are free and cost no racial points.",
+                  252, kExplainRgb, Face::Small);
+    if (a.lampList("##starting-origins", {231, 104}, {486, 527}, selected,
+                   std::span<const std::string>(labels), true, true)) {
+        draft_.setup.origin = selected == 0 ? game::StartingOrigin::None : origins[static_cast<size_t>(selected - 1)].id;
+    }
+
+    const game::origins::StartingOriginInfo& origin = game::origins::info(draft_.setup.origin);
+    a.box({497, 20}, {782, 527});
+    a.heading({511, 31}, origin.name);
+    const float descriptionHeight = a.textWrapped({511, 57}, origin.description, 255, kExplainRgb);
+    float y = std::max(104.0f, 67.0f + descriptionHeight + 12.0f);
+
+    a.heading({511, y}, "Civilisation Traits");
+    y += 25.0f;
+    for (const game::origins::OriginModifier& modifier : origin.modifiers) {
+        if (modifier.amount == 0) continue;
+        const std::string line = std::format("{}{}%  {}",
+            modifier.amount > 0 ? "+" : "", modifier.amount, game::displayName(modifier.characteristic));
+        a.text({516, y}, line, modifier.amount > 0 ? 0x80d6a0 : 0xf0a08c);
+        y += 22.0f;
+    }
+
+    const game::Resources stock = origin.startingResources;
+    const bool hasResources = !stock.isZero();
+    if (hasResources || origin.startingResearch > 0 || origin.extraStartingPlanets > 0 ||
+        origin.extraAttackShips > 0 || origin.extraWarehouses > 0) {
+        y += 5.0f;
+        a.heading({511, y}, "Founding Advantages");
+        y += 24.0f;
+        constexpr std::array<const char*, 3> resourceNames{"Minerals", "Organics", "Radioactives"};
+        for (size_t i = 0; i < stock.v.size(); ++i) {
+            if (stock.v[i] <= 0) continue;
+            a.text({516, y}, std::format("+{} {}", stock.v[i], resourceNames[i]), kWhite);
+            y += 20.0f;
+        }
+        if (origin.startingResearch > 0) {
+            a.text({516, y}, std::format("+{} starting research points", origin.startingResearch), kWhite);
+            y += 20.0f;
+        }
+        if (origin.extraStartingPlanets > 0) {
+            a.text({516, y}, std::format("+{} additional starting colony", origin.extraStartingPlanets), kWhite);
+            y += 20.0f;
+        }
+        if (origin.extraAttackShips > 0) {
+            a.text({516, y}, std::format("+{} ship in your Home Patrol", origin.extraAttackShips), kWhite);
+            y += 20.0f;
+        }
+        if (origin.extraWarehouses > 0) {
+            a.text({516, y}, std::format("+{} starting resource warehouse", origin.extraWarehouses), kWhite);
+            y += 20.0f;
+        }
+    } else {
+        y += 8.0f;
+        a.textWrapped({516, y}, "No special starting assets. Your first decisions will define your empire's path.", 250, kExplainRgb);
+    }
+    a.textWrapped({511, 492}, "Your origin is saved with the empire and remains part of its history throughout the game.", 255,
+                  kExplainRgb, Face::Small);
 }
 
 // ---- Description ---------------------------------------------------------------------------------

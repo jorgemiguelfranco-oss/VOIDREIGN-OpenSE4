@@ -15,6 +15,7 @@
 #include "game/hooks.hpp"
 #include "game/log_picture.hpp"
 #include "game/combat.hpp"
+#include "game/leaders.hpp"
 
 #include "datafile/datafile.hpp"
 #include "game/combat_battle.hpp"
@@ -2027,7 +2028,9 @@ void Battle::shoot(int i, size_t wi, size_t k, int t) {
         event(Ev::Miss, i, t, 0, w.de.component);
         return;
     }
-    const int64_t damage = xmath::pctRound(int64_t{table} * hits, 100 + damageBonus(pieces_[i].owner));
+    const int fleetLeaderBonus = leaders::admiralCombatBonusPct(s_, pieces_[i].owner, pieces_[i].unit.fleet);
+    const int64_t damage = xmath::pctRound(int64_t{table} * hits,
+        100 + damageBonus(pieces_[i].owner) + fleetLeaderBonus);
     recordHit(i, t, w.type, damage, w.de.component);
 }
 
@@ -3734,6 +3737,7 @@ void Battle::dropTroops(int i) {
     detail::GroundFight fight;
     fight.attacker = attacker;
     fight.defender = holder;
+    fight.planet = pl.object;
     fight.invaders = &pl.landed;
     fight.cargo = &pl.unit.cargo;
     fight.population = &pl.population;

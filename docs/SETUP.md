@@ -31,11 +31,21 @@ launch, native gameplay tests and uninstall checks have all passed.
 ## First launch
 
 Choose **Quick Start** for a fast game or **New Game** to configure the galaxy and
-empires. The native factions are:
+empires. In **Empire Setup → Starting Origin**, select one of 20 distinct histories
+or choose **No Origin** for a standard start. Origins grant two characteristic strengths
+and a meaningful weakness; selected backgrounds can also provide founding reserves,
+additional colonies, extra storage or a patrol ship. They do not consume racial points,
+and the selected origin is retained in saved games and empire files. The full catalog is
+documented in [Starting Origins](STARTING_ORIGINS.md).
+
+The native factions are:
 
 - **Aurelian Concord** — research and sensor-focused, with a cautious defensive doctrine.
 - **Veyran Trade League** — logistics and industrial development, with a balanced fleet posture.
 - **Khepri Ascendancy** — industrial and military development, with a more aggressive fleet doctrine.
+- **Meridian Assembly** — crystalline researchers specialising in quantum computation and defensive systems.
+- **Outer Systems Compact** — frontier explorers prioritising propulsion, logistics and resilient settlements.
+- **Helion Directorate** — solar-industrial specialists in energy weapons, shipyards and capital construction.
 
 Each empire begins with a Pathfinder Attack Ship in its **Home Patrol** fleet. The homeworld
 starts with a Spaceport, Planetary Shipyard, Supply Depot and Warehouse. Select the fleet
@@ -45,6 +55,23 @@ build more ships and orbital bases.
 The **Orbital Station** is a native Base hull. The built-in design minister provides base
 designs such as **Base Space Yard**, which can be added to a planetary shipyard's queue.
 No mod is needed for the native factions, ships, AI profiles or economy.
+
+## Computer players
+
+Each of the six native empires has a separate research, fleet and personality profile. In
+**New Game → Computer Players**, choose the built-in AI for each seat; the six native
+factions do not require an optional AI extension.
+
+- **Aurelian Concord** values information, science and defensive fleet allocation.
+- **Veyran Trade League** favours trade infrastructure, logistics and a sustainable economy.
+- **Khepri Ascendancy** develops industry, propulsion and aggressive fleet operations.
+- **Meridian Assembly** specialises in quantum research, sensors and defensive technology.
+- **Outer Systems Compact** explores and expands with fast ships and resilient logistics.
+- **Helion Directorate** prioritises energy weapons, industrial throughput and capital hulls.
+
+The engine can also run mod-provided AI players and external SDK bots. Those are optional
+extensions; selecting a native VOIDREIGN faction is enough for a complete computer empire.
+See the [computer-player SDK guide](sdk/guide/computer-players.md) when building an extension.
 
 For a silent launch, use:
 

@@ -4,6 +4,10 @@
 #include "ruleset/ruleset.hpp"
 #include "game/rules.hpp"
 #include "game/economy.hpp"
+#include "game/commands.hpp"
+#include "game/leaders.hpp"
+#include "game/origins.hpp"
+#include "game/serialize.hpp"
 #include "game/setup.hpp"
 #include "temp_dir.hpp"
 
@@ -462,10 +466,11 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     const auto driveUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveDrive4->family);
     REQUIRE(driveUpgrade4);
     CHECK(*driveUpgrade4 == drive4Index);
-    REQUIRE(gameRules.racePresets().size() == 3);
-    for (const auto& [folder, name] : std::array<std::pair<std::string_view, std::string_view>, 3>{
+    REQUIRE(gameRules.racePresets().size() == 6);
+    for (const auto& [folder, name] : std::array<std::pair<std::string_view, std::string_view>, 6>{
              std::pair{"Aurelian", "Aurelian Concord"}, std::pair{"Khepri", "Khepri Ascendancy"},
-             std::pair{"Veyran", "Veyran Trade League"}}) {
+             std::pair{"Veyran", "Veyran Trade League"}, std::pair{"Meridian", "Meridian Assembly"},
+             std::pair{"Outer", "Outer Systems Compact"}, std::pair{"Helion", "Helion Directorate"}}) {
         const auto it = std::find_if(gameRules.racePresets().begin(), gameRules.racePresets().end(),
                                      [&](const ruleset::RacePreset& p) { return p.folder == std::string(folder); });
         REQUIRE(it != gameRules.racePresets().end());
@@ -488,30 +493,41 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     player.preset = "Aurelian";
     player.presetTier = 0;
     player.kind = game::PlayerKind::Human;
+    player.origin = game::StartingOrigin::LogisticsCombine;
+    const auto* aurelianPreset = game::findPreset(gameRules, "Aurelian");
+    REQUIRE(aurelianPreset);
+    const game::Race baseAurelian = game::raceFromPreset(gameRules, *aurelianPreset, 0);
     setup.empires.push_back(std::move(player));
     game::StartExtras extras;
     extras.designMinisterRun.push_back(game::EmpireId{0});
     auto opening = game::createGame(gameRules, setup, extras);
     REQUIRE_MESSAGE(opening.has_value(), (opening ? std::string{} : opening.error()));
     const game::EmpireId playerId{0};
-    const game::Empire& empire = opening->empire(playerId);
+    game::Empire& empire = opening->empire(playerId);
+    CHECK(empire.origin == game::StartingOrigin::LogisticsCombine);
+    CHECK(empire.race.characteristics[static_cast<size_t>(game::Characteristic::MaintenanceAptitude)] ==
+          baseAurelian.characteristics[static_cast<size_t>(game::Characteristic::MaintenanceAptitude)] + 12);
+    CHECK(empire.race.characteristics[static_cast<size_t>(game::Characteristic::RepairAptitude)] ==
+          baseAurelian.characteristics[static_cast<size_t>(game::Characteristic::RepairAptitude)] + 8);
+    CHECK(empire.race.characteristics[static_cast<size_t>(game::Characteristic::Aggressiveness)] ==
+          baseAurelian.characteristics[static_cast<size_t>(game::Characteristic::Aggressiveness)] - 8);
     const auto home = std::find_if(opening->colonies.begin(), opening->colonies.end(),
                                    [&](const auto& colony) { return colony && colony->owner == playerId && colony->homeworld; });
     REQUIRE(home != opening->colonies.end());
     CHECK((*home)->facilities.size() >= 8);
     const game::Resources cap = game::economy::storageCapacity(gameRules, *opening, playerId);
-    const game::Resources expectedCap{30000, 30000, 30000};
+    const game::Resources expectedCap{60000, 60000, 60000};
     CHECK(cap == expectedCap);
-    // A researched Warehouse II adds a second tier of native storage capacity
-    // to the shared empire treasury on top of the starting Warehouse I.
+    // The Logistics Combine adds a second Warehouse I on the homeworld.
+    // Higher tiers then stack on top of both starting warehouses.
     (*home)->facilities.push_back(warehouse2Index);
-    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{90000, 90000, 90000});
-    (*home)->facilities.pop_back();
-    (*home)->facilities.push_back(warehouse3Index);
     CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{120000, 120000, 120000});
     (*home)->facilities.pop_back();
-    (*home)->facilities.push_back(warehouse4Index);
+    (*home)->facilities.push_back(warehouse3Index);
     CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{150000, 150000, 150000});
+    (*home)->facilities.pop_back();
+    (*home)->facilities.push_back(warehouse4Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{180000, 180000, 180000});
     (*home)->facilities.pop_back();
     for (size_t resource = 0; resource < 3; ++resource)
         CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
@@ -543,8 +559,160 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(hasAttackShip);
     CHECK(hasRockColonyShip);
     CHECK(hasBaseSpaceYard);
+
+    // Voidborn Nomads receive their own patrol ship in addition to any
+    // game-wide opening fleet; that inheritance is independent of the
+    // configurable default ship count.
+    game::GameSetup nomadSetup = setup;
+    nomadSetup.empires[0].origin = game::StartingOrigin::VoidbornNomads;
+    auto nomadOpening = game::createGame(gameRules, nomadSetup, extras);
+    REQUIRE_MESSAGE(nomadOpening.has_value(), (nomadOpening ? std::string{} : nomadOpening.error()));
+    const auto nomadPatrol = std::find_if(nomadOpening->fleets.begin(), nomadOpening->fleets.end(),
+        [&](const game::Fleet& fleet) { return fleet.owner == playerId && fleet.name == "Home Patrol"; });
+    REQUIRE(nomadPatrol != nomadOpening->fleets.end());
+    const int64_t standardPatrolShips =
+        std::clamp<int64_t>(gameRules.setting("VOIDREIGN Starting Attack Ship Count", 0), 0, 5);
+    CHECK(nomadPatrol->members.size() == static_cast<size_t>(standardPatrolShips + 1));
+    CHECK(nomadOpening->empire(playerId).origin == game::StartingOrigin::VoidbornNomads);
+
+    // Every new empire receives a persistent opening leadership corps.
+    REQUIRE(empire.leaders.size() == 4);
+    const auto ruler = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Ruler && leader.alive; });
+    const auto governor = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Governor; });
+    const auto admiral = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Admiral; });
+    const auto scientist = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Scientist; });
+    REQUIRE(ruler != empire.leaders.end());
+    const uint32_t initialRulerId = ruler->id;
+    const std::string initialRulerName = ruler->name;
+    REQUIRE(governor != empire.leaders.end());
+    REQUIRE(admiral != empire.leaders.end());
+    REQUIRE(scientist != empire.leaders.end());
+    CHECK(ruler->name == empire.leaderName);
+    CHECK(ruler->assignedColony == game::ObjectId{});
+    CHECK(ruler->assignedFleet == game::FleetId{});
+    CHECK(governor->assignedColony == (*home)->planet);
+    CHECK(admiral->alive);
+    CHECK(scientist->alive);
+    CHECK(game::leaders::experienceForNextLevel(1) == 100);
+    CHECK(game::leaders::experienceForNextLevel(4) == 400);
+
+    // Individual leader names, roles, XP, age and assignments survive save/load.
+    const auto leaderSave = game::serializeState(*opening);
+    auto leaderCopy = game::deserializeState(leaderSave);
+    REQUIRE(leaderCopy.has_value());
+    CHECK(leaderCopy->empire(playerId).leaders == empire.leaders);
+    CHECK(leaderCopy->empire(playerId).nextLeaderId == empire.nextLeaderId);
+    CHECK(leaderCopy->empire(playerId).origin == game::StartingOrigin::LogisticsCombine);
+
+    // Recruitment consumes the actual shared treasury and dismissal leaves
+    // a dated career record instead of deleting the character.
+    empire.stockpile += game::Resources{game::leaders::kRecruitMinerals, game::leaders::kRecruitOrganics,
+                                        game::leaders::kRecruitRadioactives};
+    REQUIRE(game::apply(gameRules, *opening, playerId,
+                        game::cmd::RecruitLeader{game::LeaderRole::General}).ok);
+    REQUIRE(empire.leaders.size() == 5);
+    const game::Leader recruit = empire.leaders.back();
+    CHECK(recruit.role == game::LeaderRole::General);
+    CHECK(recruit.alive);
+    CHECK(recruit.level >= 1);
+    CHECK(recruit.age >= 25);
+    REQUIRE(game::apply(gameRules, *opening, playerId, game::cmd::DismissLeader{recruit.id}).ok);
+    CHECK_FALSE(empire.leaders.back().alive);
+    CHECK(empire.leaders.back().deathCause == "Dismissed from service");
+    auto dismissedCopy = game::deserializeState(game::serializeState(*opening));
+    REQUIRE(dismissedCopy.has_value());
+    CHECK(dismissedCopy->empire(playerId).leaders == empire.leaders);
+
+    // When the Sovereign dies naturally, the most experienced living officer
+    // succeeds, assumes the head-of-state role and updates the empire record.
+    const uint32_t formerRulerId = initialRulerId;
+    const std::string formerRulerName = initialRulerName;
+    opening->turn = 10; // one birthday per ten completed turns
+    auto formerRuler = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [&](const game::Leader& leader) { return leader.id == formerRulerId; });
+    REQUIRE(formerRuler != empire.leaders.end());
+    formerRuler->age = 300; // guaranteed natural-death roll for every native lifespan
+    game::leaders::advanceTurn(*opening, playerId);
+    CHECK_FALSE(formerRuler->alive);
+    CHECK(formerRuler->deathCause.find("natural causes") != std::string::npos);
+    const auto successor = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.alive && leader.role == game::LeaderRole::Ruler; });
+    REQUIRE(successor != empire.leaders.end());
+    CHECK(successor->name != formerRulerName);
+    CHECK(successor->assignedColony == game::ObjectId{});
+    CHECK(successor->assignedFleet == game::FleetId{});
+    CHECK(empire.leaderName == successor->name);
+    CHECK_FALSE(game::apply(gameRules, *opening, playerId, game::cmd::DismissLeader{successor->id}).ok);
+    CHECK_FALSE(game::apply(gameRules, *opening, playerId,
+                            game::cmd::RecruitLeader{game::LeaderRole::Ruler}).ok);
+    auto successionCopy = game::deserializeState(game::serializeState(*opening));
+    REQUIRE(successionCopy.has_value());
+    CHECK(successionCopy->empire(playerId).leaders == empire.leaders);
+    CHECK(successionCopy->empire(playerId).leaderName == empire.leaderName);
 }
 
+TEST_CASE("leaders: role traits and experience affect live empire bonuses") {
+    game::Empire empire;
+
+    game::Leader governor;
+    governor.id = 1;
+    governor.role = game::LeaderRole::Governor;
+    governor.trait = game::LeaderTrait::Industrialist;
+    governor.secondaryTrait = game::LeaderTrait::Logistician;
+    governor.level = 3;
+    governor.assignedColony = game::ObjectId{10};
+    empire.leaders.push_back(governor);
+
+    game::Leader scientist;
+    scientist.id = 2;
+    scientist.role = game::LeaderRole::Scientist;
+    scientist.trait = game::LeaderTrait::Genius;
+    scientist.secondaryTrait = game::LeaderTrait::Visionary;
+    scientist.level = 2;
+    empire.leaders.push_back(scientist);
+
+    game::Leader admiral;
+    admiral.id = 3;
+    admiral.role = game::LeaderRole::Admiral;
+    admiral.trait = game::LeaderTrait::Tactician;
+    admiral.level = 3;
+    admiral.assignedFleet = game::FleetId{20};
+    empire.leaders.push_back(admiral);
+
+    game::Leader general;
+    general.id = 4;
+    general.role = game::LeaderRole::General;
+    general.trait = game::LeaderTrait::Defender;
+    general.level = 2;
+    general.assignedColony = game::ObjectId{10};
+    empire.leaders.push_back(general);
+
+    CHECK(game::leaders::governorResourceBonusPct(empire, game::ObjectId{10}) == 11);
+    CHECK(game::leaders::governorResearchBonusPct(empire, game::ObjectId{10}) == 4);
+    CHECK(game::leaders::governorPopulationGrowthBonusPct(empire, game::ObjectId{10}) == 2);
+    CHECK(game::leaders::scientistResearchBonusPct(empire) == 10);
+    CHECK(game::leaders::generalGroundDefenseBonusPct(empire, game::ObjectId{10}) == 9);
+    CHECK((game::leaders::upkeep(empire) == game::Resources{30, 18, 10}));
+
+    game::GameState state;
+    state.empires.push_back(empire);
+    CHECK(game::leaders::admiralCombatBonusPct(state, game::EmpireId{0}, game::FleetId{20}) == 9);
+
+    game::Leader paragon;
+    paragon.id = 5;
+    paragon.role = game::LeaderRole::Governor;
+    paragon.rarity = game::LeaderRarity::Paragon;
+    paragon.trait = game::LeaderTrait::Paragon;
+    paragon.secondaryTrait = game::LeaderTrait::Industrialist;
+    paragon.level = 4;
+    paragon.assignedColony = game::ObjectId{11};
+    empire.leaders.push_back(paragon);
+    CHECK(game::leaders::governorResourceBonusPct(empire, game::ObjectId{11}) == 22);
+}
 TEST_CASE("ruleset: problems are reported with file, line and record") {
     namespace fs = std::filesystem;
     const test::TempDir tmp("bad_classic_data");

@@ -17,7 +17,7 @@
 
 namespace opense4::client::classic::setup {
 
-enum class EmpirePage { General, Environment, Culture, Characteristics, Traits, Description, Count };
+enum class EmpirePage { General, Origin, Environment, Culture, Characteristics, Traits, Description, Count };
 const char* pageTitle(EmpirePage p);
 std::optional<EmpirePage> empirePageFromName(std::string_view name);
 
@@ -49,6 +49,7 @@ private:
     void pickerResult(int row);
 
     void pageGeneral(SetupArea& a);
+    void pageOrigin(SetupArea& a);
     void pageEnvironment(SetupArea& a);
     void pageCulture(SetupArea& a);
     void pageCharacteristics(SetupArea& a);

@@ -1,0 +1,32 @@
+*BEGIN*
+Name := Meridian Assembly
+Description := Meridian Assembly is a native VOIDREIGN civilisation with a distinct biological origin, political tradition and strategic doctrine.
+Empire Name := The Meridian Assembly
+Empire Type := Assembly
+Emperor Name := Cael Omnia
+Emperor Title := High Curator
+Biological Description := Tall, crystalline silicon-organic beings whose translucent mineral dermis carries faint prismatic striations. Their faceted ocular organs read polarised light and their distributed neural lattices preserve exact memories for centuries.
+Society Description := The Lattice Synod is a federation of scientific choirs. Each habitat maintains a living archive; major decisions are reached by resonance debates in which evidence is shared before authority is granted.
+General History Description := The Assembly began when the seven Meridian archive-vaults synchronised their star charts during the Quiet Expansion. The resulting navigation network saved isolated habitats from a chain of stellar collapses and became the foundation of a common polity.
+Demeanor := Cautious
+Culture := Lattice Synod
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Meridian.txt
+Race Opt 1 Num Characteristics := 1
+Race Opt 1 Characteristic 1 Type := Intelligence
+Race Opt 1 Characteristic 1 Amount := 110
+Race Opt 1 Num Advanced Traits := 1
+Race Opt 1 Adv Trait 1 := Crystalline Memory
+Race Opt 2 Num Characteristics := 1
+Race Opt 2 Characteristic 1 Type := Intelligence
+Race Opt 2 Characteristic 1 Amount := 115
+Race Opt 2 Num Advanced Traits := 1
+Race Opt 2 Adv Trait 1 := Crystalline Memory
+Race Opt 3 Num Characteristics := 1
+Race Opt 3 Characteristic 1 Type := Intelligence
+Race Opt 3 Characteristic 1 Amount := 120
+Race Opt 3 Num Advanced Traits := 1
+Race Opt 3 Adv Trait 1 := Crystalline Memory
+*END*

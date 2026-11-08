@@ -1,5 +1,5 @@
 ---
-windows: ministers, player-errors
+windows: ministers, player-errors, leaders
 ---
 # Computer players and ministers
 
@@ -34,8 +34,8 @@ Partnership against the human players.
 The engine can also load optional third-party computer-player extensions, which may be
 written in Python. They are an extension point, not a requirement for the game: every
 VOIDREIGN faction already uses its own native AI profile and the built-in computer player.
-You do not need to install, enable or configure a mod to play against the Aurelian,
-Veyran or Khepri empires. Optional extensions are chosen in Game Setup only when they
+You do not need to install, enable or configure a mod to play against any of the six
+native empires. Optional extensions are chosen in Game Setup only when they
 are separately installed and enabled.
 
 - **Seeing everything.** The game option *Computer players see everything* gives them the whole
@@ -63,19 +63,63 @@ explained in [Diplomacy](diplomacy#how-computer-players-feel-about-you).
 
 ### VOIDREIGN faction doctrines
 
-The three native VOIDREIGN empires use separate AI files; they are not generic recolours
-and they do not depend on an optional AI module:
+The six native VOIDREIGN empires use separate AI research, fleet and personality files:
 
-- **Aurelian Concord** favours sensors and foundational science, keeps a larger share of
-  its ships in fleets and allocates most fleets to defence. It waits longer before launching
-  another attack.
-- **Veyran Trade League** prioritises logistics and industrial research, with a more balanced
-  split between attack and defence fleets.
-- **Khepri Ascendancy** prioritises industry, propulsion and weapons, builds a larger fleet
-  share and commits a greater proportion of its fleets to attack sooner.
+- **Aurelian Concord** favours advanced sensors, quantum science and defensive fleet allocation.
+- **Veyran Trade League** prioritises logistics, biology and industrial development, with a balanced fleet.
+- **Khepri Ascendancy** advances industrial engineering, energy weapons and propulsion, and commits more fleets to attack.
+- **Meridian Assembly** specialises in quantum computation, sensors and defensive systems.
+- **Outer Systems Compact** prioritises propulsion, logistics and biological adaptation for frontier expansion.
+- **Helion Directorate** focuses on industrial engineering, energy weapons, gravitic weapons and capital architecture.
 
 These are starting strategic tendencies, not fixed scripts: research availability, colony
 growth, threats and the state of the galaxy still shape the computer player's decisions.
+
+## Leaders, governors, admirals and paragons
+
+VOIDREIGN has a native, persistent leadership corps. A new empire starts with a Sovereign, a Governor for
+its homeworld, an Admiral and a Chief Scientist. From the [Empires](window:empires) window,
+open the [Leaders](window:leaders) window to see their careers, assign officers, recruit replacements and review the
+deceased and retired.
+
+There are four recruitable roles:
+
+- **Governors** improve the actual resource or research output of the colony they administer.
+- **Admirals** improve the damage dealt by ships in their assigned fleet. They earn a large
+  experience award when that fleet takes part in a recorded battle.
+- **Scientists** improve research across the empire. A living empire can have one Chief Scientist.
+- **Generals** improve the ground-defence hit chance of the colony to which they are assigned.
+
+Recruitment costs 650 minerals, 300 organics and 200 radioactives. Each empire can have up to
+eight active leaders. Every living officer has recurring upkeep based on their level and rarity;
+the cost is included in the empire's normal maintenance and budget calculations. A Governor can
+administer only an owned colony, an Admiral only an owned fleet, and a General can be attached
+to one owned colony or fleet. Reassignment replaces the incumbent in that post.
+
+### Experience and career evolution
+
+Officers receive experience from active service each turn. Governors progress faster when
+assigned to a colony, Admirals when assigned to a fleet, Scientists while researching and
+Generals while attached to a command. Combat service gives an Admiral an additional award.
+Level requirements rise with the officer's current level, and promotions improve the bonuses
+provided by their role.
+
+At level 3, an ordinary officer may gain a second specialist trait. Paragons already have a
+role-specific secondary trait. Career epithets evolve at levels 5, 8 and 10. The Leaders window
+shows the XP bar, level, age, rarity, trait effects and assignment for every active officer.
+
+### Veterans, paragons and death
+
+Recruitment can produce a **Regular**, **Veteran** or **Paragon**. Veterans begin at a higher
+level. Paragons are rare, begin at level 4, have both a Paragon trait and a specialist trait,
+and have a longer expected lifespan. Their role bonuses are stronger, but their upkeep is higher.
+
+Leaders age once every ten game turns. Expected lifespans differ by native species; after that
+age, the chance of dying from natural causes increases with every year. Death records the turn
+and cause, removes the officer from their assignment and leaves their career in the memorial
+list. Dismissing an officer also preserves their record rather than erasing the character.
+An officer lost with a colony or disbanded fleet is recalled from that assignment, not silently
+deleted. These records are part of the save game and are retained when an older save is upgraded.
 
 ## Ministers
 

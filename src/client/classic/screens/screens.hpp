@@ -45,6 +45,7 @@ std::unique_ptr<Screen> makeIntelligence(const ScreenArgs& args);
 
 // empires.cpp
 std::unique_ptr<Screen> makeEmpires(const ScreenArgs& args);
+std::unique_ptr<Screen> makeLeaders(const ScreenArgs& args);
 std::unique_ptr<Screen> makeCommunicate(const ScreenArgs& args);
 std::unique_ptr<Screen> makeTreatyGrid(const ScreenArgs& args);
 std::unique_ptr<Screen> makeScores(const ScreenArgs& args);

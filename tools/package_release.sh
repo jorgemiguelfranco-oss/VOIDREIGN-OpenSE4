@@ -99,6 +99,11 @@ if tag=$(git describe --tags --exact-match --match 'v*' 2>/dev/null); then
 else
     version="${project_version}-$(git rev-parse --short HEAD)"
 fi
+# A package built from uncommitted source must not overwrite the archive for
+# the clean commit with the same short hash.
+if ! git diff-index --quiet HEAD -- || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+    version="${version}-dirty"
+fi
 dist="$root/dist"
 mkdir -p "$dist"
 
@@ -215,7 +220,11 @@ notices() {  # notices <build dir> <target> <output file>
         section "toml++ (MIT licence)" "$deps/tomlplusplus-src/LICENSE"
         section "stb (MIT licence or public domain)" "$deps/stb-src/LICENSE"
         section "dr_libs (public domain or MIT No Attribution)" "$deps/drlibs-src/LICENSE"
-        section "miniupnpc (BSD 3-clause licence)" "$deps/miniupnpc-src/LICENSE"
+        # miniupnpc is optional in some build configurations; include its notice
+        # only when that dependency was actually fetched into this build tree.
+        if [ -f "$deps/miniupnpc-src/LICENSE" ]; then
+            section "miniupnpc (BSD 3-clause licence)" "$deps/miniupnpc-src/LICENSE"
+        fi
         section "Monocypher (BSD 2-clause licence or CC0 1.0)" "$deps/monocypher-src/LICENCE.md"
         section "miniz (MIT licence)" "$deps/miniz-src/LICENSE"
         section "MicroPython (MIT licence)" "third_party/micropython/LICENSE"
@@ -229,7 +238,7 @@ notices() {  # notices <build dir> <target> <output file>
             # The runtime of the toolchain (llvm-mingw): MinGW-w64's, and LLVM's
             # C++ library, unwinder and compiler runtime.
             local toolchain
-            toolchain=$(sed -n 's/^LLVM_MINGW_DIR:PATH=//p' "$1/CMakeCache.txt")
+            toolchain=$(sed -n 's/^LLVM_MINGW_DIR:PATH=//p' "$1/CMakeCache.txt" | tr -d '\r')
             section "MinGW-w64 runtime" "$toolchain/x86_64-w64-mingw32/share/mingw32/COPYING.MinGW-w64-runtime.txt"
             section "MinGW-w64 winpthreads" "$toolchain/x86_64-w64-mingw32/share/mingw32/COPYING.winpthreads.txt"
             section "LLVM runtime libraries: libc++, libc++abi, libunwind, compiler-rt (Apache 2.0 with LLVM exceptions)" \
@@ -241,6 +250,14 @@ notices() {  # notices <build dir> <target> <output file>
             echo "GCC Runtime Library Exception (GPL version 3 with the exception)."
         fi
     } > "$out"
+}
+
+strip_staged_file() {
+    if [ "${native_windows:-0}" = 1 ]; then
+        "$strip" "$(cygpath -w "$1")"
+    else
+        "$strip" "$1"
+    fi
 }
 
 for target in "${targets[@]}"; do
@@ -280,7 +297,7 @@ for target in "${targets[@]}"; do
     cmake --build --preset "$preset"
 
     if [ "$platform" = windows ]; then
-        strip=$(sed -n 's/^CMAKE_STRIP:FILEPATH=//p' "$build/CMakeCache.txt")  # the toolchain's
+        strip=$(sed -n 's/^CMAKE_STRIP:FILEPATH=//p' "$build/CMakeCache.txt" | tr -d '\r')  # the toolchain's
         echo "==> $target: imports (Windows 7 SP1)"
         python3 tools/check_windows_imports.py "$build/opense4.exe" "$build/opense4-server.exe" \
             "$build/opense4-datacheck.exe" "$build/opense4-convert.exe" "$build/opense4-sdk.exe" "$build/tests/opense4_tests.exe"
@@ -329,15 +346,17 @@ for target in "${targets[@]}"; do
     mkdir -p "$stage"
     for bin in opense4-server opense4-datacheck opense4-convert opense4-sdk; do
         cp "$build/$bin$exe" "$stage/"
-        "$strip" "$stage/$bin$exe"
+        strip_staged_file "$stage/$bin$exe"
     done
     # The player-facing game executable is branded VOIDREIGN; opense4 remains
     # the internal CMake target name used by the engine and its test tooling.
     cp "$build/opense4$exe" "$stage/VOIDREIGN$exe"
-    "$strip" "$stage/VOIDREIGN$exe"
+    strip_staged_file "$stage/VOIDREIGN$exe"
     # This is the native base game, not a mod; it is installed with the client.
     cp -a game-data "$stage/game-data"
     cp README.md "$stage/README.md"
+    cp docs/SETUP.md "$stage/SETUP.md"
+    cp docs/STARTING_ORIGINS.md "$stage/STARTING_ORIGINS.md"
     [ -f LICENSE ] && cp LICENSE "$stage/LICENSE"
     # How to make an unpacked copy portable (docs/SETUP.md "A portable copy"); the
     # installer leaves it out, as an installed copy cannot be portable.

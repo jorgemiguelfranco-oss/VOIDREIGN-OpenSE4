@@ -427,6 +427,14 @@ template <class Ar> void io(Ar& ar, Controller& c) { fields(ar, c.kind, c.mod, c
 template <class Ar> void io(Ar& ar, ModData& d) { fields(ar, d.mod, d.value); }
 template <class Ar> void io(Ar& ar, ModOption& o) { fields(ar, o.mod, o.name, o.value); }
 template <class Ar> void io(Ar& ar, ScriptPlayerState& p) { fields(ar, p.memory, p.failureTurn, p.failures); }
+template <class Ar> void io(Ar& ar, Leader& l) {
+    fields(ar, l.id, l.name, l.epithet, l.role, l.rarity, l.trait, l.level, l.experience, l.age,
+           l.assignedColony, l.assignedFleet, l.hiredTurn, l.deathTurn, l.alive, l.deathCause);
+    if (formatVersion(ar) >= 13) fields(ar, l.secondaryTrait);
+}
+template <class Ar> void io(Ar& ar, cmd::RecruitLeader& c) { fields(ar, c.role); }
+template <class Ar> void io(Ar& ar, cmd::AssignLeader& c) { fields(ar, c.leader, c.planet, c.fleet); }
+template <class Ar> void io(Ar& ar, cmd::DismissLeader& c) { fields(ar, c.leader); }
 
 template <class Ar>
 void io(Ar& ar, Empire& e) {
@@ -447,6 +455,8 @@ void io(Ar& ar, Empire& e) {
     if (formatVersion(ar) >= 10) fields(ar, e.statistics);   // format 9 had no statistics record
     if (formatVersion(ar) >= 10) fields(ar, e.queueTypes);   // format 9 had no queue types
     if (formatVersion(ar) >= 11) fields(ar, e.fleetsCreated);   // format 10 counted no fleets (GameState's io fills it in)
+    if (formatVersion(ar) >= 12) fields(ar, e.leaders, e.nextLeaderId);   // format 11 had no individual leaders
+    if (formatVersion(ar) >= 14) fields(ar, e.origin);                    // format 13 had no starting origin
     // The computer player's notes of the turn are not saved.
     unsaved(ar, e.aiNotes);
 }
@@ -777,6 +787,7 @@ void io(Ar& ar, EmpireSetup& e) {
     if (formatVersion(ar) >= 9) fields(ar, e.controller);   // format 8 had no script players
     // Format 9 had no empire-file settings or name lists (spec 08 §13).
     if (formatVersion(ar) >= 10) fields(ar, e.settings, e.designTypes, e.colonyTypes, e.repairPriorities);
+    if (formatVersion(ar) >= 14) fields(ar, e.origin); // format 13 had no starting origin in a new-game setup
 }
 
 template <class Ar> void io(Ar& ar, QuadrantMap& m) { fields(ar, m.name, m.galaxy, m.startingPoints); }

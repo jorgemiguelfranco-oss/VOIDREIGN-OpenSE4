@@ -314,6 +314,13 @@ struct SetColonyTypes { std::vector<std::string> colonyTypes; };
 // most kMaxQueueTypeItems items; names are not checked (the window asks for
 // one); the items keep no progress. Save format 10.
 struct SetQueueTypes { std::vector<QueueType> queueTypes; };
+// VOIDREIGN leadership corps: hiring consumes the empire's treasury; a
+// governor is assigned to one owned colony, an admiral to one owned fleet,
+// a scientist works empire-wide, and a general may be attached to a colony
+// or fleet. Invalid assignment fields explicitly unassign a leader.
+struct RecruitLeader { LeaderRole role = LeaderRole::Governor; };
+struct AssignLeader { uint32_t leader = 0; ObjectId planet; FleetId fleet; };
+struct DismissLeader { uint32_t leader = 0; };
 struct SetEmpireOptions {
     std::optional<bool> aiMinimalChanges;
     std::optional<std::string> passwordHash;
@@ -385,7 +392,8 @@ using Command = std::variant<
     cmd::SetMinisters, cmd::SetEncounterOptions, cmd::EnterSector, cmd::EditDesign, cmd::OpenVehicleReport,
     cmd::QueueReplaceFacility, cmd::DecideWar, cmd::SetInterfaceOptions, cmd::CarryOutDemand, cmd::UseDemandEntry, cmd::JettisonCargo,
     cmd::CloakColony, cmd::Analyze, cmd::SelfDestruct, cmd::FireOn, cmd::SetEmail, cmd::OrderTagged, cmd::SetFleetLeader, cmd::ModCommand,
-    cmd::CloakVehicles, cmd::LaunchUnitsNow, cmd::RecoverUnitsNow, cmd::SetQueueTypes>;
+    cmd::CloakVehicles, cmd::LaunchUnitsNow, cmd::RecoverUnitsNow, cmd::SetQueueTypes,
+    cmd::RecruitLeader, cmd::AssignLeader, cmd::DismissLeader>;
 
 // One empire's turn (the `.plr` equivalent).
 struct EmpireOrders {

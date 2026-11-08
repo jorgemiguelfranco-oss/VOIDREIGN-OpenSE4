@@ -29,11 +29,14 @@ extensions; and `Manual` opens this guide.
 
 ## Choose your faction
 
-VOIDREIGN currently includes three native empires:
+VOIDREIGN includes six native empires:
 
-- **Aurelian Concord** — a cautious, sensor-focused faction that favours science and defensive fleet allocation.
-- **Veyran Trade League** — a logistics and industry-focused faction with a balanced fleet doctrine.
-- **Khepri Ascendancy** — an industrial and military faction with a more aggressive fleet doctrine.
+- **Aurelian Concord** — a patient scientific federation that favours sensors, quantum research and defensive fleet allocation.
+- **Veyran Trade League** — a commercial network that prioritises logistics, trade infrastructure and sustainable expansion.
+- **Khepri Ascendancy** — an industrial guild-state that advances heavy industry, propulsion and offensive fleet operations.
+- **Meridian Assembly** — a crystalline knowledge polity that specialises in quantum computation, sensors and scientific archives.
+- **Outer Systems Compact** — a frontier coalition built around exploration, fast propulsion, logistics and resilient settlements.
+- **Helion Directorate** — a solar-industrial power that emphasises shipyard throughput, energy weapons and capital construction.
 
 Each faction has its own culture, names, racial traits and computer-player research and fleet
 profiles. The built-in AI uses these profiles; you do not need to install or enable an AI mod

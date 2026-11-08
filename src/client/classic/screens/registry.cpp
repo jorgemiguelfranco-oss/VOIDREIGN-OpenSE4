@@ -42,6 +42,7 @@ const char* screenTitle(ScreenId id) {
         case ScreenId::Research: return "Research";
         case ScreenId::TechTree: return "Tech Tree";
         case ScreenId::Empires: return "Empires";
+        case ScreenId::Leaders: return "Leaders";
         case ScreenId::Log: return "Log";
         case ScreenId::EmpireStatus: return "Empire Status";
         case ScreenId::Help: return "Help";
@@ -140,6 +141,7 @@ std::unique_ptr<Screen> makeScreen(ScreenId id, const ScreenArgs& args) {
         case ScreenId::Research: return makeResearch(args);
         case ScreenId::TechTree: return makeTechTree(args);
         case ScreenId::Empires: return makeEmpires(args);
+        case ScreenId::Leaders: return makeLeaders(args);
         case ScreenId::Log: return makeLog(args);
         case ScreenId::EmpireStatus: return makeEmpireStatus(args);
         case ScreenId::Help: return makeHelp(args);

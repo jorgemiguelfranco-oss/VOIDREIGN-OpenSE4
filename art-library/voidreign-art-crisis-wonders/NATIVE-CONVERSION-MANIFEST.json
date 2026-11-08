@@ -1,0 +1,1772 @@
+[
+  {
+    "path": "game-data/Pictures/Components/Comp_001.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 13895,
+    "sha256": "62919d054e032e431360d36fba52e7b11fe1586ab7a0c31661da1074cd2270c0",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_002.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 17744,
+    "sha256": "58127c44e479c9f0ce936cf51019963793e67c11bff0aae41a65761ab8114a02",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_003.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14239,
+    "sha256": "9996f228daccea8b23e7c83df5247b4cccd3dbe11894a70dac229d5cadfbe7b0",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_004.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14854,
+    "sha256": "f7ca98a9de14d427ada8a766aed0fce0969a55465d76794995dcd112b49cc83d",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_005.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14099,
+    "sha256": "d07aa9d9d86459baf86dcfd89cebc538602571246e081c06fc73bf23afaf3545",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_006.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 13518,
+    "sha256": "41844be7e450bde9c0e5f94ac2b129c52af01c24b82dfad808cb1a766e028f36",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_007.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15453,
+    "sha256": "87779c03a8bb9d400b37b3eb3f111c9ff6a6275ab013a79537a728dbad0a35db",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_008.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15968,
+    "sha256": "18f64422f8cd82f03f1f3d4c1640aca30af39ddd4ea04b0d2131ee608cae20cc",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_009.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15714,
+    "sha256": "ad39ffe980435ef52a97afdf2504ff1f074bd8094ade934bd2dbcbfca20dd240",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_010.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 33529,
+    "sha256": "c8b1b3b792460f33634f13696ddc0a18fca2601942f6cbe4e3c9d526b24b839b",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_011.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16335,
+    "sha256": "94814788468495d71a330324817e85a02e1375c3a23182d95080c99c64089aa7",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_012.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14847,
+    "sha256": "379ea4ed693657a573d6f45df78b7df82edb778263635cacb5ea94c745a4bd5c",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_013.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused component picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_014.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14847,
+    "sha256": "379ea4ed693657a573d6f45df78b7df82edb778263635cacb5ea94c745a4bd5c",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_015.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15988,
+    "sha256": "e787ff363a10ff82fc30ff46fb0db8fd00c5c4b81fe69834057a84a3e5895ca1",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_016.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16809,
+    "sha256": "b03c450e03355f40ca152c72ceabd7903af13cc6b758737e668353a49812d23d",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_017.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14703,
+    "sha256": "3a23fbfe4a37b727c646366074a6327ae4d2007a6334a011626af048d04a2829",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_018.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15162,
+    "sha256": "94eceac054c61a70cc942573a34a690d4f5407b89d387d3efbcf24a3d3e08b03",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Comp_019.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16028,
+    "sha256": "658460693a72efd2643e83ebf6f3ba880bd2bc7c161eda614f123ca9724f80ae",
+    "category": "component portrait"
+  },
+  {
+    "path": "game-data/Pictures/Components/Components.png",
+    "size": [
+      288,
+      108
+    ],
+    "bytes": 27260,
+    "sha256": "2d11624cdabb27650b2e3a6936405bab66fcc96e698925d2c0d37aa5f798ac7b",
+    "category": "component atlas: Pic Num 1-19 exact"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_001.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14530,
+    "sha256": "529fec91fc50dbb9e3be9797b8fb9bbd0e910393e12c5a7704ee5f390b1f3b34",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_002.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16607,
+    "sha256": "0c6495597cbe34850c90c54fd40228607837a57421d4af7bce912c117522fdc4",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_003.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 19813,
+    "sha256": "de4022305448be60b59b90a064565d46f2bd5112178eb228c3ee86f9c210c9e4",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_004.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14704,
+    "sha256": "f8b9a12e94372398400edc6499308c81d7926ac5440d02dcfff7c492332e9a9e",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_005.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 19379,
+    "sha256": "32775138f61911ebbb418d1fef9c33c81f20388dae450a0224196ec2b622f5cc",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_006.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15382,
+    "sha256": "bb81df0ad300a40e7685d399a5afeb3c7c78c58ca0e519ee6b62a78e0b52d24c",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_007.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14268,
+    "sha256": "3a9b62ada8e82360669ee82535354709f271669899048565ca64127c1178b415",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_008.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15872,
+    "sha256": "f253272551bc71f5f12bc0b6d2ef65c1964ec1abe06e610493b01916680b5c35",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_009.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 20628,
+    "sha256": "37b4c25700a8698365ddfcc48e4c45a3001a9bddaa79fb87dcd67604466addef",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_010.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_011.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_012.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_013.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_014.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_015.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_016.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_017.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_018.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_019.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_020.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14530,
+    "sha256": "529fec91fc50dbb9e3be9797b8fb9bbd0e910393e12c5a7704ee5f390b1f3b34",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_021.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16607,
+    "sha256": "0c6495597cbe34850c90c54fd40228607837a57421d4af7bce912c117522fdc4",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_022.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 19813,
+    "sha256": "de4022305448be60b59b90a064565d46f2bd5112178eb228c3ee86f9c210c9e4",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_023.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 24211,
+    "sha256": "fb2e9749078954494c520e0ab462abeb4490da2c1a8f52fa9da94b881d24b456",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_024.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 19379,
+    "sha256": "32775138f61911ebbb418d1fef9c33c81f20388dae450a0224196ec2b622f5cc",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_025.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 25021,
+    "sha256": "ca49e969e68a80e68bb28aabbf40f4ffbb0b3d1b35d9dc419816804a58d64b4d",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_026.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15363,
+    "sha256": "c84797201e70fd08d3d613d568e96791497772d4f5ba455fc2be8cf5515ac063",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_027.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_028.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_029.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_030.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_031.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused facility picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_032.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14268,
+    "sha256": "3a9b62ada8e82360669ee82535354709f271669899048565ca64127c1178b415",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_033.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14268,
+    "sha256": "3a9b62ada8e82360669ee82535354709f271669899048565ca64127c1178b415",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facil_034.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 24211,
+    "sha256": "fb2e9749078954494c520e0ab462abeb4490da2c1a8f52fa9da94b881d24b456",
+    "category": "facility portrait"
+  },
+  {
+    "path": "game-data/Pictures/Facilities/Facility.png",
+    "size": [
+      288,
+      180
+    ],
+    "bytes": 40152,
+    "sha256": "57479152902599ee7d494747f812bf81f7d3c0c6d5b00eadd31e6a923d1aff61",
+    "category": "facility atlas: native Pic Num slots"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0001.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 31620,
+    "sha256": "d08fa4d79c6490d0d9e1e4ae2b5ddbb60fc85109a6957c7c95b64e47c61ab414",
+    "category": "sector object picture number 0"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0002.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 17666,
+    "sha256": "689365bc71a23d73eb839596950d0ea4a4779b92467bb76f56ba2f64b91b67a8",
+    "category": "sector object picture number 1"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0003.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 30337,
+    "sha256": "d4ef90a88f99596a46af82eb282ec62621a5840692a4d4129e383b9c3cacf8f5",
+    "category": "sector object picture number 2"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0004.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 24154,
+    "sha256": "32a3cbf8e94c198db427a6ef694083fbbb100f133f9952493db2bb79657455fe",
+    "category": "sector object picture number 3"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0005.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 23355,
+    "sha256": "33ba6712ac09ab006bbf05ea4f18046c22881057724e27b7557c8ee53f479d28",
+    "category": "sector object picture number 4"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0006.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 143,
+    "sha256": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "category": "unused sector picture slot"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0007.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 1510,
+    "sha256": "c9dc224e46c0dfa385c828edb7354e6a271eb7187603d991675790009d7a9872",
+    "category": "asteroid field picture number 6"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0008.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 26398,
+    "sha256": "6cb13027f2fdc1b2c73f344b84f7753f7112a0b87f470820f4c44727d6c18e57",
+    "category": "sector object picture number 7"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0009.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 24166,
+    "sha256": "0a2ecf547589fe5df56808246ae6809887379c7d53b6bd60c6f2724ee7aa38b0",
+    "category": "sector object picture number 8"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0010.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 29102,
+    "sha256": "1c7c4609148916728263580cfe564b71f0ef28334ab47c6f1088bebbba0a2cb0",
+    "category": "additional planet picture"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0011.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 35678,
+    "sha256": "5150bd88d27e659f5d0e2511bf7234e50ed6ccf9a0a0b6a7caef438eaabd5719",
+    "category": "additional planet picture"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0012.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16476,
+    "sha256": "d4bea08c3c0e76100691a158580223ba65ac8ba46d9094beab7c09953ea73c2b",
+    "category": "additional planet picture"
+  },
+  {
+    "path": "game-data/Pictures/Planets/p0013.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 27966,
+    "sha256": "b5f26ca75458e0d784bedf360800dac01ca94cb690d2f989315942945d618e91",
+    "category": "additional planet picture"
+  },
+  {
+    "path": "game-data/Pictures/Planets/Planets.png",
+    "size": [
+      288,
+      72
+    ],
+    "bytes": 19051,
+    "sha256": "12fab76410b0db93e2163d7fd62ab6a20e359a53f1bbf2c9d1c4d51950d10f5f",
+    "category": "sector object atlas: SectType Picture Num mapping"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 936,
+    "sha256": "cf7cae6fa9e417ac917f4f95e05761da7a2c9922ac59841a7afadf1d235128be",
+    "category": "Aurelian Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 6450,
+    "sha256": "601bf2e2f9756b8c4562c45aa8374ec03e576a00317bf70f4811b1648c29679e",
+    "category": "Aurelian fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1089,
+    "sha256": "b45aca82dfc52a290c5f39c3509ab4522c3054111f7219feb192eb8277fc31ff",
+    "category": "Aurelian FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2331,
+    "sha256": "2d8a71452bebaddd82538876a8aecb49264fc00072e81303c7aada3c3416ca18",
+    "category": "Aurelian SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2050,
+    "sha256": "b619c9cbc44f20673913f67ddef721a2331874b2b53224fc335adde314d085ba",
+    "category": "Aurelian MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 931,
+    "sha256": "d54c990cf7d251c9f8ad2b50fb09d773e10ee5906e5d4e3fa66797fb659286ce",
+    "category": "Veyran Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 6442,
+    "sha256": "234ede690861f669aea972e6ade4a2cfe5c06c870e1e38c4f99d1c9cd7494f62",
+    "category": "Veyran fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1050,
+    "sha256": "80682cfe52a91d9f5c2495b4560e38d0186feb27095bc5c95c4f21e458415dbd",
+    "category": "Veyran FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2279,
+    "sha256": "8dfd6b892d4b8420728bcbba0b8a57f366f7949c2944ccf101bd94c7cf134951",
+    "category": "Veyran SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2031,
+    "sha256": "fe7b62763bcdef091b377de6fc706b24e606cae6c08b0bfc6d9132f355b73e67",
+    "category": "Veyran MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1033,
+    "sha256": "e999997cd0b52fc2f5af92ed738792001d25ac3484a28e71fb8022cc80a8a80b",
+    "category": "Khepri Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 7956,
+    "sha256": "52731917284ab04dde7d06112bbf1dfbd117aedb7161dc1cf8cefaac5e2dc9fc",
+    "category": "Khepri fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1071,
+    "sha256": "2beab1baffca070a9466bddca7534575a70da224f94fbdff2dc8c2d94ebaf8b4",
+    "category": "Khepri FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2334,
+    "sha256": "0168fdd34362243bd6d24d695aeb4ff94b7c2343aae48d75029292a07ef3baca",
+    "category": "Khepri SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2038,
+    "sha256": "98c2daed97242c3a174a2f209e4e5e48494a09b3e2f07b02526a50a8ab838d36",
+    "category": "Khepri MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1035,
+    "sha256": "91fac7c7ceb2e8885f52cbe61c521fc22616f05b4dc1ba344155e67c77c2b1f4",
+    "category": "Meridian Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 7960,
+    "sha256": "34c60431a3acda28ffd14c99eb70bbdc15498804966e88d5606e021f465bfccb",
+    "category": "Meridian fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1084,
+    "sha256": "99e4192094a1cc08064dd6591c604905f9ea4a2b7dae292f2bf40214350a68c1",
+    "category": "Meridian FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2286,
+    "sha256": "bf8c838e1ea01a047501e1ada6025d9fc6af96c961390b6ddf45d9d135373399",
+    "category": "Meridian SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2021,
+    "sha256": "87b02cd23a6ed1cf90106e83cc3f61c740bf7561528fdc37b21986db42c169b9",
+    "category": "Meridian MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 922,
+    "sha256": "57f47b609434a1f26d27a23d87de1bfd98d2055361d08268a4b93f7e3827925e",
+    "category": "Outer Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 6453,
+    "sha256": "12086be2b110a6b5c84a33003d8be7131bb9e20039d6a79cb8d3f231499a9e45",
+    "category": "Outer fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1095,
+    "sha256": "9b0d50e497c6d419545c9834f0ed94d33801652bdd13438dc4b41bdb52e1ac0b",
+    "category": "Outer FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2308,
+    "sha256": "ceec9ce34c86c49ddee0f4c2dd10696060052ee8a08684288015cfb7f6832351",
+    "category": "Outer SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2049,
+    "sha256": "223037e037afb1a253f41f786804befc9e98f212ebc8ea9a4dd0d54a4c9563f9",
+    "category": "Outer MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1045,
+    "sha256": "69550a61602405bc00d53d0b042a64036fe4bf8046105da638be5ab024e8ec85",
+    "category": "Helion Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 7966,
+    "sha256": "209deecb14ae3ee7567cdd532423180c7a876a47cc7acfb596328c1fbd5bba6c",
+    "category": "Helion fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1062,
+    "sha256": "04cf712277391dbd76c804cc07bf75a52e6f1a4358d3eba5261a8a6b30463d0b",
+    "category": "Helion FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2315,
+    "sha256": "b81d1002dbbc296280d85c35fbc59b7994693843dfe35691f8277f191c3e763a",
+    "category": "Helion SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2028,
+    "sha256": "0625fa4053b9994d7eb15053ac4802433fa0cdf101ceb678a3456525cf197306",
+    "category": "Helion MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_Fleet.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 919,
+    "sha256": "d6a9d124e946f26e8479aa85599e7bed26f378d4365e01050cd3228c0352016b",
+    "category": "generic Fleet icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_Fleet.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 6393,
+    "sha256": "6313babeda8c4252bdfe1164eee2235411cdad3cf81c3283c105dd093286b958",
+    "category": "generic Fleet portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_FighterGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 962,
+    "sha256": "27d59cf6fe8c0ef0d8f7618aad41746a29bb6295598ce0798250727441ca0ff9",
+    "category": "generic FighterGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_FighterGroup.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 7924,
+    "sha256": "15d52dd00c63b11a54bd1948e49bf8b08ee4e8100f9eaa2d52333cbb8de95b08",
+    "category": "generic FighterGroup portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_SatelliteGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2277,
+    "sha256": "8a326ce33c97b0e3cf47d1ad7ced8f9aa03cbfd71e9ee879d01fdb0abed849a3",
+    "category": "generic SatelliteGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_SatelliteGroup.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 18312,
+    "sha256": "f57543dbeaf34dd1a9463d87f5ab2035a04ab66e7c6754cbb8aa7914e1a9bd8e",
+    "category": "generic SatelliteGroup portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_MineGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2013,
+    "sha256": "bf48be124200c63fbc4fe835e0b031dc40e7bb22badf33229ce632116bf49b5f",
+    "category": "generic MineGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_MineGroup.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15911,
+    "sha256": "673bfc3a8a0b357bb3b2290ab0dd8415fe61645f598ab53a17a238e9e8832285",
+    "category": "generic MineGroup portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1353,
+    "sha256": "5fa84bfb44ff564a2d336294d4f5e0d779e16b4b24417de9403b995b08767007",
+    "category": "generic TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_TroopGroup.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 11866,
+    "sha256": "94df3e9055d25de95e6e8925f398dc88cd22667fbb63bd88f9fa3b0954163920",
+    "category": "generic TroopGroup portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1251,
+    "sha256": "013243a22c2bec195cbaa6e5dddd10ed3c98631ffd22f3216d221d6790643ce2",
+    "category": "generic ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_ArmorGroup.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 10873,
+    "sha256": "feec46768bf53494859f9295626553dbbd1472be49d2f354705cdba67c8c0782",
+    "category": "generic ArmorGroup portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1373,
+    "sha256": "2865448a1168fbc905cf7ea88cdf278abdb202ca6bb3ca78270883664bba1f9d",
+    "category": "generic MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceGeneric/Generic_Portrait_MechGroup.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 11238,
+    "sha256": "abc03edb633fd563275fe6345d6a0a626d9681c4383a5d7d1b5f3eb43781df3a",
+    "category": "generic MechGroup portrait"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1473,
+    "sha256": "6aa5903fcb1b227032104cb333eaf04a8292ddbee3f37efd6d18743e99f82d22",
+    "category": "Aurelian TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1371,
+    "sha256": "011ab988f707790dab9d9d2dbc30db7206073079a8537c42db4346c65002144d",
+    "category": "Aurelian ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1516,
+    "sha256": "e5705bed719a36ac3a21d34f8f2381d62d6c1049b4d3b4c2e6b1c229ac78e3e2",
+    "category": "Aurelian MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1453,
+    "sha256": "5a3d909bde8685140053f9a9cfc416b1f1382e0536e565f2fe3f0fb679d2aca9",
+    "category": "Veyran TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1351,
+    "sha256": "e4a42db2392e65abe8a2d83ed34223578501d80ea9ea4bfbc0fb1e493d52f49a",
+    "category": "Veyran ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Veyran/Veyran_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1509,
+    "sha256": "8f439484016c47ccc62f846f6ed63c39f4a53f6cfb56645312b224df2363c27f",
+    "category": "Veyran MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1463,
+    "sha256": "5ddb94415dc1ba62204f7135f008042b970230806deba7f0594f3fd7068e80e2",
+    "category": "Khepri TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1359,
+    "sha256": "c189de62e8f704c833c6a2692bdb681fe9d839ecb7a9d9cfc73cd72d539c6fd9",
+    "category": "Khepri ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Khepri/Khepri_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1514,
+    "sha256": "f3e3c962506e0f72a2d5df936d254c0dad84c9cea5f4e86914b4e47594260a7c",
+    "category": "Khepri MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1457,
+    "sha256": "60ead9e2a95d1760ae10231e502cf0b6f49f557d76022034fc1b6678002b0e53",
+    "category": "Meridian TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1354,
+    "sha256": "28c962e78103666e4683388f8ec3062357c19b1b3048197aaaa035984438269a",
+    "category": "Meridian ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Meridian/Meridian_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1519,
+    "sha256": "19a2190d95dc85eadbf1e4fa03eef43bca7670c6b2a8d2d89b896dd1c2549ef3",
+    "category": "Meridian MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1467,
+    "sha256": "3e3b27ccb6c4fb48737765bed7091013c3b666f9e4979d1a292931d641d3de73",
+    "category": "Outer TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1353,
+    "sha256": "ccb5918cf20a9c90ea23d3dfccde126f6de68783e59ffed5b4e40bb8ea5e1d3d",
+    "category": "Outer ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Outer/Outer_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1518,
+    "sha256": "7a5447cf721f681a1abe863f5c4df6c84bbf97163731fbe795e3ebf9607b6048",
+    "category": "Outer MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_TroopGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1456,
+    "sha256": "81c1fccfc2d806fa983f3fa06acdbb40dc97d9e8a338674d9c81ab50ffab2a33",
+    "category": "Helion TroopGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_ArmorGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1347,
+    "sha256": "6a47a3a29fab5f5a1e54cf2beb34fa544988ec1a71108892875ba83f4f64c685",
+    "category": "Helion ArmorGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/Races/Helion/Helion_Mini_MechGroup.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1501,
+    "sha256": "b578fbb76c0297fee70181049fec6413c8a3225bc4c4f5be6615ba556fccc0ae",
+    "category": "Helion MechGroup icon"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Pirates/Pirates_Mini_PirateGunship.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 962,
+    "sha256": "27d59cf6fe8c0ef0d8f7618aad41746a29bb6295598ce0798250727441ca0ff9",
+    "category": "neutral PirateGunship mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Pirates/Pirates_Portrait_PirateGunship.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 7924,
+    "sha256": "15d52dd00c63b11a54bd1948e49bf8b08ee4e8100f9eaa2d52333cbb8de95b08",
+    "category": "neutral PirateGunship portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Pirates/Pirates_Mini_PirateRaider.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 840,
+    "sha256": "21a990dd50e408dde92955466a979c19055758dd43229dac16b098bbebe7cc9b",
+    "category": "neutral PirateRaider mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Pirates/Pirates_Portrait_PirateRaider.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 6335,
+    "sha256": "15f281ba53d3a8fe5746368dc066ce24df92bda7ac1b9dc97affc1411553c9b7",
+    "category": "neutral PirateRaider portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Lattice/Lattice_Mini_LatticeFrigate.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1341,
+    "sha256": "bc53d8c915093dc29949d14dc1f8c94038e9e2db9741d3af99c1c22ad6099ecc",
+    "category": "neutral LatticeFrigate mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Lattice/Lattice_Portrait_LatticeFrigate.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 10613,
+    "sha256": "bf535267a2ad80f5e8d10a37d4a31bf683aaea061dee6b8219f1269cbd05b09d",
+    "category": "neutral LatticeFrigate portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Lattice/Lattice_Mini_LatticeMothership.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1635,
+    "sha256": "c57d3bbae79abe205f2e0e79d93c515480cb4dba260d1c098aa17d6f1686490e",
+    "category": "neutral LatticeMothership mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Lattice/Lattice_Portrait_LatticeMothership.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 14172,
+    "sha256": "4bc0f7f6f9e7016123505e465ed854bf260e67b2e7e04de15ecd0502fba7c9e6",
+    "category": "neutral LatticeMothership portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Unbidden/Unbidden_Mini_UnbiddenDreadnought.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 2092,
+    "sha256": "5268db79d772c17843d82702ebf3eb12834b9316ff32450299a9f867e8a204f4",
+    "category": "neutral UnbiddenDreadnought mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Unbidden/Unbidden_Portrait_UnbiddenDreadnought.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 19750,
+    "sha256": "fe958090f476a5e82ea83b633823598366f78092d51fe5951599f156fea6b13f",
+    "category": "neutral UnbiddenDreadnought portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Unbidden/Unbidden_Mini_UnbiddenHunter.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1703,
+    "sha256": "d6c0e43c15974f3bccce89f13a5ef90b84d7928f3f11493f2122edaeecdfad95",
+    "category": "neutral UnbiddenHunter mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Unbidden/Unbidden_Portrait_UnbiddenHunter.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15328,
+    "sha256": "1c60e919ebf3f0f2ee12bcf3a0da997559713043ee2bdddbc6e7e08816fbb917",
+    "category": "neutral UnbiddenHunter portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Leviathan/Leviathan_Mini_VoidLeviathan.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1328,
+    "sha256": "4a7773d1db810fbef11074a457299dee180ac1aa5e06d59c4b963ab829a34931",
+    "category": "neutral VoidLeviathan mini"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Leviathan/Leviathan_Portrait_VoidLeviathan.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 13202,
+    "sha256": "e93ccd4b03edc4b0ccc1fdd95bcc21f09d886e10bd2cd45d857327254e9ad13d",
+    "category": "neutral VoidLeviathan portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Troops/Troops_Mini_Infantry.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1565,
+    "sha256": "fadf689d6975ee3b74d24cb50bc87f903fceb4654dceba71cc54931aa784000f",
+    "category": "neutral troop miniature"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Troops/Troops_Portrait_Infantry.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 13488,
+    "sha256": "b329f8b3a2657a58423e3b4619405275ce9d240ae036ec5bd3d174d7e11c5881",
+    "category": "neutral troop portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Troops/Troops_Mini_Armor.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1455,
+    "sha256": "a1cf65e71bcc90a7486fa0c1455ad93c146be5b007eb447a2b3c8472ce100805",
+    "category": "neutral troop miniature"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Troops/Troops_Portrait_Armor.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 12491,
+    "sha256": "b2fc9a826da8798b1ca2541599cc1210fc773ac8822026b0832fd80e490eff21",
+    "category": "neutral troop portrait"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Troops/Troops_Mini_Mech.png",
+    "size": [
+      36,
+      36
+    ],
+    "bytes": 1543,
+    "sha256": "537b5ddb31a73bdb2ca9b6f7728a527561f33a072e8c8ba75a598c2ab01fa0ae",
+    "category": "neutral troop miniature"
+  },
+  {
+    "path": "game-data/Pictures/RaceNeutral/Troops/Troops_Portrait_Mech.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 12714,
+    "sha256": "7d259e02a3b1d9e45fc92bec8d209750b2eabfc86349ccc2dd66f338ac991aab",
+    "category": "neutral troop portrait"
+  },
+  {
+    "path": "game-data/Pictures/Game/Buttons/Main.png",
+    "size": [
+      442,
+      102
+    ],
+    "bytes": 34839,
+    "sha256": "7968e8bbc70e9bda56b12432a1cf73608c574517944a1dad22a261f9c6731dbd",
+    "category": "13 x 3 native main command button states"
+  },
+  {
+    "path": "game-data/Pictures/Game/Buttons/Orders.png",
+    "size": [
+      782,
+      408
+    ],
+    "bytes": 123876,
+    "sha256": "2bda0f42d6843c0280346dbd10d282d0e4d904f8a3f89fdf3fc038fe693c5ba3",
+    "category": "23 x 12 native order icon atlas and 4 interaction states"
+  },
+  {
+    "path": "game-data/Pictures/Game/General.png",
+    "size": [
+      608,
+      176
+    ],
+    "bytes": 34655,
+    "sha256": "794270dac04d8a44a359ea823548f5e4e12c846b97c3905b255521ff181b5fc6",
+    "category": "native icon sheet: resources, status, lamps and effects"
+  },
+  {
+    "path": "game-data/Pictures/Events/Flare.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 28015,
+    "sha256": "80ef2e12bd45b0a71148b1bab167c9ee8614745447198e60a679f0f0d29ed32c",
+    "category": "solar flare event illustration"
+  },
+  {
+    "path": "game-data/Pictures/Events/Comet of Omens.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 32432,
+    "sha256": "21738094b47fa0c8a064480b7971f83a164eb933514c4d1096a5b7d1d9835bcb",
+    "category": "event illustration"
+  },
+  {
+    "path": "game-data/Pictures/Events/Silent Quasar Pulse.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 30696,
+    "sha256": "dbbb93b3cdb08de7c896288648807424567d495cb2235df0578d93cc9fd22b85",
+    "category": "event illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/StarBlue.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16961,
+    "sha256": "57b46ef392442829b3d6a0df8fb036b4674650893fe1a23a83f48bcf0f9f1048",
+    "category": "star picture"
+  },
+  {
+    "path": "game-data/Pictures/Systems/StarNeutron.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 12277,
+    "sha256": "425e9421406eaa60a3d35ef64fe72be1153ff9d10938923a7d8ba4a85b270cd6",
+    "category": "star picture"
+  },
+  {
+    "path": "game-data/Pictures/Systems/StarOrange.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16790,
+    "sha256": "b69314c68da5fb99d1cb2f9a419d7a328f6ceadbe28a4a341c43b5de3b5a2b42",
+    "category": "star picture"
+  },
+  {
+    "path": "game-data/Pictures/Systems/StarRed.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 18541,
+    "sha256": "f7616daf05b1355f6f06d43caaafcf4bf621a7ae67e8c9bcd7acbd667d72eac3",
+    "category": "star picture"
+  },
+  {
+    "path": "game-data/Pictures/Systems/StarWhite.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 16377,
+    "sha256": "202399986e29a67fb4be8327f8287c8fac888e9b387c3bac4b511b313386432a",
+    "category": "star picture"
+  },
+  {
+    "path": "game-data/Pictures/Systems/StarYellow.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 17162,
+    "sha256": "a007f7c02248c0fd1d21c50a0240fab53d6cb3a58c91219b1bc07b46d86f57b4",
+    "category": "star picture"
+  },
+  {
+    "path": "game-data/Pictures/Systems/Special_binary_pulsar.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 15414,
+    "sha256": "bfb7d2fc570f27ee87244c0b1c741d3c38082c22bec086a789f7891214928cff",
+    "category": "special-system illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/Special_black_hole.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 21194,
+    "sha256": "bc91412758eab3e3d2ee9f5662894d97bf318f838cc0a5149d66653861644c0d",
+    "category": "special-system illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/Special_dead_precursor_homeworld.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 25463,
+    "sha256": "1dc2e3b43840bb972dd117ce138c25822aa97c70c3e5d099fd0e26931bacc644",
+    "category": "special-system illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/Special_magnetar_storm.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 28015,
+    "sha256": "80ef2e12bd45b0a71148b1bab167c9ee8614745447198e60a679f0f0d29ed32c",
+    "category": "special-system illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/Special_natural_warp_hub.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 25648,
+    "sha256": "5ee7fe92001acb10678ee9ffbe97e4f40d2f5c2a53e6c432cba5372d65ed293b",
+    "category": "special-system illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/Special_shrouded_nebula.png",
+    "size": [
+      128,
+      128
+    ],
+    "bytes": 27019,
+    "sha256": "dd9daf0d6d5ad67bdaa13136a36d376375626d7b4aabff277a80ad53ae07238b",
+    "category": "special-system illustration"
+  },
+  {
+    "path": "game-data/Pictures/Systems/1024X768/Starfield.png",
+    "size": [
+      660,
+      660
+    ],
+    "bytes": 439355,
+    "sha256": "72b975e457079b5ca2ef307b93b19856161f8c2ebab9f84b7a325214f2bfd5d4",
+    "category": "nebula background"
+  },
+  {
+    "path": "game-data/Pictures/Systems/1024X768/Starmap.png",
+    "size": [
+      660,
+      660
+    ],
+    "bytes": 439355,
+    "sha256": "72b975e457079b5ca2ef307b93b19856161f8c2ebab9f84b7a325214f2bfd5d4",
+    "category": "nebula background"
+  },
+  {
+    "path": "game-data/Pictures/Systems/800X600/Starfield.png",
+    "size": [
+      490,
+      490
+    ],
+    "bytes": 276328,
+    "sha256": "000444631e02bfb41aba06adc1d872c7a79c8e4a0f28d39401d435fae4af070d",
+    "category": "nebula background"
+  },
+  {
+    "path": "game-data/Pictures/Systems/800X600/Starmap.png",
+    "size": [
+      490,
+      490
+    ],
+    "bytes": 276328,
+    "sha256": "000444631e02bfb41aba06adc1d872c7a79c8e4a0f28d39401d435fae4af070d",
+    "category": "nebula background"
+  },
+  {
+    "path": "game-data/Pictures/Game/Screens/1024X768/Starmap.png",
+    "size": [
+      1024,
+      768
+    ],
+    "bytes": 749161,
+    "sha256": "07103f979358fa168441b1f3a9431fdda0c16439eb1e509b06c5ef785e1705e6",
+    "category": "nebula background"
+  },
+  {
+    "path": "game-data/Pictures/Game/Screens/800X600/Starmap.png",
+    "size": [
+      800,
+      600
+    ],
+    "bytes": 516808,
+    "sha256": "7e8d59c26ef84da25daae0eef3c87bd966bbda843ac580c86f1e3a3a438fe7a7",
+    "category": "nebula background"
+  },
+  {
+    "path": "game-data/Pictures/Game/Screens/1024X768/Intro.png",
+    "size": [
+      1024,
+      768
+    ],
+    "bytes": 928554,
+    "sha256": "1177c091f1237fda22d2f26cee2146dc1d56cf18c23f202156ee24032768c3e4",
+    "category": "VOIDREIGN title art"
+  },
+  {
+    "path": "game-data/Pictures/Game/Screens/800X600/Intro.png",
+    "size": [
+      800,
+      600
+    ],
+    "bytes": 619893,
+    "sha256": "c74b3c2512d549925da517149bb9041ffd0740ae8c42f0bc79d4497c0d11fa44",
+    "category": "VOIDREIGN title art"
+  }
+]

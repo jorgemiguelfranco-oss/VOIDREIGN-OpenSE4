@@ -3,3 +3,6 @@ High Navigator
 Chancellor
 Prime Arbiter
 Archon
+High Curator
+Pathwarden
+Solar Prefect

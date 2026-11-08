@@ -448,6 +448,65 @@ struct InterfaceOptions {
 };
 inline constexpr int kFacilityMarkerGroups = 12;
 
+enum class StartingOrigin : uint8_t {
+    None,
+    FirstWaveDiaspora,
+    IndustrialDirectorate,
+    ScientificEnclave,
+    NavalHeritage,
+    CitadelWorld,
+    MerchantConsortium,
+    AgrarianHearth,
+    DeepCrustProspectors,
+    ReactorGuild,
+    LogisticsCombine,
+    PathfinderInitiative,
+    TerraformingMandate,
+    CyberneticCollective,
+    PsionicCovenant,
+    DiplomaticAssembly,
+    WarbornClans,
+    EcologicalStewardship,
+    SalvageGuild,
+    AncientTechnocracy,
+    VoidbornNomads,
+    Count
+};
+
+enum class LeaderRole : uint8_t { Governor, Admiral, Scientist, General, Ruler, Count };
+enum class LeaderRarity : uint8_t { Regular, Veteran, Paragon, Count };
+enum class LeaderTrait : uint8_t {
+    Industrialist, Bureaucrat, Agrarian, Logistician,
+    Tactician, Aggressive, Defender, Explorer,
+    Genius, Visionary, Inspirational, Paragon,
+    None, // no secondary specialisation; a valid serialized enum value
+    Count
+};
+
+// A persistent character in an empire's leadership corps. Assignments are
+// references to an owned colony or fleet; an unassigned scientist works at
+// the empire level. Dead and dismissed leaders remain in the record so their
+// career and succession history survive save/load.
+struct Leader {
+    uint32_t id = 0;
+    std::string name;
+    std::string epithet;
+    LeaderRole role = LeaderRole::Governor;
+    LeaderRarity rarity = LeaderRarity::Regular;
+    LeaderTrait trait = LeaderTrait::Industrialist;
+    LeaderTrait secondaryTrait = LeaderTrait::None; // absent until a level-3 specialisation or Paragon trait
+    uint8_t level = 1;
+    uint32_t experience = 0;
+    uint16_t age = 35;
+    ObjectId assignedColony;
+    FleetId assignedFleet;
+    uint32_t hiredTurn = 0;
+    uint32_t deathTurn = 0;
+    bool alive = true;
+    std::string deathCause;
+    bool operator==(const Leader&) const = default;
+};
+
 struct Empire {
     EmpireId id;
     std::string name;          // e.g. "Terran"
@@ -455,6 +514,7 @@ struct Empire {
     std::string leaderTitle;
     std::string leaderName;
     Race race;
+    StartingOrigin origin = StartingOrigin::None;
     uint32_t color = 0xffffff;
     PlayerKind kind = PlayerKind::Human;
     // A neutral empire handed to a human player (kind Human): neutrality is a
@@ -525,6 +585,8 @@ struct Empire {
     // for the turns it was not visible (save format 10).
     std::vector<StatisticsRow> statistics;
     int experience = 0;
+    std::vector<Leader> leaders;            // governors, admirals, scientists and generals (save format 12)
+    uint32_t nextLeaderId = 0;
     // Fleets the empire has ever created (spec 03 §9, spec 08 §3.6.12,
     // confirmed: binary): rises by one with every fleet made, never falls
     // when one is disbanded; the next default fleet name starts from it plus

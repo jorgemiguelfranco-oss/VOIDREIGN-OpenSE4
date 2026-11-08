@@ -131,7 +131,7 @@ read_doc(DOCS / "commands.md", SECTIONS, QUERIES)
 ENUMS = {n: s for n, s in SECTIONS.items() if s.is_enum}
 STRUCTS = {n: s for n, s in SECTIONS.items() if not s.is_enum}
 COMMAND_GROUPS = ("Vehicles and fleets", "Construction", "Colonies", "Designs", "Research and intelligence", "Diplomacy",
-                  "Empire settings and lists", "Mod orders")
+                  "Empire settings and lists", "VOIDREIGN leadership corps", "Mod orders")
 COMMANDS = {n: s for n, s in STRUCTS.items() if s.file == "commands.md" and s.group in COMMAND_GROUPS}
 COMMAND_TYPES = {n: s for n, s in STRUCTS.items()
                  if s.file == "commands.md" and (s.group == "Types the commands carry" or n == "square") and n not in COMMANDS}
@@ -669,7 +669,7 @@ def main() -> int:
             continue
         stale.append(name)
         if not args.check:
-            path.write_text(text, encoding="utf-8")
+            path.write_text(text, encoding="utf-8", newline="\n")
     if args.check and stale:
         print("out of date (run tools/gen_sdk_python.py): " + ", ".join(stale))
         return 1

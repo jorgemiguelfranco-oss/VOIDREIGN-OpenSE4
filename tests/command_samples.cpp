@@ -184,6 +184,11 @@ game::EmpireOrders everyCommandSample(const Rules& r) {
     // The Launch \ Recover Units window (save format 10).
     c.push_back(cmd::LaunchUnitsNow{VehicleId{49u}, ObjectId{}, DesignId{50u}, 5});
     c.push_back(cmd::RecoverUnitsNow{{}, ObjectId{51u}, VehicleId{52u}, DesignId{}, -1});
+    // VOIDREIGN leadership corps commands (save format 12+).
+    c.push_back(cmd::RecruitLeader{LeaderRole::Governor});
+    c.push_back(cmd::AssignLeader{7u, ObjectId{53u}, {}});
+    c.push_back(cmd::AssignLeader{8u, {}, FleetId{54u}});
+    c.push_back(cmd::DismissLeader{9u});
 
     return orders;
 }

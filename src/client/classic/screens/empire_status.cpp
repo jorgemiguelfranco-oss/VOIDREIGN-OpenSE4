@@ -14,6 +14,7 @@
 #include "game/ai_data.hpp"
 #include "game/combat.hpp"
 #include "game/setup.hpp"
+#include "game/origins.hpp"
 
 #include <algorithm>
 #include <array>
@@ -103,6 +104,8 @@ public:
         const game::Resources income = colonies + eco.trade + eco.tariffsIn + eco.remoteMining;
         const game::Resources expenses = eco.tariffsOut + eco.maintenance + eco.construction;
         const ImU32 silver = imColor(palette::kHeading);
+        statusText(ui, origin, ui.fonts.regular, kTextSize, kTextLead, {20, 15}, imColor(palette::kLabel),
+                   std::format("Starting Origin: {}", game::origins::info(me.origin).name));
         statusText(ui, origin, ui.fonts.bold, kTitleSize, kTitleLead, {20, 40}, silver, "Resource Production Per Turn");
         amountRow(ui, origin, 60, "From Our Colonies", colonies, true);
         amountRow(ui, origin, 80, "From Trade", eco.trade);

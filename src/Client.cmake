@@ -75,6 +75,7 @@ add_executable(opense4
     client/classic/screens/empire_logic.cpp
     client/classic/screens/empire_widgets.cpp
     client/classic/screens/empires.cpp
+    client/classic/screens/leader_roster.cpp
     client/classic/screens/finale_screen.cpp
     client/classic/screens/fleet_transfer.cpp
     client/classic/screens/galaxy_map.cpp

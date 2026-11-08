@@ -91,6 +91,7 @@ OPENSE4_SDK_ENUM(game::combat::TacticalOrder::Kind, "tactical order kind", "move
 OPENSE4_SDK_ENUM(game::VehicleStatus, "vehicle status", "normal", "mothballed", "cloaked");
 OPENSE4_SDK_ENUM(game::ObjectKind, "object kind", "star", "planet", "asteroids", "storm", "warp_point", "destroyed_star", "comet");
 OPENSE4_SDK_ENUM(game::PlayerKind, "player kind", "human", "computer", "neutral");
+OPENSE4_SDK_ENUM(game::LeaderRole, "leader role", "governor", "admiral", "scientist", "general", "ruler");
 OPENSE4_SDK_ENUM(game::LogCategory, "log category", "construction", "research", "intelligence", "events", "politics", "combat", "misc");
 OPENSE4_SDK_ENUM(game::LogGoto, "log target", "none", "location", "research", "intelligence", "empires", "construction_queues",
                  "empire_options", "designs");

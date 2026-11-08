@@ -170,6 +170,7 @@ public:
         fleets();
         orders();
         logsAndMessages();
+        linkMessageReplies();
         events();
         scenario();
         knowledge();
@@ -1305,6 +1306,56 @@ private:
                 }
                 s_.empires[e].log.push_back(std::move(entry));
             }
+        }
+    }
+
+    // Classic saves retain each diplomatic message in its recipient's log, but
+    // do not store OpenSE4's inReplyTo id. Reconstruct that relationship from
+    // the reply type and the reversed sender/recipient pair after all empires'
+    // logs have been imported. Choosing the newest unmatched compatible message
+    // on or before the reply date mirrors diplomacy::repliedTo in a live game.
+    void linkMessageReplies() {
+        const size_t n = s_.messages.size();
+        std::vector<uint8_t> alreadyAnswered(n, 0);
+        auto accepts = [](MessageType reply, MessageType original) {
+            switch (reply) {
+                case MessageType::AcceptTreaty:
+                case MessageType::RefuseTreaty:
+                case MessageType::CounterTreaty:
+                    return original == MessageType::ProposeTreaty || original == MessageType::CounterTreaty;
+                case MessageType::AcceptTrade:
+                case MessageType::RefuseTrade:
+                case MessageType::CounterTrade:
+                    return original == MessageType::ProposeTrade || original == MessageType::CounterTrade;
+                case MessageType::AcceptGift:
+                case MessageType::RefuseGift:
+                    return original == MessageType::Gift || original == MessageType::Tribute;
+                case MessageType::AcceptDemand:
+                case MessageType::RefuseDemand:
+                    return original == MessageType::General ||
+                           (original >= MessageType::DemandGift && original <= MessageType::DemandStopAttacks);
+                default:
+                    return false;
+            }
+        };
+        for (size_t replyIndex = 0; replyIndex < n; ++replyIndex) {
+            DiplomaticMessage& reply = s_.messages[replyIndex];
+            if (reply.inReplyTo.valid()) continue;
+            size_t best = n;
+            for (size_t candidateIndex = 0; candidateIndex < n; ++candidateIndex) {
+                if (candidateIndex == replyIndex || alreadyAnswered[candidateIndex]) continue;
+                const DiplomaticMessage& candidate = s_.messages[candidateIndex];
+                if (!candidate.delivered || candidate.from != reply.to || candidate.to != reply.from ||
+                    candidate.dated > reply.dated || !accepts(reply.type, candidate.type)) continue;
+                if (best == n ||
+                    std::tie(candidate.dated, candidate.sentTurn, candidate.id.value) >
+                    std::tie(s_.messages[best].dated, s_.messages[best].sentTurn, s_.messages[best].id.value))
+                    best = candidateIndex;
+            }
+            if (best == n) continue;
+            reply.inReplyTo = s_.messages[best].id;
+            s_.messages[best].answered = true;
+            alreadyAnswered[best] = 1;
         }
     }
 

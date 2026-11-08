@@ -353,6 +353,13 @@ game::GameState newEngineGame(uint64_t seed, int empires, int systems, bool allH
     }
     auto g = game::createGame(engineRules(), setup);
     REQUIRE_MESSAGE(g.has_value(), (g ? std::string{} : g.error()));
+    // This synthetic fixture isolates classic subsystem tests from VOIDREIGN's
+    // native opening leadership corps. The production opening, leader bonuses,
+    // upkeep and persistence are exercised against native data in test_ruleset.
+    for (game::Empire& empire : g->empires) {
+        empire.leaders.clear();
+        empire.nextLeaderId = 0;
+    }
     return std::move(*g);
 }
 

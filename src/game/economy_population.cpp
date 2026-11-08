@@ -1,5 +1,6 @@
 #include "game/log_picture.hpp"
 #include "game/economy.hpp"
+#include "game/leaders.hpp"
 
 #include "datafile/datafile.hpp"
 #include "game/combat.hpp"
@@ -53,7 +54,9 @@ EmpireId majorityRace(const Colony& c) {
 // ---- Growth (spec 02 §3) ---------------------------------------------------------------------------
 
 void growColony(const Rules& r, GameState& s, Colony& c) {
-    const int rate = reproductionPercent(r, s, c);
+    int rate = reproductionPercent(r, s, c);
+    const int governorBonus = leaders::governorPopulationGrowthBonusPct(s.empire(c.owner), c.planet);
+    if (governorBonus > 0) rate = static_cast<int>(xmath::pctRound(rate, 100 + governorBonus));
     int64_t room = std::max<int64_t>(0, maxPopulation(r, s, c) - c.totalPopulation());
     // Earlier races fill the free room first (confirmed: binary).
     const Ext perTurn = xmath::percent(rate) / Ext(10);  // % per year, 10 turns a year

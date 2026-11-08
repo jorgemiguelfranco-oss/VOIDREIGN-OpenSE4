@@ -98,6 +98,13 @@ GameState newGame(const Rules& r, uint64_t seed = 7, int empires = 2) {
     }
     auto g = createGame(r, setup);
     REQUIRE_MESSAGE(g.has_value(), (g ? std::string{} : g.error()));
+    // This file validates the engine's base economy in isolation. The native
+    // VOIDREIGN opening leadership corps and its upkeep/bonuses are covered by
+    // the production-ruleset tests, so remove it from this legacy economy fixture.
+    for (Empire& empire : g->empires) {
+        empire.leaders.clear();
+        empire.nextLeaderId = 0;
+    }
     return std::move(*g);
 }
 
@@ -557,7 +564,7 @@ TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
         });
         addFacility(rs, "Test Starting Warehouse",
                     {ability(AbilityKind::ResourceStorageMinerals, 30000), ability(AbilityKind::ResourceStorageOrganics, 30000),
-                     ability(AbilityKind::ResourceStorageRadioactives, 10000)},
+                     ability(AbilityKind::ResourceStorageRadioactives, 30000)},
                     {500, 250, 25});
     });
     GameState s = newGame(*r);
