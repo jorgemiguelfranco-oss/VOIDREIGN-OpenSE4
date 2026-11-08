@@ -173,7 +173,4 @@ std::unique_ptr<Screen> makeScenarioText(const ScreenArgs& args);
 std::unique_ptr<Screen> makeLearn(const ScreenArgs& args);
 std::unique_ptr<Screen> makeManual(const ScreenArgs& args);
 
-// A stand-in for windows that are not written yet.
-std::unique_ptr<Screen> makePlaceholder(ScreenId id);
-
 } // namespace opense4::client::classic

@@ -5,30 +5,6 @@
 
 namespace opense4::client::classic {
 
-namespace {
-
-class PlaceholderScreen final : public Screen {
-public:
-    explicit PlaceholderScreen(ScreenId id) : id_(id) {}
-    bool draw(UiContext& ui) override {
-        Dialog d(ui, screenTitle(id_), DialogSize::Large);
-        if (d.open()) {
-            d.beginContent();
-            ImGui::TextDisabled("This window is not available yet.");
-            d.beginButtons();
-            d.close();
-        }
-        return d.keepOpen();
-    }
-
-private:
-    ScreenId id_;
-};
-
-} // namespace
-
-std::unique_ptr<Screen> makePlaceholder(ScreenId id) { return std::make_unique<PlaceholderScreen>(id); }
-
 const char* screenTitle(ScreenId id) {
     switch (id) {
         case ScreenId::GameMenu: return "Game Menu";
