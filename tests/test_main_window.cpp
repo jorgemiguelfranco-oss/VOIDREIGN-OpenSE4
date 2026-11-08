@@ -1333,6 +1333,9 @@ TEST_CASE("main window: what a sector shows") {
     CHECK(view.owners[0].count == 1);
     CHECK(view.stellar == planet.front());
     CHECK(view.stellarCount == 1);
+    REQUIRE(view.vehicleMarkers.size() == 1);
+    CHECK(view.vehicleMarkers.front().vehicle == aId);
+    CHECK_FALSE(view.vehicleMarkers.front().fleet.valid());
     // In empty space: the vehicle and the count of objects.
     view = sectorView(r, s, kMe, {}, both, 50);
     CHECK_FALSE(view.flags);
@@ -1350,6 +1353,45 @@ TEST_CASE("main window: what a sector shows") {
     CHECK(flagStep(5, 36) == 7);
     CHECK(flagStep(5, 50) == 10);
     CHECK(flagStep(6, 50) == 8);
+}
+
+
+TEST_CASE("main window: ships, fleet markers and mobile shipyards remain visible beside stellar objects") {
+    const Rules& r = engineRules();
+    GameState s = newEngineGame();
+    const Location where = locationOf(s.galaxy, homeworld(s, kMe).planet);
+    const DesignId plain = design(s, r, "Escort", "Test Frigate", kShipBasics);
+    const DesignId yardDesign = design(s, r, "Tender", "Test Frigate",
+                                       {"Test Bridge", "Test Life Support", "Test Crew Quarters", "Test Yard Module"});
+    const VehicleId a = addTestVehicle(s, r, plain, where).id;
+    const VehicleId b = addTestVehicle(s, r, plain, where).id;
+    const VehicleId yard = addTestVehicle(s, r, yardDesign, where).id;
+    REQUIRE(apply(r, s, kMe, cmd::CreateFleet{"Home Guard", {a, b}}).ok);
+    const FleetId fleet = s.vehicle(a)->fleet;
+    REQUIRE(fleet.valid());
+
+    const std::vector<ObjectId> stellar{homeworld(s, kMe).planet};
+    const std::vector<const Vehicle*> vehicles{s.vehicle(a), s.vehicle(b), s.vehicle(yard)};
+    const SectorView view = sectorView(r, s, kMe, stellar, vehicles, 50);
+    CHECK(view.flags);
+    REQUIRE(view.vehicleMarkers.size() == 2);
+    const auto fleetMarker = std::find_if(view.vehicleMarkers.begin(), view.vehicleMarkers.end(),
+                                          [&](const SectorView::VehicleMarker& m) { return m.fleet == fleet; });
+    REQUIRE(fleetMarker != view.vehicleMarkers.end());
+    CHECK(fleetMarker->vehicle == a);
+    CHECK_FALSE(fleetMarker->shipyard);
+    const auto yardMarker = std::find_if(view.vehicleMarkers.begin(), view.vehicleMarkers.end(),
+                                         [&](const SectorView::VehicleMarker& m) { return m.vehicle == yard; });
+    REQUIRE(yardMarker != view.vehicleMarkers.end());
+    CHECK_FALSE(yardMarker->fleet.valid());
+    CHECK(yardMarker->shipyard);
+
+    // In empty space, a fleet and an independent shipyard ship are separate
+    // markers too; the fleet's members remain grouped.
+    const SectorView empty = sectorView(r, s, kMe, {}, vehicles, 50);
+    CHECK_FALSE(empty.flags);
+    REQUIRE(empty.vehicleMarkers.size() == 2);
+    CHECK(empty.count == 3);
 }
 
 TEST_CASE("main window: the sector's list shows each own fleet as one row, sorted as the original sorts it (spec 06 §2.5)") {

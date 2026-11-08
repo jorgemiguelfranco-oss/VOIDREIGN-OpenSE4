@@ -1,9 +1,9 @@
 #pragma once
 
 // What the system panel draws in one sector (docs/spec/06 §2.4 "Sector
-// contents", §7 Q49, confirmed: binary): the stellar object shown and how many
-// there are, and the vehicles as one sprite with a count or as owner flags
-// with counts. Headless, tested in tests/test_main_window.cpp.
+// contents"): the stellar object and owner-presence markers, plus compact
+// faction-specific ship/fleet/base markers when vehicles share the sector with
+// a stellar object, another empire, or another independent fleet/ship group. Headless, tested in tests/test_main_window.cpp.
 
 #include "game/rules.hpp"
 #include "game/state.hpp"
@@ -15,6 +15,17 @@
 namespace opense4::client::classic {
 
 struct SectorView {
+    // A compact map marker for a visible vehicle. The first member represents
+    // the player's whole fleet at this location; shipyard marks identify a
+    // vehicle with an operational Space Yard module.
+    struct VehicleMarker {
+        game::VehicleId vehicle;
+        game::FleetId fleet;
+        bool shipyard = false;
+        bool operator==(const VehicleMarker&) const = default;
+    };
+    std::vector<VehicleMarker> vehicleMarkers;
+
     // The stellar object drawn (planet, asteroid field, star, storm, warp
     // point, comet): the first in the system's object list unless a later
     // planet has a larger planet-size Stellar Size; and how many there are
