@@ -117,15 +117,16 @@ public:
     Sprite commandButton(int icon, int state);
     Sprite eventPicture(std::string_view name);
     // The system panel's background (Systems/<layout>/<bitmap>, ".bmp" added
-    // when missing), and the 128x128 picture of the System Report (Systems/<bitmap>).
-    Sprite systemBackground(std::string_view bitmap);
+    // when missing), and the 128x128 System Report picture. A stable per-system
+    // variation key selects one of four original scenes within the same biome;
+    // legacy mods fall back to their unvaried bitmap.
+    Sprite systemBackground(std::string_view bitmap, uint64_t systemSeed = 0);
     // The intro screen's picture for the layout in use (Game/Screens/<layout>/Intro.bmp).
     Sprite introPicture();
-    Sprite systemPicture(std::string_view bitmap);
-    // The tactical and replay maps' background (docs/spec/06 §5.3): 432x432,
-    // 6 x 6 tiles of 72x72, each picked by `seed` among Systems/<name>Tile<n>.bmp;
-    // the top-left 432x432 of the 1024x768 star field when `name` has no tiles.
-    // Opaque; it repeats every 12 combat squares.
+    Sprite systemPicture(std::string_view bitmap, uint64_t systemSeed = 0);
+    // Tactical/replay backdrop: a 432x432 crop of the system's own biome
+    // variant, selected by stable SystemId so it matches the System Map. Older
+    // mods retain their own tile mosaics; the generic starfield is the fallback.
     Sprite combatBackground(std::string_view name, uint64_t seed);
     bool hasCombatTiles(std::string_view name);
 

@@ -1,0 +1,868 @@
+{
+  "title": "VOIDREIGN native component and facility art",
+  "generated_at": "2026-11-09T09:04:42.492421+00:00",
+  "renderer": "tools/art/generate_component_facility_art.py",
+  "method": "Original procedural vector illustration with custom silhouettes, bevels, lighting and per-item semantic forms",
+  "components": 49,
+  "facilities": 29,
+  "assets": [
+    {
+      "file": "game-data/Pictures/Components/Comp_001.png",
+      "name": "VoidReign Command Bridge",
+      "category": "Ship Systems",
+      "pic_num": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b7585706399ee4987476f9c358bd2da44e9e6534f2b05227967e543d70b09ac4"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_002.png",
+      "name": "VoidReign Life Support",
+      "category": "Ship Systems",
+      "pic_num": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "122e6304d80e4ddf36dc25537b556ce851e864eae6a6cd1cd137c347e0da66b5"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_003.png",
+      "name": "VoidReign Crew Quarters",
+      "category": "Ship Systems",
+      "pic_num": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "aa6d3bb2514b3e23054b83ef7806105d8f26168740983367436850bec5f38d76"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_004.png",
+      "name": "VoidReign Vector Drive I",
+      "category": "Engines",
+      "pic_num": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "09c0ba35b3630d2b6ca606e4e1340b47dbba165bb4c9747d8f912a05bec9c0af"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_005.png",
+      "name": "VoidReign Cargo Hold",
+      "category": "Cargo",
+      "pic_num": 5,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "304c34662c8c7b92c12243f539c3a10e9edf227345acfa8008e07d916913d03a"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_006.png",
+      "name": "VoidReign Pulse Cannon I",
+      "category": "Weapons",
+      "pic_num": 6,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "83818349f52a2d2ca32c0cdec9d1114873746b15c283676f21705de64a7d57ee"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_007.png",
+      "name": "VoidReign Rock Colonization Module",
+      "category": "Colonization",
+      "pic_num": 7,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d50989bfc4be1bdc2a95a3032e7084c607589929f2035a20346650af6088092f"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_008.png",
+      "name": "VoidReign Ice Colonization Module",
+      "category": "Colonization",
+      "pic_num": 8,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "029a21e635acd02f47e5eb48cbbe6a8a8804eed1d07d1055bd42193d6f956bce"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_009.png",
+      "name": "VoidReign Gas Colonization Module",
+      "category": "Colonization",
+      "pic_num": 9,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "7c4476a047d194b163705fc5ec38b93fb60c03c049a81e74840252748287b4f1"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_010.png",
+      "name": "VoidReign Orbital Shipyard",
+      "category": "Construction",
+      "pic_num": 10,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "faf508bd283f33e22855ce45c4a9aebf5070e3535494a6e38753ad75de54bf08"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_011.png",
+      "name": "VoidReign Sensor Array",
+      "category": "Sensors",
+      "pic_num": 11,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "a496b65aa736ad8bd4e1c9f6ed8235607c8271d6ed61ffd152b1591f03ed6e64"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_012.png",
+      "name": "VoidReign Shield Projector I",
+      "category": "Shields",
+      "pic_num": 12,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "9b64ccd20a4e4a6cb35851fa7f3d46775164285ea5c217826597d9eddbf37b2e"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_013.png",
+      "name": "VoidReign Vector Drive II",
+      "category": "Engines",
+      "pic_num": 13,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "4c1e37a0c88091f9393be5ac512f96a1efe8b56a61ff2ed22582aa68a6324d74"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_014.png",
+      "name": "VoidReign Cargo Hold II",
+      "category": "Cargo",
+      "pic_num": 14,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "8e81ee9229e9c0bad35d2038d44003dde003d5e2c1f91129d9bebebc5374ea84"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_015.png",
+      "name": "VoidReign Pulse Cannon II",
+      "category": "Weapons",
+      "pic_num": 15,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "40e920722fb19cc2fec579a1e2883541ae1fb8ee12a21fab8c7308c9c5233c02"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_016.png",
+      "name": "VoidReign Orbital Shipyard II",
+      "category": "Construction",
+      "pic_num": 16,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "def7caca104d2fa6e6a1b2c70aed4a29a2d43caaa60ff8d135c5ef3bd95851ac"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_017.png",
+      "name": "VoidReign Sensor Array II",
+      "category": "Sensors",
+      "pic_num": 17,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "6a421377b952fde7bf0ec0087fbe18f12d2745ab69084aa4cb21b3510a8700dc"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_018.png",
+      "name": "VoidReign Sensor Suite I",
+      "category": "Sensors",
+      "pic_num": 18,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "87dd278912b9f35b53014b2e197c3a63d66e49bad02e3ce6b907755a37eadfb4"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_019.png",
+      "name": "VoidReign Sensor Suite II",
+      "category": "Sensors",
+      "pic_num": 19,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b59045ee3967de629433f6d44f8489709563bd80c74001122edfcb8fd17c94eb"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_020.png",
+      "name": "VoidReign Shield Projector II",
+      "category": "Shields",
+      "pic_num": 20,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "bf709d6756bd716e55882c11edd1a0e30d512000d2184393bfef7e72f18b89f6"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_021.png",
+      "name": "VoidReign Pulse Cannon III",
+      "category": "Weapons",
+      "pic_num": 21,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "683643543d03b8ec00595ac8bf1f22273aabe028cfb07040f296bf0646c21877"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_022.png",
+      "name": "VoidReign Pulse Cannon IV",
+      "category": "Weapons",
+      "pic_num": 22,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "97e5cfb5b5de22be3580ed9b85d6e64eba42a9a65dae43b2cb2876744bd9dd5b"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_023.png",
+      "name": "VoidReign Pulse Cannon V",
+      "category": "Weapons",
+      "pic_num": 23,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "5768e92c3a7449a15261a565aff64a2e46db0bb3d7e9c19854da85b8a44b75f6"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_024.png",
+      "name": "VoidReign Shield Projector III",
+      "category": "Shields",
+      "pic_num": 24,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "93d680e9ff3822b9b725c1b87a5604a451a269e8f585245f3e4b35a3ca50ed2b"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_025.png",
+      "name": "VoidReign Shield Projector IV",
+      "category": "Shields",
+      "pic_num": 25,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "e845718a82c6b0155bd372c8b0eba3bb80d32bf7cafbfafae3b842050189d552"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_026.png",
+      "name": "VoidReign Shield Projector V",
+      "category": "Shields",
+      "pic_num": 26,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "ad5875a04fd508d392e97245436e92a91bccce11b67a67a2baa1e38a662eab43"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_027.png",
+      "name": "VoidReign Vector Drive III",
+      "category": "Engines",
+      "pic_num": 27,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "0522cf1f9fe3d4b6aa79efe138140c3a7a2ee6e91616b34f1d94e33639d7026e"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_028.png",
+      "name": "VoidReign Vector Drive IV",
+      "category": "Engines",
+      "pic_num": 28,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "06c52f70321bbdf37059caeab61b8dcecf46758935eea493524b29737cc0896d"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_029.png",
+      "name": "VoidReign Cargo Hold III",
+      "category": "Cargo",
+      "pic_num": 29,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "939b88b4fa27135866b6e43a88d42bc35bace67ac9be16e29d5bedea0f790e07"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_030.png",
+      "name": "VoidReign Cargo Hold IV",
+      "category": "Cargo",
+      "pic_num": 30,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "397b70416ea5ead7179d20ea705f33a03f16ca625a7afb32e0efe849bcf9b7c5"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_031.png",
+      "name": "VoidReign Cargo Hold V",
+      "category": "Cargo",
+      "pic_num": 31,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "1f1ce26f255aa03ce5c8fa7962ee98eb9f140fe6ad519dc0e4f7a712eb44c41e"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_032.png",
+      "name": "VoidReign Phase Shield 1",
+      "category": "Shields",
+      "pic_num": 32,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b33125d58d2d92760815fb1f8cf1a1966fd0a6670524d7c14558347b55ad2fe5"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_033.png",
+      "name": "VoidReign Phase Shield 2",
+      "category": "Shields",
+      "pic_num": 33,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d1ed4a274354f2675ec87eaaad019ba2d6c644db028a51041a3df092dc05ec60"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_034.png",
+      "name": "VoidReign Phase Shield 3",
+      "category": "Shields",
+      "pic_num": 34,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "3e096e91e86764a47b53119c355d62dfec5ef512ecd0e67306e55a774d108f9f"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_035.png",
+      "name": "VoidReign Gravity Lance 1",
+      "category": "Weapons",
+      "pic_num": 35,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "143f8c1053e796587b8d4c88a8c5c7364f4e4d379303de371c16d6dd03bbbbaa"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_036.png",
+      "name": "VoidReign Gravity Lance 2",
+      "category": "Weapons",
+      "pic_num": 36,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b0ba907ac0f50e0792d52c6b90301c10996857e209cb3e50f0123af748b99786"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_037.png",
+      "name": "VoidReign Gravity Lance 3",
+      "category": "Weapons",
+      "pic_num": 37,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "e6c3299a50d037499bce16cb751ccfcf4911280c2b59253cc22aa86f8946cd17"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_038.png",
+      "name": "VoidReign Horizon Drive 1",
+      "category": "Engines",
+      "pic_num": 38,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "e96c383a26c7361a3395d4e248791be81138a278a55175584564ca64d4356507"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_039.png",
+      "name": "VoidReign Horizon Drive 2",
+      "category": "Engines",
+      "pic_num": 39,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "1a3582cad79d3fcaa80e4322b0e676b8e42199e9c807f099172675066fc96e5d"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_040.png",
+      "name": "VoidReign Horizon Drive 3",
+      "category": "Engines",
+      "pic_num": 40,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "40af809bf179017658760cf43b17187d76fa20be5fcdea79125ea037c79bdc68"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_041.png",
+      "name": "VoidReign Quantum Sensor Suite 3",
+      "category": "Sensors",
+      "pic_num": 41,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "562a6b74d6e6c1c6a7823944969dc0e973ad2b8fce0fc69728e8998274058eb0"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_042.png",
+      "name": "VoidReign Quantum Sensor Suite 4",
+      "category": "Sensors",
+      "pic_num": 42,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d37d74e5a018487cf4288d1462bc5e787ecc456423debca15a9137f98398a89a"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_043.png",
+      "name": "VoidReign Rock Colonization Module II",
+      "category": "Colonization",
+      "pic_num": 43,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "42a21628b493fe9d76f0d203cbc78b08c88f3fe28415412bf14ca9f3c93737c7"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_044.png",
+      "name": "VoidReign Ice Colonization Module II",
+      "category": "Colonization",
+      "pic_num": 44,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "2870ffad22e9f4aecb8dae3d73a18262fa5c8329f62ab89001d1fee632bf3bf1"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_045.png",
+      "name": "VoidReign Gas Colonization Module II",
+      "category": "Colonization",
+      "pic_num": 45,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "eee68f8f91f7728784dfd5d30082519dc7395fc1a7649c554aa4b7da1ae8449f"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_046.png",
+      "name": "VoidReign Orbital Shipyard 3",
+      "category": "Construction",
+      "pic_num": 46,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "c7ddcd67179f2171e9e18afb4e6f4b797230b0955198b75ab0e80be270afe932"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_047.png",
+      "name": "VoidReign Orbital Shipyard 4",
+      "category": "Construction",
+      "pic_num": 47,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "fd47244d6703e545d75e38b0fd68aa77e1a9195d7ba01189c69fa64d33a13838"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_048.png",
+      "name": "VoidReign Fleet Support Matrix 1",
+      "category": "Support",
+      "pic_num": 48,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "24867cda1712094a463fc8e81fd485b159706705edc6c34a081e65e462dd7bdb"
+    },
+    {
+      "file": "game-data/Pictures/Components/Comp_049.png",
+      "name": "VoidReign Fleet Support Matrix 2",
+      "category": "Support",
+      "pic_num": 49,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "89119e690f8caa1b25fd21e37ea817080dde6f2a1744aa670a2b121fd637a288"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_001.png",
+      "name": "VoidReign Mineral Extractor",
+      "category": "Resource Generation",
+      "pic_num": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "63ca434581f2b37706b33004434cae1b731af45029840bf0ef3fcce27c303bfe"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_002.png",
+      "name": "VoidReign Hydroponics",
+      "category": "Resource Generation",
+      "pic_num": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "af689e39a03a15906808b3113ef66c7b98d308eb587c7540fa6941abdba1cbcb"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_003.png",
+      "name": "VoidReign Isotope Reactor",
+      "category": "Resource Generation",
+      "pic_num": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "f2786e47596bda0b0786c7f0189deaea5f5b40f3caf9f7c0e214522de5d20293"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_004.png",
+      "name": "VoidReign Research Institute",
+      "category": "Point Generation",
+      "pic_num": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "4f18b3af3786aa22b97a22f3e153c0fe35044f1649a4feba4b4fe4f624bda0bd"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_005.png",
+      "name": "VoidReign Intelligence Bureau",
+      "category": "Point Generation",
+      "pic_num": 5,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b2b6231232e5801f0680b18e858c658e26e86bedb9944d520a5b42ac86856d85"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_006.png",
+      "name": "VoidReign Spaceport",
+      "category": "Spaceport",
+      "pic_num": 6,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "177c882d436bbcfd11cc229b74a8684ace6737504241b8468e3d14c46f852c6f"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_007.png",
+      "name": "VoidReign Planetary Shipyard",
+      "category": "Space Yard",
+      "pic_num": 7,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "4b0be4cb6f69098aa05b36860938d69cce5e28a4e88191d60a653dfb159bd6d7"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_008.png",
+      "name": "VoidReign Supply Depot",
+      "category": "Supply Generation",
+      "pic_num": 8,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "1611d53fdca61c3b5bda9b6d870a329ba2be61881404f75440a496fc7a946cfc"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_009.png",
+      "name": "VoidReign Warehouse",
+      "category": "Resource Storage",
+      "pic_num": 9,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "029e90fa7b9f6a5fc0a17f609a93a515cfcef7c2e7d60237c250c03b37b45f3f"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_010.png",
+      "name": "VoidReign Mineral Extractor II",
+      "category": "Resource Generation",
+      "pic_num": 10,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "4a7f4fbb2550562f72caa597a7a7fa03ba2f383949d7b431167a1e834bab9acb"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_011.png",
+      "name": "VoidReign Hydroponics II",
+      "category": "Resource Generation",
+      "pic_num": 11,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d53ce86c972aac5f39287c0ad46da8ef753e7598b4e32adffd7b6f001de7bf40"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_012.png",
+      "name": "VoidReign Isotope Reactor II",
+      "category": "Resource Generation",
+      "pic_num": 12,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d40b7a35743f9b62076e3229861f0adbca30d713f583c3a507f192b3fe12fee3"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_013.png",
+      "name": "VoidReign Research Institute II",
+      "category": "Point Generation",
+      "pic_num": 13,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "ef8ad7f63439f30e00d05e5b66fc37aeaf48946e4b6ea2a5db7201be1ec8af84"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_014.png",
+      "name": "VoidReign Intelligence Bureau II",
+      "category": "Point Generation",
+      "pic_num": 14,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "5258a1860abcf3dc7ffd0b6505420d05e4b87d8255a8bee106b8377c09c068ec"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_015.png",
+      "name": "VoidReign Planetary Shipyard II",
+      "category": "Space Yard",
+      "pic_num": 15,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "72b9e2f759c5d3647dcee918378b6005cb734adb7eeaebf66e2737081705aea8"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_016.png",
+      "name": "VoidReign Supply Depot II",
+      "category": "Supply Generation",
+      "pic_num": 16,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "75ada2794152a06f6d7aeb89eea7c0b8c5e49f9ca60e6e756334de21e070e436"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_017.png",
+      "name": "VoidReign Warehouse II",
+      "category": "Resource Storage",
+      "pic_num": 17,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "6774c08d65a56092705c897bc9b3a2648f6b55361fdc0b20082d296484b24480"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_018.png",
+      "name": "VoidReign Warehouse III",
+      "category": "Resource Storage",
+      "pic_num": 18,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "7f16c5c6e597112b6c412a61491e14600f819ea649801d154443781fa76056ef"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_019.png",
+      "name": "VoidReign Warehouse IV",
+      "category": "Resource Storage",
+      "pic_num": 19,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "4e015e5bd106948fc6a0c8d57b72a50f4e3d22fe334794adb51e105ea742d226"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_020.png",
+      "name": "VoidReign Mineral Extractor III",
+      "category": "Resource Generation",
+      "pic_num": 20,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "dea2f8dbf4555da881ca6fcf6d596bed69f9c078c0df44851860d75ca3aef4bd"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_021.png",
+      "name": "VoidReign Hydroponics III",
+      "category": "Resource Generation",
+      "pic_num": 21,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "f5bb0a581b08e05e0d3bb55387f175b67b9e258bb4e797d6df523aa130edf60a"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_022.png",
+      "name": "VoidReign Isotope Reactor III",
+      "category": "Resource Generation",
+      "pic_num": 22,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "c969c24d08321326b53a8c56fdc250037ff4b544b6cb1f893aefa14894066a6e"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_023.png",
+      "name": "VoidReign Research Institute III",
+      "category": "Point Generation",
+      "pic_num": 23,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "22f206ef4c5f4d0ea9af14e8d4f6597a35504219df1f409392dd0a34cb6372ed"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_024.png",
+      "name": "VoidReign Intelligence Bureau III",
+      "category": "Point Generation",
+      "pic_num": 24,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "5e45717cf81949bde44aacf2430ec6674454f00882ffcd5177359c69e43c7de4"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_025.png",
+      "name": "VoidReign Planetary Shipyard III",
+      "category": "Space Yard",
+      "pic_num": 25,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "92296565050555e1cd56a663e37b3a0762aa031e23421a3cd5cab2ffdd750146"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_026.png",
+      "name": "VoidReign Supply Depot III",
+      "category": "Supply Generation",
+      "pic_num": 26,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "56a6cb958bc7461ccca34b5c7a57dfa7b0376606ab77c5df8b4d82ba0259c823"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_027.png",
+      "name": "VoidReign Warehouse 5",
+      "category": "Resource Storage",
+      "pic_num": 27,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "4ae8ddbdbdedf112469eafc0f97d9fcb467bfa4ebfb38b052466c0cd524d0c21"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_028.png",
+      "name": "VoidReign Warehouse 6",
+      "category": "Resource Storage",
+      "pic_num": 28,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "589b7116eac27fb40b545c647bea3e6f3fe5a61636fe682a4a0d84d051035da0"
+    },
+    {
+      "file": "game-data/Pictures/Facilities/Facil_029.png",
+      "name": "VoidReign Quantum Observatory",
+      "category": "Observatory",
+      "pic_num": 29,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "1479b2aa63fc9793fc5bd9af9fccb96545f91b7e7ae47d8a04d10a46aebedaf9"
+    }
+  ]
+}

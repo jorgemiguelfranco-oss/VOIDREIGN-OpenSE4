@@ -386,6 +386,21 @@ private:
             if (!fallback) fallback = t;
             if (keysEqual(st.description, y.typeDescription) && keysEqual(st.backgroundBitmap, y.backgroundBitmap)) return ruleset::SystemTypeId{t};
         }
+        // A VOIDREIGN art refresh may change a system's Background Bitmap while
+        // leaving its original description and physical type intact. Classic
+        // save files store those copied attributes, not our internal type id;
+        // a unique description match preserves the intended biome on import.
+        std::optional<uint32_t> described;
+        for (uint32_t t = 0; t < d_.systemTypes.size(); ++t) {
+            const ruleset::SystemType& st = d_.systemTypes[t];
+            if (!keysEqual(st.physicalType, physical) || !keysEqual(st.description, y.typeDescription)) continue;
+            if (described) {
+                described.reset();
+                break;
+            }
+            described = t;
+        }
+        if (described) return ruleset::SystemTypeId{*described};
         count("systems whose type was guessed from the physical type");
         return fallback ? ruleset::SystemTypeId{*fallback} : ruleset::SystemTypeId{};
     }

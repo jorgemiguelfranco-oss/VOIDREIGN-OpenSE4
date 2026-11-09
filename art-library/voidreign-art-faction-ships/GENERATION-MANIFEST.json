@@ -1,0 +1,1182 @@
+{
+  "title": "VOIDREIGN faction-specific ship art",
+  "generated_at": "2026-11-09T09:01:10.768342+00:00",
+  "generator": "tools/art/generate_ship_art.py",
+  "method": "Original procedural vector ship silhouettes, hull plating, faction motifs and propulsion lighting",
+  "factions": [
+    "Aurelian",
+    "Veyran",
+    "Khepri",
+    "Meridian",
+    "Outer",
+    "Helion"
+  ],
+  "hulls": [
+    "Pathfinder",
+    "Hauler",
+    "Frigate",
+    "Destroyer",
+    "Cruiser",
+    "Battleship",
+    "Colonizer",
+    "Station",
+    "Corvette",
+    "ScienceVessel",
+    "Dreadnought",
+    "MobileShipyard"
+  ],
+  "assets": [
+    {
+      "faction": "Aurelian",
+      "hull": "Pathfinder",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignPathfinder.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignPathfinder.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "7f1d15c525368a3e4a3e0ddecf9957d34f7b67b131c63417ede901f8e0bd3c67",
+      "mini_sha256": "45d27621970758d7269e5f8013d966bff34858a800b67c61581bd35d716a91cc"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Hauler",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignHauler.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignHauler.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "15c9d76ca901e573e12b43e2bb360672c66a1065ca466114ac16817c823425f5",
+      "mini_sha256": "badebc6b0b3cd583a93a6f76b62e42c95ee8b40b7220d346eed03cd47a8fec40"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Frigate",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignFrigate.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignFrigate.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "02963c1c20d465cf6f977125fb32139397fe5dd22cbe49598eff28ff6b812143",
+      "mini_sha256": "0d8234b2241d08da7e5038ed37f2d6ff271ecb4229fcd0eab3330e2e9329355d"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Destroyer",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignDestroyer.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignDestroyer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "9de694b2fca49f89893065b3cdaedca387b90c0805ddea3f44dc558d9388614a",
+      "mini_sha256": "97a49f79b89ece2c4b24d60fcda1779bd322bac00a3f1d2b7e4482ecaf1bdeea"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Cruiser",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignCruiser.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignCruiser.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "6d3f09522c77af4658e2a36da3e66ffac4f32e8063de9e0687d9decc3451f77f",
+      "mini_sha256": "f959e4377eca54a17c19c44d7a4971a386b2d7b830ef026aa10203ec04f3e0aa"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Battleship",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignBattleship.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignBattleship.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "8988d8e38514ae5936dbaf7c90744a116f6054191161a669a01e264354e0acb8",
+      "mini_sha256": "b9c54ecb66e6417402b73c60090fbfdde0ce1829dcb4818468852cd099019990"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Colonizer",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignColonizer.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignColonizer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "4701790e87bb421fd7109e28f3b78c3414c4411494cd82c6b17009506f86e11d",
+      "mini_sha256": "8d5e137d686055f5c4fd5ce0dbb980bac3ba2f3ef31315a59aaee77fab418d85"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Station",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignStation.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignStation.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "8cb5558deca8244b830710df2b94ceb244cc338d3baf44151642002e2b70bcec",
+      "mini_sha256": "6aacf1a6b35aafa6ff427ad6fa4842c59529f01b90299d32e589c45537978091"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Corvette",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignCorvette.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignCorvette.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3e1645d88bdd985c2c1d782601c3dd390468de9989f149f8b48e4005931aff2d",
+      "mini_sha256": "44dc21a01765f5bc90fd5ec789fa7b50d02f7e4ece23bfbc08413dfca3d0e70d"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "ScienceVessel",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignScienceVessel.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignScienceVessel.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "f48d885102276e8b8e19d922ebcf38698e2b507edb70609223d30d8551d3dbe9",
+      "mini_sha256": "87f275de7584f611d004da488ef9fa8fc489b69d3a703bb0fc11c27261df5f89"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "Dreadnought",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignDreadnought.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignDreadnought.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "f464f2375a61829bf4b0868b05364e92f3aec3d6819973e70dbd4466fd914bc8",
+      "mini_sha256": "e9d8154ea1fe4f85ea5f79d220f1cfe00544d15c3fb036498daa4c5d2a4c1e0a"
+    },
+    {
+      "faction": "Aurelian",
+      "hull": "MobileShipyard",
+      "portrait": "game-data/Pictures/Races/Aurelian/Aurelian_Portrait_VoidReignMobileShipyard.png",
+      "mini": "game-data/Pictures/Races/Aurelian/Aurelian_Mini_VoidReignMobileShipyard.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "b2550709a9752527a0ae854cb51ef15818ba942ddf515144940c541a34604a80",
+      "mini_sha256": "c81c27d7280902636e0842b428e4133e24ae63ccff69d2a1cedd5cae28293921"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Pathfinder",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignPathfinder.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignPathfinder.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "737250e90109e7358ea473b8e2829f6df2bdae18bfd6bd3a7e154013cae570c6",
+      "mini_sha256": "9740f78d9caee32775253293260c7c54c5898ba589f4f7f5ef7610335c430405"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Hauler",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignHauler.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignHauler.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "235ffef28f698607d2d90ce66b974ad0be8d48c0bac43a1d53955cc1e54efe48",
+      "mini_sha256": "0479dc4c7a3b10c4455e7ea20a79fe9875321a0e6998a1fc7817996854e4b971"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Frigate",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignFrigate.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignFrigate.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "62742e9a0d99219974a658cfb697367ebf320c7a411b430a82bdc05171242211",
+      "mini_sha256": "67ba75de1a5e575d1501b46a28702724ae19abecf76b8e533d6ecf2d8b727028"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Destroyer",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignDestroyer.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignDestroyer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "b675f425884ac1d1ae343031f52b4f33539decdc4bd69b338adf63de7c21a43a",
+      "mini_sha256": "6cf3247dbbce9360365abedd3b2cc1f8383ee24cfe08eb9d92da155a5b966180"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Cruiser",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignCruiser.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignCruiser.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "5b977be40829610f2a1250200433d9aa4835b32236a6d50cd1479c42a94b0e84",
+      "mini_sha256": "88b2823703b290e317fd6cf37d5639c8c36eb6137e0146dc4063d1acbf0b3662"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Battleship",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignBattleship.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignBattleship.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "fc8b8058d45adead30ee0b95ee284e4b8f987435e67caf7b6a001cfd6ec985be",
+      "mini_sha256": "62136d102a670ffc377815998ec77b4854a52555d3485a7c905afb8e1fcf5454"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Colonizer",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignColonizer.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignColonizer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "95b80d2f4d89a44d310d6e0955edbacc16332b06553ef44bcd8ed73aaef9a2d7",
+      "mini_sha256": "999e018ba97d1009562e2eeac68acdf4e314bffebec367628cca8ccd7e016183"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Station",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignStation.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignStation.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3705484f6f234a84a42bdfd82cf34469fa2f4d8886769bf49dee62441d2257f3",
+      "mini_sha256": "8859175158e903a9287613950fb48d2126b35998a81c5f434a885481f684a77b"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Corvette",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignCorvette.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignCorvette.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "6409387b59c607582ffdb2527bc3fddd048462159f90a6c46605658512909399",
+      "mini_sha256": "d80b33c59f1173e2384ce0c5c61d43c741b7d57b4f9ee2c5d818a56b401ed6ba"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "ScienceVessel",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignScienceVessel.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignScienceVessel.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "75ce3145dd5f4250d765d1e11c8d6facc48bf2f856a725a3cf2b227abd842d53",
+      "mini_sha256": "b418fbffa5b9c5f0ab8cce10cafc3e243e88ed366e03fbfe1f2f061fdd725bac"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "Dreadnought",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignDreadnought.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignDreadnought.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "fcfe6343202db2b7c02b5a5a0c9db36e37c74fd60aeee8ec65318e953ed77c30",
+      "mini_sha256": "a2947f08040be1421b111d8ec7e0e8a2c934fb9abb481cd3ad9da23a96869426"
+    },
+    {
+      "faction": "Veyran",
+      "hull": "MobileShipyard",
+      "portrait": "game-data/Pictures/Races/Veyran/Veyran_Portrait_VoidReignMobileShipyard.png",
+      "mini": "game-data/Pictures/Races/Veyran/Veyran_Mini_VoidReignMobileShipyard.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "199d9cacef8c4bd145cb5f0819e3b4c72054b9591dcd240f5bd1d2145bcdb07f",
+      "mini_sha256": "54d935ace47a5a1b9be253ac6c427167f5c1cc36c8edaca71bd9f09500d0e9ee"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Pathfinder",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignPathfinder.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignPathfinder.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "30883dd2c71d89f3c590f060229dbcbab230ae898bfea0392d4da9618b167ca3",
+      "mini_sha256": "f16e43766ffe75eb7b5235868c6379e8f5489648a76c14d731b552096513319d"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Hauler",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignHauler.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignHauler.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "ec9c0ae55267cad2820902e1782692cd41c559f0b99f9eb24718f7720f61bad0",
+      "mini_sha256": "a115f5124669a80656bfefe0ab71e36f01e2270f98211ff6521bdb25ab630c71"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Frigate",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignFrigate.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignFrigate.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3c2085929352178686b414847ae53f6e66ff584c691361932cbd2d071b4f05ca",
+      "mini_sha256": "4fd253e534232804370a3dea1fefc24e25a59615ab675ae20f3d1b242e58c53a"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Destroyer",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignDestroyer.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignDestroyer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "c2081325a6bbb03c76defae109c0afc74fa0de9583c981f3177a331e7e04342c",
+      "mini_sha256": "add5e51b461021c52a02a599ec6f1a422c32fd2538025cd5acdc65480fe9717d"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Cruiser",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignCruiser.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignCruiser.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "dbc16e603c1a648eb9afc2b0d75a52d816374f7dee04343e32f496af6235ce45",
+      "mini_sha256": "a43538e76b3a933f0e343d069d91e1d80fda592cf69a562f2800a69c015c2c0b"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Battleship",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignBattleship.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignBattleship.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "fde2a933c16b45b6feb4e61d44a99bf767e926c677073709532e91c08abfa98e",
+      "mini_sha256": "e2e258796e0c8250b0a4fee7fb657a882c3e9a9f1462739444026d1c93aca74b"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Colonizer",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignColonizer.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignColonizer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "b08fe17df297a542f2f9984f74cc86d2860412fcf7304e87c9917900714981a1",
+      "mini_sha256": "bc97ed5bb948281066d86ecb14c84a6fc04fe6d1c90933ec003db71480627273"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Station",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignStation.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignStation.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "5fae0017dd155cbc59f2afab405020059a974feb81e4dbafb4cac1845bf519a7",
+      "mini_sha256": "667fb4358c4dab09d9c96ba2f139c77524d524fd83c46706913251d61e16f4c9"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Corvette",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignCorvette.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignCorvette.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "896f45819a984521628d71268f3b4dbb7493735a9d9f5b43bf48169fd250991b",
+      "mini_sha256": "63cfec4d76a494ce5aae29df20b70d87f1260ee252ea699b4f94049e0368ade6"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "ScienceVessel",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignScienceVessel.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignScienceVessel.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "5222b1a5c2d7f48f06a966be9b2e65f90a16e5352c83c959f064e0129c4c4a8f",
+      "mini_sha256": "05c602a6d9b7d7277dce39e6b488507e44d6598dd944b8b569dc4b8e4ac41716"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "Dreadnought",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignDreadnought.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignDreadnought.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3fa5956fb87cf2f0abafe97947825b3cbcc0e316eb4ddd88d930b83ad65cf779",
+      "mini_sha256": "9982fba915c173edf794d8aeeb214839e7aa67f9d9f0359280e8c3593096a9e2"
+    },
+    {
+      "faction": "Khepri",
+      "hull": "MobileShipyard",
+      "portrait": "game-data/Pictures/Races/Khepri/Khepri_Portrait_VoidReignMobileShipyard.png",
+      "mini": "game-data/Pictures/Races/Khepri/Khepri_Mini_VoidReignMobileShipyard.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "52fb2a5958c7422e77a24658f036ec4f65facc5eeb0b2111a4e2da0fd5bff21b",
+      "mini_sha256": "6664fab84585b51145fbe9173599be7287d9d4d53e97ae303215675086ba09f7"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Pathfinder",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignPathfinder.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignPathfinder.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "a1c5f568d55eaecb0f667ad8a587397e81513ffb610c93804794b73d023ea54e",
+      "mini_sha256": "45db8b8198c53b5a8dfcca052323183f8e134fb9ae55868ecc251a61b1abb55d"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Hauler",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignHauler.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignHauler.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "5975798e199d88b34d59c8f54546dcdf4182e1c8b667ac5a08fff078d73dba14",
+      "mini_sha256": "a43d509a1ebe1193aa98cf658b0494891dc9c5c487cdd43d119c308f5c147aaf"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Frigate",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignFrigate.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignFrigate.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3e6425ff0d5da8907b776e249edde933a3e898a1ec1d388b0220f9c3934cbee3",
+      "mini_sha256": "921199d27625ec6dbfd2bbaa2d6de9664f426d97a438f17c2cff9c60e1c46d88"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Destroyer",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignDestroyer.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignDestroyer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "8303d175832dcca7727e18307be87d49dabf88b7b9929ed24e32c1b22dff194d",
+      "mini_sha256": "2464bb4ba43eb488f3fc04a0666b95ed30496c19a06d3b46e0ce2e4df85fd54f"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Cruiser",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignCruiser.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignCruiser.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "394881d21dcd6b203f133eea19159cb8ee98323d581559b2c1a24e1a80353262",
+      "mini_sha256": "a0985c1ac87768710f1dc209f589b28fa8116d2cf1fc5f294c37a3847031ce98"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Battleship",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignBattleship.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignBattleship.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3e133b044df176e82f71fa14ae9a7790150cb95781ec4e3c7046f73f112a64f3",
+      "mini_sha256": "1133dc13e768288dfca116fddbd060666a0ce1d3c1ba734b1541114e6802872e"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Colonizer",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignColonizer.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignColonizer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "c6e228389fc6e64e47a901173809ab02eb2a7dd00d5d5a0e6ea5ec8506682caf",
+      "mini_sha256": "5940fdf950d396f2a46106715ab5b1c9d7e25e55786998c118c974bb0b631f8a"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Station",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignStation.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignStation.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "2e5d69421c08eb53f85087e96d3bc27cd5843e11eb7148b56972cb77c08ce154",
+      "mini_sha256": "23378a1975e18bbcd0f8bbc4a10ad61831f05deb019328cac0ffce936dd757fd"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Corvette",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignCorvette.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignCorvette.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "8684b8d538f69667f3ed6304dc1d7d5f63906fed4b7d05a45a14e59f4fee771e",
+      "mini_sha256": "c78cc69ec4a674658fa74bf3182b673b42209e42d2c958ce0496fbf520ec32b5"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "ScienceVessel",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignScienceVessel.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignScienceVessel.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "85a01201ff5bd43f198b99e22a22279efc69f175104a5c4b8884bde75618b6e1",
+      "mini_sha256": "ea5c63f06307000ffa5a85927ff2dcb8509fbb2a488bc97c9cb8d016f681781e"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "Dreadnought",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignDreadnought.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignDreadnought.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "e9de12ee1de99134e3807c1fd0965d9b3d602b3d1b177f1b11bf879177d09971",
+      "mini_sha256": "09a111a99e59923e7849dafa3503ed19c354d74823a93d16117edf72c01940a2"
+    },
+    {
+      "faction": "Meridian",
+      "hull": "MobileShipyard",
+      "portrait": "game-data/Pictures/Races/Meridian/Meridian_Portrait_VoidReignMobileShipyard.png",
+      "mini": "game-data/Pictures/Races/Meridian/Meridian_Mini_VoidReignMobileShipyard.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "000b9fb025bf86b0d35c3051fc618cef2c29a9edefad9ebad5f62177ce8796c8",
+      "mini_sha256": "e5578da1369d7c1213b3a74672f475def32b1aa85e481beb0630ee32099bd1f5"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Pathfinder",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignPathfinder.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignPathfinder.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "73aa6d71c4b65971d29c13e5adbbb7542562bfff24b0df0f01766cbebcd93027",
+      "mini_sha256": "8d1628d193fac2aeb31080cdc18b578b9f28da03673ff7fadcd822fdf0d06f27"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Hauler",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignHauler.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignHauler.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3040c8c2b0c5a89db83c0c158d76e19af24dffc833b4dc895a86c5384c9bc5f0",
+      "mini_sha256": "67404385e59faf6913e00966ca698ec1dcbf2dea96b6b4181880f9eb7df34f74"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Frigate",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignFrigate.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignFrigate.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "7205d35ca2a5ffb4e11c5abdd22fb5ab86ce52225a73fd71cf6a2489ea768968",
+      "mini_sha256": "c841024055bcb089b57b20150793941f8f037a3f192de7e3ce588dcf7cc862ab"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Destroyer",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignDestroyer.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignDestroyer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "0d7891db4013ffa7522bad70728823c52aae8bf68eee3dfa9642d872c257185e",
+      "mini_sha256": "2fb2e8d58fe30d6de5780f43cd945f24f1b3fd20205014dd3cf990d3fc3f21f9"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Cruiser",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignCruiser.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignCruiser.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "6e09ea1b7142653ef04fad5ed665dba23353000b2de743bd98865ff9415b6a80",
+      "mini_sha256": "3a4f0f8c78df972002c16388c6dd6ba45c9c68a7e2309cfd2d132bedc3c78d30"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Battleship",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignBattleship.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignBattleship.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "a1cb642e97c1a7cdc3aad165dd12990c0265585c79767520badfd265b9d924e6",
+      "mini_sha256": "a1006caaf36e2192f4131cdd31f391af3491a4b319b9c4746e5a71596cd4063f"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Colonizer",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignColonizer.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignColonizer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "b98d286f637798ba2827281b14dbf7fb9f4d2334df2023bb5d21d57ac90f72fe",
+      "mini_sha256": "0090594dcf3a5282a3dbcb2cc59992b1cab43ffdaf84476df0146f44cfc8a9b7"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Station",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignStation.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignStation.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "27ca56e96b341e148c1d824b93d07031e8e4c47b9f6937a804a748ace44a1b78",
+      "mini_sha256": "7edef122feda2b2e2815f7496c51dbe9ac4f6e01ee6e69fb7b75398794de7c5e"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Corvette",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignCorvette.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignCorvette.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "cc96e665875fe458de2f0c0fd4cefed82357b6835defe73cd9a1fd6ad4fd0df8",
+      "mini_sha256": "ab38c90bac41ed049fae87719b7854f197b03dbd4c5173bfb161d55a0d11c3c7"
+    },
+    {
+      "faction": "Outer",
+      "hull": "ScienceVessel",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignScienceVessel.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignScienceVessel.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "5cc4e7f815b0fbeaabd83ec7a28ded7432de52d26eaa4a24bf0c619f7a2766d4",
+      "mini_sha256": "06ae3459caf9a6986b8037768739ed845b11fbe7e563d4c0729a1fc56a13cb8d"
+    },
+    {
+      "faction": "Outer",
+      "hull": "Dreadnought",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignDreadnought.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignDreadnought.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "528248de8775117b8fa9a30990227b99252efb254909efab3266438e46bc82a7",
+      "mini_sha256": "b6b9316abbcf7bb09307414c9cbe8d0f347cee1d03f7e7bd8262942b4fb41895"
+    },
+    {
+      "faction": "Outer",
+      "hull": "MobileShipyard",
+      "portrait": "game-data/Pictures/Races/Outer/Outer_Portrait_VoidReignMobileShipyard.png",
+      "mini": "game-data/Pictures/Races/Outer/Outer_Mini_VoidReignMobileShipyard.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "3cc9df7f0711dc32ef763f38f5143ea948d3d44ac7084872e9009852c56d3de0",
+      "mini_sha256": "67b89e64342fcce6a0c5d2e5401b929f6dac3771c04aff2a67813ba226cfdaf7"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Pathfinder",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignPathfinder.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignPathfinder.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "cc55b894f2beabf3c15d87fa1ba8a108c26d8cb40c27651e06c9e6e30d4ab9e6",
+      "mini_sha256": "9437be6b50a11ff69f69c0f897232ae3bdd3b04bf07d31b53d1689afcaaab4a1"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Hauler",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignHauler.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignHauler.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "1b7fd8b856be9c98c6c79fe3d26dc9ed383d06d8f4a06f1b5df0e4185a819d18",
+      "mini_sha256": "eb9b91a877dc854f47bf90ca9a9a208a4cf6f54b074eac6fb273c9b85260853f"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Frigate",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignFrigate.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignFrigate.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "ef9a2d288292b0581ee437e840a35a468d63d20da42a50e870c68a6781a1643a",
+      "mini_sha256": "40f696d42b1e28a6995050e29b4271838e48d966998880d78f5c7182d412ce9f"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Destroyer",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignDestroyer.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignDestroyer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "67e27573404508520309ab652d15922f19bc477516d3e2a3d2a87c4054a1a566",
+      "mini_sha256": "8acfbbb03108ff1581ae752044cca7e7192a852af3bd5c5bec7fa969de5b2e3e"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Cruiser",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignCruiser.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignCruiser.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "be55da363e2dc8a69171c3912b3b980a390821f4a956567cdffeb163f86108a8",
+      "mini_sha256": "71d7efe85c5d0a1bc693bfa409dba45e864f163060d4b48ee492108a7f2e99d5"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Battleship",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignBattleship.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignBattleship.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "2986df7fc67842353c8639ca7a27d8b5ce7b9670c536adf5092f8a215335ca48",
+      "mini_sha256": "7b84bd12b4c4d833e510cfffb45375ca06e2d84f27db12a11916ca814251fdf0"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Colonizer",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignColonizer.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignColonizer.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "abbcfacba8244a469b796b154fead6577bb0ab7e829e692f5f5d20e1c3c12502",
+      "mini_sha256": "73b4c5e4bfe18670446f0232e52f110d8fa1f24d467eed1d401f9c2aa9cc5aa1"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Station",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignStation.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignStation.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "1b25b68887872de769212d19820e1e3e076a1b7853eb5daaa97a8e9ebb08c058",
+      "mini_sha256": "b146704dedbac25648cd96452d71bb7d453d0f910d2a400bdb357fb3e05f111c"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Corvette",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignCorvette.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignCorvette.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "18bc4e2bb90021f12b1ad28deb0289e049a75201efd66bd76f3560a10eb6b7a9",
+      "mini_sha256": "a15930e26d11f14bb7bdb79b78ab8c79c18e2004ac582e73e4d1c0aba1e2eba6"
+    },
+    {
+      "faction": "Helion",
+      "hull": "ScienceVessel",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignScienceVessel.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignScienceVessel.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "848530ea5a465f1e54930c260872cc3e1a62e6a7439bd07c72bbbfcc1b85fb30",
+      "mini_sha256": "5f1419deef508dfdcff8838184c1874e11894ddec4863325e82a8511e3912f71"
+    },
+    {
+      "faction": "Helion",
+      "hull": "Dreadnought",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignDreadnought.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignDreadnought.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "50134c8e5085985e0c13cab392845780781136d9b63dff7e9916bee85fe62223",
+      "mini_sha256": "fa4c9479d163811ca18c091eb3268b5230a81039c8db3145b5008c7adb628e9a"
+    },
+    {
+      "faction": "Helion",
+      "hull": "MobileShipyard",
+      "portrait": "game-data/Pictures/Races/Helion/Helion_Portrait_VoidReignMobileShipyard.png",
+      "mini": "game-data/Pictures/Races/Helion/Helion_Mini_VoidReignMobileShipyard.png",
+      "portrait_size": [
+        128,
+        128
+      ],
+      "mini_size": [
+        36,
+        36
+      ],
+      "portrait_sha256": "4a39fd40520aa65b6f56976e25fc591893522f8fa6deb98b1520c3005d943ddd",
+      "mini_sha256": "f0a4f6328486bf7cbb5194466fdeab5b134a64b70103618f3ec61cf2be733141"
+    }
+  ]
+}

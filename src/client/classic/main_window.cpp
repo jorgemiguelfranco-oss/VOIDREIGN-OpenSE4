@@ -3007,7 +3007,7 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
     // The background, copied 1:1 from its top-left corner: its right and bottom
     // edges are cut off (§2.4). An unexplored system shows the plain star field.
     r.rect(panel, Color::hex(0x000000));
-    if (const Sprite bg = ui.art.systemBackground(explored ? std::string_view(type.backgroundBitmap) : std::string_view("Starmap"))) {
+    if (const Sprite bg = ui.art.systemBackground(explored ? std::string_view(type.backgroundBitmap) : std::string_view("Starmap"), sys.id.value)) {
         const Vec2 size{std::min(panel.size().x, bg.size.x), std::min(panel.size().y, bg.size.y)};
         const Vec2 su = bg.uv.max - bg.uv.min;
         r.sprite(bg.tex, Rect::fromPosSize(panel.min, size), Rect{bg.uv.min, bg.uv.min + Vec2{su.x * size.x / bg.size.x, su.y * size.y / bg.size.y}});

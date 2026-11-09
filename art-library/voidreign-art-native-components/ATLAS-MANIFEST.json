@@ -1,0 +1,26 @@
+{
+  "title": "VOIDREIGN 36px component/facility icon atlases",
+  "generated_at": "2026-11-09T09:43:43.906180+00:00",
+  "generator": "tools/art/build_component_facility_atlases.py",
+  "method": "The same semantic vector glyph definitions used by the 128px original component and facility portraits, rendered at 36px.",
+  "component_atlas": {
+    "file": "game-data/Pictures/Components/Components.png",
+    "bytes": 61590,
+    "size": [
+      252,
+      252
+    ],
+    "count": 49,
+    "sha256": "6dbb81d30462683775500def206a9f5b1002bbdd4f5273f48352e7086aeb9cbe"
+  },
+  "facility_atlas": {
+    "file": "game-data/Pictures/Facilities/Facility.png",
+    "bytes": 33862,
+    "size": [
+      216,
+      180
+    ],
+    "count": 29,
+    "sha256": "db23943286586ac964ebebdfa1aac5e24456373f2e6bac35a3d8c38c351fd0ce"
+  }
+}

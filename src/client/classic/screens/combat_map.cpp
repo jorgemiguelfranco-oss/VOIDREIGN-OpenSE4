@@ -154,6 +154,9 @@ void CombatMapPainter::background(ImDrawList* dl, ImVec2 min, ImVec2 max, const 
         const game::StarSystem& sys = s_.galaxy.system(where.system);
         const auto& types = ui_.rules().data().systemTypes;
         if (sys.type.index() < types.size() && types[sys.type.index()].maskBackgroundObjects) {
+            // Prefer this system type's own named starfield in tactical combat.
+            // Art uses the complete scene when available, not a generic map crop;
+            // older mod tile sets remain the fallback.
             std::string name = types[sys.type.index()].backgroundBitmap;
             if (name.size() > 4 && (name.ends_with(".bmp") || name.ends_with(".BMP"))) name.resize(name.size() - 4);
             if (ui_.art.hasCombatTiles(name)) tiles = name;
@@ -164,7 +167,7 @@ void CombatMapPainter::background(ImDrawList* dl, ImVec2 min, ImVec2 max, const 
             if (o.sectorType < ui_.rules().data().sectorObjectTypes.size()) tiles = ui_.rules().data().sectorObjectTypes[o.sectorType].combatTile;
         }
     }
-    if (const Sprite pic = ui_.art.combatBackground(tiles, (uint64_t(where.system.value) << 16) ^ uint64_t(where.sector.x * 13 + where.sector.y))) {
+    if (const Sprite pic = ui_.art.combatBackground(tiles, uint64_t(where.system.value))) {
         dl->PushClipRect(min, max, true);
         const float x0 = std::floor((v.cx - (max.x - min.x) * 0.5f / v.cell) / 12.0f) * 12.0f;
         const float y0 = std::floor((v.cy - (max.y - min.y) * 0.5f / v.cell) / 12.0f) * 12.0f;

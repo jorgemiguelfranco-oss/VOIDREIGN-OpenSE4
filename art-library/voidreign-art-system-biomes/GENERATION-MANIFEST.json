@@ -1,0 +1,1644 @@
+{
+  "title": "VOIDREIGN original star-system biomes and tactical fields",
+  "generated_at": "2026-11-09T10:00:21.330408+00:00",
+  "generator": "tools/art/generate_system_biomes.py",
+  "method": "Deterministic procedural nebula fields, stars, plasma structures, singularity and warp geometry",
+  "biomes": [
+    "Starfield",
+    "Nebula",
+    "Pulsar",
+    "BlackHole",
+    "Magnetar",
+    "WarpHub"
+  ],
+  "system_variants_per_biome": 4,
+  "tactical_tile_variants_per_biome": 9,
+  "assets": [
+    {
+      "file": "game-data/Pictures/Systems/Starfield.png",
+      "kind": "system-picture",
+      "biome": "Starfield",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "3013fc20923b26036d21a262cc9f74c3f1f4d8b50849a1e48b466a67252c6735"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Starfield.png",
+      "kind": "system-background",
+      "biome": "Starfield",
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "5abd200b9077a7c6e97a3dcccf27ea558c3701ab516ed53bdc70fd30505873a7"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Starfield.png",
+      "kind": "system-background",
+      "biome": "Starfield",
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "f9deb4efbb9c4fe830f7c69c07334575af07fb2b84a3fe227cefc27884b63665"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Starfield_V1.png",
+      "kind": "system-picture-variant",
+      "biome": "Starfield",
+      "variant": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "8304d1df435c98073a99eff1b03e0a0c382ec4dd494e51b47598a6b610380640"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Starfield_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 1,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "ee529198447191ae0ab21a246efbfaa28a0397a9f73ae23a0e5173640def1a25"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Starfield_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 1,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "b102ae6da08d5ec377fea86ec7c818f3df4d58e1d2601f75d14d18523e0533b5"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Starfield_V2.png",
+      "kind": "system-picture-variant",
+      "biome": "Starfield",
+      "variant": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "3bda0b1f010cd71a00da3d84189e4f2870bab5b897bf4bc58f328b0718c9bf9d"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Starfield_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 2,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "82751a06d416a59e8bbab0e8adea765aabda7f8e397fae9c382180f7d488780c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Starfield_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 2,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "4c62a1fde04ef56d50e6e9b51ed49b5306523ac0fa253c79662e25e18a145bb5"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Starfield_V3.png",
+      "kind": "system-picture-variant",
+      "biome": "Starfield",
+      "variant": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "35739e0f7be62dfb627be8c72192070d14377165515c4701d6f310377a6e30a3"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Starfield_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 3,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "f90e59ad49c0eb28e20a2b2149aba1e3b53a44d7b73c3537de60f892030a5357"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Starfield_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 3,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "05ccfcfb691ddd3533813051d76ad285e56bb7f9a57406b2b3b15dda466b9ff8"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Starfield_V4.png",
+      "kind": "system-picture-variant",
+      "biome": "Starfield",
+      "variant": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "23b2fdd743805f3512ca758d3fc362eec0f8a6c2c07822590dcfb04ebfeff1d3"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Starfield_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 4,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "c6b4bf8fc2a912fd9ede377653c1df799b0132da50364b5a5096549e1dcb2d12"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Starfield_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Starfield",
+      "variant": 4,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "ef73e71f79b33639b641e8a6f10b304d7c2a9b04aa79cd965fe08ac5a12e7b03"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile1.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 1,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "4eb24032d973f7f938e6b8dedd1ee2d5dd187a73675747ee547337041c49b01a"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile2.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 2,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "6ab05c246e2747c01d12e24ee4306c25ae06893f978d9365c76660b1955e5cf1"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile3.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 3,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "1a3d9f4e8e7d6117ed7eef4734194ddcab906b5d78cf2522af43d1d68f514296"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile4.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 4,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "9e1b82436a125e4a50c25c4ab2d8a3de92ea38fbb8f653e2f274587f364102c8"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile5.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 5,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "3156b096ab80f96aa596ad39ae5ec2a03c8ed0467ac50a759a7bce0d7a388b6a"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile6.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 6,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "e248d076168dc10d9787fe7d852421ee48baf991cfbb772b9d60f00d3a20dd1b"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile7.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 7,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "16d46ef4723bae35789cfda0090fbbc34387f91662ad2a6c543d0cfadd7da406"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile8.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 8,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "0720c14745dc0008e1c4e6f3a5b7eee31b96fa98d55b1ff3a0691a39dac0a523"
+    },
+    {
+      "file": "game-data/Pictures/Systems/StarfieldTile9.png",
+      "kind": "tactical-tile",
+      "biome": "Starfield",
+      "variant": 9,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "e668c704fcbc825b13189bed8f5e2cfb36bbb40a296f43faf044cd6dc5598180"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Nebula.png",
+      "kind": "system-picture",
+      "biome": "Nebula",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "99f98afcdfc47e2bd601508ff9f651444d0db2630970741506c826cb652b2f27"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Nebula.png",
+      "kind": "system-background",
+      "biome": "Nebula",
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "b48439c8e08b939c00eee51b1c813d13a5391ca2cdfe392792c6ccb8dc8e75ce"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Nebula.png",
+      "kind": "system-background",
+      "biome": "Nebula",
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "be0a8c40d0998c5f1f0c95b57324ccea5e75bae5663464aeb68bc19e24304d43"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Nebula_V1.png",
+      "kind": "system-picture-variant",
+      "biome": "Nebula",
+      "variant": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "021458d848da2b94795062f41dda57c33a1c9d7badce907beda4c63dc59cd712"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Nebula_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 1,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "f90ca72074c9856c227e92a240d7c32c65959416865cbbff79eca8252e670565"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Nebula_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 1,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "85051700b0d6f97a0edb3bc0569bd062b0ff416d38cb0e5df00a682213b9b093"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Nebula_V2.png",
+      "kind": "system-picture-variant",
+      "biome": "Nebula",
+      "variant": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "3875bf279c5675169701385199174c26f456fda61838774d67c102ea6cbeb7aa"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Nebula_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 2,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "ccbc5758b7ddc67aa090d9663719854dcef01b0f34c6543196e577696f16c68b"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Nebula_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 2,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "5f3ceee2f970eac541c49d0fa168e97e1771b537c4b0ad458345f4d412f07c51"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Nebula_V3.png",
+      "kind": "system-picture-variant",
+      "biome": "Nebula",
+      "variant": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "26c21988323f05102dbba73305819fe19d4f3e77d7608a074c0b28d55d6a0d65"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Nebula_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 3,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "f237b20c451cb7422d3746969d7ad9d7415446aa89198c95d20d96247d7a409d"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Nebula_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 3,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "ecd2fa15f89c661a5d155498e08b3f2b1f154c3da8096688623e33e676a61f7e"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Nebula_V4.png",
+      "kind": "system-picture-variant",
+      "biome": "Nebula",
+      "variant": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "255aefe88cadf8aaecdc4777685e84dc537f8a61143733c1ae8bcd1dc35a91eb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Nebula_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 4,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "3572d30fb09f9e6c438d2bde755b61b14375abe77303d8a05e24851b44db093c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Nebula_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Nebula",
+      "variant": 4,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "54ae7eead866f88296619822042af8cb39282ccce231bee8ba8ee6061714c0eb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile1.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 1,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "365f061de86cda01f6f0596d7c6a9a7e6cf5f0d0efc53894190ae5876ce7f5b7"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile2.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 2,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "490b0e5d661ffd661f573de5a1d663d9fdaf9109dc657cf50d739be10862881f"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile3.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 3,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "c32b735da1105e7151982e4cf05610eae4a12ed4ee924deeb8aa51c33cddde96"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile4.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 4,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "c996e2af56da4d9744a9d5f936f762bcd858c77b23c578194a36adadcb7e335f"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile5.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 5,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "dec49a82b09cf3ce66b01993848d0430b2dfb28c3d1e22b107e0fb1d93056e59"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile6.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 6,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "11283eb25a053b3fb5a38cffdf89e9e009e2ef9c675cc54ddc88b0335dcbf24c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile7.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 7,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "2007afd5abc92df5fdabf56f4b967d8e8242d18dc7ce5cee6c40524cfd0e52d1"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile8.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 8,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "f45194774212af2f3ce50b7edc27f18c4d8480686c2182888a5ffd230cc72565"
+    },
+    {
+      "file": "game-data/Pictures/Systems/NebulaTile9.png",
+      "kind": "tactical-tile",
+      "biome": "Nebula",
+      "variant": 9,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "58a023a8d58b4c07034e3bd35be6032a07cdc3ef39732316f900c86e801b2f25"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Pulsar.png",
+      "kind": "system-picture",
+      "biome": "Pulsar",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "ad83a183749b20df98acfe20cd725b0921ada2d196bd20da4c27449f54684e6e"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Pulsar.png",
+      "kind": "system-background",
+      "biome": "Pulsar",
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "7d854b6a6fcc55e2970db3a68d7f025ad48359e0d48b1cbd30d99d2d72c2a581"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Pulsar.png",
+      "kind": "system-background",
+      "biome": "Pulsar",
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "7e74d77dd62a7af1d3da5bca588cacf1c43633c7a24f377ff4a68c37ecb75718"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Pulsar_V1.png",
+      "kind": "system-picture-variant",
+      "biome": "Pulsar",
+      "variant": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "2c7e4e536146eadc5543065236816960fcd9d48de99be5e87671a0d615e49c8c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Pulsar_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 1,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "35ca4fd5ad57ded1a123d1c9796f235c778a38d30270ec6e29b4fbeadbf27e37"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Pulsar_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 1,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "0804fc9a5b75573cc609c5240e4fa228e720e4f1b5187fca16440d6d27001f40"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Pulsar_V2.png",
+      "kind": "system-picture-variant",
+      "biome": "Pulsar",
+      "variant": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "117e17072a57d1ece23e0220fd1b730833ed3aa6401df60b16653850166b780f"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Pulsar_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 2,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "197b6660556783077aa04413fd5bce1ebd815084a97f1a8842f14aaa19ca2963"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Pulsar_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 2,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "ec92dab73290763a75a5e45ca3cf0f95e62798999e11a3e220456ffff8b7e93a"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Pulsar_V3.png",
+      "kind": "system-picture-variant",
+      "biome": "Pulsar",
+      "variant": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "6e9fe37eccfecbb69c4354b4ff73c084eb9ab66bdca5ee83a0e3f944550447ae"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Pulsar_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 3,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "ade5fea04c5df2997a4cf29c5978341a159a24d85c3855cd5dd9bae6c9421cf5"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Pulsar_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 3,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "34e3d05c4da3035c96adf36a2128608e3aa58e36f47035f73a4036f2801110eb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Pulsar_V4.png",
+      "kind": "system-picture-variant",
+      "biome": "Pulsar",
+      "variant": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "2e4ff8efd949f417856fc33f8ff50c42c851fd7944ac228c2ff2e548b66156f6"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Pulsar_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 4,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "519592005700383bf111ef8eb5660b70b3fc07f100341058b8ebada44c1e42cd"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Pulsar_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Pulsar",
+      "variant": 4,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "296a29f77a244e4af03ce2843be7965a72653d7450eae6e690604d28df6fc82d"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile1.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 1,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "336f111a09f8134c96f46d8084687ea9e48879051305c7bcc64b468ad2e29f16"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile2.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 2,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "4fe2e281fe04f8f3061e50c0a4c8ea6be8ef3c94246bd81910f24438c6e8a1c7"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile3.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 3,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "3e613546d02ad8d18ec8706209036212ab783b5dcda7a58ce55d87421cba3559"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile4.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 4,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "25141ec1364c55ff9738887bdbdf11f24ba96ba75ee56503067600a5c2ebe2da"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile5.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 5,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "95429e0ce786dcfefcb160f1172811495fd508f19277e5c3009fbaaf6ab1cf81"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile6.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 6,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "10883c56af8578448c37a2546029371ccf895cc53ee685276cb7a7c3e3ffa9f9"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile7.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 7,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "edf88d97a8717e7b63cf38cbbbfd62f8e8de248bd6660360a50cfc4a173f98a4"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile8.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 8,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "9da2de6f59e636353aeab83ce967e3b810bf07dcca659d0a4f824f73c8e466af"
+    },
+    {
+      "file": "game-data/Pictures/Systems/PulsarTile9.png",
+      "kind": "tactical-tile",
+      "biome": "Pulsar",
+      "variant": 9,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "d0c671d30d45fda3c9e449f58d26ecee28ae7f0ec6287081467a6b7763e3a086"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHole.png",
+      "kind": "system-picture",
+      "biome": "BlackHole",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "0cf6e28e77ca377518ca7bc04e7345748aa316315f1512df4f12edf5a6103cb1"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/BlackHole.png",
+      "kind": "system-background",
+      "biome": "BlackHole",
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "866a82f0bf77bb8642a15193bc32b29dca5c9357f6e1239b870c3b1dbf09ff65"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/BlackHole.png",
+      "kind": "system-background",
+      "biome": "BlackHole",
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "91fd0f80ff23c59561c4a695e5cd7fe1792b47a5e5c2e76ed6ae0779b83c539b"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHole_V1.png",
+      "kind": "system-picture-variant",
+      "biome": "BlackHole",
+      "variant": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b44c4831b1be4c08b6c848b6cd3f87c4cd462813b8c144345038464799ef4e61"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/BlackHole_V1.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 1,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "40defe178212fef8d5ef753eea681d835cef5fa73f307b00de2d550b0169712b"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/BlackHole_V1.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 1,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "6ce9fe845746de145ca128647ef97534bade6db9d2455b627799d0547f988eb9"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHole_V2.png",
+      "kind": "system-picture-variant",
+      "biome": "BlackHole",
+      "variant": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "242cf5a3e5b72df4a2e8c546f781967452bbd39c376fb103e654e27e61d7d527"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/BlackHole_V2.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 2,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "85045acca77482e46208663c63659fa3d190fe7e77b11adb4b15c50147c42df2"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/BlackHole_V2.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 2,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "add80bba4041d5e0575af5f55b724f68d72fe225ff6b63c95d21e10b7160fead"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHole_V3.png",
+      "kind": "system-picture-variant",
+      "biome": "BlackHole",
+      "variant": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d7a138da85562f1a8b907465b2e0533322d4919a8c8b288047871a8b74fb496c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/BlackHole_V3.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 3,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "4c114beee48ca973729b825081a227856fa3e0124e8eef9d5d1c94d23e479598"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/BlackHole_V3.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 3,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "21e52eb9a646bed0b83ef282284da90ac78261ae7f8551487df9fad7cbae2702"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHole_V4.png",
+      "kind": "system-picture-variant",
+      "biome": "BlackHole",
+      "variant": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "2bca6510379c6d6eea615777cf43f7b09e072ae6a26509725a5367ac22213d96"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/BlackHole_V4.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 4,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "a39e22d08abf5be623df0ad7e5082dc5a3fcbbb8c06497b13ac427ec6187dc6a"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/BlackHole_V4.png",
+      "kind": "system-background-variant",
+      "biome": "BlackHole",
+      "variant": 4,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "5ca160ebf172486481fe454f810ac9ef9edda8509dd2bef10c91e20a70d8e1eb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile1.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 1,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "284ccebad8113d1f7141cc0923e438027439a99948d7123870b01eb15b100cc2"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile2.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 2,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "7907a36bb2e2b9ac905531df9c9f2da6bfce6847460ff8f53908652e8a7fc847"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile3.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 3,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "e7d70b9807817cff5a3a319512e8f6c9cf46c14e963d8c64c734a26e88474ab0"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile4.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 4,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "fa4325cac2a15b5557b9c4c93e29abe745ff46594ef87c738d8b50c94d2a1ae0"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile5.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 5,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "9fc4a492dd3de23ba95c59a80b669d84f630a0c61e8baa567188ead93eb194a2"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile6.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 6,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "22534f356566caf0ac48b11870322e2be9f2da6a41714309903ef105c7e73feb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile7.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 7,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "7e6fb702f179b0c35ef8d11a16f1677c64e4a1f0af3fff17b22939f930a63c45"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile8.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 8,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "887cc10d8e7d35b4b134ef172b9dd0ac38adc3bc8bf36b50d2f29df27a9a36d1"
+    },
+    {
+      "file": "game-data/Pictures/Systems/BlackHoleTile9.png",
+      "kind": "tactical-tile",
+      "biome": "BlackHole",
+      "variant": 9,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "c0854a3be684bc000c18bf3dcb030c415327b077f37e1913a92741783b7b2867"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Magnetar.png",
+      "kind": "system-picture",
+      "biome": "Magnetar",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "573c4597fc1064c2f68d2ce506a2bf3c1669e4b65e7999ed391dc68f74f26dfb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Magnetar.png",
+      "kind": "system-background",
+      "biome": "Magnetar",
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "e21b8a6b15cf42d75c38754f4abb34b57a02ccd02cc8c977cb6655b1b0564fb3"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Magnetar.png",
+      "kind": "system-background",
+      "biome": "Magnetar",
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "44f21685486e0b0d5baf0188623f66702419de458456e13e7fd07114732e5203"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Magnetar_V1.png",
+      "kind": "system-picture-variant",
+      "biome": "Magnetar",
+      "variant": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "a1068af1096d33dd975dfa072f35bc39036885ccf62248ab61508a417678cc0f"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Magnetar_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 1,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "e0da661bd12bd16240aa035bc7d1671cbaa4bd959aca44910f896aa62ed0f1ef"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Magnetar_V1.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 1,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "6870a4aa7b60594493d31a66204041631553512a920da95950b23580d4548008"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Magnetar_V2.png",
+      "kind": "system-picture-variant",
+      "biome": "Magnetar",
+      "variant": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d29452f49bff2db7dde45d8aad9eaac52019cd15e67dc503b32796e37b5a6e2d"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Magnetar_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 2,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "c1e20b2392e566ea5ac6e79aed4a9334a4c17f8748681f0eb7fcd2529e503e53"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Magnetar_V2.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 2,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "e19a3a65b781fc2baf3e6260481dec604d9f61393c8d8d9071b197a66e45a35c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Magnetar_V3.png",
+      "kind": "system-picture-variant",
+      "biome": "Magnetar",
+      "variant": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "016e3c573786e9c89b6e9e452e7eaf101a01f5f5a62c3ce967e292ed6202673d"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Magnetar_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 3,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "d65b17e072392b1b36e764ec5bb2a740f92173eff08b0bf54d32c76fbc6d19a0"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Magnetar_V3.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 3,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "38d277bf949bdf08abffedd9a9561ebcf8a4bdc192795a7dc0240b00775d88a9"
+    },
+    {
+      "file": "game-data/Pictures/Systems/Magnetar_V4.png",
+      "kind": "system-picture-variant",
+      "biome": "Magnetar",
+      "variant": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "ef79c4284e7f172a531426a4f244b5aca8d6d2eb63297d7e2407ce5711d8e912"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/Magnetar_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 4,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "2d33d7239b8b4ffb36bc6d99f6a410ec45e7b6e0cba1e3526b089cfa91c98e87"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/Magnetar_V4.png",
+      "kind": "system-background-variant",
+      "biome": "Magnetar",
+      "variant": 4,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "bc63cc530cce97dad2c5fb8799af4d48047577d250b1d016d47f77c63a6a9bb6"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile1.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 1,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "7510cc5728eec4bee77282a5d6f169ffdda744c24855c65194fae6327302f54c"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile2.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 2,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "1b616fcf00e2b8971ecaf78764d50b4c8898a2f3f96b783bbd90131b82ff0772"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile3.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 3,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "c8d93b2256541f1b70e10b0e8ac0f754adb1fc71f84eaac9f1c499fb04c4f920"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile4.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 4,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "4962ab392902cbc35fad00689866d9cf8ea8484c6dde9404af9048ebbc4aced6"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile5.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 5,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "91b45221cac0653d18859bdcabdb853a76c56cec7b751b92437848c2fbccfff3"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile6.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 6,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "cb5e2b1796375fd1718c9e5b7d993c8dad8d9c3265452f382a1fe57328f7131b"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile7.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 7,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "6077383e41c97fed9b8a4c2641608ed6b38e75d0ea08b5bbaed276d6f4bbcb54"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile8.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 8,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "f66f4ebb92d024a52d9604631254bb8e08a6b0ade2dd614386531ba55d2aa737"
+    },
+    {
+      "file": "game-data/Pictures/Systems/MagnetarTile9.png",
+      "kind": "tactical-tile",
+      "biome": "Magnetar",
+      "variant": 9,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "f33742c0a6ac91036136a23c93cdf928b044fc9fb8723e36f5b0ac9dc2caeec3"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHub.png",
+      "kind": "system-picture",
+      "biome": "WarpHub",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "296bb9e1221f0815b59be26f80935601fbbf931d752f96dad665021566411141"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/WarpHub.png",
+      "kind": "system-background",
+      "biome": "WarpHub",
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "81656fa3391bb1f792f462397cf4e4972952f44e2140a3689c7330d30c5b156a"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/WarpHub.png",
+      "kind": "system-background",
+      "biome": "WarpHub",
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "a1042fc2b608ee4f63a57329e692021958b522f9021544bbb83c4fb34de65571"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHub_V1.png",
+      "kind": "system-picture-variant",
+      "biome": "WarpHub",
+      "variant": 1,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "bd09c9aedf539c62279640be373f703a910c85c73361147341794a2c959b4ecb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/WarpHub_V1.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 1,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "97ce68c3d40a73799908dfdc711236684b9cf6184632f4b11d76daae968773e5"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/WarpHub_V1.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 1,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "92be0ba1ea3244db143ad8187234bc914429fe35df3daaac4d98528647ccdbc7"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHub_V2.png",
+      "kind": "system-picture-variant",
+      "biome": "WarpHub",
+      "variant": 2,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "1a69bfb52a212cc912cf7cc99b2530de239730e6e99e9e0453209a7a0c11af9a"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/WarpHub_V2.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 2,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "4ac172826cccdbf6bb2755f1bb15f618c9d973cd2e8c9458314e7f1deb09a665"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/WarpHub_V2.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 2,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "242a3f40afe0b0340f02c23fabbe98eca314e6404556c7ad94d8ba8fea1a2144"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHub_V3.png",
+      "kind": "system-picture-variant",
+      "biome": "WarpHub",
+      "variant": 3,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "8a7d6c0a4cdb553af95f4e8fa907fa5e1d832e257ea495332cb4c14b30207237"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/WarpHub_V3.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 3,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "8c03f6bffd766d7b46faef3c445e1ec690450d2a5f475110e87018b2fdd306ff"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/WarpHub_V3.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 3,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "565216c4b37eb855b25e856b9327644de1dec4ea3f7565c352d25104bdc77c45"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHub_V4.png",
+      "kind": "system-picture-variant",
+      "biome": "WarpHub",
+      "variant": 4,
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "ba48add5798aa0a89fc12191933a2d98a0e36edcbae9a346aeaf1fd4500ecf01"
+    },
+    {
+      "file": "game-data/Pictures/Systems/1024X768/WarpHub_V4.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 4,
+      "layout": "1024X768",
+      "size": [
+        660,
+        660
+      ],
+      "sha256": "ebb2afe0d3f546f7732d300afcf09b24e9a94740ddd2d347fcc83851fd3a9614"
+    },
+    {
+      "file": "game-data/Pictures/Systems/800X600/WarpHub_V4.png",
+      "kind": "system-background-variant",
+      "biome": "WarpHub",
+      "variant": 4,
+      "layout": "800X600",
+      "size": [
+        490,
+        490
+      ],
+      "sha256": "9648d58c77fbf72fc508859fd965aa8293d2814f2955738313c6dc91cf8c5b34"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile1.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 1,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "b6c38b6b59c6942d730937c2e56871c5634cdc042b01a9711ea058420bdd27da"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile2.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 2,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "febc4459129a9ef23e47667bb6aa0a9aea2c424d01182cd474e6109bb093e359"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile3.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 3,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "63f074d5e6d4fa62567af1b8eeaab3d67e6225bac6c6e9fd5ed1635c0d7e2292"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile4.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 4,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "7a5795507bf64006b1bb685a5db2fba004138101e5d0d8cc42f9de7dcd912561"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile5.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 5,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "179b01b950119b02a7b97d4ee736510a49c51c267c9fce6e3b2ad07335e50092"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile6.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 6,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "ca2ae91228d0a8693f0c37f8ba088c41bad9783a41880393c37fb54e65b322b9"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile7.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 7,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "97453950ff668d4e2f9695540220532867335543cd3896ff3149ad72f56765e5"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile8.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 8,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "3aca5b0cf102d040800a8af1cee9162e74ed7773826a597cb918ecce25378aeb"
+    },
+    {
+      "file": "game-data/Pictures/Systems/WarpHubTile9.png",
+      "kind": "tactical-tile",
+      "biome": "WarpHub",
+      "variant": 9,
+      "size": [
+        72,
+        72
+      ],
+      "sha256": "6fef9e64a6a3593cb5bf63a90016cde2a4d5a0a49d8e25c614caa55077a5e75f"
+    }
+  ]
+}

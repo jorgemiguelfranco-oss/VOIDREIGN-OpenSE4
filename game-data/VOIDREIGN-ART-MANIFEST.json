@@ -1,0 +1,112 @@
+{
+  "title": "VOIDREIGN complete original game art and audio manifest",
+  "generated_at": "2026-11-09T10:02:49.124044+00:00",
+  "project": "VOIDREIGN-OpenSE4",
+  "runtime_external_dependencies": [],
+  "asset_summary": {
+    "component_portraits": 49,
+    "facility_portraits": 29,
+    "faction_ship_portraits": 72,
+    "faction_ship_miniatures": 72,
+    "faction_leader_portraits": 6,
+    "planetary_stellar_object_art": 16,
+    "system_biomes": 6,
+    "system_scene_variants": 24,
+    "system_layout_backgrounds": 48,
+    "tactical_biome_tiles": 54,
+    "resource_icons": 6,
+    "status_icons": 38,
+    "main_menu_buttons": 12,
+    "order_icons": 40,
+    "auxiliary_ui_sheets": 8,
+    "original_music_tracks": 3,
+    "original_sound_effects": 18
+  },
+  "provenance_manifests": {
+    "component_facility_art": {
+      "file": "art-library/voidreign-art-native-components/GENERATION-MANIFEST.json",
+      "bytes": 25007,
+      "sha256": "118b3026ea13802bf0f7f18b000008c2cf65908c1a9c39d61c27c407294cd4f2",
+      "title": "VOIDREIGN native component and facility art",
+      "components": 49,
+      "facilities": 29,
+      "assets": 78
+    },
+    "component_facility_atlases": {
+      "file": "art-library/voidreign-art-native-components/ATLAS-MANIFEST.json",
+      "bytes": 838,
+      "sha256": "40119c87c2937c9de02324cf3283591c4109481a0bf9637458a3dfb1ec710dc7",
+      "title": "VOIDREIGN 36px component/facility icon atlases",
+      "component_cells": 49,
+      "facility_cells": 29
+    },
+    "faction_ship_art": {
+      "file": "art-library/voidreign-art-faction-ships/GENERATION-MANIFEST.json",
+      "bytes": 40626,
+      "sha256": "78a627093534d81dd4450302f23708442f80dbc3b08d910e413baa6fba22dbb8",
+      "title": "VOIDREIGN faction-specific ship art",
+      "factions": 6,
+      "hull_classes": 12,
+      "assets": 72
+    },
+    "system_biomes": {
+      "file": "art-library/voidreign-art-system-biomes/GENERATION-MANIFEST.json",
+      "bytes": 45486,
+      "sha256": "e21db29dd9b1c5d5cca8ce5b812bdad05de43e99661275fa345413a5157c3d06",
+      "title": "VOIDREIGN original star-system biomes and tactical fields",
+      "biomes": 6,
+      "assets": 144,
+      "system_variants_per_biome": 4,
+      "tactical_tiles_per_biome": 9
+    },
+    "planet_object_art": {
+      "file": "art-library/voidreign-art-planets/GENERATION-MANIFEST.json",
+      "bytes": 4578,
+      "sha256": "7baf295897f667d7717a401326b20c40fbd7ddd2749b64ccf9209acec1fe48a5",
+      "title": "VOIDREIGN planetary and stellar object art",
+      "assets": 17
+    },
+    "faction_leader_portraits": {
+      "file": "art-library/voidreign-art-faction-portraits/GENERATION-MANIFEST.json",
+      "bytes": 5877,
+      "sha256": "466b6dc9f9c52471da3609260fe2c5049975e9523824e1f4eba5c3beb0427065",
+      "title": "VOIDREIGN faction leader portraits",
+      "assets": 6
+    },
+    "interface_art": {
+      "file": "game-data/VOIDREIGN-UI-ART-MANIFEST.json",
+      "bytes": 3390,
+      "sha256": "a1440d382d813bc68b82fa92c4f3c34251b66f075c16b78099cf490638ca428a",
+      "title": "VOIDREIGN original interface art atlas",
+      "assets": 11,
+      "ui": {
+        "resource_icons": 6,
+        "status_icon_cells": 38,
+        "command_buttons": 12,
+        "order_icon_cells": 40,
+        "auxiliary_sheets": [
+          "Arrows",
+          "BigLeftRightArrows",
+          "BigUpDownArrows",
+          "Close",
+          "DetailUp",
+          "Nextprev",
+          "TabBtns",
+          "Selection"
+        ]
+      }
+    },
+    "original_audio": {
+      "file": "game-data/AUDIO-MANIFEST.json",
+      "bytes": 7219,
+      "sha256": "148260fc6958ec5695e374fc9fe6df82904e7a04eeab719190d9da850c23f64e",
+      "title": "VOIDREIGN original procedural audio",
+      "music_tracks": 3,
+      "sound_effects": 18
+    }
+  },
+  "verification": {
+    "command": "python tools/art/verify_art_assets.py",
+    "expected_result": "zero errors and zero warnings"
+  }
+}

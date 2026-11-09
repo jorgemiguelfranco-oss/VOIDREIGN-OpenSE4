@@ -641,7 +641,9 @@ OPENSE4_CLASSIC_DATA=auto OPENSE4_ORIGINAL_SAVE_PLAY=/path/to/GAME.gam ./build/d
 
 The audio check plays the scripts of `tests/audio` with sound on, through SDL's `disk`
 audio driver, which writes the mix to a file in real time instead of to a sound card, and
-then reads that file. It fails on clicks (a jump between neighbouring samples far above the
+then reads that file. On Windows it uses SDL's native window driver (the EGL-backed
+`offscreen` driver is not available there); on Linux and other supported headless hosts it
+uses `offscreen`. It fails on clicks (a jump between neighbouring samples far above the
 sound around it: a sound started, cut off or broken off without a fade), on digital silence
 that begins or ends away from zero, on three seconds or more without music, on clipping,
 and on any track or sound the log says could not be played or music that ran dry. Where
@@ -654,7 +656,7 @@ OPENSE4_CLASSIC_DATA=auto python3 tools/check_audio.py                  # every 
 OPENSE4_CLASSIC_DATA=auto python3 tools/check_audio.py --keep /tmp/audio intro-loop   # keep the capture and log
 ```
 
-`intro-loop` stays on the intro screen past the end of its 48-second track, with the device
+`intro-loop` stays on the intro screen past the end of its 42-second track, with the device
 at 32-bit float and 48 kHz as Windows usually mixes (a script's `# device: F32 2 48000`
 header line); `game-turns` cuts effects off with others, ends turns and changes the
 background track at turn 65, at the disk driver's 16-bit 44.1 kHz; `background-mute`

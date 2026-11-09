@@ -73,4 +73,13 @@ Characteristic Maintenance Aptitude Pct Cost                         := 25
 Characteristic Maintenance Aptitude Threshold                         := 10
 Characteristic Maintenance Aptitude Threshhold Pct Cost Pos            := 100
 Characteristic Maintenance Aptitude Threshhold Pct Cost Neg            := 50
+
+# VOIDREIGN original music playlists (procedurally synthesized; no external samples).
+Allow CD Music                  := TRUE
+Num Intro Songs                 := 1
+Intro Song 1 Filename           := VOIDREIGN_Intro.ogg
+Num Background Songs            := 1
+Background Song 1 Filename      := VOIDREIGN_Background.ogg
+Num Combat Songs                := 1
+Combat Song 1 Filename          := VOIDREIGN_Combat.ogg
 *END*

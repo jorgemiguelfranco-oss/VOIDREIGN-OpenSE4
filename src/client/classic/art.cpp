@@ -195,13 +195,27 @@ Sprite Art::planet(int picture, bool colorKey) { return cell("Pictures/Planets/P
 
 Sprite Art::planetPortrait(int picture) { return image(std::format("Pictures/Planets/p{:04d}.bmp", picture + 1)); }
 
-Sprite Art::component(int picNum) { return cell("Pictures/Components/Components.bmp", picNum - 1, 36, 36); }
+Sprite Art::component(int picNum) {
+    // Compact design/build lists use the dedicated 36px icon atlas. The
+    // matching 128px illustration is reserved for component detail/help panels.
+    return cell("Pictures/Components/Components.bmp", picNum - 1, 36, 36);
+}
 
-Sprite Art::componentPortrait(int picNum) { return image(std::format("Pictures/Components/Comp_{:03d}.bmp", picNum)); }
+Sprite Art::componentPortrait(int picNum) {
+    if (picNum <= 0) return {};
+    return image(std::format("Pictures/Components/Comp_{:03d}.bmp", picNum), false);
+}
 
-Sprite Art::facility(int picNum) { return cell("Pictures/Facilities/Facility.bmp", picNum - 1, 36, 36); }
+Sprite Art::facility(int picNum) {
+    // Compact colony/facility lists use the dedicated 36px atlas; the named
+    // 128px illustration is used by the facility detail/help panel.
+    return cell("Pictures/Facilities/Facility.bmp", picNum - 1, 36, 36);
+}
 
-Sprite Art::facilityPortrait(int picNum) { return image(std::format("Pictures/Facilities/Facil_{:03d}.bmp", picNum)); }
+Sprite Art::facilityPortrait(int picNum) {
+    if (picNum <= 0) return {};
+    return image(std::format("Pictures/Facilities/Facil_{:03d}.bmp", picNum), false);
+}
 
 std::string Art::raceFile(std::string_view style, std::string_view suffix) {
     // Style folders live under Races/ or RaceNeutral/; RaceGeneric has everything as a fallback.
@@ -336,10 +350,17 @@ Sprite Art::eventPicture(std::string_view name) {
     return image(std::format("Pictures/Events/{}.bmp", name), false);
 }
 
-Sprite Art::systemBackground(std::string_view bitmap) {
-    // Only from Systems/<resolution>/ of the layout in use (confirmed: binary;
-    // docs/spec/06 §2.1.1); the plain star field when missing.
+Sprite Art::systemBackground(std::string_view bitmap, uint64_t systemSeed) {
+    // Each system gets a deterministic scene variation within its biome. The
+    // variation key is its stable SystemId, so the System Map and Stellar view
+    // show the same scene every time. A mod without variants keeps its bitmap.
     const char* folder = layoutGeometry().systems;
+    if (!bitmap.empty() && lower(bitmap) != "starmap") {
+        const std::string variant = std::format("{}_V{}", bitmap, (systemSeed % 4) + 1);
+        const std::string path = std::format("{}{}", folder, systemFile(variant));
+        if (files_.findPicture(path))
+            if (Sprite s = image(path, false)) return s;
+    }
     if (Sprite s = image(std::format("{}{}", folder, systemFile(bitmap)), false)) return s;
     return image(std::format("{}Starmap.bmp", folder), false);
 }
@@ -351,8 +372,12 @@ Sprite Art::introPicture() {
                  : imageAny({"Pictures/Game/Screens/1024X768/Intro.bmp", "Pictures/Game/Screens/800X600/Intro.bmp"}, false);
 }
 
-Sprite Art::systemPicture(std::string_view bitmap) {
+Sprite Art::systemPicture(std::string_view bitmap, uint64_t systemSeed) {
     if (bitmap.empty()) return {};
+    const std::string variant = std::format("{}_V{}", bitmap, (systemSeed % 4) + 1);
+    const std::string variedPath = std::format("Pictures/Systems/{}", systemFile(variant));
+    if (files_.findPicture(variedPath))
+        if (Sprite s = image(variedPath, false)) return s;
     return image(std::format("Pictures/Systems/{}", systemFile(bitmap)), false);
 }
 
@@ -374,23 +399,55 @@ std::optional<uint32_t> Art::swatchColor(std::string_view style) {
 }
 
 bool Art::hasCombatTiles(std::string_view name) {
-    return !name.empty() && files_.findPicture(std::format("Pictures/Systems/{}Tile1.bmp", name)).has_value();
+    if (name.empty()) return false;
+    // Prefer the system's complete, layout-specific background. The tile set
+    // is retained for older mods which do not provide a coherent full scene.
+    const std::string layoutFile = std::format("{}{}", layoutGeometry().systems, systemFile(name));
+    return files_.findPicture(layoutFile).has_value() ||
+           files_.findPicture(std::format("Pictures/Systems/{}Combat.bmp", name)).has_value() ||
+           files_.findPicture(std::format("Pictures/Systems/{}Tile1.bmp", name)).has_value();
 }
 
 Sprite Art::combatBackground(std::string_view name, uint64_t seed) {
     constexpr int kSize = 432, kTile = 72;
-    const std::string key = std::format("#combat#{}#{}", lower(name), seed);
+    // The caller passes the stable SystemId (not the sector): every battle in
+    // one system therefore matches that system's overview scene, while other
+    // systems of the same biome can use a different deterministic variation.
+    const std::string folder = layoutGeometry().systems;
+    const std::string baseFile = std::format("{}{}", folder, systemFile(name));
+    const std::string variantFile = std::format("{}{}", folder, systemFile(std::format("{}_V{}", name, (seed % 4) + 1)));
+    const std::string fullFile = std::format("Pictures/Systems/{}Combat.bmp", name);
+    const bool hasVariant = files_.findPicture(variantFile).has_value();
+    const bool fullScene = hasVariant || files_.findPicture(baseFile).has_value() || files_.findPicture(fullFile).has_value();
+    const std::string key = fullScene ? std::format("#combat#{}#{}", lower(name), hasVariant ? (seed % 4) + 1 : 0)
+                                      : std::format("#combat#{}#{}", lower(name), seed);
     if (auto it = textures_.find(key); it != textures_.end()) return it->second.id ? whole(it->second.id, it->second.width, it->second.height) : Sprite{};
+    assets::Image picture;
+    // Use the full system scene for a coherent tactical backdrop. Prefer the
+    // exact variant shown in the system overview; mods without one fall back
+    // to their base scene or legacy tile sets.
+    Picture full = hasVariant ? loadPicture(variantFile, false) : loadPicture(baseFile, false);
+    if (full.image.width <= 0 || full.image.height <= 0)
+        full = loadPicture(fullFile, false);
+    if (full.image.width > 0 && full.image.height > 0) {
+        const int x = std::max(0, (full.image.width - kSize) / 2);
+        const int y = std::max(0, (full.image.height - kSize) / 2);
+        if (full.image.width >= kSize && full.image.height >= kSize)
+            picture = assets::crop(full.image, x, y, kSize, kSize);
+        else
+            picture = assets::downscale(full.image, kSize, kSize);
+    }
     // Each tile's pixels and how many it has a classic pixel (a mod's larger tiles more than one).
     std::vector<std::pair<assets::Image, double>> tiles;
-    for (int n = 1; n <= 100 && hasCombatTiles(name); ++n) {
-        const std::string file = std::format("Pictures/Systems/{}Tile{}.bmp", name, n);
-        if (!files_.findPicture(file)) break;
-        if (Picture tile = loadPicture(file, false); tile && tile.image.width >= kTile && tile.image.height >= kTile)
-            tiles.emplace_back(std::move(tile.image), double(tile.image.width) / tile.width);
+    if (picture.empty()) {
+        for (int n = 1; n <= 100 && hasCombatTiles(name); ++n) {
+            const std::string file = std::format("Pictures/Systems/{}Tile{}.bmp", name, n);
+            if (!files_.findPicture(file)) break;
+            if (Picture tile = loadPicture(file, false); tile && tile.image.width >= kTile && tile.image.height >= kTile)
+                tiles.emplace_back(std::move(tile.image), double(tile.image.width) / tile.width);
+        }
     }
-    assets::Image picture;
-    if (!tiles.empty()) {
+    if (picture.empty() && !tiles.empty()) {
         // At the resolution of the coarsest tile, up to the detail: classic
         // tiles give their top left 72x72 as before, larger ones are made to that size.
         double factor = 1e9;
@@ -409,10 +466,13 @@ Sprite Art::combatBackground(std::string_view name, uint64_t seed) {
                     std::memcpy(&picture.rgba[(size_t(ty * tile + y) * size_t(size) + size_t(tx * tile)) * 4], &t.rgba[size_t(y) * size_t(t.width) * 4],
                                 size_t(tile) * 4);
             }
-    } else if (const Picture& sky = sheet("Pictures/Systems/1024X768/Starmap.bmp", false)) {
-        // Its top left 432x432 classic pixels.
-        const int w = int(std::lround(double(kSize) * sky.image.width / sky.width)), h = int(std::lround(double(kSize) * sky.image.height / sky.height));
-        picture = assets::crop(sky.image, 0, 0, w, h);
+    } else if (picture.empty()) {
+        if (const Picture& sky = sheet("Pictures/Systems/1024X768/Starmap.bmp", false)) {
+            // Its top left 432x432 classic pixels.
+            const int w = int(std::lround(double(kSize) * sky.image.width / sky.width));
+            const int h = int(std::lround(double(kSize) * sky.image.height / sky.height));
+            picture = assets::crop(sky.image, 0, 0, w, h);
+        }
     }
     Texture t;
     if (!picture.empty()) t = makeTexture(picture, kSize, kSize, key);

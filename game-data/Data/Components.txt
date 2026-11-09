@@ -296,7 +296,7 @@ Weapon Type := None
 
 Name := VoidReign Vector Drive II
 Description := A higher-output fusion-vector drive for faster deep-space vessels.
-Pic Num := 4
+Pic Num := 13
 Tonnage Space Taken := 30
 Tonnage Structure := 20
 Cost Minerals := 85
@@ -321,7 +321,7 @@ Weapon Type := None
 
 Name := VoidReign Cargo Hold II
 Description := An expanded modular hold for long-range freight and population transport.
-Pic Num := 5
+Pic Num := 14
 Tonnage Space Taken := 60
 Tonnage Structure := 30
 Cost Minerals := 90
@@ -346,7 +346,7 @@ Weapon Type := None
 
 Name := VoidReign Pulse Cannon II
 Description := An improved pulse accelerator with stronger sustained ship-killing output.
-Pic Num := 6
+Pic Num := 15
 Tonnage Space Taken := 30
 Tonnage Structure := 22
 Cost Minerals := 90
@@ -377,7 +377,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Orbital Shipyard II
 Description := An advanced modular construction bay with higher orbital assembly throughput.
-Pic Num := 10
+Pic Num := 16
 Tonnage Space Taken := 100
 Tonnage Structure := 60
 Cost Minerals := 300
@@ -402,7 +402,7 @@ Weapon Type := None
 
 Name := VoidReign Sensor Array II
 Description := An advanced orbital sensor array with longer active detection range.
-Pic Num := 11
+Pic Num := 17
 Tonnage Space Taken := 50
 Tonnage Structure := 25
 Cost Minerals := 150
@@ -427,7 +427,7 @@ Weapon Type := None
 
 Name := VoidReign Sensor Suite I
 Description := A compact active sensor suite for crewed ships and orbital vessels.
-Pic Num := 11
+Pic Num := 18
 Tonnage Space Taken := 30
 Tonnage Structure := 15
 Cost Minerals := 90
@@ -452,7 +452,7 @@ Weapon Type := None
 
 Name := VoidReign Sensor Suite II
 Description := A long-baseline sensor suite for high-technology fleet command vessels.
-Pic Num := 11
+Pic Num := 19
 Tonnage Space Taken := 40
 Tonnage Structure := 20
 Cost Minerals := 140
@@ -477,7 +477,7 @@ Weapon Type := None
 
 Name := VoidReign Shield Projector II
 Description := A higher-output regenerative shield projector for modern warships.
-Pic Num := 12
+Pic Num := 20
 Tonnage Space Taken := 45
 Tonnage Structure := 30
 Cost Minerals := 100
@@ -502,7 +502,7 @@ Weapon Type := None
 
 Name := VoidReign Pulse Cannon III
 Description := A high-output pulse accelerator for advanced line ships.
-Pic Num := 6
+Pic Num := 21
 Tonnage Space Taken := 45
 Tonnage Structure := 32
 Cost Minerals := 160
@@ -533,7 +533,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Pulse Cannon IV
 Description := A refined pulse lance with stronger long-range strike energy.
-Pic Num := 6
+Pic Num := 22
 Tonnage Space Taken := 60
 Tonnage Structure := 42
 Cost Minerals := 250
@@ -564,7 +564,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Pulse Cannon V
 Description := A strategic-grade pulse cannon for the heaviest capital hulls.
-Pic Num := 6
+Pic Num := 23
 Tonnage Space Taken := 80
 Tonnage Structure := 55
 Cost Minerals := 390
@@ -595,7 +595,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Shield Projector III
 Description := A reinforced shield lattice for advanced escort and cruiser hulls.
-Pic Num := 12
+Pic Num := 24
 Tonnage Space Taken := 60
 Tonnage Structure := 42
 Cost Minerals := 180
@@ -620,7 +620,7 @@ Weapon Type := None
 
 Name := VoidReign Shield Projector IV
 Description := A heavy shield lattice designed for cruiser and battleship protection.
-Pic Num := 12
+Pic Num := 25
 Tonnage Space Taken := 80
 Tonnage Structure := 55
 Cost Minerals := 290
@@ -645,7 +645,7 @@ Weapon Type := None
 
 Name := VoidReign Shield Projector V
 Description := A capital-grade shield lattice with exceptional structural capacity.
-Pic Num := 12
+Pic Num := 26
 Tonnage Space Taken := 105
 Tonnage Structure := 72
 Cost Minerals := 430
@@ -670,7 +670,7 @@ Weapon Type := None
 
 Name := VoidReign Vector Drive III
 Description := A high-thrust vector drive for fast cruiser task forces.
-Pic Num := 4
+Pic Num := 27
 Tonnage Space Taken := 45
 Tonnage Structure := 30
 Cost Minerals := 150
@@ -695,7 +695,7 @@ Weapon Type := None
 
 Name := VoidReign Vector Drive IV
 Description := A capital-grade drive array for rapid battleship manoeuvres.
-Pic Num := 4
+Pic Num := 28
 Tonnage Space Taken := 70
 Tonnage Structure := 46
 Cost Minerals := 280
@@ -720,7 +720,7 @@ Weapon Type := None
 
 Name := VoidReign Cargo Hold III
 Description := A high-volume modular cargo deck for long-range freight carriers.
-Pic Num := 5
+Pic Num := 29
 Tonnage Space Taken := 90
 Tonnage Structure := 45
 Cost Minerals := 180
@@ -745,7 +745,7 @@ Weapon Type := None
 
 Name := VoidReign Cargo Hold IV
 Description := An advanced freight bay for deep-range commercial and support ships.
-Pic Num := 5
+Pic Num := 30
 Tonnage Space Taken := 130
 Tonnage Structure := 68
 Cost Minerals := 320
@@ -770,7 +770,7 @@ Weapon Type := None
 
 Name := VoidReign Cargo Hold V
 Description := A strategic-scale cargo complex for the largest interstellar transports.
-Pic Num := 5
+Pic Num := 31
 Tonnage Space Taken := 175
 Tonnage Structure := 92
 Cost Minerals := 500
@@ -795,7 +795,7 @@ Weapon Type := None
 
 Name := VoidReign Phase Shield 1
 Description := An advanced regenerative barrier lattice for high-endurance combat ships.
-Pic Num := 14
+Pic Num := 32
 Tonnage Space Taken := 40
 Tonnage Structure := 28
 Cost Minerals := 100
@@ -820,7 +820,7 @@ Weapon Type := None
 
 Name := VoidReign Phase Shield 2
 Description := An advanced regenerative barrier lattice for high-endurance combat ships.
-Pic Num := 15
+Pic Num := 33
 Tonnage Space Taken := 65
 Tonnage Structure := 42
 Cost Minerals := 220
@@ -845,7 +845,7 @@ Weapon Type := None
 
 Name := VoidReign Phase Shield 3
 Description := An advanced regenerative barrier lattice for high-endurance combat ships.
-Pic Num := 16
+Pic Num := 34
 Tonnage Space Taken := 95
 Tonnage Structure := 65
 Cost Minerals := 420
@@ -870,7 +870,7 @@ Weapon Type := None
 
 Name := VoidReign Gravity Lance 1
 Description := A precision gravitic focusing weapon for advanced line and capital ships.
-Pic Num := 17
+Pic Num := 35
 Tonnage Space Taken := 45
 Tonnage Structure := 30
 Cost Minerals := 115
@@ -901,7 +901,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Gravity Lance 2
 Description := A precision gravitic focusing weapon for advanced line and capital ships.
-Pic Num := 18
+Pic Num := 36
 Tonnage Space Taken := 70
 Tonnage Structure := 45
 Cost Minerals := 260
@@ -932,7 +932,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Gravity Lance 3
 Description := A precision gravitic focusing weapon for advanced line and capital ships.
-Pic Num := 19
+Pic Num := 37
 Tonnage Space Taken := 100
 Tonnage Structure := 68
 Cost Minerals := 480
@@ -963,7 +963,7 @@ Weapon Seeker Dmg Res := 0
 
 Name := VoidReign Horizon Drive 1
 Description := A subspace curvature engine for high-speed strategic movement.
-Pic Num := 4
+Pic Num := 38
 Tonnage Space Taken := 35
 Tonnage Structure := 23
 Cost Minerals := 105
@@ -988,7 +988,7 @@ Weapon Type := None
 
 Name := VoidReign Horizon Drive 2
 Description := A subspace curvature engine for high-speed strategic movement.
-Pic Num := 4
+Pic Num := 39
 Tonnage Space Taken := 55
 Tonnage Structure := 36
 Cost Minerals := 225
@@ -1013,7 +1013,7 @@ Weapon Type := None
 
 Name := VoidReign Horizon Drive 3
 Description := A subspace curvature engine for high-speed strategic movement.
-Pic Num := 4
+Pic Num := 40
 Tonnage Space Taken := 80
 Tonnage Structure := 52
 Cost Minerals := 390
@@ -1038,7 +1038,7 @@ Weapon Type := None
 
 Name := VoidReign Quantum Sensor Suite 3
 Description := An entangled detection suite with extended active sensor reach.
-Pic Num := 11
+Pic Num := 41
 Tonnage Space Taken := 55
 Tonnage Structure := 32
 Cost Minerals := 190
@@ -1063,7 +1063,7 @@ Weapon Type := None
 
 Name := VoidReign Quantum Sensor Suite 4
 Description := An entangled detection suite with extended active sensor reach.
-Pic Num := 11
+Pic Num := 42
 Tonnage Space Taken := 70
 Tonnage Structure := 42
 Cost Minerals := 280
@@ -1088,7 +1088,7 @@ Weapon Type := None
 
 Name := VoidReign Rock Colonization Module II
 Description := An advanced biosphere package for rock settlements.
-Pic Num := 7
+Pic Num := 43
 Tonnage Space Taken := 105
 Tonnage Structure := 65
 Cost Minerals := 230
@@ -1113,7 +1113,7 @@ Weapon Type := None
 
 Name := VoidReign Ice Colonization Module II
 Description := An advanced biosphere package for ice settlements.
-Pic Num := 8
+Pic Num := 44
 Tonnage Space Taken := 105
 Tonnage Structure := 65
 Cost Minerals := 230
@@ -1138,7 +1138,7 @@ Weapon Type := None
 
 Name := VoidReign Gas Colonization Module II
 Description := An advanced biosphere package for gas settlements.
-Pic Num := 9
+Pic Num := 45
 Tonnage Space Taken := 105
 Tonnage Structure := 65
 Cost Minerals := 230
@@ -1163,7 +1163,7 @@ Weapon Type := None
 
 Name := VoidReign Orbital Shipyard 3
 Description := A capital-scale orbital assembly spine for heavy fleet and station construction.
-Pic Num := 10
+Pic Num := 46
 Tonnage Space Taken := 120
 Tonnage Structure := 72
 Cost Minerals := 380
@@ -1188,7 +1188,7 @@ Weapon Type := None
 
 Name := VoidReign Orbital Shipyard 4
 Description := A capital-scale orbital assembly spine for heavy fleet and station construction.
-Pic Num := 10
+Pic Num := 47
 Tonnage Space Taken := 155
 Tonnage Structure := 90
 Cost Minerals := 560
@@ -1213,7 +1213,7 @@ Weapon Type := None
 
 Name := VoidReign Fleet Support Matrix 1
 Description := A logistics matrix generating strategic supply for sustained operations.
-Pic Num := 5
+Pic Num := 48
 Tonnage Space Taken := 45
 Tonnage Structure := 28
 Cost Minerals := 150
@@ -1238,7 +1238,7 @@ Weapon Type := None
 
 Name := VoidReign Fleet Support Matrix 2
 Description := A logistics matrix generating strategic supply for sustained operations.
-Pic Num := 5
+Pic Num := 49
 Tonnage Space Taken := 65
 Tonnage Structure := 28
 Cost Minerals := 280

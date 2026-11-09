@@ -700,7 +700,7 @@ void systemReport(UiContext& ui, game::SystemId sysId) {
     // panel's frame rail. It is opaque (a star field), unlike a planet's keyed
     // portrait, which reaches over the rail (-1,-3): drawn there it covered the
     // rail (GitHub issue #2). Clipped to the panel, so no scale can bring it over.
-    if (const Sprite picture = ui.art.systemPicture(type.backgroundBitmap)) {
+    if (const Sprite picture = ui.art.systemPicture(type.backgroundBitmap, sysId.value)) {
         constexpr Vec2 kPicture{-4, -8};   // the spec's (0,0)
         dl->PushClipRect(at(kPicture.x, kPicture.y), ImVec2(FLT_MAX, FLT_MAX), true);
         pen.sprite(picture, kPicture.x, kPicture.y, 128, 128);
