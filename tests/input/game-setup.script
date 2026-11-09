@@ -62,6 +62,10 @@ wait-for item:"Add New" in=front
 # Add New: an empty empire; the first picker fills its name; an e-mail address.
 click item:"Add New" in=front
 wait-for item:"Create Empire" in=front
+assert-present item:"Starting Origin" in=front
+click item:"Industrial Directorate" in=front
+screenshot starting-origin.png
+click item:General in=front
 click item:##pick in=front nth=1
 wait-for item:##pick in=##listpicker
 screenshot list-picker.png
@@ -77,6 +81,7 @@ screenshot create-empire-check.png
 click item:OK in="Emperor Name"
 wait-gone item:OK in="Emperor Name"
 assert-present item:"Create Empire" in=front
+click item:General in=front
 click item:##edit in=front nth=4
 type "Ada"
 click item:Environment in=front

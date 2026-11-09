@@ -4,6 +4,7 @@
 .cache/
 compile_commands.json
 *.png
+!game-data/Pictures/Races/*/*_Race_Portrait.png
 !assets/**/*.png
 !packaging/**/*.png
 !tests/fixtures/**/*.png

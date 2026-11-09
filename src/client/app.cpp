@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <cfloat>
 #include <cstdio>
+#include <fstream>
 #include <format>
 
 // The SDL3 backend's key mapping (imgui_impl_sdl3.cpp), for the system's key repeats.
@@ -310,14 +311,31 @@ int App::run(const AppOptions& options) {
     }
     int code = mode_->exitCode();
     if (player_) {
-        // The script's verdict: every step done, or where it stopped.
+        // The script's verdict: every step done, or where it stopped. Keep a file
+        // copy too: Windows builds are GUI-subsystem executables and have no
+        // inherited console stdout for run_input_tests.py to capture.
         const script::Script& sc = player_->script();
+        std::filesystem::path resultDir = options.scriptOutput;
+        if (resultDir.empty()) {
+            std::error_code ec;
+            resultDir = std::filesystem::temp_directory_path(ec) / "opense4-scripts";
+        }
+        std::error_code resultDirError;
+        std::filesystem::create_directories(resultDir, resultDirError);
+        std::ofstream resultFile(resultDir / "input-script-result.txt", std::ios::binary | std::ios::trunc);
         if (player_->finished() && !player_->failed()) {
-            std::printf("input-script %s: passed (%zu steps, %llu frames)\n", sc.file.c_str(), sc.steps.size(),
-                        static_cast<unsigned long long>(player_->frame()));
+            const std::string verdict = std::format("input-script {}: passed ({} steps, {} frames)\n", sc.file,
+                                                    sc.steps.size(), static_cast<unsigned long long>(player_->frame()));
+            std::printf("%s", verdict.c_str());
+            if (resultFile) resultFile << verdict;
         } else {
             const std::string why = player_->failed() ? player_->failure() : "the game quit before the script ended";
-            std::printf("input-script %s: FAILED\n%s\n", sc.file.c_str(), why.c_str());
+            const std::string verdict = std::format("input-script {}: FAILED\n{}\n", sc.file, why);
+            std::printf("%s", verdict.c_str());
+            if (resultFile) {
+                resultFile << verdict;
+                if (player_->failed()) resultFile << "picture: " << player_->failureShot().string() << '\n';
+            }
             if (player_->failed()) std::printf("  picture: %s\n", player_->failureShot().string().c_str());
             code = 1;
         }

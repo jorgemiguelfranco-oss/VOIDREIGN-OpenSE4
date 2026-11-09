@@ -16,6 +16,8 @@ wait-for item:"Add New" in=front
 # and a password.
 click item:"Add New" in=front
 wait-for item:"Create Empire" in=front
+assert-present item:"Starting Origin" in=front
+click item:General in=front
 click item:##pick in=front nth=1
 wait-for item:##pick in=##listpicker
 click item:##pick in=##listpicker nth=1

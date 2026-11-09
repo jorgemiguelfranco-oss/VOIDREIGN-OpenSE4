@@ -279,7 +279,7 @@ def play_one(exe, script, output, classic_dir, renderer, timeout, extra, layout=
             copy.write_text(text.replace(FREE_PORT, str(free_port())), encoding="utf-8")
             script = copy
         env = dict(os.environ)
-        env.setdefault("SDL_VIDEO_DRIVER", "offscreen")
+        env.setdefault("SDL_VIDEO_DRIVER", "windows" if os.name == "nt" else "offscreen")
         env["OPENSE4_USER_DIR"] = user
         if portable_env is not None:   # a portable copy: the rules without OPENSE4_USER_DIR
             del env["OPENSE4_USER_DIR"]
@@ -302,6 +302,13 @@ def play_one(exe, script, output, classic_dir, renderer, timeout, extra, layout=
         seconds = time.monotonic() - start
         lines = proc.stdout.splitlines()
         result = next((m for m in (RESULT.match(l) for l in lines) if m), None)
+        # GUI-subsystem builds on Windows do not expose a console stdout pipe.
+        # The client writes the exact same verdict beside the script screenshots.
+        if result is None:
+            verdict_file = shots / "input-script-result.txt"
+            if verdict_file.is_file():
+                lines = verdict_file.read_text(encoding="utf-8", errors="replace").splitlines()
+                result = next((m for m in (RESULT.match(l) for l in lines) if m), None)
         if result and result.group(2) == "passed" and proc.returncode == 0:
             return script, True, result.group(3).strip(), "", seconds
         # The failure: the lines after the verdict, or the end of the log.
