@@ -123,7 +123,12 @@ bundled_mods() {
 # every package has the same files, and so the same identity, wherever it is built).
 stage_mods() {
     local mod file
+    if [ ! -f mods/bundled.txt ]; then
+        echo "mods/bundled.txt is missing; cannot stage the bundled computer players" >&2
+        exit 1
+    fi
     mkdir -p "$1/mods"
+    cp mods/bundled.txt "$1/mods/bundled.txt"
     for mod in $(bundled_mods); do
         if [ ! -f "mods/$mod/mod.toml" ]; then
             echo "mods/bundled.txt names $mod, but mods/$mod has no mod.toml" >&2
@@ -133,6 +138,10 @@ stage_mods() {
             mkdir -p "$1/$(dirname "$file")"
             cp "$file" "$1/$file"
         done < <(git ls-files -z -- "mods/$mod")
+        if [ ! -f "$1/mods/$mod/mod.toml" ]; then
+            echo "mods/$mod has no tracked mod.toml to package" >&2
+            exit 1
+        fi
     done
 }
 
