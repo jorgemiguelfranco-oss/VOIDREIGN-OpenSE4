@@ -142,8 +142,16 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(warehouse->abilities[0].number1() == 30000);
     CHECK(warehouse->abilities[1].number1() == 30000);
     CHECK(warehouse->abilities[2].number1() == 30000);
-    REQUIRE(shipyard->abilities.size() == 1);
-    CHECK(shipyard->abilities[0].type == "Space Yard");
+    // Construction yards expose separate mineral, organic and radioactive
+    // throughput. A single generic Space Yard entry would silently leave two
+    // resource-specific production rates untested.
+    REQUIRE(shipyard->abilities.size() == 3);
+    for (int resource = 1; resource <= 3; ++resource) {
+        const auto& ability = shipyard->abilities[static_cast<std::size_t>(resource - 1)];
+        CHECK(ability.type == "Space Yard");
+        CHECK(ability.number1() == resource);
+        CHECK(ability.number2() == 1500);
+    }
     REQUIRE(depot->abilities.size() == 1);
     CHECK(depot->abilities[0].type == "Supply Generation");
 
@@ -205,8 +213,13 @@ TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable ec
     CHECK(extractor2->abilities[0].number1() == 750);
     REQUIRE(research2->abilities.size() == 1);
     CHECK(research2->abilities[0].number1() == 375);
-    REQUIRE(shipyard2->abilities.size() == 1);
-    CHECK(shipyard2->abilities[0].number2() == 2250);
+    REQUIRE(shipyard2->abilities.size() == 3);
+    for (int resource = 1; resource <= 3; ++resource) {
+        const auto& ability = shipyard2->abilities[static_cast<std::size_t>(resource - 1)];
+        CHECK(ability.type == "Space Yard");
+        CHECK(ability.number1() == resource);
+        CHECK(ability.number2() == 2250);
+    }
     REQUIRE(supply2->abilities.size() == 1);
     CHECK(supply2->abilities[0].number1() == 7500);
     const std::vector<std::string> expectedColonyTypes{
