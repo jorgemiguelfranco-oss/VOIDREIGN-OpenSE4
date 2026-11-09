@@ -89,7 +89,10 @@ struct ClassicOptions {
     bool scripted = false;
 };
 
-// What to tell the player when no installed copy of the game is found:
+// Locate VOIDREIGN's own packaged data first; an explicit --data-dir overrides it.
+std::optional<std::filesystem::path> findGameDataDirectory(const std::string& dataDir);
+
+// What to tell the player when no VOIDREIGN data set is found:
 // auto-detection failed (`installDir` empty) or `installDir` holds no data set.
 std::string missingInstallMessage(const std::string& installDir);
 

@@ -1,0 +1,12 @@
+*BEGIN*
+Type := Ship - Damage
+Severity := Low
+Effect Amount := 10
+Message To := Owner
+Num Messages := 1
+Message Title 1 := Solar flare strike
+Message 1 := A flare of charged particles strikes one of your ships, damaging its systems.
+Picture := Flare
+Time Till Completion := 0
+Num Start Messages := 0
+*END*

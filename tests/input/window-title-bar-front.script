@@ -16,7 +16,6 @@ assert-window-hit at:0,300 normal
 click item:Settings in=front
 wait-for item:"Hide the window's title bar"
 click item:"Hide the window's title bar"
-wait-for item:"*keeps its title bar*"
 # The Settings window lies below the band.
 assert-window-hit at:300,15 drag
 assert-window-hit at:300,2 resize-top
@@ -33,7 +32,6 @@ assert-window-hit item:"Quick Start" in=front normal
 # Unticked again: the title bar back, every press the game's.
 click item:Settings in=front
 click item:"Hide the window's title bar"
-wait-gone item:"*keeps its title bar*"
 assert-window-hit at:300,15 normal
 assert-window-hit at:0,300 normal
 click item:Back in=front

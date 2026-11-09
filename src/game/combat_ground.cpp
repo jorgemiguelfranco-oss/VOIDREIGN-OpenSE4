@@ -14,6 +14,7 @@
 
 #include "game/log_picture.hpp"
 #include "game/combat.hpp"
+#include "game/leaders.hpp"
 
 #include "game/combat_detail.hpp"
 #include "game/design.hpp"
@@ -282,7 +283,9 @@ GroundOutcome fightGround(const Rules& r, GameState& s, const CombatSettings& cs
         const int attDefense = sideModifier(r, s, att, AbilityKind::CombatToHitDefensePlus, AbilityKind::CombatToHitDefenseMinus);
         const int defOffense = sideModifier(r, s, def, AbilityKind::CombatToHitOffensePlus, AbilityKind::CombatToHitOffenseMinus);
         const int defDefense = sideModifier(r, s, def, AbilityKind::CombatToHitDefensePlus, AbilityKind::CombatToHitDefenseMinus);
-        const int64_t attHits = hits(att, attOffense + 50 - defDefense, rng);
+        const int generalBonus = f.defender.valid()
+            ? leaders::generalGroundDefenseBonusPct(s.empire(f.defender), f.planet) : 0;
+        const int64_t attHits = hits(att, attOffense + 50 - defDefense - generalBonus, rng);
         const int64_t defHits = hits(def, defOffense + 50 - attDefense, rng);
         // The totals with last round's carry, times the ground percentage
         // (truncated), then the modifiers, chained and rounded: the defender's
@@ -445,6 +448,7 @@ void runGroundCombat(TurnContext& ctx, EmpireId owner) {
         detail::GroundFight fight;
         fight.attacker = attacker;
         fight.defender = owner;
+        fight.planet = c->planet;
         fight.invaders = &c->landedTroops;
         fight.cargo = &c->cargo;
         fight.population = &c->population;

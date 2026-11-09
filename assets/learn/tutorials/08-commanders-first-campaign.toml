@@ -1,0 +1,244 @@
+# VOIDREIGN original in-game teaching content; based on its client and docs/LEARNING.md.
+title = "Commander's First Campaign"
+summary = "A playable opening from economic planning to research, scouting, colony orders and turn-by-turn decisions."
+minutes = 25
+suggest = "training:frontier-command"
+learned = [
+  "Read reserves and net production before expanding",
+  "Queue a replacement colony ship and two technologies",
+  "Launch a scout and issue a colony order",
+  "Review the turn log and follow a twenty-turn plan",
+]
+
+[setup]
+seed = 404
+computer_players = 2
+quadrant_size = "small"
+events = "none"
+starting_ships = ["Attack Ship", "Attack Ship", "Colony"]
+
+[[step]]
+title = "Welcome, Commander"
+text = """
+**This is your first connected campaign.** Instead of studying separate menus, you will put economic planning, exploration, colonisation and research together in one playable opening.
+
+This lesson supplies one colony ship and two attack ships for practice. Press **Next**.
+"""
+highlight = [ "lesson:panel" ]
+manual = "commanders-first-campaign#the-first-turn"
+
+[[step]]
+title = "Check the empire budget"
+text = """
+**Open Empire Status** with the crown button or `F11`.
+
+Expansion succeeds only when you can afford both construction and ongoing ship maintenance.
+"""
+highlight = [ "command:empire-status" ]
+done = { window = "empire-status" }
+manual = "economy#the-empire-status-window"
+
+[[step]]
+title = "Know your three reserves"
+text = """
+**Study Net Resources Per Turn** and the budget. Minerals, organics and radioactives are separate accounts: a surplus in one cannot pay a deficit in another.
+
+The treasury is what you have now; net production is what each following turn adds or subtracts. Press **Next**.
+"""
+highlight = [ "empire-status:net" ]
+show = [ "empire-status:budget" ]
+manual = "commanders-first-campaign#economic-triage"
+
+[[step]]
+title = "Open construction planning"
+text = """
+**Close Empire Status** (`Esc`), then open **Construction Queues** with `F7`.
+
+A strong opening begins with a real build order, not an idle homeworld.
+"""
+highlight = [ "command:queues" ]
+done = { window = "queues" }
+manual = "construction#the-set-construction-queue-window"
+
+[[step]]
+title = "Choose your homeworld queue"
+text = """
+**Click your homeworld's row** to edit its construction queue.
+
+Every inhabited colony has its own queue. Your homeworld normally has the most developed infrastructure.
+"""
+highlight = [ "queues:list" ]
+done = { window = "set-queue" }
+manual = "construction#who-can-build"
+
+[[step]]
+title = "Commission a colony ship"
+text = """
+**On the Ships tab, click {design:Colony}** to add a colony ship to the queue.
+
+Look at its resource cost before committing to more ships. This is your replacement coloniser for the next expansion wave.
+"""
+highlight = [ "set-queue:available", "set-queue:available:named" ]
+allow = [ "set-queue:ships" ]
+done = { command = "QueueAdd", design_type = "Colony" }
+manual = "construction#the-set-construction-queue-window"
+
+[[step]]
+title = "Read your production rate"
+text = """
+**Look at the queue and its build rate.** The top item is built first, and treasury shortages can stall it. One giant queue is not a substitute for developing production on other worlds.
+
+Press **Next**.
+"""
+highlight = [ "set-queue:queue" ]
+show = [ "set-queue:rate" ]
+manual = "construction#how-a-queue-builds"
+
+[[step]]
+title = "Open the Research window"
+text = """
+**Close the queue windows** with `Esc`, then open **Research** with `F8`.
+
+Research is a long-term investment; a research queue without useful priorities can delay essential civilian technology.
+"""
+highlight = [ "command:research" ]
+done = { window = "research" }
+manual = "research#the-research-window"
+
+[[step]]
+title = "Plan two technology advances"
+text = """
+**Choose two research areas** in the list. Prefer a practical early benefit and a longer-term strategic goal.
+
+Read the next-level cost and unlocks before spending research points.
+"""
+highlight = [ "research:areas" ]
+show = [ "research:queue", "research:headings" ]
+done = { research_queued = 2 }
+manual = "research#technology-areas-and-levels"
+
+[[step]]
+title = "Keep research focused"
+text = """
+**Turn off Divide Pts Evenly** so the first queued project receives points before the second.
+
+Focused research helps you reach a key component or facility sooner. Pressing a project in the queue lets you reorder it later.
+"""
+highlight = [ "research:divide-evenly" ]
+show = [ "research:queue" ]
+done = { not = { option = "research-evenly" } }
+manual = "research#the-research-queue"
+
+[[step]]
+title = "Select an escort"
+text = """
+**Close Research** (`Esc`) and select an attack ship with the ship arrows or `Space`.
+
+Check the report's **Class**: the ship must be an **{design:Attack Ship}**, not the coloniser.
+"""
+highlight = [ "cycle:ship" ]
+show = [ "panel:report" ]
+done = { selected = "ship", design_type = "Attack Ship" }
+manual = "ships-and-fleets#orders"
+
+[[step]]
+title = "Launch a scouting mission"
+text = """
+**Give the selected attack ship Explore** (`E`).
+
+The ship will search for a reachable unexplored system. Check its route and give it another Explore order when it arrives.
+"""
+highlight = [ "order:explore" ]
+show = [ "panel:report" ]
+done = { order = "explore", design_type = "Attack Ship" }
+manual = "galaxy#exploring"
+
+[[step]]
+title = "Survey candidate worlds"
+text = """
+**Open Planets** with `F4`.
+
+You want useful production and access to neighbouring systems, but prefer a breathable atmosphere when possible.
+"""
+highlight = [ "command:planets" ]
+done = { window = "planets" }
+manual = "planets-and-colonies#the-planets-window"
+
+[[step]]
+title = "Filter breathable worlds"
+text = """
+**Click Coloniz\\Breathe** to find suitable unsettled worlds.
+
+Breathable colonies have far more room for people and facilities than domed colonies. Check the planet's values before choosing it.
+"""
+highlight = [ "planets:colonizable-breathable" ]
+show = [ "planets:list", "planets:colonizable" ]
+done = { tab = "planets:colonizable-breathable" }
+manual = "planets-and-colonies#what-a-planet-is-like"
+
+[[step]]
+title = "Dispatch your coloniser"
+text = """
+**Click Send Colony Ship**, choose a suitable world and press **Colonize**.
+
+Your starting colony ship receives its order. If no target is available in the filter, use **Colonizable** to review other worlds.
+"""
+highlight = [ "planets:send-colony-ship" ]
+show = [ "planets:list" ]
+done = { order = "colonize" }
+manual = "planets-and-colonies#colonizing"
+
+[[step]]
+title = "Commit the opening orders"
+text = """
+**Close Planets** (`Esc`), press **End Turn** (`F12`), and confirm with **Yes**.
+
+The simulation will process the orders, spend resources, advance research and move rival empires. Read the results, not just the animations.
+"""
+highlight = [ "button:end-turn" ]
+allow = [ "log:close" ]
+done = { turns_passed = 1 }
+manual = "turns#what-happens-at-the-end-of-a-turn"
+
+[[step]]
+title = "Read the turn's consequences"
+text = """
+**Look at the Log** when the new turn begins. It reports research, construction, contact, battles and discoveries.
+
+A good commander uses this information to change orders before ending the next turn. Press **Next**.
+"""
+highlight = [ "log:messages" ]
+show = [ "log:details" ]
+allow = [ "log:categories", "log:close" ]
+manual = "commanders-first-campaign#turns-two-to-five"
+
+[[step]]
+title = "Inspect your colonies"
+text = """
+**Close the Log** (`Esc`) and open **Colonies** (`F5`).
+
+Compare production and facilities. A newly founded colony needs time and infrastructure before it can support a large fleet.
+"""
+highlight = [ "command:colonies" ]
+done = { window = "colonies" }
+manual = "planets-and-colonies#the-colonies-window"
+
+[[step]]
+title = "Your next nineteen turns"
+text = """
+**You have an opening plan.** Through turn 5: scout, settle, and keep queues active. By turn 10: reinforce income and ship production. By turn 20: protect the frontier and make diplomatic choices.
+
+Press **Next** to read your command checklist.
+"""
+highlight = [ "colonies:list" ]
+manual = "commanders-first-campaign#turns-eleven-to-twenty"
+
+[[step]]
+title = "Ready for independent command"
+text = """
+**Finish the lesson and open the Frontier Command training scenario.** It gives objectives but leaves you in control of every decision.
+
+Remember the loop: review the Log, check reserves, give orders, build, research, then end the turn. Press **Finish**.
+"""
+highlight = [ "lesson:panel" ]
+manual = "commanders-first-campaign#a-decision-checklist"

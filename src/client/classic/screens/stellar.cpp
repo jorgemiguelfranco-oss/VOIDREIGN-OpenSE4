@@ -117,7 +117,7 @@ private:
         dl->AddRectFilled(p0, p1, IM_COL32(0, 0, 0, 255));
         // The system's background, or the plain star field for types with Non-Tiled Center Pic (docs/spec/06 §5.3).
         const ruleset::SystemType& type = r.data().systemTypes[sys.type.index()];
-        drawSprite(dl, ui.art.systemBackground(type.nonTiledCenterPicture ? std::string("Starmap") : type.backgroundBitmap), p0, p1);
+        drawSprite(dl, ui.art.systemBackground(type.nonTiledCenterPicture ? std::string("Starmap") : type.backgroundBitmap, sys.id.value), p0, p1);
 
         // What is in the sector: object portraits along the top, the ship at the lower right.
         const float big = side * 0.30f;

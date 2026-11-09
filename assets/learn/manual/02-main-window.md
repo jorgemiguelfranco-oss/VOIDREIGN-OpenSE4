@@ -52,7 +52,7 @@ group. What is left for later turns each ship then carries out on its own. The t
 you press `Shift+C` or select a sector (a click on one, the colony buttons): the ship and fleet
 buttons and a Goto from another window keep them, so the next order still goes to the tagged
 ships while another ship's report is shown, as a line at the foot of the report reminds you.
-Options' "Clear tags when selecting a ship elsewhere" (under OpenSE4) clears them instead when
+Options' "Clear tags when selecting a ship elsewhere" (under VOIDREIGN) clears them instead when
 the ship or planet selected is in another sector.
 
 With one of your **ships** selected you can, for example, move it, warp, attack, colonize,
@@ -101,7 +101,7 @@ the top left, followed by the coordinates of the sector under the pointer.
 - **Left-click** a sector. If it holds one thing, the report panel shows its report. If it holds several, the panel lists them; click one in the list to see its report, and the up-arrow button at the report's top right to go back.
 - **Left-click empty space** to read about the whole system: its type and its special features. The sector stays selected, but it is not marked.
 - A click on a system you have not explored does nothing: what you had selected stays. Picking a place for an order or a waypoint works there all the same.
-- **Right-click** a sector while one of your ships is selected, and the ship moves there (an OpenSE4 shortcut; you can turn it off in [Settings](settings#controls)). Otherwise a right-click in the system panel does nothing.
+- **Right-click** a sector while one of your ships is selected, and the ship moves there (an VOIDREIGN shortcut; you can turn it off in [Settings](settings#controls)). Otherwise a right-click in the system panel does nothing.
 - Showing another system, with a click on the galaxy panel or the Galaxy Map's `Goto System`, changes nothing else: the report, its tab and the order buttons stay, so you can give the selected ship an order with a target in that system.
 - The selected sector has yellow corner marks while it holds something you can see; the coordinate line then also gives the range from it to the sector under the pointer.
 

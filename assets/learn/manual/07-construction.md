@@ -117,7 +117,7 @@ The buttons on the right:
 **Queue types** save typing. `Fill Queue` lists your empire's queue types, which are saved with
 the game: `Add Type` asks for a name and saves the current queue as a new type, and `Delete Type`
 removes the one you picked. Fill adds each item of the type with its count; each item the queue
-cannot take gives its own **Warning**. Below your empire's types OpenSE4 also lists the types kept
+cannot take gives its own **Warning**. Below your empire's types VOIDREIGN also lists the types kept
 on this computer for every game (`Keep on Computer` saves one) and ready-made types that fill a
 planet's free facility slots with the best producer of one kind (minerals, organics,
 radioactives, research, intelligence) or a balanced mix.

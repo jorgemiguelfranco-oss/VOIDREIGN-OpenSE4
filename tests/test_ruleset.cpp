@@ -2,15 +2,27 @@
 #include "ruleset/ability_names.hpp"
 #include "ruleset/races.hpp"
 #include "ruleset/ruleset.hpp"
+#include "game/rules.hpp"
+#include "game/economy.hpp"
+#include "game/commands.hpp"
+#include "game/leaders.hpp"
+#include "game/origins.hpp"
+#include "game/serialize.hpp"
+#include "game/setup.hpp"
 #include "temp_dir.hpp"
 
 #include <doctest/doctest.h>
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cstdlib>
 #include <format>
 #include <fstream>
+#include <iterator>
+#include <string>
+#include <string_view>
+#include <utility>
 
 using namespace opense4;
 
@@ -107,6 +119,613 @@ TEST_CASE("ruleset: the fixture data set loads completely") {
     CHECK(rs.names.empireNames.size() == 2);
 }
 
+TEST_CASE("ruleset: VOIDREIGN native base data loads and exposes its playable economy") {
+    const std::filesystem::path dataDir = std::filesystem::path(OPENSE4_FIXTURE_DIR).parent_path().parent_path() / "game-data" / "Data";
+    auto result = ruleset::loadRuleset(dataDir);
+    std::string errors;
+    for (const auto& e : result.diagnostics.errors) errors += e + "\n";
+    INFO(errors);
+    REQUIRE(result.ruleset);
+    CHECK(result.diagnostics.errors.empty());
+
+    const ruleset::Ruleset& rs = *result.ruleset;
+    const auto warehouse = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                        [](const ruleset::Facility& f) { return f.name == "VoidReign Warehouse"; });
+    const auto shipyard = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                       [](const ruleset::Facility& f) { return f.name == "VoidReign Planetary Shipyard"; });
+    const auto depot = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                    [](const ruleset::Facility& f) { return f.name == "VoidReign Supply Depot"; });
+    REQUIRE(warehouse != rs.facilities.end());
+    REQUIRE(shipyard != rs.facilities.end());
+    REQUIRE(depot != rs.facilities.end());
+    REQUIRE(warehouse->abilities.size() == 3);
+    CHECK(warehouse->abilities[0].number1() == 30000);
+    CHECK(warehouse->abilities[1].number1() == 30000);
+    CHECK(warehouse->abilities[2].number1() == 30000);
+    // Construction yards expose separate mineral, organic and radioactive
+    // throughput. A single generic Space Yard entry would silently leave two
+    // resource-specific production rates untested.
+    REQUIRE(shipyard->abilities.size() == 3);
+    for (int resource = 1; resource <= 3; ++resource) {
+        const auto& ability = shipyard->abilities[static_cast<std::size_t>(resource - 1)];
+        CHECK(ability.type == "Space Yard");
+        CHECK(ability.number1() == resource);
+        CHECK(ability.number2() == 1500);
+    }
+    REQUIRE(depot->abilities.size() == 1);
+    CHECK(depot->abilities[0].type == "Supply Generation");
+
+    const auto pulse = std::find_if(rs.components.begin(), rs.components.end(),
+                                    [](const ruleset::Component& c) { return c.name == "VoidReign Pulse Cannon I"; });
+    REQUIRE(pulse != rs.components.end());
+    CHECK(pulse->weapon.family == 200);
+
+    // The native tier-II records share their families with the first-tier items
+    // and carry explicit technology requirements.
+    const auto pulse2 = std::find_if(rs.components.begin(), rs.components.end(),
+                                     [](const ruleset::Component& c) { return c.name == "VoidReign Pulse Cannon II"; });
+    const auto warehouse2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                         [](const ruleset::Facility& f) { return f.name == "VoidReign Warehouse II"; });
+    const auto drive2 = std::find_if(rs.components.begin(), rs.components.end(),
+                                     [](const ruleset::Component& c) { return c.name == "VoidReign Vector Drive II"; });
+    const auto extractor2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                         [](const ruleset::Facility& f) { return f.name == "VoidReign Mineral Extractor II"; });
+    const auto shield2 = std::find_if(rs.components.begin(), rs.components.end(),
+                                     [](const ruleset::Component& c) { return c.name == "VoidReign Shield Projector II"; });
+    const auto cargo2 = std::find_if(rs.components.begin(), rs.components.end(),
+                                    [](const ruleset::Component& c) { return c.name == "VoidReign Cargo Hold II"; });
+    const auto research2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                       [](const ruleset::Facility& f) { return f.name == "VoidReign Research Institute II"; });
+    const auto shipyard2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                       [](const ruleset::Facility& f) { return f.name == "VoidReign Planetary Shipyard II"; });
+    const auto supply2 = std::find_if(rs.facilities.begin(), rs.facilities.end(),
+                                     [](const ruleset::Facility& f) { return f.name == "VoidReign Supply Depot II"; });
+    REQUIRE(pulse2 != rs.components.end());
+    REQUIRE(warehouse2 != rs.facilities.end());
+    REQUIRE(drive2 != rs.components.end());
+    REQUIRE(extractor2 != rs.facilities.end());
+    REQUIRE(shield2 != rs.components.end());
+    REQUIRE(cargo2 != rs.components.end());
+    REQUIRE(research2 != rs.facilities.end());
+    REQUIRE(shipyard2 != rs.facilities.end());
+    REQUIRE(supply2 != rs.facilities.end());
+    CHECK(pulse2->family == pulse->family);
+    CHECK(pulse2->romanNumeral == 2);
+    REQUIRE(pulse2->requirements.size() == 1);
+    CHECK(rs.techAreas[pulse2->requirements[0].area.index()].name == "VoidReign Energy Weapons");
+    CHECK(pulse2->requirements[0].level == 2);
+    CHECK(warehouse2->family == warehouse->family);
+    CHECK(warehouse2->romanNumeral == 2);
+    REQUIRE(warehouse2->abilities.size() == 3);
+    CHECK(warehouse2->abilities[0].number1() == 60000);
+    CHECK(warehouse2->abilities[1].number1() == 60000);
+    CHECK(warehouse2->abilities[2].number1() == 60000);
+    REQUIRE(warehouse2->requirements.size() == 1);
+    CHECK(rs.techAreas[warehouse2->requirements[0].area.index()].name == "VoidReign Logistics");
+    CHECK(warehouse2->requirements[0].level == 2);
+    REQUIRE(drive2->abilities.size() == 1);
+    CHECK(drive2->abilities[0].number1() == 2);
+    REQUIRE(cargo2->abilities.size() == 1);
+    CHECK(cargo2->abilities[0].number1() == 120);
+    REQUIRE(shield2->abilities.size() == 1);
+    CHECK(shield2->abilities[0].number1() == 100);
+    REQUIRE(extractor2->abilities.size() == 1);
+    CHECK(extractor2->abilities[0].number1() == 750);
+    REQUIRE(research2->abilities.size() == 1);
+    CHECK(research2->abilities[0].number1() == 375);
+    REQUIRE(shipyard2->abilities.size() == 3);
+    for (int resource = 1; resource <= 3; ++resource) {
+        const auto& ability = shipyard2->abilities[static_cast<std::size_t>(resource - 1)];
+        CHECK(ability.type == "Space Yard");
+        CHECK(ability.number1() == resource);
+        CHECK(ability.number2() == 2250);
+    }
+    REQUIRE(supply2->abilities.size() == 1);
+    CHECK(supply2->abilities[0].number1() == 7500);
+    const std::vector<std::string> expectedColonyTypes{
+        "Construction Yard", "Farming Colony", "Homeworld", "Intelligence Compound", "Military Installation",
+        "Mining Colony", "Refining Colony", "Research Compound", "Resupply Base"};
+    CHECK(rs.names.colonyTypes == expectedColonyTypes);
+    CHECK(rs.names.designTypes.size() == 39);
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Attack Ship") != rs.names.designTypes.end());
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Colony (Rock)") != rs.names.designTypes.end());
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Troop Transport") != rs.names.designTypes.end());
+    CHECK(std::find(rs.names.designTypes.begin(), rs.names.designTypes.end(), "Weapon Platform") != rs.names.designTypes.end());
+
+    // Race data lives beside the native base rules, not in a mod overlay.
+    game::Rules gameRules(std::move(*result.ruleset), dataDir.parent_path());
+    // Runtime availability and family upgrades must change at the required research levels.
+    const auto findComponent = [&](std::string_view name) {
+        return std::find_if(gameRules.data().components.begin(), gameRules.data().components.end(),
+                            [&](const ruleset::Component& c) { return c.name == name; });
+    };
+    const auto findFacility = [&](std::string_view name) {
+        return std::find_if(gameRules.data().facilities.begin(), gameRules.data().facilities.end(),
+                            [&](const ruleset::Facility& f) { return f.name == name; });
+    };
+    const auto livePulse2 = findComponent("VoidReign Pulse Cannon II");
+    const auto liveDrive2 = findComponent("VoidReign Vector Drive II");
+    const auto liveDrive3 = findComponent("VoidReign Vector Drive III");
+    const auto liveDrive4 = findComponent("VoidReign Vector Drive IV");
+    const auto liveCargo3 = findComponent("VoidReign Cargo Hold III");
+    const auto liveCargo4 = findComponent("VoidReign Cargo Hold IV");
+    const auto liveCargo5 = findComponent("VoidReign Cargo Hold V");
+    const auto liveWarehouse2 = findFacility("VoidReign Warehouse II");
+    const auto liveWarehouse3 = findFacility("VoidReign Warehouse III");
+    const auto liveWarehouse4 = findFacility("VoidReign Warehouse IV");
+    const auto liveExtractor2 = findFacility("VoidReign Mineral Extractor II");
+    REQUIRE(livePulse2 != gameRules.data().components.end());
+    REQUIRE(liveDrive2 != gameRules.data().components.end());
+    REQUIRE(liveDrive3 != gameRules.data().components.end());
+    REQUIRE(liveDrive4 != gameRules.data().components.end());
+    REQUIRE(liveCargo3 != gameRules.data().components.end());
+    REQUIRE(liveCargo4 != gameRules.data().components.end());
+    REQUIRE(liveCargo5 != gameRules.data().components.end());
+    REQUIRE(liveWarehouse2 != gameRules.data().facilities.end());
+    REQUIRE(liveWarehouse3 != gameRules.data().facilities.end());
+    REQUIRE(liveWarehouse4 != gameRules.data().facilities.end());
+    REQUIRE(liveExtractor2 != gameRules.data().facilities.end());
+    const auto liveShield2 = findComponent("VoidReign Shield Projector II");
+    const auto livePulse3 = findComponent("VoidReign Pulse Cannon III");
+    const auto livePulse4 = findComponent("VoidReign Pulse Cannon IV");
+    const auto livePulse5 = findComponent("VoidReign Pulse Cannon V");
+    const auto liveShield3 = findComponent("VoidReign Shield Projector III");
+    const auto liveShield4 = findComponent("VoidReign Shield Projector IV");
+    const auto liveShield5 = findComponent("VoidReign Shield Projector V");
+    const auto liveCargo2 = findComponent("VoidReign Cargo Hold II");
+    const auto liveSensor1 = findComponent("VoidReign Sensor Suite I");
+    const auto liveSensor2 = findComponent("VoidReign Sensor Suite II");
+    const auto liveSensorArray2 = findComponent("VoidReign Sensor Array II");
+    const auto liveResearchFacility2 = findFacility("VoidReign Research Institute II");
+    const auto liveShipyard2 = findFacility("VoidReign Planetary Shipyard II");
+    const auto liveSupplyDepot2 = findFacility("VoidReign Supply Depot II");
+    REQUIRE(liveShield2 != gameRules.data().components.end());
+    REQUIRE(livePulse3 != gameRules.data().components.end());
+    REQUIRE(livePulse4 != gameRules.data().components.end());
+    REQUIRE(livePulse5 != gameRules.data().components.end());
+    REQUIRE(liveShield3 != gameRules.data().components.end());
+    REQUIRE(liveShield4 != gameRules.data().components.end());
+    REQUIRE(liveShield5 != gameRules.data().components.end());
+    REQUIRE(liveCargo2 != gameRules.data().components.end());
+    REQUIRE(liveSensor1 != gameRules.data().components.end());
+    REQUIRE(liveSensor2 != gameRules.data().components.end());
+    REQUIRE(liveSensorArray2 != gameRules.data().components.end());
+    REQUIRE(liveResearchFacility2 != gameRules.data().facilities.end());
+    REQUIRE(liveShipyard2 != gameRules.data().facilities.end());
+    REQUIRE(liveSupplyDepot2 != gameRules.data().facilities.end());
+
+    game::Empire techProbe;
+    techProbe.techLevels.assign(gameRules.data().techAreas.size(), 0);
+    const auto indexOfComponent = [&](const auto& component) {
+        return static_cast<uint32_t>(std::distance(gameRules.data().components.begin(), component));
+    };
+    const auto indexOfFacility = [&](const auto& facility) {
+        return static_cast<uint32_t>(std::distance(gameRules.data().facilities.begin(), facility));
+    };
+    const uint32_t pulse2Index = indexOfComponent(livePulse2);
+    const uint32_t drive2Index = indexOfComponent(liveDrive2);
+    const uint32_t drive3Index = indexOfComponent(liveDrive3);
+    const uint32_t drive4Index = indexOfComponent(liveDrive4);
+    const uint32_t cargo3Index = indexOfComponent(liveCargo3);
+    const uint32_t cargo4Index = indexOfComponent(liveCargo4);
+    const uint32_t cargo5Index = indexOfComponent(liveCargo5);
+    const uint32_t warehouse2Index = indexOfFacility(liveWarehouse2);
+    const uint32_t warehouse3Index = indexOfFacility(liveWarehouse3);
+    const uint32_t warehouse4Index = indexOfFacility(liveWarehouse4);
+    const uint32_t extractor2Index = indexOfFacility(liveExtractor2);
+    const uint32_t shield2Index = indexOfComponent(liveShield2);
+    const uint32_t pulse3Index = indexOfComponent(livePulse3);
+    const uint32_t pulse4Index = indexOfComponent(livePulse4);
+    const uint32_t pulse5Index = indexOfComponent(livePulse5);
+    const uint32_t shield3Index = indexOfComponent(liveShield3);
+    const uint32_t shield4Index = indexOfComponent(liveShield4);
+    const uint32_t shield5Index = indexOfComponent(liveShield5);
+    const uint32_t cargo2Index = indexOfComponent(liveCargo2);
+    const uint32_t sensor1Index = indexOfComponent(liveSensor1);
+    const uint32_t sensor2Index = indexOfComponent(liveSensor2);
+    const uint32_t sensorArray2Index = indexOfComponent(liveSensorArray2);
+    const uint32_t researchFacility2Index = indexOfFacility(liveResearchFacility2);
+    const uint32_t shipyard2Index = indexOfFacility(liveShipyard2);
+    const uint32_t supplyDepot2Index = indexOfFacility(liveSupplyDepot2);
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo5Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse3Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse4Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, extractor2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse5Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield5Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, sensor1Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, sensor2Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, sensorArray2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, researchFacility2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, shipyard2Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, supplyDepot2Index));
+
+    const auto setTech = [&](std::string_view name, int level) {
+        for (size_t i = 0; i < gameRules.data().techAreas.size(); ++i)
+            if (gameRules.data().techAreas[i].name == name) techProbe.techLevels[i] = level;
+    };
+    // Establish the prerequisite science and industrial levels before
+    // checking the dependent native upgrade branches.
+    setTech("Stellar Sciences", 1);
+    setTech("VoidReign Industrial Engineering", 1);
+    setTech("VoidReign Energy Weapons", 2);
+    CHECK(gameRules.componentAvailable(techProbe, pulse2Index));
+    const auto pulseUpgrade = gameRules.componentUpgradeTarget(techProbe, livePulse2->family);
+    REQUIRE(pulseUpgrade);
+    CHECK(*pulseUpgrade == pulse2Index);
+    // Energy Weapons research must unlock each advanced weapon and shield
+    // tier in order, and the ship-design upgrade picker must select the
+    // highest tier the empire has actually researched.
+    setTech("VoidReign Energy Weapons", 3);
+    CHECK(gameRules.componentAvailable(techProbe, pulse3Index));
+    CHECK(gameRules.componentAvailable(techProbe, shield3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield4Index));
+    auto pulseUpgrade3 = gameRules.componentUpgradeTarget(techProbe, livePulse3->family);
+    auto shieldUpgrade3 = gameRules.componentUpgradeTarget(techProbe, liveShield3->family);
+    REQUIRE(pulseUpgrade3);
+    REQUIRE(shieldUpgrade3);
+    CHECK(*pulseUpgrade3 == pulse3Index);
+    CHECK(*shieldUpgrade3 == shield3Index);
+
+    setTech("VoidReign Energy Weapons", 4);
+    CHECK(gameRules.componentAvailable(techProbe, pulse4Index));
+    CHECK(gameRules.componentAvailable(techProbe, shield4Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, pulse5Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, shield5Index));
+    auto pulseUpgrade4 = gameRules.componentUpgradeTarget(techProbe, livePulse4->family);
+    auto shieldUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveShield4->family);
+    REQUIRE(pulseUpgrade4);
+    REQUIRE(shieldUpgrade4);
+    CHECK(*pulseUpgrade4 == pulse4Index);
+    CHECK(*shieldUpgrade4 == shield4Index);
+
+    setTech("VoidReign Energy Weapons", 5);
+    CHECK(gameRules.componentAvailable(techProbe, pulse5Index));
+    CHECK(gameRules.componentAvailable(techProbe, shield5Index));
+    auto pulseUpgrade5 = gameRules.componentUpgradeTarget(techProbe, livePulse5->family);
+    auto shieldUpgrade5 = gameRules.componentUpgradeTarget(techProbe, liveShield5->family);
+    REQUIRE(pulseUpgrade5);
+    REQUIRE(shieldUpgrade5);
+    CHECK(*pulseUpgrade5 == pulse5Index);
+    CHECK(*shieldUpgrade5 == shield5Index);
+
+    // Return to tier II for the earlier checks below.
+    setTech("VoidReign Energy Weapons", 2);
+    setTech("VoidReign Logistics", 2);
+    CHECK(gameRules.facilityAvailable(techProbe, warehouse2Index));
+    const auto warehouseUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse2->family);
+    REQUIRE(warehouseUpgrade);
+    CHECK(*warehouseUpgrade == warehouse2Index);
+    setTech("VoidReign Logistics", 3);
+    CHECK(gameRules.componentAvailable(techProbe, cargo3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, cargo4Index));
+    const auto cargoUpgrade3 = gameRules.componentUpgradeTarget(techProbe, liveCargo3->family);
+    REQUIRE(cargoUpgrade3);
+    CHECK(*cargoUpgrade3 == cargo3Index);
+
+    setTech("VoidReign Logistics", 4);
+    CHECK(gameRules.facilityAvailable(techProbe, warehouse3Index));
+    CHECK_FALSE(gameRules.facilityAvailable(techProbe, warehouse4Index));
+    CHECK(gameRules.componentAvailable(techProbe, cargo4Index));
+    const auto warehouseUpgrade3 = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse3->family);
+    const auto cargoUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveCargo4->family);
+    REQUIRE(warehouseUpgrade3);
+    REQUIRE(cargoUpgrade4);
+    CHECK(*warehouseUpgrade3 == warehouse3Index);
+    CHECK(*cargoUpgrade4 == cargo4Index);
+
+    setTech("VoidReign Logistics", 5);
+    CHECK(gameRules.facilityAvailable(techProbe, warehouse4Index));
+    CHECK(gameRules.componentAvailable(techProbe, cargo5Index));
+    const auto warehouseUpgrade4 = gameRules.latestFacilityOfFamily(techProbe, liveWarehouse4->family);
+    const auto cargoUpgrade5 = gameRules.componentUpgradeTarget(techProbe, liveCargo5->family);
+    REQUIRE(warehouseUpgrade4);
+    REQUIRE(cargoUpgrade5);
+    CHECK(*warehouseUpgrade4 == warehouse4Index);
+    CHECK(*cargoUpgrade5 == cargo5Index);
+    setTech("VoidReign Logistics", 2);
+    setTech("VoidReign Industrial Engineering", 2);
+    CHECK(gameRules.facilityAvailable(techProbe, extractor2Index));
+    const auto extractorUpgrade = gameRules.latestFacilityOfFamily(techProbe, liveExtractor2->family);
+    REQUIRE(extractorUpgrade);
+    CHECK(*extractorUpgrade == extractor2Index);
+    setTech("VoidReign Industrial Engineering", 3);
+    CHECK(gameRules.facilityAvailable(techProbe, researchFacility2Index));
+    setTech("VoidReign Industrial Engineering", 4);
+    CHECK(gameRules.facilityAvailable(techProbe, shipyard2Index));
+    setTech("VoidReign Logistics", 3);
+    CHECK(gameRules.facilityAvailable(techProbe, supplyDepot2Index));
+    setTech("VoidReign Energy Weapons", 2);
+    CHECK(gameRules.componentAvailable(techProbe, shield2Index));
+    setTech("VoidReign Logistics", 2);
+    CHECK(gameRules.componentAvailable(techProbe, cargo2Index));
+    setTech("Stellar Sciences", 2);
+    setTech("VoidReign Advanced Sensors", 1);
+    CHECK(gameRules.componentAvailable(techProbe, sensor1Index));
+    setTech("VoidReign Advanced Sensors", 2);
+    CHECK(gameRules.componentAvailable(techProbe, sensorArray2Index));
+    setTech("VoidReign Advanced Sensors", 3);
+    CHECK(gameRules.componentAvailable(techProbe, sensor2Index));
+    const auto sensorUpgrade = gameRules.componentUpgradeTarget(techProbe, liveSensor2->family);
+    REQUIRE(sensorUpgrade);
+    CHECK(*sensorUpgrade == sensor2Index);
+    setTech("VoidReign Propulsion", 3);
+    CHECK(gameRules.componentAvailable(techProbe, drive2Index));
+    const auto driveUpgrade2 = gameRules.componentUpgradeTarget(techProbe, liveDrive2->family);
+    REQUIRE(driveUpgrade2);
+    CHECK(*driveUpgrade2 == drive2Index);
+    setTech("VoidReign Propulsion", 4);
+    CHECK(gameRules.componentAvailable(techProbe, drive3Index));
+    CHECK_FALSE(gameRules.componentAvailable(techProbe, drive4Index));
+    const auto driveUpgrade3 = gameRules.componentUpgradeTarget(techProbe, liveDrive3->family);
+    REQUIRE(driveUpgrade3);
+    CHECK(*driveUpgrade3 == drive3Index);
+    setTech("VoidReign Propulsion", 5);
+    CHECK(gameRules.componentAvailable(techProbe, drive4Index));
+    const auto driveUpgrade4 = gameRules.componentUpgradeTarget(techProbe, liveDrive4->family);
+    REQUIRE(driveUpgrade4);
+    CHECK(*driveUpgrade4 == drive4Index);
+    REQUIRE(gameRules.racePresets().size() == 6);
+    for (const auto& [folder, name] : std::array<std::pair<std::string_view, std::string_view>, 6>{
+             std::pair{"Aurelian", "Aurelian Concord"}, std::pair{"Khepri", "Khepri Ascendancy"},
+             std::pair{"Veyran", "Veyran Trade League"}, std::pair{"Meridian", "Meridian Assembly"},
+             std::pair{"Outer", "Outer Systems Compact"}, std::pair{"Helion", "Helion Directorate"}}) {
+        const auto it = std::find_if(gameRules.racePresets().begin(), gameRules.racePresets().end(),
+                                     [&](const ruleset::RacePreset& p) { return p.folder == std::string(folder); });
+        REQUIRE(it != gameRules.racePresets().end());
+        CHECK(it->name == std::string(name));
+        CHECK(it->tiers.size() == 3);
+        CHECK_FALSE(it->culture.empty());
+        CHECK_FALSE(it->happinessType.empty());
+        for (int tier = 0; tier < 3; ++tier) {
+            const game::Race race = game::raceFromPreset(gameRules, *it, tier);
+            CHECK(game::racialPointCost(gameRules, race) <= 2000);
+        }
+    }
+
+    // Exercise the same native Quick Start path used by a new single-player game.
+    game::GameSetup setup;
+    setup.seed = 0x564f494452454947ULL;
+    setup.options.systemCount = 14;
+    setup.options.homePlanetValue = 1;  // medium world has room for the whole opening economy
+    game::EmpireSetup player;
+    player.preset = "Aurelian";
+    player.presetTier = 0;
+    player.kind = game::PlayerKind::Human;
+    player.origin = game::StartingOrigin::LogisticsCombine;
+    const auto* aurelianPreset = game::findPreset(gameRules, "Aurelian");
+    REQUIRE(aurelianPreset);
+    const game::Race baseAurelian = game::raceFromPreset(gameRules, *aurelianPreset, 0);
+    setup.empires.push_back(std::move(player));
+    game::StartExtras extras;
+    extras.designMinisterRun.push_back(game::EmpireId{0});
+    auto opening = game::createGame(gameRules, setup, extras);
+    REQUIRE_MESSAGE(opening.has_value(), (opening ? std::string{} : opening.error()));
+    const game::EmpireId playerId{0};
+    game::Empire& empire = opening->empire(playerId);
+    CHECK(empire.origin == game::StartingOrigin::LogisticsCombine);
+    CHECK(empire.race.characteristics[static_cast<size_t>(game::Characteristic::MaintenanceAptitude)] ==
+          baseAurelian.characteristics[static_cast<size_t>(game::Characteristic::MaintenanceAptitude)] + 12);
+    CHECK(empire.race.characteristics[static_cast<size_t>(game::Characteristic::RepairAptitude)] ==
+          baseAurelian.characteristics[static_cast<size_t>(game::Characteristic::RepairAptitude)] + 8);
+    CHECK(empire.race.characteristics[static_cast<size_t>(game::Characteristic::Aggressiveness)] ==
+          baseAurelian.characteristics[static_cast<size_t>(game::Characteristic::Aggressiveness)] - 8);
+    const auto home = std::find_if(opening->colonies.begin(), opening->colonies.end(),
+                                   [&](const auto& colony) { return colony && colony->owner == playerId && colony->homeworld; });
+    REQUIRE(home != opening->colonies.end());
+    CHECK((*home)->facilities.size() >= 8);
+    const game::Resources cap = game::economy::storageCapacity(gameRules, *opening, playerId);
+    const game::Resources expectedCap{60000, 60000, 60000};
+    CHECK(cap == expectedCap);
+    // The Logistics Combine adds a second Warehouse I on the homeworld.
+    // Higher tiers then stack on top of both starting warehouses.
+    (*home)->facilities.push_back(warehouse2Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{120000, 120000, 120000});
+    (*home)->facilities.pop_back();
+    (*home)->facilities.push_back(warehouse3Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{150000, 150000, 150000});
+    (*home)->facilities.pop_back();
+    (*home)->facilities.push_back(warehouse4Index);
+    CHECK(game::economy::storageCapacity(gameRules, *opening, playerId) == game::Resources{180000, 180000, 180000});
+    (*home)->facilities.pop_back();
+    for (size_t resource = 0; resource < 3; ++resource)
+        CHECK(empire.stockpile.v[resource] <= cap.v[resource]);
+    bool hasWarehouse = false, hasShipyard = false, hasSupplyDepot = false;
+    for (uint32_t id : (*home)->facilities) {
+        const std::string& name = gameRules.facility(id).name;
+        hasWarehouse |= name == "VoidReign Warehouse";
+        hasShipyard |= name == "VoidReign Planetary Shipyard";
+        hasSupplyDepot |= name == "VoidReign Supply Depot";
+    }
+    CHECK(hasWarehouse);
+    CHECK(hasShipyard);
+    CHECK(hasSupplyDepot);
+    bool hasAttackShip = false, hasRockColonyShip = false, hasBaseSpaceYard = false;
+    for (game::DesignId id : empire.designs) {
+        const game::Design& design = opening->design(id);
+        hasAttackShip |= design.templateName == "Attack Ship";
+        hasRockColonyShip |= design.templateName == "Colony (Rock)";
+        if (design.templateName == "Base Space Yard") {
+            hasBaseSpaceYard = true;
+            CHECK(design.name == "Accord II");
+            CHECK(gameRules.hull(design.hull).type == ruleset::VehicleType::Base);
+            CHECK(gameRules.hull(design.hull).name == "VoidReign Orbital Station");
+            CHECK(std::any_of(design.entries.begin(), design.entries.end(), [&](const game::DesignEntry& entry) {
+                return gameRules.data().components[entry.component].name == "VoidReign Orbital Shipyard";
+            }));
+        }
+    }
+    CHECK(hasAttackShip);
+    CHECK(hasRockColonyShip);
+    CHECK(hasBaseSpaceYard);
+
+    // Voidborn Nomads receive their own patrol ship in addition to any
+    // game-wide opening fleet; that inheritance is independent of the
+    // configurable default ship count.
+    game::GameSetup nomadSetup = setup;
+    nomadSetup.empires[0].origin = game::StartingOrigin::VoidbornNomads;
+    auto nomadOpening = game::createGame(gameRules, nomadSetup, extras);
+    REQUIRE_MESSAGE(nomadOpening.has_value(), (nomadOpening ? std::string{} : nomadOpening.error()));
+    const auto nomadPatrol = std::find_if(nomadOpening->fleets.begin(), nomadOpening->fleets.end(),
+        [&](const game::Fleet& fleet) { return fleet.owner == playerId && fleet.name == "Home Patrol"; });
+    REQUIRE(nomadPatrol != nomadOpening->fleets.end());
+    const int64_t standardPatrolShips =
+        std::clamp<int64_t>(gameRules.setting("VOIDREIGN Starting Attack Ship Count", 0), 0, 5);
+    CHECK(nomadPatrol->members.size() == static_cast<size_t>(standardPatrolShips + 1));
+    CHECK(nomadOpening->empire(playerId).origin == game::StartingOrigin::VoidbornNomads);
+
+    // Every new empire receives a persistent opening leadership corps.
+    REQUIRE(empire.leaders.size() == 4);
+    const auto ruler = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Ruler && leader.alive; });
+    const auto governor = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Governor; });
+    const auto admiral = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Admiral; });
+    const auto scientist = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.role == game::LeaderRole::Scientist; });
+    REQUIRE(ruler != empire.leaders.end());
+    const uint32_t initialRulerId = ruler->id;
+    const std::string initialRulerName = ruler->name;
+    REQUIRE(governor != empire.leaders.end());
+    REQUIRE(admiral != empire.leaders.end());
+    REQUIRE(scientist != empire.leaders.end());
+    CHECK(ruler->name == empire.leaderName);
+    CHECK(ruler->assignedColony == game::ObjectId{});
+    CHECK(ruler->assignedFleet == game::FleetId{});
+    CHECK(governor->assignedColony == (*home)->planet);
+    CHECK(admiral->alive);
+    CHECK(scientist->alive);
+    CHECK(game::leaders::experienceForNextLevel(1) == 100);
+    CHECK(game::leaders::experienceForNextLevel(4) == 400);
+
+    // Individual leader names, roles, XP, age and assignments survive save/load.
+    const auto leaderSave = game::serializeState(*opening);
+    auto leaderCopy = game::deserializeState(leaderSave);
+    REQUIRE(leaderCopy.has_value());
+    CHECK(leaderCopy->empire(playerId).leaders == empire.leaders);
+    CHECK(leaderCopy->empire(playerId).nextLeaderId == empire.nextLeaderId);
+    CHECK(leaderCopy->empire(playerId).origin == game::StartingOrigin::LogisticsCombine);
+
+    // Recruitment consumes the actual shared treasury and dismissal leaves
+    // a dated career record instead of deleting the character.
+    empire.stockpile += game::Resources{game::leaders::kRecruitMinerals, game::leaders::kRecruitOrganics,
+                                        game::leaders::kRecruitRadioactives};
+    REQUIRE(game::apply(gameRules, *opening, playerId,
+                        game::cmd::RecruitLeader{game::LeaderRole::General}).ok);
+    REQUIRE(empire.leaders.size() == 5);
+    const game::Leader recruit = empire.leaders.back();
+    CHECK(recruit.role == game::LeaderRole::General);
+    CHECK(recruit.alive);
+    CHECK(recruit.level >= 1);
+    CHECK(recruit.age >= 25);
+    REQUIRE(game::apply(gameRules, *opening, playerId, game::cmd::DismissLeader{recruit.id}).ok);
+    CHECK_FALSE(empire.leaders.back().alive);
+    CHECK(empire.leaders.back().deathCause == "Dismissed from service");
+    auto dismissedCopy = game::deserializeState(game::serializeState(*opening));
+    REQUIRE(dismissedCopy.has_value());
+    CHECK(dismissedCopy->empire(playerId).leaders == empire.leaders);
+
+    // When the Sovereign dies naturally, the most experienced living officer
+    // succeeds, assumes the head-of-state role and updates the empire record.
+    const uint32_t formerRulerId = initialRulerId;
+    const std::string formerRulerName = initialRulerName;
+    opening->turn = 10; // one birthday per ten completed turns
+    auto formerRuler = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [&](const game::Leader& leader) { return leader.id == formerRulerId; });
+    REQUIRE(formerRuler != empire.leaders.end());
+    formerRuler->age = 300; // guaranteed natural-death roll for every native lifespan
+    game::leaders::advanceTurn(*opening, playerId);
+    CHECK_FALSE(formerRuler->alive);
+    CHECK(formerRuler->deathCause.find("natural causes") != std::string::npos);
+    const auto successor = std::find_if(empire.leaders.begin(), empire.leaders.end(),
+        [](const game::Leader& leader) { return leader.alive && leader.role == game::LeaderRole::Ruler; });
+    REQUIRE(successor != empire.leaders.end());
+    CHECK(successor->name != formerRulerName);
+    CHECK(successor->assignedColony == game::ObjectId{});
+    CHECK(successor->assignedFleet == game::FleetId{});
+    CHECK(empire.leaderName == successor->name);
+    CHECK_FALSE(game::apply(gameRules, *opening, playerId, game::cmd::DismissLeader{successor->id}).ok);
+    CHECK_FALSE(game::apply(gameRules, *opening, playerId,
+                            game::cmd::RecruitLeader{game::LeaderRole::Ruler}).ok);
+    auto successionCopy = game::deserializeState(game::serializeState(*opening));
+    REQUIRE(successionCopy.has_value());
+    CHECK(successionCopy->empire(playerId).leaders == empire.leaders);
+    CHECK(successionCopy->empire(playerId).leaderName == empire.leaderName);
+}
+
+TEST_CASE("leaders: role traits and experience affect live empire bonuses") {
+    game::Empire empire;
+
+    game::Leader governor;
+    governor.id = 1;
+    governor.role = game::LeaderRole::Governor;
+    governor.trait = game::LeaderTrait::Industrialist;
+    governor.secondaryTrait = game::LeaderTrait::Logistician;
+    governor.level = 3;
+    governor.assignedColony = game::ObjectId{10};
+    empire.leaders.push_back(governor);
+
+    game::Leader scientist;
+    scientist.id = 2;
+    scientist.role = game::LeaderRole::Scientist;
+    scientist.trait = game::LeaderTrait::Genius;
+    scientist.secondaryTrait = game::LeaderTrait::Visionary;
+    scientist.level = 2;
+    empire.leaders.push_back(scientist);
+
+    game::Leader admiral;
+    admiral.id = 3;
+    admiral.role = game::LeaderRole::Admiral;
+    admiral.trait = game::LeaderTrait::Tactician;
+    admiral.level = 3;
+    admiral.assignedFleet = game::FleetId{20};
+    empire.leaders.push_back(admiral);
+
+    game::Leader general;
+    general.id = 4;
+    general.role = game::LeaderRole::General;
+    general.trait = game::LeaderTrait::Defender;
+    general.level = 2;
+    general.assignedColony = game::ObjectId{10};
+    empire.leaders.push_back(general);
+
+    CHECK(game::leaders::governorResourceBonusPct(empire, game::ObjectId{10}) == 11);
+    CHECK(game::leaders::governorResearchBonusPct(empire, game::ObjectId{10}) == 4);
+    CHECK(game::leaders::governorPopulationGrowthBonusPct(empire, game::ObjectId{10}) == 2);
+    CHECK(game::leaders::scientistResearchBonusPct(empire) == 10);
+    CHECK(game::leaders::generalGroundDefenseBonusPct(empire, game::ObjectId{10}) == 9);
+    CHECK((game::leaders::upkeep(empire) == game::Resources{30, 18, 10}));
+
+    game::GameState state;
+    state.empires.push_back(empire);
+    CHECK(game::leaders::admiralCombatBonusPct(state, game::EmpireId{0}, game::FleetId{20}) == 9);
+
+    game::Leader paragon;
+    paragon.id = 5;
+    paragon.role = game::LeaderRole::Governor;
+    paragon.rarity = game::LeaderRarity::Paragon;
+    paragon.trait = game::LeaderTrait::Paragon;
+    paragon.secondaryTrait = game::LeaderTrait::Industrialist;
+    paragon.level = 4;
+    paragon.assignedColony = game::ObjectId{11};
+    empire.leaders.push_back(paragon);
+    CHECK(game::leaders::governorResourceBonusPct(empire, game::ObjectId{11}) == 22);
+}
 TEST_CASE("ruleset: problems are reported with file, line and record") {
     namespace fs = std::filesystem;
     const test::TempDir tmp("bad_classic_data");

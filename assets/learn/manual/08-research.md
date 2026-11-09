@@ -34,6 +34,26 @@ Technology is divided into **areas**, such as a weapon line, a hull family or a 
 facility. Each area has levels, from 1 up to its maximum. Each level of an area may unlock
 something new, and some areas only appear once you reach a level in another area.
 
+VOIDREIGN's native technology tree has a practical upgrade ladder. The most important early
+unlock groups are:
+
+| Technology | Level | New capability |
+|---|---:|---|
+| VoidReign Propulsion | 2–5 | Frigate, Destroyer, Cruiser and Battleship hulls; Vector Drive II at level 3 |
+| VoidReign Energy Weapons | 2 | Pulse Cannon II and Shield Projector II |
+| VoidReign Industrial Engineering | 2 | Mineral Extractor II, Hydroponics II and Isotope Reactor II |
+| VoidReign Industrial Engineering | 3 | Research Institute II and Orbital Shipyard II |
+| VoidReign Industrial Engineering | 4 | Planetary Shipyard II |
+| VoidReign Logistics | 2 | Cargo Hold II and Warehouse II |
+| VoidReign Logistics | 3 | Supply Depot II |
+| VoidReign Advanced Sensors | 1–3 | Sensor Suite I, Sensor Array II, Intelligence Bureau II and Sensor Suite II |
+
+A Warehouse II adds **60,000 units of capacity for each strategic resource**. It does
+not replace the need to build warehouses: without one, your empire still has no banked
+mineral, organic or radioactive storage. The upgraded facility families let established
+colonies increase production and storage without filling the planet with unrelated
+duplicate buildings.
+
 Some areas are special:
 
 - **Racial areas** are open only to races with the matching racial trait.

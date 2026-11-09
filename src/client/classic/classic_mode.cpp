@@ -63,23 +63,22 @@ constexpr float kFrontTitleBand = 36.0f;
 
 } // namespace
 
+std::optional<std::filesystem::path> findGameDataDirectory(const std::string& dataDir) {
+    if (!dataDir.empty()) return ruleset::findInstalledDataDir(dataDir);
+
+    // Packaged builds place the independent VOIDREIGN data set beside the executable.
+    // CMake copies the same directory beside development binaries.
+    return ruleset::findInstalledDataDir(sdk::executableDir() / "game-data");
+}
+
 std::string missingInstallMessage(const std::string& installDir) {
-    constexpr const char* kIntro =
-        "OpenSE4 is an engine for Space Empires IV Deluxe. It plays with your own installed copy of the game, "
-        "reading its data, art and sound in place; nothing from the game ships with OpenSE4.";
-    constexpr const char* kHelp = "docs/SETUP.md explains how to get the game files, also on Linux and macOS, and how to point OpenSE4 at them.";
     if (installDir.empty())
-        return std::format("{}\n\n"
-                           "No copy of the game was found. OpenSE4 looks in every Steam library on this computer for "
-                           "steamapps/common/Space Empires IV Deluxe (Steam app 1610).\n\n"
-                           "If your copy is somewhere else, start OpenSE4 with --classic-dir=<game directory>: the folder that "
-                           "holds Data, Pictures and Sounds, or its Data folder.\n\n{}",
-                           kIntro, kHelp);
-    return std::format("{}\n\n"
-                       "No copy of the game was found at {}.\n\n"
-                       "--classic-dir takes the game directory (the folder that holds Data, Pictures and Sounds), its se4 "
-                       "folder, or its Data folder.\n\n{}",
-                       kIntro, installDir, kHelp);
+        return "VOIDREIGN could not find its built-in game data. The Windows installer includes "
+               "game-data\\Data; in a development build, rebuild the VOIDREIGN game-data target. "
+               "The game does not require Space Empires IV or any separately installed game files.";
+    return std::format("VOIDREIGN could not load a valid native game data set from {}. "
+                       "Use --data-dir to point at a folder containing Data/Components.txt and Data/TechArea.txt. "
+                       "VOIDREIGN does not require Space Empires IV.", installDir);
 }
 
 std::expected<ClassicMode::DataSet, std::string> ClassicMode::readDataSet(const std::filesystem::path& dataDir, const mods::ModChoice& choice,
@@ -186,7 +185,7 @@ std::optional<std::string> ClassicMode::changeMods(const std::vector<std::string
 
 std::unique_ptr<ClassicMode> ClassicMode::create(const Platform& platform, const ClassicOptions& options, std::string& error, int& exitCode) {
     exitCode = 1;
-    const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
+    const auto dataDir = findGameDataDirectory(options.installDir);
     if (!dataDir) {
         error = missingInstallMessage(options.installDir);
         return nullptr;

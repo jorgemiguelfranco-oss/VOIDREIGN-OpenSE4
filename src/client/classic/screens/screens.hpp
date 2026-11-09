@@ -45,6 +45,7 @@ std::unique_ptr<Screen> makeIntelligence(const ScreenArgs& args);
 
 // empires.cpp
 std::unique_ptr<Screen> makeEmpires(const ScreenArgs& args);
+std::unique_ptr<Screen> makeLeaders(const ScreenArgs& args);
 std::unique_ptr<Screen> makeCommunicate(const ScreenArgs& args);
 std::unique_ptr<Screen> makeTreatyGrid(const ScreenArgs& args);
 std::unique_ptr<Screen> makeScores(const ScreenArgs& args);
@@ -171,8 +172,5 @@ std::unique_ptr<Screen> makeScenarioText(const ScreenArgs& args);
 // "slug#anchor"; empty: the first page). docs/LEARNING.md.
 std::unique_ptr<Screen> makeLearn(const ScreenArgs& args);
 std::unique_ptr<Screen> makeManual(const ScreenArgs& args);
-
-// A stand-in for windows that are not written yet.
-std::unique_ptr<Screen> makePlaceholder(ScreenId id);
 
 } // namespace opense4::client::classic

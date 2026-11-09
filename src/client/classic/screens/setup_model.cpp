@@ -5,6 +5,7 @@
 #include "game/ai_data.hpp"
 #include "game/classic_files.hpp"
 #include "game/economy.hpp"
+#include "game/origins.hpp"
 #include "game/players.hpp"
 #include "ruleset/ruleset.hpp"
 #include "sdk/players.hpp"
@@ -30,9 +31,9 @@ constexpr std::array<std::string_view, 3> kLevelNames{"Low", "Medium", "High"};
 // each design's strategy and creation date, no obsolete mark (§7 Q72); 4: what
 // the original's empire files keep besides (spec 08 §13): the e-mail address,
 // the settings (minister switches, Empire Options and window memories) and the
-// design-type, colony-type and repair-priority lists. Files of formats 1 to 3
-// still load, without them.
-constexpr int kEmpireFileFormat = 4;
+// design-type, colony-type and repair-priority lists. Format 5 adds the
+// VOIDREIGN starting origin. Earlier formats remain readable without it.
+constexpr int kEmpireFileFormat = 5;
 
 // The interface options an empire file keeps (game::EmpireSettings), by key;
 // the log's place and the scenario page belong to one game and are not kept.
@@ -577,6 +578,10 @@ void addRandomPlayers(const game::Rules& r, game::GameSetup& g, const RandomPlay
             // The preset's Race Opt set of the racial-point level (spec 05 §7.1).
             e.customRace = game::ai::randomPlayerRace(r, *p, o.racialPoints, rng);
             e.kind = neutral ? game::PlayerKind::Neutral : game::PlayerKind::Computer;
+            if (r.setting("VOIDREIGN Starting Attack Ship Count", 0) > 0) {
+                const auto availableOrigins = game::origins::all();
+                e.origin = availableOrigins[rng.index(availableOrigins.size())].id;
+            }
             // Only random players get the chosen Computer Player Difficulty.
             o.randomAiPlayers.resize(g.empires.size() + 1, 0);
             o.randomAiPlayers[g.empires.size()] = 1;
@@ -594,6 +599,8 @@ game::EmpireSetup quickStartPlayer(const game::Rules& r, std::string_view preset
     game::EmpireSetup me;
     me.preset = std::string(preset);
     me.kind = game::PlayerKind::Human;
+    if (r.setting("VOIDREIGN Starting Attack Ship Count", 0) > 0)
+        me.origin = game::StartingOrigin::FirstWaveDiaspora;
     // Made as a random computer player of that style (spec 01 §2.1, spec 05
     // §7.1, confirmed: binary): the style's Race Opt set for the racial
     // points, each part taken only while it fits them; its planet type and
@@ -640,6 +647,10 @@ game::GameSetup quickStartGame(const game::Rules& r, std::string_view preset, ui
         game::EmpireSetup e;
         e.preset = pool[static_cast<size_t>(i)];
         e.kind = game::PlayerKind::Computer;
+        if (r.setting("VOIDREIGN Starting Attack Ship Count", 0) > 0) {
+            const auto availableOrigins = game::origins::all();
+            e.origin = availableOrigins[rng.index(availableOrigins.size())].id;
+        }
         setup.empires.push_back(e);
     }
     return setup;
@@ -762,6 +773,8 @@ EmpireDraft draftFromPreset(const game::Rules& r, const ruleset::RacePreset& p, 
     d.setup.preset = p.folder;
     d.setup.presetTier = std::clamp(tier, 0, std::max(0, static_cast<int>(p.tiers.size()) - 1));
     d.setup.kind = game::PlayerKind::Human;
+    if (r.setting("VOIDREIGN Starting Attack Ship Count", 0) > 0)
+        d.setup.origin = game::StartingOrigin::FirstWaveDiaspora;
     d.race = game::raceFromPreset(r, p, d.setup.presetTier);
     return d;
 }
@@ -775,6 +788,8 @@ EmpireDraft blankDraft(const game::Rules& r, const ruleset::RacePreset* style) {
                 break;
             }
     d.setup.kind = game::PlayerKind::Human;
+    if (r.setting("VOIDREIGN Starting Attack Ship Count", 0) > 0)
+        d.setup.origin = game::StartingOrigin::FirstWaveDiaspora;
     game::Race& race = d.race;   // every characteristic at 100 %, no trait
     if (style) {
         d.setup.preset = style->folder;
@@ -943,6 +958,7 @@ std::string empireToToml(const game::Rules& r, const game::EmpireSetup& e) {
         {"computer", e.kind != game::PlayerKind::Human},
         {"preset", e.preset},
         {"preset_tier", e.presetTier},
+        {"origin", std::string(game::origins::info(e.origin).name)},
         {"color", static_cast<int64_t>(e.color)},
         {"password_hash", e.passwordHash},
         {"email", e.email},
@@ -1020,6 +1036,11 @@ std::expected<LoadedEmpire, std::string> empireFromToml(const game::Rules& r, st
     d.setup.kind = root["computer"].value_or(false) ? game::PlayerKind::Computer : game::PlayerKind::Human;
     d.setup.preset = root["preset"].value_or(std::string{});
     d.setup.presetTier = static_cast<int>(root["preset_tier"].value_or(int64_t{0}));
+    const std::string originName = root["origin"].value_or(std::string{});
+    if (!originName.empty()) {
+        if (const auto origin = game::origins::fromName(originName)) d.setup.origin = *origin;
+        else out.warnings.push_back(std::format("Starting origin {} is not recognised; using No Origin.", originName));
+    }
     d.setup.color = static_cast<uint32_t>(root["color"].value_or(int64_t{0}) & 0xffffff);
     d.setup.passwordHash = root["password_hash"].value_or(std::string{});
     d.setup.email = game::cleanEmail(root["email"].value_or(std::string{}));
@@ -1215,7 +1236,9 @@ game::EmpireSetup empireOfGame(const game::GameState& s, game::EmpireId id, bool
     out.leaderTitle = e.leaderTitle;
     out.leaderName = e.leaderName;
     out.preset = e.race.style;
+    out.origin = e.origin;
     out.customRace = e.race;
+    game::origins::removeFromRace(*out.customRace, out.origin);
     out.passwordHash = e.passwordHash;
     out.email = e.email;
     out.ministerStyle = e.ministerStyle;

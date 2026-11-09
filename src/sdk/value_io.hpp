@@ -1035,6 +1035,16 @@ void fields(A& a, cmd::RecoverUnitsNow& x) {
     a("design", x.design);
     a("amount", x.amount);
 }
+template <class A>
+void fields(A& a, cmd::RecruitLeader& x) { a("role", x.role); }
+template <class A>
+void fields(A& a, cmd::AssignLeader& x) {
+    a("leader", x.leader);
+    a("planet", x.planet);
+    a("fleet", x.fleet);
+}
+template <class A>
+void fields(A& a, cmd::DismissLeader& x) { a("leader", x.leader); }
 
 // The number of fields fields() lists for T (tests compare it with the struct's members).
 struct FieldCounter {

@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <cfloat>
 #include <cstdio>
+#include <fstream>
 #include <format>
 
 // The SDL3 backend's key mapping (imgui_impl_sdl3.cpp), for the system's key repeats.
@@ -57,7 +58,7 @@ std::filesystem::path findDir(const std::string& override, const char* name, con
 void fatal(const std::string& message) {
     log::error("{}", message);
     // -nd: no box for the whole run (spec 05 §9.2).
-    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", message.c_str(), nullptr);
+    if (!classic::noDialogs()) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "VOIDREIGN", message.c_str(), nullptr);
 }
 
 // Neither renderer started: what the game needs, what to do about it, and why each
@@ -65,7 +66,7 @@ void fatal(const std::string& message) {
 // driver, so there the OpenGL 3.3 of the graphics card maker's driver is what counts.
 std::string noRendererMessage(const std::string& vulkanError, const std::string& openglError) {
     std::string text =
-        "OpenSE4 found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
+        "VOIDREIGN found no graphics driver to draw with. It needs Vulkan 1.3 or OpenGL 3.3.\n\n"
         "Install the current driver for your graphics card from its maker (NVIDIA, AMD or Intel). "
         "The basic display driver that comes with Windows has no OpenGL 3.3, and a Remote "
         "Desktop session may have none either.\n";
@@ -102,7 +103,7 @@ SDL_HitTestResult SDLCALL windowHitTest(SDL_Window*, const SDL_Point* point, voi
 int hostFromCommandLine(const AppOptions& options, const classic::CommandLineGame& line, const std::filesystem::path& dataDir) {
     auto refuse = [&](const std::string& why, bool box) {
         log::error("{}", why);
-        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenSE4", why.c_str(), nullptr);
+        if (box && !options.noDialogs) SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "VOIDREIGN", why.c_str(), nullptr);
         return classic::kHostRefused;
     };
     const std::filesystem::path gameRoot = dataDir.parent_path();
@@ -155,18 +156,43 @@ std::string videoDriver() {
     return name ? name : "?";
 }
 
+WindowSize fitToDisplay(SDL_DisplayID display, int width, int height, SDL_Rect* usableBounds = nullptr) {
+    SDL_Rect bounds{};
+    if (!display || !SDL_GetDisplayUsableBounds(display, &bounds)) return fitWindowSize(width, height, 0, 0);
+    if (usableBounds) *usableBounds = bounds;
+    return fitWindowSize(width, height, bounds.w, bounds.h);
+}
+
+void centerWindowInside(SDL_Window* window, const SDL_Rect& usable) {
+    if (!window) return;
+    SDL_SyncWindow(window);
+    int width = 0, height = 0;
+    SDL_GetWindowSize(window, &width, &height);
+    int top = 0, left = 0, bottom = 0, right = 0;
+    SDL_GetWindowBordersSize(window, &top, &left, &bottom, &right);
+    const int outerWidth = width + left + right;
+    const int outerHeight = height + top + bottom;
+    // SDL positions the client origin on Windows; add the native frame's
+    // top/left border so the entire decorated window, not just its client
+    // area, is centred inside the taskbar-free desktop.
+    const int x = usable.x + std::max(0, (usable.w - outerWidth) / 2) + left;
+    const int y = usable.y + std::max(0, (usable.h - outerHeight) / 2) + top;
+    SDL_SetWindowPosition(window, x, y);
+    SDL_SyncWindow(window);
+}
+
 } // namespace
 
 int App::run(const AppOptions& options) {
     options_ = options;
-    // The identifier is the Wayland app ID and X11 window class, which desktops
-    // match to packaging/linux/io.github.lowlevelmetal.OpenSE4.desktop.
-    SDL_SetAppMetadata("OpenSE4", OPENSE4_CLIENT_VERSION, "io.github.lowlevelmetal.OpenSE4");
+    // The identifier is the Wayland app ID and X11 window class used by the
+    // standalone VOIDREIGN desktop entry.
+    SDL_SetAppMetadata("VOIDREIGN", OPENSE4_CLIENT_VERSION, "io.github.voidreign.VOIDREIGN");
     // The original's `nd` switch holds for the whole run (spec 05 §9.2).
     classic::setNoDialogs(options.noDialogs);
-    // The game is the player's own installed copy: without one there is nothing
-    // to play. Checked before any window or renderer exists.
-    const auto dataDir = ruleset::findInstalledDataDir(options.installDir);
+    // VOIDREIGN is self-contained: load the native game-data shipped beside the
+    // executable (or the explicit development override) before opening a window.
+    const auto dataDir = findGameDataDirectory(options.installDir);
     if (!dataDir) {
         fatal(missingInstallMessage(options.installDir));
         SDL_Quit();
@@ -183,6 +209,23 @@ int App::run(const AppOptions& options) {
         fatal(std::format("SDL_Init failed: {}", SDL_GetError()));
         return 1;
     }
+
+    // A saved window size can outlive the monitor it was chosen for. Fit it
+    // before SDL creates the first window, so a 1600x900 preference cannot
+    // open partly outside a 1366x768 laptop desktop.
+    SDL_Rect startupUsable{};
+    const WindowSize fitted = fitToDisplay(SDL_GetPrimaryDisplay(), options_.width, options_.height, &startupUsable);
+    if (fitted.width != options_.width || fitted.height != options_.height) {
+        log::warn("Window size {}x{} exceeds the usable desktop {}x{}; fitting it to {}x{}",
+                  options_.width, options_.height, startupUsable.w, startupUsable.h, fitted.width, fitted.height);
+        options_.width = fitted.width;
+        options_.height = fitted.height;
+        GraphicsSettings& graphics = appSettings().graphics;
+        graphics.windowWidth = fitted.width;
+        graphics.windowHeight = fitted.height;
+        if (options.screenshotPath.empty() && !options.inputScript) saveAppSettings();
+    }
+
     assetsDir_ = findDir(options.assetsDir, "assets", "fonts");
 
     if (!createWindowAndDevice()) {
@@ -258,19 +301,41 @@ int App::run(const AppOptions& options) {
     if (!options.recordInput.empty()) recorder_ = std::make_unique<script::Recorder>(options.recordInput, options.recordOptions);
 
     SDL_ShowWindow(window_);
+    SDL_SyncWindow(window_);
+    if (!(SDL_GetWindowFlags(window_) & SDL_WINDOW_FULLSCREEN)) {
+        SDL_Rect shownUsable{};
+        if (SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(window_), &shownUsable)) centerWindowInside(window_, shownUsable);
+    }
     lastTicks_ = SDL_GetTicksNS();
     while (frame()) {
     }
     int code = mode_->exitCode();
     if (player_) {
-        // The script's verdict: every step done, or where it stopped.
+        // The script's verdict: every step done, or where it stopped. Keep a file
+        // copy too: Windows builds are GUI-subsystem executables and have no
+        // inherited console stdout for run_input_tests.py to capture.
         const script::Script& sc = player_->script();
+        std::filesystem::path resultDir = options.scriptOutput;
+        if (resultDir.empty()) {
+            std::error_code ec;
+            resultDir = std::filesystem::temp_directory_path(ec) / "opense4-scripts";
+        }
+        std::error_code resultDirError;
+        std::filesystem::create_directories(resultDir, resultDirError);
+        std::ofstream resultFile(resultDir / "input-script-result.txt", std::ios::binary | std::ios::trunc);
         if (player_->finished() && !player_->failed()) {
-            std::printf("input-script %s: passed (%zu steps, %llu frames)\n", sc.file.c_str(), sc.steps.size(),
-                        static_cast<unsigned long long>(player_->frame()));
+            const std::string verdict = std::format("input-script {}: passed ({} steps, {} frames)\n", sc.file,
+                                                    sc.steps.size(), static_cast<unsigned long long>(player_->frame()));
+            std::printf("%s", verdict.c_str());
+            if (resultFile) resultFile << verdict;
         } else {
             const std::string why = player_->failed() ? player_->failure() : "the game quit before the script ended";
-            std::printf("input-script %s: FAILED\n%s\n", sc.file.c_str(), why.c_str());
+            const std::string verdict = std::format("input-script {}: FAILED\n{}\n", sc.file, why);
+            std::printf("%s", verdict.c_str());
+            if (resultFile) {
+                resultFile << verdict;
+                if (player_->failed()) resultFile << "picture: " << player_->failureShot().string() << '\n';
+            }
             if (player_->failed()) std::printf("  picture: %s\n", player_->failureShot().string().c_str());
             code = 1;
         }
@@ -294,7 +359,7 @@ bool App::createWindowAndDevice() {
     std::string vulkanError;  // why Vulkan did not start, for the message if OpenGL does not either
 
     if (options_.renderer != AppOptions::Renderer::OpenGL) {
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
+        window_ = SDL_CreateWindow("VOIDREIGN", options_.width, options_.height, common | SDL_WINDOW_VULKAN);
         if (window_) {
             device_ = gfx::createVulkanDevice(window_, deviceOptions, error);
             if (!device_) {
@@ -323,7 +388,7 @@ bool App::createWindowAndDevice() {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
-        window_ = SDL_CreateWindow("OpenSE4", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
+        window_ = SDL_CreateWindow("VOIDREIGN", options_.width, options_.height, common | SDL_WINDOW_OPENGL);
         if (!window_) {
             fatal(std::format("Could not create a window: {}", SDL_GetError()));
             return false;
@@ -337,7 +402,15 @@ bool App::createWindowAndDevice() {
 
     rendererInfo_ = std::format("{}: {}", gfx::backendName(device_->backend()), device_->deviceName());
     log::info("Renderer: {}", rendererInfo_);
-    SDL_SetWindowMinimumSize(window_, 800, 600);  // the classic 800x600 layout fits (docs/spec/06 §2.1.1)
+
+    SDL_Rect usable{};
+    const SDL_DisplayID display = SDL_GetDisplayForWindow(window_);
+    if (display && SDL_GetDisplayUsableBounds(display, &usable)) {
+        // Keep manual resizing inside the usable desktop too; the caption and
+        // native resize frame sit outside the SDL client-area dimensions.
+        SDL_SetWindowMaximumSize(window_, std::max(1, usable.w - 24), std::max(1, usable.h - 48));
+    }
+    SDL_SetWindowMinimumSize(window_, std::min(800, options_.width), std::min(600, options_.height));
     renderer_ = std::make_unique<gfx::Renderer2D>(*device_);
     return true;
 }
@@ -397,13 +470,31 @@ void App::publishHitAreas(int windowWidth, int windowHeight) {
 }
 
 void App::applyGraphics() {
-    const GraphicsSettings& g = appSettings().graphics;
+    GraphicsSettings& g = appSettings().graphics;
     device_->setVSync(g.vsync);
     switch (g.displayMode) {
-        case DisplayMode::Windowed:
+        case DisplayMode::Windowed: {
             SDL_SetWindowFullscreen(window_, false);
+            SDL_Rect usable{};
+            const SDL_DisplayID display = SDL_GetDisplayForWindow(window_);
+            const WindowSize fitted = fitToDisplay(display, g.windowWidth, g.windowHeight, &usable);
+            if (fitted.width != g.windowWidth || fitted.height != g.windowHeight) {
+                log::warn("Requested window size {}x{} exceeds the usable desktop; using {}x{}",
+                          g.windowWidth, g.windowHeight, fitted.width, fitted.height);
+                g.windowWidth = fitted.width;
+                g.windowHeight = fitted.height;
+                options_.width = fitted.width;
+                options_.height = fitted.height;
+            }
+            if (display && usable.w > 0 && usable.h > 0) {
+                SDL_SetWindowMaximumSize(window_, std::max(1, usable.w - 24), std::max(1, usable.h - 48));
+                SDL_SetWindowPosition(window_, usable.x + (usable.w - g.windowWidth) / 2,
+                                      usable.y + (usable.h - g.windowHeight) / 2);
+            }
+            SDL_SetWindowMinimumSize(window_, std::min(800, g.windowWidth), std::min(600, g.windowHeight));
             SDL_SetWindowSize(window_, g.windowWidth, g.windowHeight);
             break;
+        }
         case DisplayMode::Borderless:
             SDL_SetWindowFullscreenMode(window_, nullptr);  // the desktop mode
             SDL_SetWindowFullscreen(window_, true);
@@ -424,6 +515,10 @@ void App::applyGraphics() {
     }
     SDL_SyncWindow(window_);
     applyTitleBar();
+    if (g.displayMode == DisplayMode::Windowed) {
+        SDL_Rect usable{};
+        if (SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(window_), &usable)) centerWindowInside(window_, usable);
+    }
 }
 
 std::vector<DisplayModeInfo> App::displayModes() const {
@@ -442,7 +537,7 @@ void App::initImGui() {
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;  // fixed layout for now
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    // A widget used the wrong way goes to opense4.log. Players never see Dear
+    // A widget used the wrong way goes to voidreign.log. Players never see Dear
     // ImGui's tooltip or assert: release builds only log. Debug builds keep
     // both, but an input script fails with the message instead of asserting.
 #ifdef NDEBUG

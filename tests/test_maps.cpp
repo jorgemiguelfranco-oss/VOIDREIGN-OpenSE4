@@ -6,6 +6,7 @@
 
 #include "client/classic/screens/setup_model.hpp"
 #include "game/generate.hpp"
+#include "game/chokepoints.hpp"
 #include "game/map_file.hpp"
 #include "game/query.hpp"
 #include "game/setup.hpp"
@@ -478,4 +479,38 @@ TEST_CASE("maps: the first-contact check runs in every system when the game is c
     // Apart, nobody meets at creation.
     const GameState apart = start(false);
     CHECK_FALSE(apart.empires[0].relations[1].contact);
+}
+TEST_CASE("maps: chokepoints are explored articulation systems, not hidden galaxy leaks") {
+    auto makeGalaxy = [](size_t count, const std::vector<std::pair<size_t, size_t>>& links) {
+        Galaxy galaxy;
+        galaxy.systems.resize(count);
+        for (size_t i = 0; i < count; ++i) galaxy.systems[i].id = SystemId{static_cast<uint32_t>(i)};
+        for (const auto& [a, b] : links) {
+            const ObjectId left{static_cast<uint32_t>(galaxy.objects.size())};
+            const ObjectId right{static_cast<uint32_t>(galaxy.objects.size() + 1)};
+            SpaceObject w1; w1.id = left; w1.kind = ObjectKind::WarpPoint; w1.system = SystemId{static_cast<uint32_t>(a)}; w1.destination = right;
+            SpaceObject w2; w2.id = right; w2.kind = ObjectKind::WarpPoint; w2.system = SystemId{static_cast<uint32_t>(b)}; w2.destination = left;
+            galaxy.objects.push_back(w1);
+            galaxy.objects.push_back(w2);
+            galaxy.systems[a].objects.push_back(left);
+            galaxy.systems[b].objects.push_back(right);
+        }
+        return galaxy;
+    };
+    GameState state;
+    state.galaxy = makeGalaxy(4, {{0, 1}, {1, 2}, {2, 3}});
+    Empire viewer;
+    viewer.knowledge.explored = {true, true, true, true};
+    const std::vector<SystemId> expectedCorridor{SystemId{1u}, SystemId{2u}};
+    CHECK(exploredChokepoints(state.galaxy, viewer) == expectedCorridor);
+
+    // A closed loop has no single system whose loss cuts the route network.
+    state.galaxy = makeGalaxy(4, {{0, 1}, {1, 2}, {2, 3}, {3, 0}});
+    CHECK(exploredChokepoints(state.galaxy, viewer).empty());
+
+    // An undiscovered endpoint is excluded from the graph and cannot affect
+    // the player's strategic view until both ends have been explored.
+    state.galaxy = makeGalaxy(4, {{0, 1}, {1, 2}, {2, 3}});
+    viewer.knowledge.explored = {true, true, false, true};
+    CHECK(exploredChokepoints(state.galaxy, viewer).empty());
 }

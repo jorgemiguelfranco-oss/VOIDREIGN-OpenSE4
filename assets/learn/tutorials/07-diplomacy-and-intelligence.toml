@@ -8,8 +8,8 @@ learned = [
     "Proposing a treaty, and reading the answer in the Log",
     "Starting an intelligence project",
 ]
-# The last lesson: its result offers the first training game.
-suggest = "training:land-rush"
+# Continue into the integrated opening campaign before independent training.
+suggest = "tutorial:commanders-first-campaign"
 
 [setup]
 seed = 11

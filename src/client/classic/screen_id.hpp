@@ -12,7 +12,7 @@ namespace opense4::client::classic {
 // Every window of the classic client. The main window is not a Screen.
 enum class ScreenId {
     // Command buttons (docs/spec/06 §1.2).
-    GameMenu, Designs, CreateDesign, Planets, Colonies, Ships, Queues, SetQueue, Research, TechTree, Empires, Log,
+    GameMenu, Designs, CreateDesign, Planets, Colonies, Ships, Queues, SetQueue, Research, TechTree, Empires, Leaders, Log,
     EmpireStatus, Help, GalaxyMap,
     // Empire Status sub-windows.
     EmpireOptions, Ministers, SystemsToAvoid, Waypoints, Strategies, RepairPriorities,

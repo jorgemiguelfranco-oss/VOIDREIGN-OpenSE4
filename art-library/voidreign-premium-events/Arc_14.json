@@ -1,0 +1,9 @@
+{
+  "index": 14,
+  "title": "Fossil Stars",
+  "trigger": "science",
+  "source": "https://freeapi.pro/api/tti",
+  "model": "flux_dev",
+  "prompt": "A single full-bleed cinematic science fiction MATTE PAINTING scene for a strategy-game gallery, not a poster, not a book cover, not a title card, not advertising, no branding anywhere. Depict this precise visual scene: An ancient star's spectrum contains traces of elements that should not exist. The discovery implies a lost phase of stellar evolution. Create ONE breathtaking detailed original science fiction illustration depicting the central tension, vivid visual storytelling rather than a generic starship. Magnificent spatial depth, believable architecture, crews as tiny incidental silhouettes if appropriate, real material texture, a restrained midnight navy cyan golden amber palette with nuanced narrative-specific coloring. Premium mature hard sci-fi illustration and high-quality cinematic matte painting, beautiful interesting composition, precise perspective, sharp dramatic lighting, exquisitely crafted realistic detail, dark enough at corners to sit within a sophisticated game dialogue panel. One coherent square image, no title, no text, no letters, no logos, no watermark, no interface, no comic panel, no border, no typographic markings.",
+  "sha256": "ef72b85423d3fcecad8be71ac10d0fdc61aa2fcdaf456400ee6ab38db7aaa56e"
+}

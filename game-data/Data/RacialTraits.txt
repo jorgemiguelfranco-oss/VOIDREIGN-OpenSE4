@@ -1,0 +1,60 @@
+*BEGIN*
+Name := Adaptive Metabolism
+Description := Efficient biological systems recover more quickly from environmental stress.
+Pic Num := 1
+General Type := Advantage
+Cost := 500
+Trait Type := Luck
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+
+Name := Neural Synchronicity
+Description := A culture of rapid knowledge exchange accelerates discovery.
+Pic Num := 2
+General Type := Advantage
+Cost := 650
+Trait Type := Research Production
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+
+Name := Industrial Discipline
+Description := Coordinated production improves industrial output.
+Pic Num := 3
+General Type := Advantage
+Cost := 600
+Trait Type := Production
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+Name := Crystalline Memory
+Description := A distributed lattice mind stores centuries of precise scientific observations.
+Pic Num := 4
+General Type := Advantage
+Cost := 650
+Trait Type := Research Production
+Value 1 := 5
+Required Trait 1 := None
+Restricted Trait 1 := None
+
+Name := Voidborne Adaptation
+Description := Symbiotic pressure organs and resilient tissues tolerate severe environmental extremes.
+Pic Num := 5
+General Type := Advantage
+Cost := 550
+Trait Type := Tollerance
+Value 1 := 10
+Required Trait 1 := None
+Restricted Trait 1 := None
+
+Name := Solar Foundries
+Description := Heat-hardened builders and distributed fabrication crews accelerate shipyard work.
+Pic Num := 6
+General Type := Advantage
+Cost := 650
+Trait Type := SY Rate
+Value 1 := 6
+Required Trait 1 := None
+Restricted Trait 1 := None
+*END*

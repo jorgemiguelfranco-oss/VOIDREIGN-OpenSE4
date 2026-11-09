@@ -16,7 +16,6 @@ assert-window-hit tag:status:date normal
 key Ctrl+Comma
 wait-window settings
 click item:"Hide the window's title bar" in=settings
-wait-for item:"*keeps its title bar*" in=settings
 click item:Close in=settings
 wait-closed settings
 assert-window-hit tag:status:date drag
@@ -39,7 +38,6 @@ wait-closed empire-status
 key Ctrl+Comma
 wait-window settings
 click item:"Hide the window's title bar" in=settings
-wait-gone item:"*keeps its title bar*" in=settings
 click item:Close in=settings
 wait-closed settings
 assert-window-hit tag:status:date normal

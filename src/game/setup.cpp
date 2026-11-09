@@ -8,6 +8,8 @@
 #include "game/economy.hpp"
 #include "game/generate.hpp"
 #include "game/hooks.hpp"
+#include "game/leaders.hpp"
+#include "game/origins.hpp"
 #include "game/players.hpp"
 #include "game/query.hpp"
 #include "game/research.hpp"
@@ -58,10 +60,10 @@ AbilityKind colonizeKind(std::string_view surface) {
 
 // Facilities of a starting planet (spec 02 §9, confirmed: binary): the empire's
 // best facility for each role, while slots are free: a spaceport (unless the
-// race has No Spaceports), a space yard, a supply generator, one mineral, one
-// radioactives and one organics producer, one research facility (unless every
-// technology is known), then alternately a mineral producer and a research
-// facility, starting with minerals (only minerals once everything is known).
+// race has No Spaceports), a space yard, a supply generator, any starting
+// warehouses requested by the native data set, one mineral, one radioactives
+// and one organics producer, one research facility (unless every technology is
+// known), then alternately a mineral producer and a research facility.
 void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, Colony& col) {
     const int slots = facilitySlots(r, s, col);
     auto add = [&](AbilityKind kind) {
@@ -73,6 +75,14 @@ void addStartingFacilities(const Rules& r, const GameState& s, const Empire& e, 
     if (!r.hasTrait(e.race, "No Spaceports")) add(AbilityKind::Spaceport);
     add(AbilityKind::SpaceYard);
     add(AbilityKind::SupplyGeneration);
+    // A native game can bootstrap its logistics economy without hard-coding a
+    // particular facility name. Each starting warehouse is selected through
+    // the same best-facility rule as the other starting roles.
+    const int64_t originWarehouse = col.homeworld ? origins::info(e.origin).extraWarehouses : 0;
+    const int64_t startingWarehouses = std::clamp<int64_t>(
+        r.setting("VOIDREIGN Starting Warehouse Count", 0) + originWarehouse, 0, 6);
+    for (int64_t i = 0; i < startingWarehouses; ++i)
+        if (!add(AbilityKind::ResourceStorageMinerals)) break;
     add(AbilityKind::ResourceGenMinerals);
     add(AbilityKind::ResourceGenRadioactives);
     add(AbilityKind::ResourceGenOrganics);
@@ -441,6 +451,10 @@ std::vector<EmpireSetup> networkRandomPlayers(const Rules& r, int level, bool co
             e.preset = folder;
             e.customRace = ai::randomPlayerRace(r, *p, racialPoints, rng);
             e.kind = neutral ? PlayerKind::Neutral : PlayerKind::Computer;
+            if (r.setting("VOIDREIGN Starting Attack Ship Count", 0) > 0) {
+                const auto availableOrigins = origins::all();
+                e.origin = availableOrigins[rng.index(availableOrigins.size())].id;
+            }
             usedStyles.push_back(folder);
             out.push_back(std::move(e));
         }
@@ -507,6 +521,9 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         Empire e;
         e.id = EmpireId{i};
         e.kind = es.kind;
+        e.origin = es.origin;
+        if (e.origin >= StartingOrigin::Count)
+            return std::unexpected(std::format("{} has an invalid starting origin.", es.name.empty() ? "An empire" : es.name));
         e.passwordHash = es.passwordHash;
         e.email = cleanEmail(es.email);
         // The Empire Setup minister style; it drives a Computer Controlled
@@ -535,6 +552,9 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         if (e.kind == PlayerKind::Human && es.customRace && e.racialPointsSpent > s.options.racialPoints)
             return std::unexpected(std::format("{} spends {} racial points; the limit is {}.", e.name, e.racialPointsSpent,
                                                s.options.racialPoints));
+        // An origin is a free civic inheritance, applied after racial-point
+        // validation so choosing a background never changes the race-build budget.
+        origins::applyToRace(e.race, e.origin);
         e.techLevels = startingTechLevels(r, s.options, e.race);
         e.relations.assign(n, Relation{});
         e.knowledge.explored.assign(s.galaxy.systems.size(), s.options.allSystemsSeen ? 1 : 0);
@@ -591,8 +611,10 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     for (size_t i = 0; i < n; ++i) {
         Empire& e = s.empires[i];
         const ObjectId home = (*homes)[i];
-        // A neutral empire always gets one starting planet.
-        const int more = e.kind == PlayerKind::Neutral ? 0 : std::max(0, s.options.startingPlanets - 1);
+        // A neutral empire always gets one starting planet. Diaspora adds
+        // one eligible world to the player's normal starting-planet setting.
+        const int requestedPlanets = std::max(1, s.options.startingPlanets + origins::info(e.origin).extraStartingPlanets);
+        const int more = e.kind == PlayerKind::Neutral ? 0 : std::max(0, requestedPlanets - 1);
         std::vector<ObjectId> planets{home};
         for (ObjectId o : extraStartingPlanets(r, s, e, *homes, more)) planets.push_back(o);
         for (ObjectId p : planets) setUpStartingPlanet(r, s, e, p);
@@ -651,6 +673,48 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     for (EmpireId e : extras.designMinisterRun)
         if (e.index() < n) ai::designMinisterRun(r, s, e);
 
+    // VOIDREIGN's opening patrol ships are created from each empire's own
+    // starting technology and the same design minister used by Quick Start.
+    // The setting is zero in engine-only rulesets, preserving their behaviour.
+    const int64_t baseStartingAttackShips = std::clamp<int64_t>(r.setting("VOIDREIGN Starting Attack Ship Count", 0), 0, 5);
+    for (size_t i = 0; i < n; ++i) {
+        // An origin's own ship is independent of the optional game-wide fleet
+        // start; disabling the latter must not erase the Nomad inheritance.
+        const int64_t startingAttackShips = std::clamp<int64_t>(
+            baseStartingAttackShips + origins::info(s.empires[i].origin).extraAttackShips, 0, 6);
+        if (startingAttackShips == 0) continue;
+        const EmpireId owner{static_cast<uint32_t>(i)};
+        auto design = newestOfType(s, s.empires[i], "Attack Ship");
+        if (!design) {
+            ai::designMinisterRun(r, s, owner);
+            design = newestOfType(s, s.empires[i], "Attack Ship");
+        }
+        if (!design)
+            return std::unexpected(std::format("VOIDREIGN could not create a valid starting Attack Ship for empire '{}'. "
+                                               "Check its starting hull, weapons, propulsion and design rules.",
+                                               s.empires[i].name));
+
+        Fleet patrol;
+        patrol.owner = owner;
+        patrol.name = "Home Patrol";
+        patrol.location = locationOf(s.galaxy, (*homes)[i]);
+        patrol.formation = 0;
+        patrol.strategy = 0;
+        patrol.minister = s.empires[i].ministersForNewVehicles;
+        for (int64_t ship = 0; ship < startingAttackShips; ++ship) {
+            Vehicle v = makeVehicle(r, s, s.design(*design), patrol.location);
+            ++s.design(*design).built;
+            const VehicleId id = s.addVehicle(std::move(v)).id;
+            patrol.members.push_back(id);
+        }
+        if (!patrol.members.empty()) {
+            Fleet& created = s.addFleet(std::move(patrol));
+            for (VehicleId id : created.members)
+                if (Vehicle* member = s.vehicle(id)) member->fleet = created.id;
+            ++s.empire(owner).fleetsCreated;
+        }
+    }
+
     // A lesson's ships (OpenSE4 lesson extension, docs/LEARNING.md): built at
     // the homeworld from the empire's newest design of each listed type.
     for (size_t i = 0; i < n && i < extras.lessonShips.size(); ++i)
@@ -671,6 +735,14 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
     // Starting Resources plus one turn of production for the stockpile and
     // research, intelligence at 0 (spec 02 §9, spec 05 §1.1, confirmed: binary).
     research::openingPools(r, s);
+    // Origin caches are delivered to the real treasury and research pool,
+    // respecting the empire's actual warehouse capacity on turn zero.
+    for (Empire& empire : s.empires) {
+        const origins::StartingOriginInfo& origin = origins::info(empire.origin);
+        empire.stockpile += origin.startingResources;
+        empire.stockpile = min(empire.stockpile, economy::storageCapacity(r, s, empire.id));
+        empire.researchPool += origin.startingResearch;
+    }
     // The mods' after_galaxy hooks: the game is made; then sight follows
     // what they changed.
     if (hookCtx.hooks) {
@@ -678,6 +750,12 @@ std::expected<GameState, std::string> createGame(const Rules& r, const GameSetup
         session.end();
         s.removeDeadVehicles();
         sight::updateKnowledge(r, s);
+    }
+    // VOIDREIGN's native data set opts into its leadership system: each new
+    // empire receives a governor for the capital, an admiral and a scientist.
+    // Generic engine rulesets leave this game-specific feature disabled.
+    if (r.settingFlag("VOIDREIGN Enable Leadership Corps", false)) {
+        for (size_t i = 0; i < s.empires.size(); ++i) leaders::seedInitial(s, EmpireId{static_cast<uint32_t>(i)});
     }
     economy::updateReports(r, s);
     return s;

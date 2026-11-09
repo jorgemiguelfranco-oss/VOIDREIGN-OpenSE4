@@ -983,6 +983,52 @@ Replaces the Empire Options switches and what the windows remember. Only
 {"kind": "set_interface_options", "options": {"auto_claim_colonized": false}}
 ```
 
+## VOIDREIGN leadership corps
+
+These commands are available when the native VOIDREIGN ruleset enables its
+leadership corps. They do not change games using generic OpenSE4 rulesets.
+
+### `recruit_leader`
+
+Recruits an officer for the leadership corps, paying the ruleset's recruitment
+cost. The Sovereign is not recruitable; succession appoints the next ruler.
+
+| Field | Type | Meaning |
+|---|---|---|
+| `role` | leader_role | The officer's role (Governor by default). |
+
+```json
+{"kind": "recruit_leader", "role": "admiral"}
+```
+
+### `assign_leader`
+
+Assigns an existing leader to an owned colony or fleet, or removes the current
+assignment when both targets are null. The target must match the leader's role.
+
+| Field | Type | Meaning |
+|---|---|---|
+| `leader` | int | The leader's empire-local identifier. |
+| `planet` | object id, or null | The colony, named by its planet; null when assigning to a fleet or reserve. |
+| `fleet` | fleet id, or null | The fleet; null when assigning to a colony or reserve. |
+
+```json
+{"kind": "assign_leader", "leader": 7, "planet": 53}
+```
+
+### `dismiss_leader`
+
+Removes an officer from active service while preserving their career record.
+The Sovereign cannot be dismissed.
+
+| Field | Type | Meaning |
+|---|---|---|
+| `leader` | int | The leader's empire-local identifier. |
+
+```json
+{"kind": "dismiss_leader", "leader": 9}
+```
+
 ## Mod orders
 
 ### `mod_command`
@@ -1439,6 +1485,16 @@ plus one, newest first, 0 for none.
 | `colonies_tab` | int | The Colonies window's tab (0 General to 8 Orders). |
 
 ## Enumerations the commands use
+
+### `leader_role`
+
+| Value | Meaning |
+|---|---|
+| `governor` | Oversees one owned colony. |
+| `admiral` | Commands one fleet. |
+| `scientist` | Directs empire-wide research. |
+| `general` | Provides military leadership. |
+| `ruler` | The Sovereign; appointed through succession. |
 
 ### `resource`
 

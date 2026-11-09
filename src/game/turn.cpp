@@ -8,6 +8,7 @@
 #include "game/events.hpp"
 #include "game/hooks.hpp"
 #include "game/intel.hpp"
+#include "game/leaders.hpp"
 #include "game/movement.hpp"
 #include "game/players.hpp"
 #include "game/research.hpp"
@@ -221,6 +222,10 @@ void empireEndOfTurn(TurnContext& ctx, EmpireId e, bool ministers) {
         deliverHooks(ctx);
         s.removeDeadVehicles();
     }
+    // VOIDREIGN leadership: officers gain experience from active service,
+    // age, and can die naturally. This follows the turn's economic and combat
+    // results so their progression is deterministic in both turn styles.
+    if (living(s, e)) leaders::advanceTurn(s, e);
     // 18. The log keeps only this turn's entries (spec 05 §3.4).
     if (living(s, e)) std::erase_if(s.empire(e).log, [&](const LogEntry& l) { return l.turn < s.turn; });
 }

@@ -1,6 +1,6 @@
-# Builds the release packages for a version tag (v*) with tools/package_release.sh
-# and keeps them as workflow artifacts (docs/BUILDING.md, "Release packages").
-# It publishes nothing: the owner downloads the artifacts and makes the release.
+# Builds the release packages for a version tag (v*) with tools/package_release.sh,
+# verifies their checksums, and publishes the files as a GitHub Release.
+# The workflow_dispatch path remains useful for builds that should not be published.
 #
 # Third-party actions are pinned to a full commit SHA; the comment names the tag.
 
@@ -148,6 +148,8 @@ jobs:
     name: Checksums
     needs: [linux, linux-armhf, windows]
     runs-on: ubuntu-26.04
+    outputs:
+      version: ${{ steps.sums.outputs.version }}
     timeout-minutes: 10
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -160,14 +162,47 @@ jobs:
         id: sums
         working-directory: dist
         run: |
-          version=$(ls OpenSE4-*-linux-x86_64.tar.gz | sed 's/^OpenSE4-\(.*\)-linux-x86_64\.tar\.gz$/\1/')
-          sums=$(sha256sum OpenSE4-"$version"-*)
-          echo "$sums" | tee "OpenSE4-$version-SHA256SUMS.txt"
+          version=$(ls VOIDREIGN-*-linux-x86_64.tar.gz | sed 's/^VOIDREIGN-\(.*\)-linux-x86_64\.tar\.gz$/\1/')
+          setup_source="VOIDREIGN-$version-windows-x86_64-setup.exe"
+          setup_target="VOIDREIGN-Setup-$version.exe"
+          test -f "$setup_source"
+          mv "$setup_source" "$setup_target"
+          sums=$(sha256sum VOIDREIGN-"$version"-* "$setup_target")
+          echo "$sums" | tee "VOIDREIGN-$version-SHA256SUMS.txt"
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Upload the release files
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: OpenSE4-${{ steps.sums.outputs.version }}
-          path: dist/OpenSE4-*
+          name: VOIDREIGN-${{ steps.sums.outputs.version }}
+          path: dist/VOIDREIGN-*
           if-no-files-found: error
+
+  publish:
+    name: Publish GitHub release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [checksums]
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: VOIDREIGN-${{ needs.checksums.outputs.version }}
+          path: dist
+
+      - name: Publish verified packages and checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.checksums.outputs.version }}
+        run: |
+          gh --version
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/VOIDREIGN-* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/VOIDREIGN-* \
+              --title "VOIDREIGN $VERSION" \
+              --generate-notes \
+              --verify-tag
+          fi

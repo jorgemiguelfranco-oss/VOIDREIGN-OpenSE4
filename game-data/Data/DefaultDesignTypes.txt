@@ -1,0 +1,79 @@
+*BEGIN*
+Name := Anti-Planet Drone
+
+Name := Anti-Ship Drone
+
+Name := Attack Base
+
+Name := Attack Ship
+
+Name := Base Space Yard
+
+Name := Boarding Ship
+
+Name := Cargo Transport
+
+Name := Carrier
+
+Name := Close Warp Point
+
+Name := Colony (Gas)
+
+Name := Colony (Ice)
+
+Name := Colony (Rock)
+
+Name := Create Black Hole
+
+Name := Create Nebulae
+
+Name := Create Planet
+
+Name := Create Star
+
+Name := Create Storm
+
+Name := Defense Base
+
+Name := Defense Ship
+
+Name := Destroy Black Hole
+
+Name := Destroy Nebulae
+
+Name := Destroy Planet
+
+Name := Destroy Star
+
+Name := Destroy Storm
+
+Name := Drone Carrier
+
+Name := Fighter
+
+Name := Kamikaze Attack Ship
+
+Name := Mine
+
+Name := Mine Layer
+
+Name := Mine Sweeper
+
+Name := Open Warp Point
+
+Name := Population Transport
+
+Name := Recon Satellite
+
+Name := Satellite
+
+Name := Satellite Layer
+
+Name := Space Yard Ship
+
+Name := Troop
+
+Name := Troop Transport
+
+Name := Weapon Platform
+*END*

@@ -59,6 +59,14 @@ ENCOUNTER_CLEAR: Tuple[str, ...] = (
     'any',  # Meeting any other empire does.
 )
 
+LEADER_ROLE: Tuple[str, ...] = (
+    'governor',  # Oversees one owned colony.
+    'admiral',  # Commands one fleet.
+    'scientist',  # Directs empire-wide research.
+    'general',  # Provides military leadership.
+    'ruler',  # The Sovereign; appointed through succession.
+)
+
 LOG_CATEGORY: Tuple[str, ...] = (
     'construction',  # Construction.
     'research',  # Research.
@@ -314,6 +322,7 @@ ALL: Dict[str, Tuple[str, ...]] = {
     'conditions_band': CONDITIONS_BAND,
     'demand_list': DEMAND_LIST,
     'encounter_clear': ENCOUNTER_CLEAR,
+    'leader_role': LEADER_ROLE,
     'log_category': LOG_CATEGORY,
     'log_goto': LOG_GOTO,
     'message_type': MESSAGE_TYPE,

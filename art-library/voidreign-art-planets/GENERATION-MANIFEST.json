@@ -1,0 +1,177 @@
+{
+  "title": "VOIDREIGN planetary and stellar object art",
+  "generated_at": "2026-11-09T09:03:16.846311+00:00",
+  "generator": "tools/art/generate_planet_art.py",
+  "method": "Procedural 3D sphere shading, multi-scale surface noise, atmospheric rim and original stellar/field icons",
+  "assets": [
+    {
+      "file": "game-data/Pictures/Planets/p0001.png",
+      "id": 0,
+      "kind": "temperate",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "920f8e372781566510172513f64399ed6b367d61501e0570650ef2e866f67c4f"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0002.png",
+      "id": 1,
+      "kind": "yellow-star",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b6aaa202fe85f7dc6d04987b036cee79ecfb88e0f3e09624622ae214703a5725"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0003.png",
+      "id": 2,
+      "kind": "ice",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "72b576497cbf0c1e8efbf1ac5693ae4818524c5a10907a81abb0405cdb8ff0c6"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0004.png",
+      "id": 3,
+      "kind": "gas-giant",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "b96dcd5d6a73402971fdf90bec4ecb58ce40b5dbb206397704e2dc3dfdf27410"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0005.png",
+      "id": 4,
+      "kind": "super-terrestrial",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "e19484361e68b50ff5d8b44051703e14a6a23bf7e15be0c91b733ba3a3110b89"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0006.png",
+      "id": 5,
+      "kind": "desert",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "9b5e307feb97b138b1eb91d413a5aaf0506174d37bca0ec682cca8a999408a65"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0007.png",
+      "id": 6,
+      "kind": "asteroids",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "2042b994cab0905cc93d989f398e789f806e1a52b2732ee207518f4a5829cde5"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0008.png",
+      "id": 7,
+      "kind": "ion-storm",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "26db6dcb1ca1e6a117486ed6ee7de1f23ad7bc72abda008968230d2c412b5d04"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0009.png",
+      "id": 8,
+      "kind": "warp-point",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "c2f51161403d3c67f2ef50bb4d68f77ffabca100126dd94d729be3f49186b64a"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0010.png",
+      "id": 9,
+      "kind": "ocean",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "dc2074fdc4fdc7dace879fc458e1bb02240b3bde9443d20a78090da89841e264"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0011.png",
+      "id": 10,
+      "kind": "volcanic",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "fc49d681d5fa0de1af80f5523194692c04ac8487da9a46bae6ec8d4291b1a6f0"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0012.png",
+      "id": 11,
+      "kind": "lava",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "888b612bf4d58ac2e33b6e676038c0a83e9e6e130c897549f5f61930344464fc"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0013.png",
+      "id": 12,
+      "kind": "ringed-giant",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "6dbcb6f8c73cbe4e485d08faae72653be72d5f6f80eee3f667a441c5617d6b2a"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0014.png",
+      "id": 13,
+      "kind": "barren",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "f7083d702db796d96e7a10eba5072f945d21925918d2df8dcf0d35313273b919"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0015.png",
+      "id": 14,
+      "kind": "crystal",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "d728dac16fbce61e1d0888ff20a1f0327750f3ec048b6330d577432c1883126b"
+    },
+    {
+      "file": "game-data/Pictures/Planets/p0016.png",
+      "id": 15,
+      "kind": "ancient",
+      "size": [
+        128,
+        128
+      ],
+      "sha256": "ff3a05f0ed8012b6b4c4ddf0f6235fe34af65f0ec2f04e14893d886305254264"
+    },
+    {
+      "file": "game-data/Pictures/Planets/Planets.png",
+      "kind": "planet-atlas",
+      "size": [
+        288,
+        72
+      ],
+      "sha256": "aecce98a558bcd80a2d9b52ca19e168d26ededf1c6fb0130be6afb5ceaa54165"
+    }
+  ]
+}

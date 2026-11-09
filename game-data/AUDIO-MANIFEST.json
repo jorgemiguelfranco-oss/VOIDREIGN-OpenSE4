@@ -1,0 +1,221 @@
+{
+  "title": "VOIDREIGN original procedural audio",
+  "generated_at": "2026-11-09T08:46:02.101019+00:00",
+  "generator": "tools/audio/generate_original_audio.py",
+  "method": "Procedural oscillator, envelope and deterministic noise synthesis; no external recordings, samples or compositions.",
+  "runtime_dependencies": [],
+  "music": [
+    {
+      "file": "game-data/Music/VOIDREIGN_Intro.ogg",
+      "type": "music",
+      "duration_seconds": 42.0,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "encoding": "Ogg Vorbis",
+      "bytes": 176427,
+      "sha256": "e20e7cd470171c35037b2118c728009a98b29029b511eaafb384743a819ae018"
+    },
+    {
+      "file": "game-data/Music/VOIDREIGN_Background.ogg",
+      "type": "music",
+      "duration_seconds": 104.0,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "encoding": "Ogg Vorbis",
+      "bytes": 425920,
+      "sha256": "3f446cc2a50797cc058119c313b3f5c018ed07bf660281813cd475476454a83f"
+    },
+    {
+      "file": "game-data/Music/VOIDREIGN_Combat.ogg",
+      "type": "music",
+      "duration_seconds": 92.0,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "encoding": "Ogg Vorbis",
+      "bytes": 809308,
+      "sha256": "c7996b12e90b09abab1be45a7450a2b91a2dc917f0bf3e692fd3ebae4253394c"
+    }
+  ],
+  "sound_effects": [
+    {
+      "file": "game-data/Sounds/button.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.13,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 5776,
+      "sha256": "ef8020ddf3ebe6c3c47deea615fd5d1c3f565899332de01fba5a637c4ddebaf3"
+    },
+    {
+      "file": "game-data/Sounds/cmdbtn.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.2,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 8864,
+      "sha256": "6142c485ccdeea6cea1ae223b824dd3d268866b54b1ab366132ac0bfcf8175fe"
+    },
+    {
+      "file": "game-data/Sounds/ordbtn.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.18,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 7982,
+      "sha256": "4faa006ed80ce00ce88e04870a39d28f9d57bed534fb57ef9c9cbe035265d901"
+    },
+    {
+      "file": "game-data/Sounds/close.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.24,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 10628,
+      "sha256": "4496f33b6361e8d4e3984067173d2ded48b741454e0f1571f5bb7644df094a4a"
+    },
+    {
+      "file": "game-data/Sounds/endturn.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.95,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 41938,
+      "sha256": "0b905c7ed7096b330975cd9f0d4a7a2cfa085023406916834a25ffdf52570f8e"
+    },
+    {
+      "file": "game-data/Sounds/cloakon.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.72,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 31796,
+      "sha256": "86b2b430f5b6f1142775e3d504558108cd10d133d53fb5629c783187190e51b9"
+    },
+    {
+      "file": "game-data/Sounds/cloakoff.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.72,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 31796,
+      "sha256": "e05d8f5c99dc4a0afd55c4308e19222e9fb1c50a109f79a7c748f124595cd3bb"
+    },
+    {
+      "file": "game-data/Sounds/openwp.wav",
+      "type": "sound-effect",
+      "duration_seconds": 1.1,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 48554,
+      "sha256": "f9f48598fbe25da33dc8c095a980bf90fbb2ea3aa8fb0dccfe8e3e5c1ac9233a"
+    },
+    {
+      "file": "game-data/Sounds/closewp.wav",
+      "type": "sound-effect",
+      "duration_seconds": 1.0,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 44144,
+      "sha256": "88e67793dc84ac975423d5eb0c8d15f38eabcea8fe16c4c8ef883e8703556ac4"
+    },
+    {
+      "file": "game-data/Sounds/crtestrm.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.96,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 42380,
+      "sha256": "e00fb4dd097dedc647634b960432778cb48a85f5ca13f0cf6517d266e76b1f1e"
+    },
+    {
+      "file": "game-data/Sounds/deststrm.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.96,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 42380,
+      "sha256": "0e063f57cebfdf7fa1a022c2446c5a1d713baf26c103d16cc797ec944f87ac4a"
+    },
+    {
+      "file": "game-data/Sounds/crteplnt.wav",
+      "type": "sound-effect",
+      "duration_seconds": 1.1,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 48554,
+      "sha256": "cafb87d0f810a73dcb8167005e55b2f45b827b7f46caf62f5a746a9b730a65fd"
+    },
+    {
+      "file": "game-data/Sounds/destplnt.wav",
+      "type": "sound-effect",
+      "duration_seconds": 1.16,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 51200,
+      "sha256": "9f5e6bd9e536bed8cdb6f124fe7ab43f54830dd2f7fe3ed62c25433b9c73953e"
+    },
+    {
+      "file": "game-data/Sounds/crtesun.wav",
+      "type": "sound-effect",
+      "duration_seconds": 1.15,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 50758,
+      "sha256": "ddb5c8ee47158d28577503d31614a65079f76983bc8744c7517cb7c231fbbb9e"
+    },
+    {
+      "file": "game-data/Sounds/destsun.wav",
+      "type": "sound-effect",
+      "duration_seconds": 1.3,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 57374,
+      "sha256": "284d32481e561344e64885157e15a7a8d554498f6dab1f8fbfa986150af3786b"
+    },
+    {
+      "file": "game-data/Sounds/boom1.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.52,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 22976,
+      "sha256": "1f913a111e656ae2043a0933f9b8a60265d9fafdb6840f1a221fbe0354e5381b"
+    },
+    {
+      "file": "game-data/Sounds/boom2.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.75,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 33118,
+      "sha256": "773be036e40f71aeab4cc2c3313b728d50ab6813046d9414875ed6e1fdb0f1f9"
+    },
+    {
+      "file": "game-data/Sounds/boom3.wav",
+      "type": "sound-effect",
+      "duration_seconds": 0.98,
+      "sample_rate_hz": 22050,
+      "channels": 1,
+      "encoding": "PCM signed 16-bit",
+      "bytes": 43262,
+      "sha256": "aac8fdaac4fa12020e544ee6fd15e28be7825736f2344d6e9d1b90858c8739dd"
+    }
+  ]
+}

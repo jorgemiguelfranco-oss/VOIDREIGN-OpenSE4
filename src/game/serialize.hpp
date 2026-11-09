@@ -161,7 +161,10 @@ class Rules;
 //   PlanetSize.txt, as the original's order holds it (spec 01 §9); format
 //   10's held its Special Ability ID, converted with the data set once the
 //   game is loaded (upgradeLoadedGame).
-inline constexpr uint32_t kSaveVersion = 11;
+// Version 12: persistent VOIDREIGN leadership corps (individual leaders and assignments).
+// Version 13: optional secondary specialist trait for Paragon leaders.
+// Version 14: persistent empire starting origin.
+inline constexpr uint32_t kSaveVersion = 14;
 inline constexpr uint32_t kMinSaveVersion = 7;
 
 inline constexpr size_t kEnvelopeSize = 32;

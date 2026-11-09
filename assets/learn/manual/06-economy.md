@@ -76,11 +76,33 @@ amount of it instead (200 with the stock settings).
 
 ## Storage
 
-Each of minerals, organics and radioactives has a storage capacity: 50,000 with the stock
-settings, plus what your storage facilities add. Late in each turn, after construction, anything
-above the capacity is lost. Research and intelligence points have no limit.
+VOIDREIGN does not provide free strategic-resource storage. With **no warehouse anywhere in
+your empire, your storage capacity is zero**: minerals, organics and radioactives cannot be
+banked between turns.
 
-> If your treasury sits at its capacity, you are wasting income. Build more, research storage facilities, or convert the surplus into ships.
+- Each **VoidReign Warehouse** adds 30,000 minerals, 30,000 organics and 30,000 radioactives of storage.
+- Your homeworld starts with one warehouse, giving your new empire 30,000 capacity for each resource.
+- Warehouses on any of your colonies contribute to the same empire-wide treasury limit; build more as production and expansion grow.
+
+Research improves the logistics ceiling as your empire grows. **VoidReign Logistics II**
+unlocks the **VoidReign Warehouse II**, which adds 60,000 minerals, 60,000 organics and
+60,000 radioactives of empire-wide storage capacity. It is an upgrade in the same
+facility family as the original Warehouse. Build or upgrade warehouses before the
+treasury repeatedly reaches its cap; a higher income does not protect resources that
+overflow at the end of a turn.
+
+Late in each turn, after construction has spent what it can, anything above the capacity is
+permanently lost. Research and intelligence points have no storage limit. The Empire Status
+window shows both your current treasury and its maximum capacity, while the Economy report shows
+resources lost to storage.
+
+A positive net income does **not** mean the resources are safely banked. Once your treasury is
+full, further production is lost. If you later need those resources for ship or facility
+construction, trade obligations or fleet maintenance, the missing reserve can put your economy
+under pressure; an unpaid maintenance bill can cost you ships.
+
+> Treat warehouse construction as core infrastructure. Add capacity before your economy
+> consistently produces more than your treasury can hold.
 
 ## Maintenance
 
@@ -128,7 +150,7 @@ The buttons open your empire's settings windows:
 | `Waypoints` | Your ten waypoints ([Ships and fleets](ships-and-fleets#waypoints)). |
 | `Strategies` | Combat strategies ([Combat](combat#strategies)). |
 | `Repair Priorities` | The order in which components are repaired ([Supply, cargo and repair](logistics#repair)). |
-| `Change Email` | Dim in OpenSE4: the game keeps no e-mail address for your empire yet. |
+| `Change Email` | Dim in VOIDREIGN: the game keeps no e-mail address for your empire yet. |
 | `Change Password` | Set or remove your empire's password. |
 
 Your research and intelligence points per turn are in the [Colonies](window:colonies) window's

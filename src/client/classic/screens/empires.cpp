@@ -176,6 +176,8 @@ public:
         // History, Treaty Grid, Intelligence (dim before any contact), Borders,
         // Scores, Victory Conditions, Comparisons, a gap, Our Race in the 13th slot.
         if (pages.empty()) d.spacer();
+        if (d.button("Leaders")) ui.open(ScreenId::Leaders);
+        ui.tagItem("empires:leaders");
         if (d.button("History")) ui.open(ScreenId::History);
         if (d.button("Treaty Grid")) ui.open(ScreenId::TreatyGrid);
         ui.tagItem("empires:treaty-grid");

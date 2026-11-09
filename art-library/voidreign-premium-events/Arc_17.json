@@ -1,0 +1,13 @@
+{
+  "index": 17,
+  "title": "The Lightless Choir",
+  "trigger": "science",
+  "source": "https://freeapi.pro/api/tti",
+  "model": "flux_dev",
+  "prompt": "In an original futuristic radio astronomy research laboratory, tiny scientists stand below a monumental spherical dark-matter detector. Concentric holographic acoustic waves of pure teal and amethyst light vibrate through its transparent rings, responding to an unseen cosmic visitor. Physically believable equipment and beautifully textured research architecture; NO formulae, equations, text, boards, displays with letters or marks.\n\nCreate ONE finished, original, premium art-directed science fiction narrative illustration, full-bleed 1:1 cinematic matte painting for a 4X empire strategy PC game. World-class hand-painted realistic science-fiction concept art with remarkable composition, beautiful sophisticated natural detail, spectacular credible engineering, compelling light and shadow, a textured painterly finish, deep layered atmosphere, subtle warm brass accents against muted midnight blue and teal. The scene must be unique, natural, coherent, beautiful and clearly tell this specific story, never just a generic AI-generated sci-fi image. No text, NO letters, NO labels, NO glyphs, NO numbers, NO equations, NO illegible pseudo-writing, NO watermarks, NO borders, NO title cards, NO collages, NO UI.",
+  "sha256": "3a1b5130a14bf22695eb0d18ba5a5ac61134296d00dad48f4f4f5c9f309e41d3",
+  "review_status": "visually inspected and selected",
+  "replacement_reason": "Prior candidate contained pseudo-letters, wrong subject, or failed generation",
+  "reviewed_at": "2026-11-09T13:52:40.673020+00:00",
+  "archived_prior_source": "review-rejected/Arc_17.jpg"
+}

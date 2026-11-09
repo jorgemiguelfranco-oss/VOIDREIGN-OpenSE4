@@ -268,7 +268,9 @@ def run(exe, script, keep, classic_dir, renderer, timeout):
     (user / "settings.toml").write_text("[graphics]\nvsync = false\nframe_limit = 60\n", encoding="utf-8")
     raw = work / f"{script.stem}.raw"
     env = dict(os.environ)
-    env.setdefault("SDL_VIDEO_DRIVER", "offscreen")
+    # Windows cannot use SDL's EGL-backed offscreen driver; retain a real
+    # Windows window while the disk audio driver captures the mix.
+    env.setdefault("SDL_VIDEO_DRIVER", "windows" if os.name == "nt" else "offscreen")
     env["SDL_AUDIO_DRIVER"] = "disk"
     env["SDL_AUDIO_DISK_OUTPUT_FILE"] = str(raw)
     env["OPENSE4_USER_DIR"] = str(user)
@@ -286,13 +288,22 @@ def run(exe, script, keep, classic_dir, renderer, timeout):
         stderr = proc.stderr
         lines = proc.stdout.splitlines()
         verdict = next((m for m in (RESULT.match(l) for l in lines) if m), None)
+        # Windows GUI-subsystem builds have no inherited console stdout. The client
+        # writes the identical verdict to the requested script-output directory.
+        if verdict is None:
+            verdict_file = work / "input-script-result.txt"
+            if verdict_file.is_file():
+                lines = verdict_file.read_text(encoding="utf-8", errors="replace").splitlines()
+                verdict = next((m for m in (RESULT.match(l) for l in lines) if m), None)
         if not verdict or verdict.group(2) != "passed" or proc.returncode != 0:
             tail = (proc.stdout + proc.stderr).strip().splitlines()[-6:]
             problems.append("the script failed:\n       " + "\n       ".join(tail))
     except subprocess.TimeoutExpired:
         problems.append(f"timed out after {timeout} s")
     seconds = time.monotonic() - start
-    log_file = user / "opense4.log"
+    log_file = user / "voidreign.log"
+    if not log_file.is_file():
+        log_file = user / "opense4.log"  # older engine builds
     log = log_file.read_text(encoding="utf-8", errors="replace") if log_file.exists() else ""
     summary = ""
     if device := DEVICE.search(log):

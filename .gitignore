@@ -4,6 +4,8 @@
 .cache/
 compile_commands.json
 *.png
+!game-data/Pictures/*.png
+!game-data/Pictures/**/*.png
 !assets/**/*.png
 !packaging/**/*.png
 !tests/fixtures/**/*.png

@@ -8,7 +8,7 @@ std::string_view windowId(ScreenId id) {
     // learn/ids.hpp lists the same ids in ScreenId order (a test checks it).
     static constexpr std::string_view kIds[] = {
         "game-menu", "designs", "create-design", "planets", "colonies", "ships", "queues", "set-queue", "research", "tech-tree",
-        "empires", "log", "empire-status", "help", "galaxy-map", "empire-options", "ministers", "systems-to-avoid", "waypoints",
+        "empires", "leaders", "log", "empire-status", "help", "galaxy-map", "empire-options", "ministers", "systems-to-avoid", "waypoints",
         "strategies", "repair-priorities", "fleet-transfer", "cargo-transfer", "launch-recover", "scrap", "view-orders",
         "select-waypoint", "stellar-manipulation", "rename", "abandon-planet", "jettison-cargo", "convert-resources",
         "communicate", "intelligence", "treaty-grid", "scores",

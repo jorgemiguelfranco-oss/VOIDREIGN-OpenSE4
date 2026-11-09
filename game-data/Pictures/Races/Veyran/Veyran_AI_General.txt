@@ -1,0 +1,32 @@
+*BEGIN*
+Name := Veyran Trade League
+Description := The Veyran Trade League is an original VOIDREIGN faction with its own strategic character and political history.
+Empire Name := The Veyran Trade League
+Empire Type := League
+Emperor Name := Selene Marr
+Emperor Title := High Navigator
+Biological Description := Blue-grey amphibious humanoids with amber eyes, finely webbed fingers and exceptional balance in variable gravity; generations aboard merchant vessels shaped an instinct for negotiation and navigation.
+Society Description := The Free Traders are a chartered network of independent ports. Authority follows the flow of goods and the consent of member captains; prosperity depends on open routes, credible contracts and flexible diplomacy.
+General History Description := The League grew from independent ports along the old trade corridors. After the Lantern Convoys survived a blockade by coordinating fuel, food and escort contracts, the ports formed a permanent mutual-trade charter.
+Demeanor := Patient
+Culture := Free Traders
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Veyran.txt
+Race Opt 1 Num Characteristics := 1
+Race Opt 1 Characteristic 1 Type := Political Savvy
+Race Opt 1 Characteristic 1 Amount := 110
+Race Opt 1 Num Advanced Traits := 1
+Race Opt 1 Adv Trait 1 := Adaptive Metabolism
+Race Opt 2 Num Characteristics := 1
+Race Opt 2 Characteristic 1 Type := Political Savvy
+Race Opt 2 Characteristic 1 Amount := 115
+Race Opt 2 Num Advanced Traits := 1
+Race Opt 2 Adv Trait 1 := Adaptive Metabolism
+Race Opt 3 Num Characteristics := 1
+Race Opt 3 Characteristic 1 Type := Political Savvy
+Race Opt 3 Characteristic 1 Amount := 120
+Race Opt 3 Num Advanced Traits := 1
+Race Opt 3 Adv Trait 1 := Adaptive Metabolism
+*END*

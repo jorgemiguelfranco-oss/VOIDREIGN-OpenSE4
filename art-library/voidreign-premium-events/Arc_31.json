@@ -1,0 +1,9 @@
+{
+  "index": 31,
+  "title": "The Silence Between Empires",
+  "trigger": "crisis",
+  "source": "https://freeapi.pro/api/tti",
+  "model": "flux_dev",
+  "prompt": "A single full-bleed cinematic science fiction MATTE PAINTING scene for a strategy-game gallery, not a poster, not a book cover, not a title card, not advertising, no branding anywhere. Depict this precise visual scene: A chain of diplomatic relays goes dark across the quadrant. Ships continue moving, but no government can reliably verify foreign orders. Create ONE breathtaking detailed original science fiction illustration depicting the central tension, vivid visual storytelling rather than a generic starship. Magnificent spatial depth, believable architecture, crews as tiny incidental silhouettes if appropriate, real material texture, a restrained midnight navy cyan golden amber palette with nuanced narrative-specific coloring. Premium mature hard sci-fi illustration and high-quality cinematic matte painting, beautiful interesting composition, precise perspective, sharp dramatic lighting, exquisitely crafted realistic detail, dark enough at corners to sit within a sophisticated game dialogue panel. One coherent square image, no title, no text, no letters, no logos, no watermark, no interface, no comic panel, no border, no typographic markings.",
+  "sha256": "d1d673de99b857f031e0a2c5f201f4cf4b9a9fdec35441821a90aaaa557fb813"
+}

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(OpenSE4
-    VERSION 0.15.1
-    DESCRIPTION "Open-source engine reimplementation for Space Empires IV Deluxe"
+project(VOIDREIGN
+    VERSION 0.1.0
+    DESCRIPTION "Standalone space strategy game built on the OpenSE4 engine architecture"
     LANGUAGES C CXX)
 
 # Apple's linker warns about a static library listed twice, as CMake lists our
@@ -130,14 +130,31 @@ add_subdirectory(tools)
 include(GNUInstallDirs)
 install(TARGETS opense4-server opense4-datacheck opense4-sdk RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 if(TARGET opense4)
+    # Keep the engine-named binary available for developer tooling, but install
+    # the player-facing VOIDREIGN executable and its native base data as well.
     install(TARGETS opense4 RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    install(FILES "$<TARGET_FILE_DIR:opense4>/VOIDREIGN${CMAKE_EXECUTABLE_SUFFIX}"
+            DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/game-data/"
+            DESTINATION "${CMAKE_INSTALL_BINDIR}/game-data")
 endif()
 install(FILES README.md LICENSE DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 if(UNIX AND NOT APPLE)
-    set(opense4_app_id io.github.lowlevelmetal.OpenSE4)
-    install(FILES "packaging/linux/${opense4_app_id}.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
-    install(FILES "packaging/linux/${opense4_app_id}.metainfo.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo")
+    set(voidreign_app_id io.github.voidreign.VOIDREIGN)
+    install(FILES "packaging/linux/${voidreign_app_id}.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")
+    install(FILES "packaging/linux/${voidreign_app_id}.metainfo.xml" DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo")
     install(DIRECTORY packaging/linux/icons/hicolor DESTINATION "${CMAKE_INSTALL_DATADIR}/icons")
+endif()
+
+# Ship VOIDREIGN's own base data beside the executable in developer builds.
+# The same directory is staged into the redistributable packages and Windows installer.
+if(TARGET opense4 AND EXISTS "${CMAKE_SOURCE_DIR}/game-data")
+    add_custom_target(voidreign_game_data ALL
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+                "${CMAKE_SOURCE_DIR}/game-data"
+                "$<TARGET_FILE_DIR:opense4>/game-data"
+        COMMENT "Staging VOIDREIGN native game data")
+    add_dependencies(opense4 voidreign_game_data)
 endif()
 
 if(OPENSE4_BUILD_TESTS)
@@ -155,5 +172,9 @@ endif()
 # from paths as UTF-8 on every Windows version (cmake/WindowsCompat.cmake).
 if(WIN32 AND NOT MSVC)
     include(WindowsCompat)
-    opense4_apply_windows_compat("${CMAKE_SOURCE_DIR}/src" "${CMAKE_SOURCE_DIR}/tools" "${CMAKE_SOURCE_DIR}/tests")
+    set(voidreign_windows_compat_dirs "${CMAKE_SOURCE_DIR}/src" "${CMAKE_SOURCE_DIR}/tools")
+    if(OPENSE4_BUILD_TESTS)
+        list(APPEND voidreign_windows_compat_dirs "${CMAKE_SOURCE_DIR}/tests")
+    endif()
+    opense4_apply_windows_compat(${voidreign_windows_compat_dirs})
 endif()

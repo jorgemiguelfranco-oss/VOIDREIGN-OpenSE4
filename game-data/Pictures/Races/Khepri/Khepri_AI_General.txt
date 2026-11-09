@@ -1,0 +1,32 @@
+*BEGIN*
+Name := Khepri Ascendancy
+Description := The Khepri Ascendancy is an original VOIDREIGN faction with its own strategic character and political history.
+Empire Name := The Khepri Ascendancy
+Empire Type := Ascendancy
+Emperor Name := Tarin Kade
+Emperor Title := Archon
+Biological Description := Compact arthropoid beings with layered dark chitin, gold mineral markings and keen emerald compound eyes; strong low-gravity limbs and fine vibration sensors suit them to heavy industry and orbital construction.
+Society Description := Frontier Pragmatists favour durable institutions, redundant supply lines and measurable results. Industrial guilds share authority with frontier assemblies, and strategic plans are judged by whether they can be maintained far from the core.
+General History Description := The Ascendancy emerged when orbital manufacturers united to protect their resource corridors. The Foundry Compact standardised hull fittings, repair depots and convoy protocols, turning isolated industrial stations into a coordinated power.
+Demeanor := Assertive
+Culture := Frontier Pragmatists
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Khepri.txt
+Race Opt 1 Num Characteristics := 1
+Race Opt 1 Characteristic 1 Type := Construction Aptitude
+Race Opt 1 Characteristic 1 Amount := 110
+Race Opt 1 Num Advanced Traits := 1
+Race Opt 1 Adv Trait 1 := Industrial Discipline
+Race Opt 2 Num Characteristics := 1
+Race Opt 2 Characteristic 1 Type := Construction Aptitude
+Race Opt 2 Characteristic 1 Amount := 115
+Race Opt 2 Num Advanced Traits := 1
+Race Opt 2 Adv Trait 1 := Industrial Discipline
+Race Opt 3 Num Characteristics := 1
+Race Opt 3 Characteristic 1 Type := Construction Aptitude
+Race Opt 3 Characteristic 1 Amount := 120
+Race Opt 3 Num Advanced Traits := 1
+Race Opt 3 Adv Trait 1 := Industrial Discipline
+*END*

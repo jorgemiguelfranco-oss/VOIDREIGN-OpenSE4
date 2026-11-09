@@ -22,7 +22,7 @@ You choose the size of the quadrant when you set up a new game:
 
 The quadrant type decides how the systems are spread out: at random, in clusters, along a
 spiral, thinly scattered or on a regular grid. It also sets how many warp links each system
-tends to get. See [Starting a game](getting-started#game-setup) for the other quadrant options.
+tends to get. See [Starting a game](getting-started#new-game) for the other quadrant options.
 
 You know where every system is from the first turn. You do not know its name, what is in it or
 where its warp points lead until one of your ships goes there.

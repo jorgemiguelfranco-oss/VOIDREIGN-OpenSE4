@@ -1,0 +1,32 @@
+*BEGIN*
+Name := Outer Systems Compact
+Description := Outer Systems Compact is a native VOIDREIGN civilisation with a distinct biological origin, political tradition and strategic doctrine.
+Empire Name := The Outer Systems Compact
+Empire Type := Compact
+Emperor Name := Juno Rell
+Emperor Title := Pathwarden
+Biological Description := Lean, avian-descended sophonts with layered feather-like sensory vanes, broad low-gravity gliding membranes and slate-blue skin beneath fine keratin filaments. They evolved on thin-atmosphere moons and are unusually tolerant of pressure and temperature shifts.
+Society Description := The Compact is a voluntary network of frontier settlements, convoy clans and independent orbital habitats. Local assemblies retain wide autonomy; common law protects navigation corridors, mutual rescue and fair access to shared depots.
+General History Description := After the Far Lantern routes collapsed, six remote settlements survived by pooling life-support reserves and escorting one another through uncharted systems. Their rescue charter became the Outer Compact, a polity built around exploration, resilience and mutual defence.
+Demeanor := Expansionist
+Culture := Outer Freeholds
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Outer.txt
+Race Opt 1 Num Characteristics := 1
+Race Opt 1 Characteristic 1 Type := Environmental Resistance
+Race Opt 1 Characteristic 1 Amount := 110
+Race Opt 1 Num Advanced Traits := 1
+Race Opt 1 Adv Trait 1 := Voidborne Adaptation
+Race Opt 2 Num Characteristics := 1
+Race Opt 2 Characteristic 1 Type := Environmental Resistance
+Race Opt 2 Characteristic 1 Amount := 115
+Race Opt 2 Num Advanced Traits := 1
+Race Opt 2 Adv Trait 1 := Voidborne Adaptation
+Race Opt 3 Num Characteristics := 1
+Race Opt 3 Characteristic 1 Type := Environmental Resistance
+Race Opt 3 Characteristic 1 Amount := 120
+Race Opt 3 Num Advanced Traits := 1
+Race Opt 3 Adv Trait 1 := Voidborne Adaptation
+*END*

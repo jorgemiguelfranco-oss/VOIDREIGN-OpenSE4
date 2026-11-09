@@ -5,6 +5,7 @@
 #include "game/classic_save.hpp"
 #include "game/design.hpp"
 #include "game/rules.hpp"
+#include "game/leaders.hpp"
 #include "game/serialize_io.hpp"
 
 #include <algorithm>
@@ -218,6 +219,60 @@ std::string validateState(const GameState& s, const Rules* rules) {
     for (size_t i = 0; i < nEmp; ++i) {
         const Empire& e = s.empires[i];
         if (e.id.index() != i) return std::format("empire {} has id {}", i, e.id.value);
+        if (e.origin >= StartingOrigin::Count)
+            return std::format("empire {} has invalid starting origin {}", i, static_cast<unsigned>(e.origin));
+        // VOIDREIGN's persistent leadership records are part of the native
+        // state. Reject malformed identities and stale or foreign assignments
+        // before a client/report can dereference them.
+        std::vector<uint32_t> leaderIds;
+        leaderIds.reserve(e.leaders.size());
+        for (size_t li = 0; li < e.leaders.size(); ++li) {
+            const Leader& leader = e.leaders[li];
+            if (leader.id >= e.nextLeaderId ||
+                std::find(leaderIds.begin(), leaderIds.end(), leader.id) != leaderIds.end())
+                return std::format("empire {} has a duplicate or out-of-range leader id {}", i, leader.id);
+            leaderIds.push_back(leader.id);
+            if (leader.role >= LeaderRole::Count || leader.rarity >= LeaderRarity::Count ||
+                leader.trait == LeaderTrait::None || leader.trait >= LeaderTrait::Count ||
+                leader.secondaryTrait >= LeaderTrait::Count ||
+                leader.level < 1 || leader.level > 10 || leader.age == 0)
+                return std::format("empire {} has invalid career data for leader {}", i, leader.id);
+            if (leader.assignedColony.valid() && leader.assignedFleet.valid())
+                return std::format("empire {} leader {} has two simultaneous assignments", i, leader.id);
+            if (!leader.alive && (leader.assignedColony.valid() || leader.assignedFleet.valid()))
+                return std::format("empire {} deceased leader {} still holds an assignment", i, leader.id);
+            if (leader.assignedColony.valid()) {
+                const Colony* colony = s.colony(leader.assignedColony);
+                if (!colony || colony->owner != e.id)
+                    return std::format("empire {} leader {} is assigned to a missing or foreign colony", i, leader.id);
+            }
+            if (leader.assignedFleet.valid()) {
+                const Fleet* fleet = s.fleet(leader.assignedFleet);
+                if (!fleet || fleet->owner != e.id)
+                    return std::format("empire {} leader {} is assigned to a missing or foreign fleet", i, leader.id);
+            }
+            if ((leader.role == LeaderRole::Governor && leader.assignedFleet.valid()) ||
+                (leader.role == LeaderRole::Admiral && leader.assignedColony.valid()) ||
+                (leader.role == LeaderRole::Scientist && (leader.assignedColony.valid() || leader.assignedFleet.valid())) ||
+                (leader.role == LeaderRole::Ruler && (leader.assignedColony.valid() || leader.assignedFleet.valid())))
+                return std::format("empire {} leader {} has an assignment incompatible with its role", i, leader.id);
+            if (leader.alive) {
+                for (size_t prior = 0; prior < li; ++prior) {
+                    const Leader& other = e.leaders[prior];
+                    if (!other.alive) continue;
+                    if (leader.role == LeaderRole::Scientist && other.role == LeaderRole::Scientist)
+                        return std::format("empire {} has more than one Chief Scientist", i);
+                    if (leader.role == LeaderRole::Ruler && other.role == LeaderRole::Ruler)
+                        return std::format("empire {} has more than one living Sovereign", i);
+                    if (leader.role == LeaderRole::Governor && other.role == LeaderRole::Governor &&
+                        leader.assignedColony.valid() && leader.assignedColony == other.assignedColony)
+                        return std::format("empire {} has two Governors assigned to one colony", i);
+                    if (leader.role == LeaderRole::Admiral && other.role == LeaderRole::Admiral &&
+                        leader.assignedFleet.valid() && leader.assignedFleet == other.assignedFleet)
+                        return std::format("empire {} has two Admirals assigned to one fleet", i);
+                }
+            }
+        }
         if (e.relations.size() != nEmp) return std::format("empire {} has {} relations for {} empires", i, e.relations.size(), nEmp);
         for (DesignId d : e.designs)
             if (!d.valid() || d.index() >= nDes) return std::format("empire {} lists a missing design", i);
@@ -413,23 +468,29 @@ int64_t constructDeviceValue(const Rules& r, const GameState& s, const Vehicle& 
 }  // namespace
 
 void upgradeLoadedGame(const Rules& r, GameState& s, uint32_t formatVersion) {
-    if (formatVersion >= 11) return;
-    // Format 10's Construct order named its world by the PlanetSize record's
-    // Special Ability ID, 0 for the one the device's value names; format 11's
-    // holds the record's position in PlanetSize.txt, from 1, as the
-    // original's order does (Order::planetSize, spec 01 §9). The position is
-    // the last constructed world with that ID, the one format 10's engine
-    // built; 0 when the data set has none.
-    const auto& sizes = r.data().planetSizes;
-    for (Vehicle& v : s.vehicles)
-        for (Order& o : v.orders) {
-            if (o.kind != OrderKind::StellarManipulation || o.amount != static_cast<int>(StellarAction::CreateConstructedPlanet)) continue;
-            const int64_t id = o.planetSize > 0 ? int64_t{o.planetSize} : constructDeviceValue(r, s, v);
-            uint8_t position = 0;
-            for (size_t i = 0; i < sizes.size() && i < 255; ++i)
-                if (sizes[i].constructed && sizes[i].specialAbilityId == id) position = static_cast<uint8_t>(i + 1);
-            o.planetSize = position;
-        }
+    if (formatVersion < 11) {
+        // Format 10's Construct order named its world by the PlanetSize record's
+        // Special Ability ID, 0 for the one the device's value names; format 11's
+        // holds the record's position in PlanetSize.txt, from 1, as the
+        // original's order does (Order::planetSize, spec 01 §9). The position is
+        // the last constructed world with that ID, the one format 10's engine
+        // built; 0 when the data set has none.
+        const auto& sizes = r.data().planetSizes;
+        for (Vehicle& v : s.vehicles)
+            for (Order& o : v.orders) {
+                if (o.kind != OrderKind::StellarManipulation || o.amount != static_cast<int>(StellarAction::CreateConstructedPlanet)) continue;
+                const int64_t id = o.planetSize > 0 ? int64_t{o.planetSize} : constructDeviceValue(r, s, v);
+                uint8_t position = 0;
+                for (size_t i = 0; i < sizes.size() && i < 255; ++i)
+                    if (sizes[i].constructed && sizes[i].specialAbilityId == id) position = static_cast<uint8_t>(i + 1);
+                o.planetSize = position;
+            }
+    }
+    // Older saved games did not contain individual characters. Seed a small
+    // leadership corps once, after the colonies and homeworlds are available.
+    if (formatVersion < 12)
+        for (size_t i = 0; i < s.empires.size(); ++i)
+            leaders::seedInitial(s, EmpireId{static_cast<uint32_t>(i)});
 }
 
 std::expected<SaveInfo, std::string> readSaveInfo(const std::filesystem::path& file) {

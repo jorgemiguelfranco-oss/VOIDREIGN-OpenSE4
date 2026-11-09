@@ -572,8 +572,8 @@ TEST_CASE("serialize: checksums are stable") {
     // a field is added to a serialized struct these change: bump kSaveVersion
     // in serialize.hpp if older files can no longer be read, then paste the
     // new values printed below.
-    constexpr uint64_t kGoldenChecksum = 0x1a68732ef9b66d6full;
-    constexpr size_t kGoldenSize = 1988;
+    constexpr uint64_t kGoldenChecksum = 0x0d21677f00a64031ull;
+    constexpr size_t kGoldenSize = 1997;
     CHECK_MESSAGE(stateChecksum(g) == kGoldenChecksum,
                   "save format changed: kGoldenChecksum = " << std::format("{:#x}", stateChecksum(g)) << "ull");
     CHECK_MESSAGE(serializeState(g).size() == kGoldenSize, "save format changed: kGoldenSize = " << serializeState(g).size());
@@ -593,8 +593,15 @@ namespace {
 // What format 11 added (the accuracy pass, serialize.hpp): a game saved in an
 // older format counts each empire's fleets as the fleets it created.
 void dropFormat11(GameState& g) {
-    for (Empire& e : g.empires)
+    for (Empire& e : g.empires) {
         e.fleetsCreated = static_cast<uint32_t>(std::count_if(g.fleets.begin(), g.fleets.end(), [&](const Fleet& f) { return f.owner == e.id; }));
+        // Formats before 12 had no persistent leadership corps; format 14
+        // introduced starting origins. These are absent when reconstructing
+        // a state written in format 10 (and earlier).
+        e.leaders.clear();
+        e.nextLeaderId = 0;
+        e.origin = StartingOrigin::None;
+    }
 }
 
 // What format 10 added (the REA parity audit, serialize.hpp): a game saved in
@@ -853,7 +860,12 @@ TEST_CASE("serialize: format 10 games load; format 11 keeps the count of fleets 
     serial::write(payload, g, 10);
     std::vector<uint8_t> old = wrapEnvelope(magic, payload);
     old[8] = 10;
-    CHECK(payload.size() + 4 * g.empires.size() == payloadOf(current).size());
+    // The format-11 delta is just the per-empire fleet count. Later formats
+    // add leaders (12) and origins (14), so compare version 11 explicitly.
+    std::vector<uint8_t> throughEleven;
+    serial::write(throughEleven, g, 11);
+    CHECK(payload.size() + 4 * g.empires.size() == throughEleven.size());
+    CHECK(payloadOf(current).size() > throughEleven.size());
     auto before = deserializeState(old);
     REQUIRE_MESSAGE(before.has_value(), (before ? std::string{} : before.error()));
     GameState ten = g;

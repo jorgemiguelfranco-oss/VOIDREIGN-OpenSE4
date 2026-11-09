@@ -1,0 +1,32 @@
+*BEGIN*
+Name := Aurelian Concord
+Description := The Aurelian Concord is an original VOIDREIGN faction with its own strategic character and political history.
+Empire Name := The Aurelian Concord
+Empire Type := Concord
+Emperor Name := Ari Voss
+Emperor Title := First Speaker
+Biological Description := Tall, fine-boned humanoids with pale iridescent skin and luminous teal eyes; their long lives and acute pattern perception favour patient planning and careful stewardship.
+Society Description := The Scientific Compact is governed through research houses whose competing findings are reconciled by elected First Speakers. Knowledge is treated as a strategic resource, but exploration is pursued through cautious consensus.
+General History Description := The Concord formed after the Meridian Accords unified several threatened colonies. The Accords ended a century of resource disputes by placing shared navigation charts and scientific discoveries under common stewardship.
+Demeanor := Steady
+Culture := Scientific Compact
+Happiness Type := Stable Morale
+Planet Type := Rock
+Atmosphere := Oxygen
+Design Name File := Aurelian.txt
+Race Opt 1 Num Characteristics := 1
+Race Opt 1 Characteristic 1 Type := Intelligence
+Race Opt 1 Characteristic 1 Amount := 110
+Race Opt 1 Num Advanced Traits := 1
+Race Opt 1 Adv Trait 1 := Neural Synchronicity
+Race Opt 2 Num Characteristics := 1
+Race Opt 2 Characteristic 1 Type := Intelligence
+Race Opt 2 Characteristic 1 Amount := 115
+Race Opt 2 Num Advanced Traits := 1
+Race Opt 2 Adv Trait 1 := Neural Synchronicity
+Race Opt 3 Num Characteristics := 1
+Race Opt 3 Characteristic 1 Type := Intelligence
+Race Opt 3 Characteristic 1 Amount := 120
+Race Opt 3 Num Advanced Traits := 1
+Race Opt 3 Adv Trait 1 := Neural Synchronicity
+*END*

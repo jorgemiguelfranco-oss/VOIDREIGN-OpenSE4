@@ -242,6 +242,7 @@ bool hasDestroyedRegeneratingArmor(const Rules& r, const GameState& s, const Veh
 
 struct GroundFight {
     EmpireId attacker, defender;
+    ObjectId planet;
     // The landed troops, fighting for `attacker` (losses lower the counts; empty stacks are left in place).
     std::vector<UnitStack>* invaders = nullptr;
     // The planet's stored units, all serving `defender`: its troops and other units (the same).

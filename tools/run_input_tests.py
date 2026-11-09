@@ -6,14 +6,14 @@ its own input path: clicks, keys and checks, headless, with a fixed frame time.
 Each script runs in a fresh user data folder, so no settings, saves or lesson
 progress leak between runs or from your own.
 
-The scripts play the player's installed game, so this is opt-in:
+The scripts can play the standalone game's native data directly:
 
-    OPENSE4_CLASSIC_DATA=auto python3 tools/run_input_tests.py      # the install found
-    python3 tools/run_input_tests.py --install "/path/to/se4"       # that install
+    python3 tools/run_input_tests.py --data-dir game-data voidreign-native-startup
 
-Without either it reports that it was skipped. --fixture-data runs the scripts
-marked "# ci: fixture-data" on a game folder put together from our own test
-fixtures instead (no original game needed; CI does this).
+For an existing installed game, use --install or set OPENSE4_CLASSIC_DATA to
+its explicit data directory. Without any data source the original-game scripts are skipped. --fixture-data runs the
+scripts marked "# ci: fixture-data" on a game folder put together from our own
+test fixtures instead (no game install needed; CI does this).
 
 Each script plays in the layout its options give (most at 1024x768). Scripts
 marked "# layouts: both" (the tutorials and most lesson scripts) work in the
@@ -39,8 +39,8 @@ nothing was made in it. Linux and the BSDs only: elsewhere the system's folder
 cannot be moved for a run, and the script is skipped (also when run as root,
 who writes anywhere, for a read-only one).
 
-    python3 tools/run_input_tests.py [--exe build/debug/opense4] [--jobs N]
-        [--renderer opengl] [--output DIR] [--small | --only-small] [script ...]
+    python3 tools/run_input_tests.py [--exe build/debug/opense4] [--data-dir game-data]
+        [--jobs N] [--renderer opengl] [--output DIR] [--small | --only-small] [script ...]
 """
 
 import argparse
@@ -124,7 +124,7 @@ def server_args(path):
 
 
 PORTABLE_MARK = "# portable-copy"
-PORTABLE_SEED = b"OpenSE4 portable-copy check\n"
+PORTABLE_SEED = b"VOIDREIGN portable-copy check\n"
 
 
 def portable_supported(read_only):
@@ -157,7 +157,7 @@ def portable_copy(exe, read_only=False):
         except OSError:
             shutil.copy2(exe, copy)
         data = pathlib.Path(home) / "data"
-        system = data / "OpenSE4"   # SDL's preference folder under XDG_DATA_HOME
+        system = data / "VOIDREIGN"  # SDL's preference folder under XDG_DATA_HOME
         (system / "saves").mkdir(parents=True)
         (system / "saves" / "Seeded.gam").write_bytes(PORTABLE_SEED)
         # SDL's preference folder follows XDG_DATA_HOME; HOME stays, as the game
@@ -279,7 +279,7 @@ def play_one(exe, script, output, classic_dir, renderer, timeout, extra, layout=
             copy.write_text(text.replace(FREE_PORT, str(free_port())), encoding="utf-8")
             script = copy
         env = dict(os.environ)
-        env.setdefault("SDL_VIDEO_DRIVER", "offscreen")
+        env.setdefault("SDL_VIDEO_DRIVER", "windows" if os.name == "nt" else "offscreen")
         env["OPENSE4_USER_DIR"] = user
         if portable_env is not None:   # a portable copy: the rules without OPENSE4_USER_DIR
             del env["OPENSE4_USER_DIR"]
@@ -288,7 +288,7 @@ def play_one(exe, script, output, classic_dir, renderer, timeout, extra, layout=
         shots.mkdir(parents=True, exist_ok=True)
         args = [str(exe), f"--input-script={script}", f"--script-output={shots}", "--no-audio"]
         if classic_dir:
-            args.append(f"--classic-dir={classic_dir}")
+            args.append(f"--data-dir={pathlib.Path(classic_dir).resolve()}")
         if renderer:
             args.append(f"--renderer={renderer}")
         args += extra
@@ -302,6 +302,13 @@ def play_one(exe, script, output, classic_dir, renderer, timeout, extra, layout=
         seconds = time.monotonic() - start
         lines = proc.stdout.splitlines()
         result = next((m for m in (RESULT.match(l) for l in lines) if m), None)
+        # GUI-subsystem builds on Windows do not expose a console stdout pipe.
+        # The client writes the exact same verdict beside the script screenshots.
+        if result is None:
+            verdict_file = shots / "input-script-result.txt"
+            if verdict_file.is_file():
+                lines = verdict_file.read_text(encoding="utf-8", errors="replace").splitlines()
+                result = next((m for m in (RESULT.match(l) for l in lines) if m), None)
         if result and result.group(2) == "passed" and proc.returncode == 0:
             return script, True, result.group(3).strip(), "", seconds
         # The failure: the lines after the verdict, or the end of the log.
@@ -317,7 +324,8 @@ def play_one(exe, script, output, classic_dir, renderer, timeout, extra, layout=
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--exe", default=str(ROOT / "build" / "debug" / ("opense4.exe" if os.name == "nt" else "opense4")))
-    ap.add_argument("--install", help="the installed game to play (else OPENSE4_CLASSIC_DATA)")
+    ap.add_argument("--install", help="an installed game-data directory (legacy install)")
+    ap.add_argument("--data-dir", help="a native VOIDREIGN game-data directory (contains Data/ and Pictures/)")
     ap.add_argument("--fixture-data", action="store_true", help=f"the scripts marked '{FIXTURE_MARK}', on our own fixture data")
     ap.add_argument("--output", help="folder for screenshots and failure pictures (outside the repository)")
     ap.add_argument("--renderer", help="auto, vulkan or opengl (default: the client's)")
@@ -349,16 +357,22 @@ def main():
         return 1
 
     work = pathlib.Path(tempfile.mkdtemp(prefix="opense4-input-tests-"))
+    if sum((bool(a.fixture_data), bool(a.install), bool(a.data_dir))) > 1:
+        sys.exit("--fixture-data, --install and --data-dir are mutually exclusive")
     classic_dir = None
     if a.fixture_data:
         classic_dir = fixture_game(work)
+    elif a.data_dir:
+        classic_dir = pathlib.Path(a.data_dir).resolve()
+        if not (classic_dir / "Data").is_dir():
+            sys.exit(f"{classic_dir} must contain a Data/ directory")
     elif a.install:
-        classic_dir = a.install
+        classic_dir = pathlib.Path(a.install).resolve()
     else:
         data = os.environ.get("OPENSE4_CLASSIC_DATA", "")
         if not data:
-            print("skipped: the input scripts play your installed game; set OPENSE4_CLASSIC_DATA=auto "
-                  "(or a data folder), pass --install DIR, or use --fixture-data")
+            print("skipped: set OPENSE4_CLASSIC_DATA to a data folder, pass --install DIR or --data-dir DIR, "
+                  "or use --fixture-data")
             return 0
         if data != "auto":
             classic_dir = data

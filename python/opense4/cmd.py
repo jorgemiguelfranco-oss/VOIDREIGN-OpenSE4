@@ -929,6 +929,46 @@ def set_interface_options(options: Optional[Dict[str, Any]] = None) -> Dict[str,
     }
 
 
+def recruit_leader(role: str = 'governor') -> Dict[str, Any]:
+    """Recruits an officer for the leadership corps, paying the ruleset's recruitment cost. The
+    Sovereign is not recruitable; succession appoints the next ruler.
+
+    role: The officer's role (Governor by default).
+    """
+    return {
+        'kind': 'recruit_leader',
+        'role': _enum(role, enums.LEADER_ROLE, 'recruit_leader.role'),
+    }
+
+
+def assign_leader(leader: int = 0, planet: Optional[Ref] = None, fleet: Optional[Ref] = None) -> Dict[str, Any]:
+    """Assigns an existing leader to an owned colony or fleet, or removes the current assignment when
+    both targets are null. The target must match the leader's role.
+
+    leader: The leader's empire-local identifier.
+    planet: The colony, named by its planet; null when assigning to a fleet or reserve.
+    fleet: The fleet; null when assigning to a colony or reserve.
+    """
+    return {
+        'kind': 'assign_leader',
+        'leader': _int(leader, 'assign_leader.leader'),
+        'planet': _id(planet, 'object', 'assign_leader.planet'),
+        'fleet': _id(fleet, 'fleet', 'assign_leader.fleet'),
+    }
+
+
+def dismiss_leader(leader: int = 0) -> Dict[str, Any]:
+    """Removes an officer from active service while preserving their career record. The Sovereign
+    cannot be dismissed.
+
+    leader: The leader's empire-local identifier.
+    """
+    return {
+        'kind': 'dismiss_leader',
+        'leader': _int(leader, 'dismiss_leader.leader'),
+    }
+
+
 def mod_command(mod: str = '', name: str = '', vehicle: Optional[Ref] = None, fleet: Optional[Ref] = None, planet: Optional[Ref] = None, empire: Optional[Ref] = None, args: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """An order a mod declares ([[rules.orders]] in its mod.toml, docs/sdk/rules.md "Orders"). The game
     checks it against the declaration: its mod is one of the game's rules mods, it names exactly the
@@ -1457,6 +1497,9 @@ COMMAND_KINDS = (
     'set_ministers',
     'set_encounter_options',
     'set_interface_options',
+    'recruit_leader',
+    'assign_leader',
+    'dismiss_leader',
     'mod_command',
 )
 

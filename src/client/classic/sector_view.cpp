@@ -70,12 +70,39 @@ SectorView sectorView(const game::Rules& r, const game::GameState& s, game::Empi
 
     // Vehicles per owner; objects without an owner are not counted.
     for (const game::Vehicle* v : vehicles) {
+        if (!v) continue;
+        out.mobileShipyard = out.mobileShipyard || game::vehicleHasSpaceYard(r, s, *v);
         if (!v->owner.valid()) continue;
         auto it = std::find_if(out.owners.begin(), out.owners.end(), [&](const SectorView::Owner& o) { return o.empire == v->owner; });
         if (it == out.owners.end()) out.owners.push_back({v->owner, 1});
         else ++it->count;
     }
     std::sort(out.owners.begin(), out.owners.end(), [](const SectorView::Owner& a, const SectorView::Owner& b) { return a.empire.value < b.empire.value; });
+
+    // Stellar objects, mixed-owner sectors and empty sectors with several
+    // independent fleet/ship groups need separate, visibility-filtered
+    // markers. A player's fleet remains one marker.
+    if (out.stellar || out.owners.size() > 1 || vehicles.size() > 1) {
+        for (const game::Vehicle* v : vehicles) {
+            if (!v) continue;
+            const game::Fleet* fleet = v->owner == viewer && v->fleet.valid() ? s.fleet(v->fleet) : nullptr;
+            if (fleet) {
+                auto marker = std::find_if(out.vehicleMarkers.begin(), out.vehicleMarkers.end(),
+                                           [&](const SectorView::VehicleMarker& m) { return m.fleet == fleet->id; });
+                if (marker == out.vehicleMarkers.end()) {
+                    out.vehicleMarkers.push_back({v->id, fleet->id, game::vehicleHasSpaceYard(r, s, *v)});
+                } else {
+                    marker->shipyard = marker->shipyard || game::vehicleHasSpaceYard(r, s, *v);
+                }
+            } else {
+                out.vehicleMarkers.push_back({v->id, {}, game::vehicleHasSpaceYard(r, s, *v)});
+            }
+        }
+    }
+    // Keep the original large icon when an empty sector contains only one
+    // logical group (including a multi-ship fleet). Multiple independent
+    // groups get their own map markers.
+    if (!out.stellar && out.owners.size() <= 1 && out.vehicleMarkers.size() <= 1) out.vehicleMarkers.clear();
     if (out.owners.empty()) return out;
 
     if (out.owners.size() > 1 || out.stellar) {

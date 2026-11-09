@@ -164,7 +164,7 @@ public:
             // Game Setup at once (its Cancel goes to the intro) (spec 06 §1.2,
             // confirmed: binary).
             if (confirmPopup(ui, "New Game", "Cancel this game and set up a new one? Anything not saved is lost.")) ui.requests.newGame = true;
-            if (confirmPopup(ui, "Quit Game", "Quit OpenSE4? Anything not saved is lost.")) ui.requests.quitGame = true;
+            if (confirmPopup(ui, "Quit Game", "Quit VOIDREIGN? Anything not saved is lost.")) ui.requests.quitGame = true;
             masterPasswordPopup(ui);
             notePopup(ui, "Invalid Password", masterNote_);
             playersPopup(ui);
@@ -547,7 +547,7 @@ private:
         if (!ImGui::BeginPopupModal("Save for Space Empires IV", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize)) return;
         ImGui::PushTextWrapPos(0.0f);
         ImGui::TextUnformatted("Writes this game as a saved game of the original Space Empires IV, for its Load Game. "
-                               "The game here, and its OpenSE4 saves, stay as they are.");
+                               "The game here, and its VOIDREIGN saves, stay as they are.");
         ImGui::PopTextWrapPos();
         ImGui::Spacing();
         ImGui::TextColored(kLabelBlue, "Folder");

@@ -1,0 +1,25 @@
+# Let native computer empires play twenty turns from a VOIDREIGN quick start.
+# This exercises their faction AI profiles, design ministers, research, economy,
+# and the Aurelian fleet-deployment threshold after its 18-turn opening period.
+options --quick-start=Aurelian --empires=3 --systems=24 --seed=7 --turns=20 --open=none --layout=1024x768 --size=1280x800
+
+wait-screen game
+assert-turn 20
+wait 5
+
+# The player's opening patrol and warehouse-backed homeworld must remain valid
+# after five turns of computer-player activity.
+click sector:home
+wait-for item:report:fleet
+click item:report:fleet
+wait-for item:report:fleet-member
+assert { selected = "fleet", design_type = "Attack Ship" }
+key Escape
+click sector:home
+wait-for item:Facil
+click item:Facil
+wait-for item:"VoidReign Warehouse"
+assert-present item:"VoidReign Spaceport"
+assert-present item:"VoidReign Warehouse"
+assert-present item:"VoidReign Planetary Shipyard"
+assert-present item:"VoidReign Supply Depot"

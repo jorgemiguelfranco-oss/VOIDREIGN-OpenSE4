@@ -2059,7 +2059,9 @@ void MainWindow::overlayText(UiContext& ui) {
         } else if (view.count) {
             const std::string n = std::to_string(*view.count);
             const ImU32 color = view.unitCount ? IM_COL32_WHITE : empireColor(s, view.owners.front().empire);
-            count(square + Vec2{kSpriteSize - widthOf(tiny, tinySize, n), kSpriteSize - kTinyCell}, color, !view.unitCount, n);
+            // The lower-right is reserved for compact ship/fleet markers.
+            const float x = view.vehicleMarkers.empty() ? kSpriteSize - widthOf(tiny, tinySize, n) : 0.0f;
+            count(square + Vec2{x, kSpriteSize - kTinyCell}, color, !view.unitCount, n);
         }
     }
 
@@ -3005,7 +3007,7 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
     // The background, copied 1:1 from its top-left corner: its right and bottom
     // edges are cut off (§2.4). An unexplored system shows the plain star field.
     r.rect(panel, Color::hex(0x000000));
-    if (const Sprite bg = ui.art.systemBackground(explored ? std::string_view(type.backgroundBitmap) : std::string_view("Starmap"))) {
+    if (const Sprite bg = ui.art.systemBackground(explored ? std::string_view(type.backgroundBitmap) : std::string_view("Starmap"), sys.id.value)) {
         const Vec2 size{std::min(panel.size().x, bg.size.x), std::min(panel.size().y, bg.size.y)};
         const Vec2 su = bg.uv.max - bg.uv.min;
         r.sprite(bg.tex, Rect::fromPosSize(panel.min, size), Rect{bg.uv.min, bg.uv.min + Vec2{su.x * size.x / bg.size.x, su.y * size.y / bg.size.y}});
@@ -3104,9 +3106,10 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
             r.rect(Rect::fromPosSize({std::floor(p.x), std::floor(p.y)}, {1, 1}), c);
         }
     };
-    // Vehicles (§2.4 "Sector contents"): one owner without a stellar object
-    // shows its largest vehicle (or the fleet's icon), otherwise the owners'
-    // small flags stacked down the left edge; counts are drawn by overlayText.
+    // Vehicles (§2.4 "Sector contents"): an uncontested empty sector keeps
+    // the original large single-vehicle/fleet icon and count. Sectors with a
+    // stellar object or mixed ownership also show compact markers for each
+    // visible ship/base (one marker per own fleet), alongside owner flags.
     for (const ShownSector& sec : sectors_) {
         const SectorView& view = sec.view;
         const Vec2 square = spriteSquare(sec.sector);
@@ -3116,8 +3119,42 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
                 if (const Sprite flag = ui.art.flag(s.empire(view.owners[i].empire).race.style, false)) r.sprite(flag.tex, box, flag.uv);
                 else r.rect(box, empireCol(s, view.owners[i].empire));
             }
+        }
+        if (!view.vehicleMarkers.empty()) {
+            // Vehicle/base icons sit over the planet's lower-right corner:
+            // the colony marker and owner flags retain their own clear space.
+            // Four markers fit without scaling the underlying 36 px planet.
+            static constexpr std::array<Vec2, 4> markerOffsets{{{15, 12}, {24, 12}, {15, 24}, {24, 24}}};
+            const size_t visible = std::min<size_t>(view.vehicleMarkers.size(), 4);
+            const size_t actual = view.vehicleMarkers.size() > 4 ? 3 : visible;
+            for (size_t i = 0; i < actual; ++i) {
+                const SectorView::VehicleMarker& marker = view.vehicleMarkers[i];
+                const auto vehicle = std::find_if(sec.vehicles.begin(), sec.vehicles.end(),
+                                                  [&](const game::Vehicle* v) { return v->id == marker.vehicle; });
+                if (vehicle == sec.vehicles.end()) continue;
+                const game::Vehicle& v = **vehicle;
+                const Rect tile = Rect::fromPosSize(square + markerOffsets[i], {12, 12});
+                r.rect(tile, Color::hex(0x111a2b));
+                r.rectOutline(tile, 1.0f, Color::hex(0x71869c));
+                const std::string& style = v.owner.valid() ? s.empire(v.owner).race.style : std::string{};
+                const Sprite mini = marker.fleet.valid() ? ui.art.groupMini(style, "Fleet", true) : miniOf(v, headingOf(v));
+                if (mini) r.sprite(mini.tex, tile, mini.uv);
+                else placeholder(square + markerOffsets[i] + Vec2{6, 6}, v.owner);
+                if (marker.shipyard) r.disc(square + markerOffsets[i] + Vec2{10, 2}, 2.0f, Color::hex(0xffc45b));
+                if (v.status == game::VehicleStatus::Cloaked)
+                    r.ring(square + markerOffsets[i] + Vec2{6, 6}, 5.5f, 1.0f, v.owner.valid() ? empireCol(s, v.owner) : rgb(map_style::kCloakNoColor));
+            }
+            if (view.vehicleMarkers.size() > 4) {
+                const Vec2 at = square + markerOffsets[3];
+                const Rect tile = Rect::fromPosSize(at, {12, 12});
+                r.rect(tile, Color::hex(0x18263a));
+                r.rectOutline(tile, 1.0f, Color::hex(0x9eb5ca));
+                r.line(at + Vec2{3, 6}, at + Vec2{9, 6}, 1.5f, Color::hex(0xf3f7ff));
+                r.line(at + Vec2{6, 3}, at + Vec2{6, 9}, 1.5f, Color::hex(0xf3f7ff));
+            }
             continue;
         }
+        if (view.flags) continue;
         if (!view.sprite) continue;
         const auto it = std::find_if(sec.vehicles.begin(), sec.vehicles.end(), [&](const game::Vehicle* v) { return v->id == *view.sprite; });
         if (it == sec.vehicles.end()) continue;
@@ -3125,6 +3162,7 @@ void MainWindow::drawSystem(gfx::Renderer2D& r, UiContext& ui) {
         const std::string& style = v.owner.valid() ? s.empire(v.owner).race.style : std::string{};
         const Sprite sprite = view.fleetIcon ? ui.art.groupMini(style, "Fleet", true) : miniOf(v, headingOf(v));
         if (!spriteAt(sprite, square)) placeholder(square + Vec2{18, 18}, v.owner);
+        if (view.mobileShipyard) r.disc(square + Vec2{30, 6}, 2.5f, Color::hex(0xffc45b));
         // A cloaked vehicle shown this way: a 1 px dotted circle inscribed in its square.
         if (view.cloakRing) cloakCircle(square + Vec2{kSpriteSize * 0.5f, kSpriteSize * 0.5f}, v.owner);
     }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.voidreign.VOIDREIGN</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>VOIDREIGN</name>
+  <summary>Standalone 4X space strategy game</summary>
+  <developer id="io.github.voidreign">
+    <name>VOIDREIGN Contributors</name>
+  </developer>
+  <description>
+    <p>VOIDREIGN is a standalone turn-based 4X space strategy game. Explore a procedurally generated galaxy, colonize planets, build ships and orbital infrastructure, manage a storage-driven economy, research technologies, command fleets, negotiate diplomacy and fight tactical space battles.</p>
+    <p>VOIDREIGN includes its own original factions, technology, ships, facilities, rules and game data. It is built on the OpenSE4 engine architecture and does not require Space Empires IV Deluxe, Steam or a separate mod installation.</p>
+    <ul>
+      <li>Explore and expand through star systems, planets and strategic choke points</li>
+      <li>Design ships, build fleets and establish planetary shipyards and supply depots</li>
+      <li>Manage mineral, organic and radioactive resources with finite warehouse capacity</li>
+      <li>Research technologies, negotiate treaties and fight tactical space battles</li>
+      <li>Play against computer empires or with other players over a network</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.voidreign.VOIDREIGN.desktop</launchable>
+  <provides>
+    <binary>VOIDREIGN</binary>
+    <binary>opense4-server</binary>
+    <binary>opense4-datacheck</binary>
+    <binary>opense4-convert</binary>
+  </provides>
+  <url type="homepage">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4</url>
+  <url type="bugtracker">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4/issues</url>
+  <url type="vcs-browser">https://github.com/jorgemiguelfranco-oss/VOIDREIGN-OpenSE4</url>
+  <categories>
+    <category>Game</category>
+    <category>StrategyGame</category>
+  </categories>
+  <keywords>
+    <keyword>space</keyword>
+    <keyword>strategy</keyword>
+    <keyword>4X</keyword>
+    <keyword>turn-based</keyword>
+    <keyword>galaxy</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">mild</content_attribute>
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="0.1.0" date="2026-11-07" type="development">
+      <description>
+        <p>Initial standalone VOIDREIGN ruleset, faction definitions, warehouse logistics economy, shipyard and supply infrastructure, with original game content and Windows and Linux packaging integration under active development.</p>
+      </description>
+    </release>
+  </releases>
+</component>

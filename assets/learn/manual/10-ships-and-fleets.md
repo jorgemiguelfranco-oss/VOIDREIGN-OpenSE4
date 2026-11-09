@@ -7,6 +7,51 @@ Ships explore, colonize, carry cargo and fight. This chapter explains how to giv
 how they move, how to group them into fleets and how to send them to waypoints. Keeping them
 supplied, loaded and repaired is explained in [Supply, cargo and repair](logistics).
 
+## Your opening fleet
+
+Every VOIDREIGN empire begins with a **Home Patrol** at its homeworld: one armed
+**Pathfinder** scout designed from that faction's starting technology. Select its
+fleet row in the home system to inspect the member ship. Use `N` to rename the ship or
+`F` for Fleet Transfer to add another ship, split the patrol or disband the
+fleet. Select the fleet and give it a **Move To** (`M`) order to send the patrol
+toward an explored system or a sector in its current system.
+
+The starting ship is an opening asset, not a replacement for ship construction.
+Build more ships at a Space Yard, design specialist hulls as research unlocks them,
+and use additional fleets to guard valuable systems and control the warp points
+between them.
+
+## Native hull roster
+
+| Hull | Role | Availability |
+|---|---|---|
+| **Pathfinder** | Scout and light patrol combatant | Starting hull |
+| **Hauler** | Cargo and population transport | Starting technology |
+| **Frigate** | Heavier frontline combatant | VoidReign Propulsion level 2 |
+| **Destroyer** | Heavy escort and fleet screening | VoidReign Propulsion level 3 |
+| **Cruiser** | Long-range heavy combatant | VoidReign Propulsion level 4 |
+| **Battleship** | Capital ship and task-force anchor | VoidReign Propulsion level 5 |
+| **Settlement Ark** | Rock-world colonisation | VoidReign Planetary Engineering level 1 |
+| **Orbital Station** | Stationary defence, sensors and orbital shipyard modules | Base hull |
+
+## Researchable component upgrades
+
+The technology tree improves existing ship roles as well as unlocking larger hulls:
+
+- **Energy Weapons II** unlocks the stronger Pulse Cannon II and Shield Projector II.
+- **Propulsion III** unlocks Vector Drive II, which provides two strategic movement units.
+- **Logistics II** unlocks Cargo Hold II for larger freight and population transports.
+- **Advanced Sensors I–III** unlocks Sensor Suite I and II, plus the upgraded orbital Sensor Array II.
+- **Industrial Engineering III** unlocks Orbital Shipyard II for faster base construction in orbit.
+
+An Orbital Station uses Base components and can mount the Orbital Shipyard or Sensor
+Array. The native **Base Space Yard** design can be queued at a Planetary Shipyard;
+build and deploy orbital bases to add construction and sensor coverage in key systems.
+
+The AI uses cargo-capable hulls for transport designs and can move to the Frigate
+when its propulsion research reaches level 2. The same hull rules apply to player
+ship designs and computer empires.
+
 ## Orders
 
 Every ship (and every fleet) has a **list of orders**. Select a ship, then click an order button
@@ -15,7 +60,7 @@ as *Escort 0003*; `N` renames them.
 
 - New orders are **added to the end** of the list. If a ship seems to ignore you, it is probably still busy with older orders: press `V` to see them, or `Del` to clear them first.
 - The ship carries out its orders from the top. An order that is done is removed, and the next one starts at once.
-- An order that **fails** (for example, a destination that cannot be reached) clears the whole list. As in the original, most failures say nothing; Options → OpenSE4 "Explain failed orders" has them explained.
+- An order that **fails** (for example, a destination that cannot be reached) clears the whole list. As in the original, most failures say nothing; Options → VOIDREIGN "Explain failed orders" has them explained.
 - With **Repeat Orders** (`K`) on, finished orders go back to the end of the list instead, so the ship repeats its list forever. Switching Repeat on or off starts the list again from its first order.
 
 | Order | Key | What it does |

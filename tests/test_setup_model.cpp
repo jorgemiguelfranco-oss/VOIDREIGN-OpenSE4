@@ -6,11 +6,13 @@
 #include "temp_dir.hpp"
 
 #include "client/classic/screens/setup_model.hpp"
+#include "client/classic/screens/setup_empire.hpp"
 #include "client/classic/session.hpp"
 #include "datafile/datafile.hpp"
 #include "game/classic_files.hpp"
 #include "game/design.hpp"
 #include "game/economy.hpp"
+#include "game/origins.hpp"
 
 #include <doctest/doctest.h>
 
@@ -443,10 +445,63 @@ TEST_CASE("setup model: advanced trait requirements and restrictions") {
     CHECK_FALSE(setup::canAddTrait(r, race, night).ok);  // restricted the other way round
 }
 
+TEST_CASE("setup model: all twenty origins have two strengths and a real trade-off") {
+    const auto origins = game::origins::all();
+    REQUIRE(origins.size() == 20);
+    std::set<std::string> names;
+    game::Race baseline;
+    baseline.characteristics.fill(100);
+    for (const game::origins::StartingOriginInfo& origin : origins) {
+        CHECK(origin.id != game::StartingOrigin::None);
+        CHECK(origin.name.size() > 4);
+        CHECK(names.insert(std::string(origin.name)).second);
+        CHECK(origin.modifiers[0].amount > 0);
+        CHECK(origin.modifiers[1].amount > 0);
+        CHECK(origin.modifiers[2].amount < 0);
+        game::Race changed = baseline;
+        game::origins::applyToRace(changed, origin.id);
+        CHECK(changed.characteristics[static_cast<size_t>(origin.modifiers[0].characteristic)] ==
+              100 + origin.modifiers[0].amount);
+        CHECK(changed.characteristics[static_cast<size_t>(origin.modifiers[1].characteristic)] ==
+              100 + origin.modifiers[1].amount);
+        CHECK(changed.characteristics[static_cast<size_t>(origin.modifiers[2].characteristic)] ==
+              100 + origin.modifiers[2].amount);
+        game::origins::removeFromRace(changed, origin.id);
+        CHECK(changed.characteristics == baseline.characteristics);
+    }
+    CHECK(game::origins::fromName("First-Wave Diaspora") == game::StartingOrigin::FirstWaveDiaspora);
+    CHECK(game::origins::fromName("industrial directorate") == game::StartingOrigin::IndustrialDirectorate);
+    CHECK(game::origins::fromName("Unknown Origin") == std::nullopt);
+    CHECK(game::origins::info(game::StartingOrigin::FirstWaveDiaspora).extraStartingPlanets == 1);
+    CHECK(game::origins::info(game::StartingOrigin::LogisticsCombine).extraWarehouses == 1);
+    CHECK(game::origins::info(game::StartingOrigin::VoidbornNomads).extraAttackShips == 1);
+    CHECK(game::origins::info(game::StartingOrigin::DiplomaticAssembly).startingResearch == 1500);
+}
+
+TEST_CASE("setup model: exporting a game empire keeps origin bonuses out of racial-point data") {
+    game::GameState state;
+    game::Empire empire;
+    empire.id = game::EmpireId{0};
+    empire.name = "Origin Test";
+    empire.origin = game::StartingOrigin::IndustrialDirectorate;
+    empire.race.name = "Industrial Test";
+    empire.race.characteristics.fill(100);
+    game::origins::applyToRace(empire.race, empire.origin);
+    state.empires.push_back(std::move(empire));
+
+    const game::EmpireSetup exported = setup::empireOfGame(state, game::EmpireId{0}, false);
+    CHECK(exported.origin == game::StartingOrigin::IndustrialDirectorate);
+    REQUIRE(exported.customRace.has_value());
+    CHECK(exported.customRace->characteristics[static_cast<size_t>(game::Characteristic::MiningAptitude)] == 100);
+    CHECK(exported.customRace->characteristics[static_cast<size_t>(game::Characteristic::ConstructionAptitude)] == 100);
+    CHECK(exported.customRace->characteristics[static_cast<size_t>(game::Characteristic::Happiness)] == 100);
+}
+
 TEST_CASE("setup model: empire files round-trip through TOML") {
     const game::Rules& r = setupRules();
     setup::EmpireDraft d = setup::draftFromPreset(r, *game::findPreset(r, "Gamma"), 0);
     d.setup.name = "Glass \"Choir\"";
+    d.setup.origin = game::StartingOrigin::MerchantConsortium;
     d.setup.leaderName = "Ada";
     d.setup.kind = game::PlayerKind::Computer;
     d.setup.passwordHash = setup::hashPassword("secret");
@@ -466,6 +521,7 @@ TEST_CASE("setup model: empire files round-trip through TOML") {
     CHECK(loaded->warnings.empty());
     const game::EmpireSetup& back = loaded->empire;
     CHECK(back.name == e->name);
+    CHECK(back.origin == game::StartingOrigin::MerchantConsortium);
     CHECK(back.leaderName == "Ada");
     CHECK(back.kind == game::PlayerKind::Computer);
     CHECK(back.preset == "Gamma");
@@ -485,7 +541,21 @@ TEST_CASE("setup model: empire files round-trip through TOML") {
     CHECK(list[0].style == "Gamma");
     auto again = setup::loadEmpireFile(r, *file);
     REQUIRE(again.has_value());
+    CHECK(again->empire.origin == game::StartingOrigin::MerchantConsortium);
     CHECK(setup::sameRace(*again->empire.customRace, d.race));
+    // Older empire files without the optional origin field remain valid.
+    std::string legacy = text;
+    const auto originLine = legacy.find("origin = ");
+    REQUIRE(originLine != std::string::npos);
+    const auto originEnd = legacy.find('\n', originLine);
+    REQUIRE(originEnd != std::string::npos);
+    legacy.erase(originLine, originEnd - originLine + 1);
+    const auto formatLine = legacy.find("format = 5");
+    REQUIRE(formatLine != std::string::npos);
+    legacy.replace(formatLine, std::string("format = 5").size(), "format = 4");
+    auto oldFile = setup::empireFromToml(r, legacy);
+    REQUIRE(oldFile.has_value());
+    CHECK(oldFile->empire.origin == game::StartingOrigin::None);
     fs::remove_all(dir);
 
     // Things this data set lacks come back as warnings, and limits are enforced.
@@ -562,7 +632,7 @@ TEST_CASE("setup model: empire files keep the designs saved with them, and a new
     CHECK(missing->warnings.size() == 1);
     // A file of the first format, without designs, still loads.
     std::string old = setup::empireToToml(r, *e);
-    const auto fpos = old.find("format = 4");
+    const auto fpos = old.find("format = 5");
     REQUIRE(fpos != std::string::npos);
     old.replace(fpos, 10, "format = 1");
     CHECK(setup::empireFromToml(r, old).has_value());
@@ -598,7 +668,7 @@ TEST_CASE("setup model: empire files keep the designs saved with them, and a new
     CHECK(game->design(first0.designs.front()).name == "Long Reach");
 }
 
-TEST_CASE("setup model: empire files keep the e-mail, settings and name lists (format 4)") {
+TEST_CASE("setup model: empire files keep the e-mail, settings and name lists (format 5)") {
     // What the original's empire files keep besides (spec 08 §13.2): OpenSE4's
     // keeps it too, and files of the older formats load without it.
     const game::Rules& r = setupRules();
@@ -620,7 +690,7 @@ TEST_CASE("setup model: empire files keep the e-mail, settings and name lists (f
     e->colonyTypes = {"Mining"};
     e->repairPriorities = {"Armor"};
     const std::string text = setup::empireToToml(r, *e);
-    CHECK(text.find("format = 4") != std::string::npos);
+    CHECK(text.find("format = 5") != std::string::npos);
     auto back = setup::empireFromToml(r, text);
     REQUIRE_MESSAGE(back.has_value(), (back ? std::string{} : back.error()));
     CHECK(back->warnings.empty());
@@ -638,7 +708,7 @@ TEST_CASE("setup model: empire files keep the e-mail, settings and name lists (f
     older.repairPriorities.clear();
     older.email.clear();
     std::string three = setup::empireToToml(r, older);
-    three.replace(three.find("format = 4"), 10, "format = 3");
+    three.replace(three.find("format = 5"), 10, "format = 3");
     auto old = setup::empireFromToml(r, three);
     REQUIRE(old.has_value());
     CHECK_FALSE(old->empire.settings.has_value());

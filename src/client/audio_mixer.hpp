@@ -168,7 +168,7 @@ public:
     std::vector<std::shared_ptr<FrameRing>> takeRetired();
 
     static constexpr float kEdgeSeconds = 0.002f;    // the ramp at each end of a clip
-    static constexpr float kCutSeconds = 0.006f;     // an effect cut off by the next one
+    static constexpr float kCutSeconds = 0.020f;    // soften rapid UI/effect replacement without an audible click
     static constexpr float kTrackFadeSeconds = 0.25f;  // music fading out for a change or stop
     static constexpr float kResumeSeconds = 0.02f;   // music fading in (start, after running dry)
     static constexpr float kRampSeconds = 0.03f;     // a volume change

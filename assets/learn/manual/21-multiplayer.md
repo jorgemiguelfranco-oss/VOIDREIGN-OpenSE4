@@ -1,7 +1,7 @@
 # Multiplayer
 
-OpenSE4 plays with friends in three ways: on one computer (hotseat), over a network, and by
-e-mail. This chapter explains each one.
+VOIDREIGN plays with friends in three ways: on one computer (hotseat), over a network, and by
+e-mail. The native game data is bundled with the game; no external game installation is needed.
 
 ## Hotseat
 
@@ -35,7 +35,7 @@ Choose **Multiplayer** on the title screen.
 `Ready`. As the host you can add and remove computer players and remove players. `Start Game`
 begins when everyone is ready (`Start Anyway` starts regardless). The lobby has a chat box.
 
-When your mods offer computer players of their own (see [Computer players](computer-players-and-ministers#computer-players-of-mods)),
+When your mods offer computer players of their own (see [Computer players](computer-players-and-ministers#optional-ai-extensions)),
 the form also asks who plays the computer empires, the classic computer player or one of the
 mods' players, and whether the computer players see everything. In the lobby each computer
 player's row names who plays it: click it to choose another, until the game starts. The check box
@@ -44,7 +44,7 @@ sets how much they may compute. The players who join see who plays each empire a
 see everything. These players run on your computer, so only you see their notes and the notice
 when one fails.
 
-When your mods have game options (see [Options of mods](getting-started#options-of-mods)), the
+When your mods have game options (see [Options of mods](settings#mods)), the
 lobby's line under the mods names each with its value. As the host you change them with `Mod
 Options` until the game starts; the players who join see the change at once, and `See Mod
 Options` shows them the window, which only the host can change.
@@ -55,13 +55,12 @@ Options` shows them the window, which only the host can change.
 type the host's address and port yourself for a game over the internet. Enter your name and an
 optional password, and the join password if the host set one, then press `Connect`.
 
-Your copy of the game data must match the host's, and both of you must run the same OpenSE4
-version; the list warns you when the data differs. The same goes for mods that change the game
+Both players must run the same VOIDREIGN version, which includes the same native game data; the list warns you when the versions differ. The same goes for optional mods that change the game
 (see [Mods](settings#mods)): the lobby lists the host's mods, and a player whose mods differ is
 turned away with each difference named and a `Mods` button to choose the same ones. Mods with
-only pictures, sounds and additions to the windows may differ. The mods that come with
-OpenSE4, such as Hegemon, are the same for every player of the same version: each player
-only switches them on.
+only pictures, sounds and additions to the windows may differ. The optional Hegemon AI extension bundled with
+VOIDREIGN is the same for every player of the same version. The native Aurelian, Veyran, Khepri, Meridian, Outer Systems and Helion
+computer-player profiles work without enabling it.
 
 To come back to a game after a disconnection, join again with the **same name and password**. The
 host sends you the current turn, and orders you already sent still count.
@@ -89,11 +88,11 @@ files works: e-mail, a shared folder or a chat upload.
 To play your turn:
 
 1. Choose **Multiplayer**, then `Play by E-mail`.
-2. Open the game file the host sent you. The window lists the game files in the `pbem` folder of your OpenSE4 user folder, or you can type the file's path.
+2. Open the game file the host sent you. The window lists the game files in the `pbem` folder of your VOIDREIGN user folder, or you can type the file's path.
 3. Choose your empire and type its password.
 4. Choose where to save the orders file (by default, next to the game file) and press `Play Turn`.
 5. Play your turn as usual. `Save Game` in the Game Menu saves your turn so far, so you can finish it later.
-6. Press `End Turn`. OpenSE4 writes the orders file and tells you its name. Send it to the host.
+6. Press `End Turn`. VOIDREIGN writes the orders file and tells you its name. Send it to the host.
 
 In a turn-based e-mail game, only the empire whose turn it is can play, and the game file goes
 from player to player through the host.
@@ -107,12 +106,12 @@ Battles in play-by-e-mail games are always fought strategically.
 A separate program, `opense4-server`, hosts a network game without playing in it, and processes
 the turns of play-by-e-mail games. It runs without a window, saves after every turn, and forwards
 its port automatically. Players join it like any other host. Running it is explained in the
-multiplayer guide that comes with OpenSE4. A player who knows its master password can reset
+server section of the VOIDREIGN setup and build guides. A player who knows its master password can reset
 passwords from their own game (Game Menu, `Options`); the new passwords come back to that player
 only, in the chat log.
 
 ## Passwords and safety
 
-- Your password is never sent or stored as you typed it: OpenSE4 sends only a scrambled form of it. Still, do not reuse an important password.
+- Your password is never sent or stored as you typed it: VOIDREIGN sends only a scrambled form of it. Still, do not reuse an important password.
 - Network connections are not encrypted. For games where that matters, play over a VPN.
 - The host sees everything and decides everything. Play with a host you trust.

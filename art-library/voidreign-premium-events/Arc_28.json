@@ -1,0 +1,13 @@
+{
+  "index": 28,
+  "title": "The Nanite Hunger",
+  "trigger": "crisis",
+  "source": "https://freeapi.pro/api/tti",
+  "model": "flux_dev",
+  "prompt": "An ominous swarm of self-replicating metallic nanomachines visibly dismantles the crust of a small uninhabited rocky planet in deep space, creating intricate fractal streams of glittering steel particles that approach a distant human cargo convoy. Tiny ships establish incredible scale. Dramatic hard-science fiction visual storytelling, disciplined restrained navy, teal, amber color grading, realistic physics of debris, threatening beauty, cinematic vastness.\n\nCreate ONE finished, original, premium art-directed science fiction narrative illustration, full-bleed 1:1 cinematic matte painting for a 4X empire strategy PC game. World-class hand-painted realistic science-fiction concept art with remarkable composition, beautiful sophisticated natural detail, spectacular credible engineering, compelling light and shadow, a textured painterly finish, deep layered atmosphere, subtle warm brass accents against muted midnight blue and teal. The scene must be unique, natural, coherent, beautiful and clearly tell this specific story, never just a generic AI-generated sci-fi image. No text, NO letters, NO labels, NO glyphs, NO numbers, NO equations, NO illegible pseudo-writing, NO watermarks, NO borders, NO title cards, NO collages, NO UI.",
+  "sha256": "5cffbfb963e67e6530026074bd673fbd8a350f8e0decd91d36fc73a68c75cee4",
+  "review_status": "visually inspected and selected",
+  "replacement_reason": "Prior candidate contained pseudo-letters, wrong subject, or failed generation",
+  "reviewed_at": "2026-11-09T13:52:40.733757+00:00",
+  "archived_prior_source": null
+}

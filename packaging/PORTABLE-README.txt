@@ -1,34 +1,36 @@
-OpenSE4: making this copy portable
-==================================
+VOIDREIGN: making this copy portable
+====================================
 
-OpenSE4 keeps your saved games, settings, logs, mods and the history of the game you
-play in your user folder:
+VOIDREIGN keeps your saved games, settings, mods, game history and logs in your user
+folder:
 
-  Windows   %APPDATA%\OpenSE4  (C:\Users\<your name>\AppData\Roaming\OpenSE4)
-  Linux     ~/.local/share/OpenSE4  ($XDG_DATA_HOME/OpenSE4 when that is set)
-  macOS     ~/Library/Application Support/OpenSE4
+  Windows   %APPDATA%\VOIDREIGN
+  Linux     ~/.local/share/VOIDREIGN  ($XDG_DATA_HOME/VOIDREIGN when set)
+  macOS     ~/Library/Application Support/VOIDREIGN
 
-A portable copy keeps them in the folder "userdata" beside its programs instead, so
-that they go wherever this folder goes: a copy on a USB stick, or several copies side
-by side. This copy is not portable until you make it so, in either of two ways:
+A portable copy keeps those files in the folder "userdata" beside the program instead,
+so they travel with this copy of VOIDREIGN (for example on a USB drive or between
+computers). This ZIP copy is not portable until you enable it in either of these ways:
 
-  - Start OpenSE4, open Settings (at the top right of the title screen, or Ctrl+Comma
-    in a game), choose the Files page and tick "Keep saves and settings in OpenSE4's
-    folder". OpenSE4 offers to copy your saved games and settings across. It never
-    deletes any: the files in your user folder stay where they are.
-  - Or create an empty text file named portable.txt in this folder, beside opense4.exe
-    (opense4 on Linux). In Windows Explorer with file name extensions hidden, name the
+  - Start VOIDREIGN.exe, open Settings (top right of the title screen, or Ctrl+Comma
+    in a game), choose the Files page and enable "Keep saves and settings in
+    VOIDREIGN's folder". Choose "Copy and Switch" to copy your existing saves and
+    settings into userdata. The original files are not deleted.
+  - Or create an empty text file named portable.txt in this folder, beside
+    VOIDREIGN.exe. In Windows Explorer with file-name extensions hidden, name the
     new text document "portable".
 
-To use your user folder again, untick the setting or delete portable.txt. The files in
-userdata stay where they are.
+Keep game-data\ beside VOIDREIGN.exe; portable mode changes only the location of
+your personal files. Do not move or rename game-data\.
 
-This folder must be one you can write in: unpack the zip file or tarball into a folder
-of your own, not into Program Files. A copy installed with the Windows installer cannot
-be portable; OpenSE4 says so if you try.
+To use your normal user folder again, turn off the setting or delete portable.txt.
+The files already in userdata stay where they are.
 
-The Files page also shows which folder is in use and can give your saved games a
-folder of their own. When the environment variable OPENSE4_USER_DIR is set, the folder
-it names is used, portable copy or not. OpenSE4 never writes in the original game's
-folder. The game's manual (Settings, Files) and docs/SETUP.md, "Where OpenSE4 keeps its
-own files", on the project's page tell more.
+This folder must be writable. Unpack the ZIP into a folder of your own, not into
+Program Files. A copy installed with the Windows setup program cannot be portable
+because a standard user cannot write beside the installed executable.
+
+The Files page shows the folder currently in use and can choose a separate saves
+folder. The environment variable OPENSE4_USER_DIR overrides the normal user-folder
+location when set. Uninstalling VOIDREIGN leaves the normal user folder (%APPDATA%\VOIDREIGN)
+alone. See docs/SETUP.md for the standalone installation and troubleshooting guide.

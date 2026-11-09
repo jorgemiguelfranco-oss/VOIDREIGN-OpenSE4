@@ -7,6 +7,7 @@
 #include "game/diplomacy.hpp"
 #include "game/economy_internal.hpp"
 #include "game/hooks.hpp"
+#include "game/leaders.hpp"
 #include "game/query.hpp"
 #include "game/research.hpp"
 #include "game/turn.hpp"
@@ -494,7 +495,15 @@ Production produce(const Rules& r, const GameState& s, EmpireId e, std::vector<s
     std::map<SystemId, Total> systems;  // in system id order
     for (const auto& c : s.colonies) {
         if (!c || c->owner != e) continue;
-        const ColonyOutput out = colonyOutput(r, s, *c);
+        ColonyOutput out = colonyOutput(r, s, *c);
+        // A governor improves the colony's real delivered production, before
+        // system-wide modifiers, tariffs and storage are calculated.
+        const Empire& ruler = s.empire(e);
+        const int productionPct = leaders::governorResourceBonusPct(ruler, c->planet);
+        const int researchPct = leaders::governorResearchBonusPct(ruler, c->planet);
+        if (productionPct > 0)
+            for (int64_t& amount : out.production.v) amount = pctRound(amount, 100 + productionPct);
+        if (researchPct > 0) out.research = pctRound(out.research, 100 + researchPct);
         Total& t = systems[s.galaxy.object(c->planet).system];
         t.resources += out.production;
         t.research += out.research;
@@ -639,6 +648,7 @@ Resources maintenanceCost(const Rules& r, const GameState& s, EmpireId e) {
         if (it == costs.end()) it = costs.emplace(v.design, designCost(r, s.design(v.design))).first;
         total += maintenanceOf(r, s, v, pct, it->second);
     }
+    total += leaders::upkeep(s.empire(e));
     return total;
 }
 
@@ -759,7 +769,11 @@ Income computeIncome(const Rules& r, const GameState& s, EmpireId e) {
     // tariff is taken. Then the computer player's bonus multiplies what is
     // left (spec 05 §8).
     const Resources gross = inc.produced.resources + inc.floor + inc.remote + inc.generated;
-    const int64_t grossResearch = inc.produced.research + genResearch;
+    // The empire's chief scientist improves research delivered by all
+    // colonies and research-generating assets. Governor bonuses are already
+    // applied per colony above and therefore do not compound twice here.
+    const int scientistPct = leaders::scientistResearchBonusPct(s.empire(e));
+    const int64_t grossResearch = pctRound(inc.produced.research + genResearch, 100 + scientistPct);
     const int64_t grossIntel = inc.produced.intelligence + genIntel;
     inc.gross.resources = gross;
     inc.gross.research = grossResearch;

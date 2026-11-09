@@ -98,6 +98,13 @@ GameState newGame(const Rules& r, uint64_t seed = 7, int empires = 2) {
     }
     auto g = createGame(r, setup);
     REQUIRE_MESSAGE(g.has_value(), (g ? std::string{} : g.error()));
+    // This file validates the engine's base economy in isolation. The native
+    // VOIDREIGN opening leadership corps and its upkeep/bonuses are covered by
+    // the production-ruleset tests, so remove it from this legacy economy fixture.
+    for (Empire& empire : g->empires) {
+        empire.leaders.clear();
+        empire.nextLeaderId = 0;
+    }
     return std::move(*g);
 }
 
@@ -547,6 +554,42 @@ TEST_CASE("economy: visible enemy ships and bases in the sector blockade a plane
 }
 
 // ---- Treasury ----------------------------------------------------------------------------------------
+
+TEST_CASE("economy: a native ruleset can start with warehouse-backed storage") {
+    auto r = tweakedRules([](ruleset::Ruleset& rs) {
+        setKey(rs, "Minimum Empire Point Storage", 0);
+        setKey(rs, "VOIDREIGN Starting Warehouse Count", 1);
+        std::erase_if(rs.facilities, [](const ruleset::Facility& f) {
+            return f.name == "Test Mineral Store" || f.name == "Test Organic Store" || f.name == "Test Radioactive Store";
+        });
+        addFacility(rs, "Test Starting Warehouse",
+                    {ability(AbilityKind::ResourceStorageMinerals, 30000), ability(AbilityKind::ResourceStorageOrganics, 30000),
+                     ability(AbilityKind::ResourceStorageRadioactives, 30000)},
+                    {500, 250, 25});
+    });
+    GameState s = newGame(*r);
+    Colony& home = homeworld(s, kMe);
+    const uint32_t warehouse = facilityIndex(*r, "Test Starting Warehouse");
+    REQUIRE(std::find(home.facilities.begin(), home.facilities.end(), warehouse) != home.facilities.end());
+    const Resources expectedStorage{30000, 30000, 30000};
+    CHECK(economy::storageCapacity(*r, s, kMe) == expectedStorage);
+
+    for (size_t i = 0; i < 3; ++i) {
+        CHECK(s.empire(kMe).stockpile.v[i] >= 20000);
+        CHECK(s.empire(kMe).stockpile.v[i] <= expectedStorage.v[i]);
+    }
+
+    // Without any warehouse there is no banked strategic-resource capacity.
+    // The end-of-turn cap therefore removes every resource still in the treasury.
+    std::erase(home.facilities, warehouse);
+    CHECK(economy::storageCapacity(*r, s, kMe) == Resources{0, 0, 0});
+    s.empire(kMe).stockpile = {100, 100, 100};
+    economyTurn(*r, s);
+    CHECK(s.empire(kMe).economy.storageCap == Resources{0, 0, 0});
+    CHECK(s.empire(kMe).stockpile == Resources{0, 0, 0});
+    for (size_t i = 0; i < 3; ++i)
+        CHECK(s.empire(kMe).economy.lostToStorage.v[i] > 0);
+}
 
 TEST_CASE("economy: storage caps the treasury; storage facilities and traits raise it") {
     auto r = tweakedRules([](ruleset::Ruleset& rs) { addTrait(rs, "Hoarders", "Mineral Storage", 50); });

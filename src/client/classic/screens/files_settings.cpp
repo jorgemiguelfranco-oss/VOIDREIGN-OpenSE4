@@ -1,6 +1,6 @@
-// Settings → Files: where OpenSE4 keeps the player's own files (docs/SETUP.md
-// "Where OpenSE4 keeps its own files"): the user folder in use and the rule
-// that chose it, keeping the files in OpenSE4's own folder (a portable copy,
+// Settings → Files: where VOIDREIGN keeps the player's own files (docs/SETUP.md
+// "Where VOIDREIGN keeps its own files"): the user folder in use and the rule
+// that chose it, keeping the files in VOIDREIGN's own folder (a portable copy,
 // core/user_folder.hpp), and the folder of saved games.
 
 #include "client/app_settings.hpp"
@@ -31,15 +31,15 @@ namespace fs = std::filesystem;
 const ImVec4 kHeading{0.44f, 0.61f, 1.0f, 1.0f};
 const ImVec4 kNote{1, 0.85f, 0.45f, 1};
 const ImVec4 kProblem{1, 0.55f, 0.45f, 1};
-constexpr const char* kPortableLabel = "Keep saves and settings in OpenSE4's folder";
-constexpr const char* kSwitchPopup = "Move OpenSE4's Files";
-constexpr const char* kRefusalPopup = "OpenSE4's Folder Cannot Be Used";
+constexpr const char* kPortableLabel = "Keep saves and settings in VOIDREIGN's folder";
+constexpr const char* kSwitchPopup = "Move VOIDREIGN's Files";
+constexpr const char* kRefusalPopup = "VOIDREIGN's Folder Cannot Be Used";
 
 // What the page remembers while the Settings window is open (one at a time).
 struct FilesPage {
     bool portableWanted = false;     // the question asked: on (true) or off
     fs::path from, to;               // its folders: the files now, and then
-    std::string refusal;             // why OpenSE4's folder cannot be used
+    std::string refusal;             // why VOIDREIGN's folder cannot be used
     std::string savesInput;          // the saves folder field
     bool savesInputSet = false;
     std::string message;             // what the last change did
@@ -88,7 +88,7 @@ void section(const char* title) {
     ImGui::Separator();
 }
 
-// The installed game's folder, where OpenSE4 never writes.
+// The installed game's folder, where VOIDREIGN never writes.
 fs::path gameFolder(const game::Rules* rules) {
     if (!rules) return {};
     const ruleset::Ruleset& data = rules->data();
@@ -97,9 +97,9 @@ fs::path gameFolder(const game::Rules* rules) {
 }
 
 std::string refusalText(const std::string& problem) {
-    return std::format("OpenSE4 cannot keep its files in its own folder: it {}.\n\n"
+    return std::format("VOIDREIGN cannot keep its files in its own folder: it {}.\n\n"
                        "A copy installed with the Windows installer (in Program Files) or by a package manager lives in a "
-                       "folder that belongs to the system. For a portable copy, unpack OpenSE4's zip file (Windows) or tarball "
+                       "folder that belongs to the system. For a portable copy, unpack VOIDREIGN's zip file (Windows) or tarball "
                        "(Linux) into a folder of your own, such as one on a USB stick, and play from there.\n\n"
                        "To keep only your saved games somewhere else, choose a Saves folder on this page.",
                        problem);
@@ -121,8 +121,8 @@ void switchFolders(bool copy) {
     // The settings in use go on in the new folder, copied or not.
     saveAppSettings();
     saveSettings();
-    p.message = p.portableWanted ? std::format("OpenSE4 now keeps its files in its own folder, {}.", text(p.to))
-                                 : std::format("OpenSE4 now keeps its files in your user folder, {}.", text(p.to));
+    p.message = p.portableWanted ? std::format("VOIDREIGN now keeps its files in its own folder, {}.", text(p.to))
+                                 : std::format("VOIDREIGN now keeps its files in your user folder, {}.", text(p.to));
     if (copy) {
         p.message += std::format(" Files copied: {}.", report.copied);
         if (report.kept) p.message += std::format(" Files it had already, kept as they were: {}.", report.kept);
@@ -139,10 +139,10 @@ void switchPopup(float px) {
     if (!ImGui::BeginPopupModal(kSwitchPopup, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize)) return;
     ImGui::PushTextWrapPos(0.0f);
     if (p.portableWanted)
-        ImGui::TextUnformatted("From now on OpenSE4 keeps your saved games, settings, logs, mods and history in the folder "
+        ImGui::TextUnformatted("From now on VOIDREIGN keeps your saved games, settings, logs, mods and history in the folder "
                                "\"userdata\" beside the program, so that they go wherever its folder goes:");
     else
-        ImGui::TextUnformatted("From now on OpenSE4 keeps your saved games, settings, logs, mods and history in your user "
+        ImGui::TextUnformatted("From now on VOIDREIGN keeps your saved games, settings, logs, mods and history in your user "
                                "folder again:");
     ImGui::TextColored(kHeading, "%s", text(p.to).c_str());
     ImGui::Spacing();
@@ -150,7 +150,7 @@ void switchPopup(float px) {
     ImGui::TextColored(kHeading, "%s", text(p.from).c_str());
     ImGui::Spacing();
     ImGui::TextDisabled("Nothing is deleted or replaced: the files in the folder used until now stay as they are, and a file the "
-                        "new folder already has is kept. The log of this run stays where it is until OpenSE4 starts again.");
+                        "new folder already has is kept. The log of this run stays where it is until VOIDREIGN starts again.");
     ImGui::PopTextWrapPos();
     ImGui::Spacing();
     const float w = (ImGui::GetContentRegionAvail().x - 2 * ImGui::GetStyle().ItemSpacing.x) / 3.0f;
@@ -183,11 +183,11 @@ void refusalPopup(float px) {
 }
 
 // Why `folder` cannot hold saved games: inside the installed game (the
-// original would list OpenSE4's saves, which it cannot read), or not writable.
+// original would list VOIDREIGN's saves, which it cannot read), or not writable.
 std::optional<std::string> savesProblem(const fs::path& folder, const fs::path& game) {
     if (!game.empty() && core::pathInside(folder, game))
-        return std::format("{} is in the game's own folder. OpenSE4 never writes there: the original game cannot read OpenSE4's "
-                           "saved games. Save for SE IV (in Save Game) writes games for the original wherever you choose.",
+        return std::format("{} is inside the installed game folder. VOIDREIGN keeps personal saved games outside the installation; "
+                           "choose a writable folder in your user data or documents instead.",
                            text(folder));
     std::error_code ec;
     fs::create_directories(folder, ec);
@@ -195,7 +195,7 @@ std::optional<std::string> savesProblem(const fs::path& folder, const fs::path& 
     const fs::path probe = folder / ".opense4-write-test";
     {
         std::ofstream out(probe, std::ios::binary | std::ios::trunc);
-        if (!out || !(out << "OpenSE4\n") || !out.flush()) return std::format("OpenSE4 cannot write in {}.", text(folder));
+        if (!out || !(out << "VOIDREIGN\n") || !out.flush()) return std::format("VOIDREIGN cannot write in {}.", text(folder));
     }
     fs::remove(probe, ec);
     return std::nullopt;
@@ -218,7 +218,7 @@ void filesSettingsPage(float px, const game::Rules* rules) {
     switch (now.source) {
         case core::UserFolderSource::System: dimWrapped("Your user folder: the place this system keeps programs' files for your account.", px); break;
         case core::UserFolderSource::Portable:
-            dimWrapped("OpenSE4's own folder: the file portable.txt beside the program makes this copy keep its files beside it.", px);
+            dimWrapped("VOIDREIGN's own folder: the file portable.txt beside the program makes this copy keep its files beside it.", px);
             break;
         case core::UserFolderSource::Environment:
             dimWrapped(std::format("The folder the environment variable {} names. It comes before the setting below.", core::kUserDirVariable), px);
@@ -241,7 +241,7 @@ void filesSettingsPage(float px, const game::Rules* rules) {
         if (portable) {
             if (auto problem = core::portableProblem(program)) {
                 p.refusal = refusalText(*problem);
-                log::info("Settings, Files: OpenSE4's folder cannot be used: {}", *problem);
+                log::info("Settings, Files: VOIDREIGN's folder cannot be used: {}", *problem);
                 ImGui::OpenPopup(kRefusalPopup);
             } else {
                 p.to = core::portableFolder(program);
@@ -256,7 +256,7 @@ void filesSettingsPage(float px, const game::Rules* rules) {
     dimWrapped(std::format("Keeps everything above in the folder \"userdata\" beside the program ({}) instead of your user folder, so "
                            "that it goes wherever the program's folder goes: a copy on a USB stick, or one of several copies. The "
                            "file portable.txt beside the program marks such a copy; deleting it does the same as unticking this. "
-                           "When you switch, OpenSE4 offers to copy your files across and never deletes any.",
+                           "When you switch, VOIDREIGN offers to copy your files across and never deletes any.",
                            program.empty() ? std::string("unknown") : text(program)),
                px);
     switchPopup(px);
@@ -300,7 +300,7 @@ void filesSettingsPage(float px, const game::Rules* rules) {
     ImGui::TextUnformatted(text(savesFolderPath(now.path, files.savesFolder)).c_str());
     ImGui::PopTextWrapPos();
     dimWrapped("Save Game, the autosaves, Load Game and Resume Game use this folder: empty for \"saves\" in the folder above. A "
-               "folder written without its drive or root lies in the folder above, and goes with it. OpenSE4 never writes in the "
+               "folder written without its drive or root lies in the folder above, and goes with it. VOIDREIGN never writes in the "
                "game's own folder; Save for SE IV (in Save Game) writes games for the original where you choose.",
                px);
 

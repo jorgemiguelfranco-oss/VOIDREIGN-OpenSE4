@@ -20,6 +20,17 @@ TEST_CASE("settings: key chords print and parse") {
     CHECK_FALSE(parseChord("Ctrl+NoSuchKey").has_value());
 }
 
+TEST_CASE("settings: window sizes are fitted proportionally inside the usable desktop") {
+    CHECK(fitWindowSize(1600, 900, 1366, 720) == WindowSize{1195, 672});
+    CHECK(fitWindowSize(1280, 720, 1920, 1080) == WindowSize{1280, 720});
+    CHECK(fitWindowSize(800, 600, 1366, 720) == WindowSize{800, 600});
+    CHECK(fitWindowSize(1600, 900, 1024, 600) == WindowSize{981, 552});
+    CHECK(fitWindowSize(1600, 900, 0, 0) == WindowSize{1600, 900});
+    const WindowSize laptop = fitWindowSize(1600, 900, 1366, 720);
+    CHECK(laptop.width <= 1366 - 24);
+    CHECK(laptop.height <= 720 - 48);
+}
+
 TEST_CASE("settings: default bindings are the classic hotkeys and conflicts are found") {
     const Bindings b;
     CHECK(b.chords(Action::EndTurn)[0] == KeyChord{ImGuiKey_F12});

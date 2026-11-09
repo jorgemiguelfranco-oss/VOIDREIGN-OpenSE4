@@ -133,7 +133,7 @@ bottom. The view stays where you put it: click the overview, scroll with the arr
 zoom with the mouse wheel.
 
 - `Next` (or `Space`) plays the next combat turn; it dims after the last one.
-- `Options` opens the replay's options: animation, *Fast Tactical Combat*, the viewing rectangle, the grid, and `Stop Replay`. Under *OpenSE4*, *List each combat turn's events and the summary* shows, in place of the empty grid, what happens in each combat turn (moves, shots, hits, misses, launches and losses) and a summary at the end.
+- `Options` opens the replay's options: animation, *Fast Tactical Combat*, the viewing rectangle, the grid, and `Stop Replay`. Under *VOIDREIGN*, *List each combat turn's events and the summary* shows, in place of the empty grid, what happens in each combat turn (moves, shots, hits, misses, launches and losses) and a summary at the end.
 - `Esc` closes the replay.
 
 Point at a piece to see its design and owner at the top right.

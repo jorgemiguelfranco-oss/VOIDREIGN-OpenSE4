@@ -1,9 +1,10 @@
 #pragma once
 
-// New game creation (docs/spec/01 §3, spec 02 §9): quadrant, empires with
-// their races, homeworlds and starting technology. No empire gets a ship or a
-// design of its own (spec 01 §3.6 "Starting assets"): only an empire file's
-// designs, the Quick Start design run and a lesson's ships (StartExtras).
+// New game creation: quadrant, empires with their races, homeworlds and
+// starting technology. Engine-only rulesets keep the original empty starting
+// assets; a native VOIDREIGN ruleset can request a designed opening patrol
+// fleet through its VOIDREIGN Starting Attack Ship Count setting. Quick
+// Start design runs and lesson ships remain available through StartExtras.
 
 #include "core/rng.hpp"
 #include "game/map_file.hpp"
@@ -49,6 +50,7 @@ struct EmpireSetup {
     // (0..2, the preset's "Race Opt" sets) or a fully custom race.
     std::string preset;
     int presetTier = 0;
+    StartingOrigin origin = StartingOrigin::None;
     std::optional<Race> customRace;
     uint32_t color = 0;           // 0: automatic
     PlayerKind kind = PlayerKind::Human;

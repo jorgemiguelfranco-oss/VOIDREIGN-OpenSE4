@@ -1,0 +1,127 @@
+{
+  "title": "VOIDREIGN original interface art atlas",
+  "generated_by": "tools/art/build_original_art.py",
+  "asset_policy": "Original interface icons and sprite sheets drawn specifically for VOIDREIGN. Component/facility portraits, faction hulls and system biomes use their own dedicated generators and manifests.",
+  "assets": [
+    {
+      "file": "game-data/Pictures/Game/General.png",
+      "size": [
+        608,
+        176
+      ],
+      "bytes": 43393,
+      "sha256": "8fa901b2a77a60e280ded28d25d67664e7cfa8ae6533ccfe9fa639825a88e623"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/Main.png",
+      "size": [
+        442,
+        102
+      ],
+      "bytes": 72295,
+      "sha256": "cd3904a6ecaa11400eed3f8cf85448ad5c4511becc2e2cb493411511ca800755"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/Orders.png",
+      "size": [
+        782,
+        408
+      ],
+      "bytes": 226448,
+      "sha256": "a1626ae499e594d3630ec8b16f6119158f5c36c548cb66fa56fa9bd38a4b7c2c"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/Arrows.png",
+      "size": [
+        48,
+        72
+      ],
+      "bytes": 415,
+      "sha256": "7b7277effa68041394a436538e77c961df28ac0b55af800c3abd8c7ddbbbcc64"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/BigLeftRightArrows.png",
+      "size": [
+        28,
+        150
+      ],
+      "bytes": 659,
+      "sha256": "a2d0be7b595f0472af76f6c347569ea918c8096ad722a5860bf31e9fa31280a4"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/BigUpDownArrows.png",
+      "size": [
+        128,
+        68
+      ],
+      "bytes": 595,
+      "sha256": "f8113e4bd5bac69053d0278c9b6c791451a73bdef9158f7babfae8d8e288ce37"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/Close.png",
+      "size": [
+        60,
+        60
+      ],
+      "bytes": 524,
+      "sha256": "2adcb4c6cb2e8799de56d268af66f39cd95834fad94eb5ed491075ca51c0b37c"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/DetailUp.png",
+      "size": [
+        33,
+        84
+      ],
+      "bytes": 319,
+      "sha256": "26b1d501bed944f5ddd69f1c9f103f03354422d9fc7c288001910731dc4c8a61"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/Nextprev.png",
+      "size": [
+        192,
+        96
+      ],
+      "bytes": 793,
+      "sha256": "cc7ced411e9317b59346c20fb2108a36db292adc6e580f61d0704005666dd455"
+    },
+    {
+      "file": "game-data/Pictures/Game/Buttons/TabBtns.png",
+      "size": [
+        576,
+        150
+      ],
+      "bytes": 2047,
+      "sha256": "6c614d8df5218d31afb13f3655f798eef6d88e7ebc246d4203c7d310f34a2c5e"
+    },
+    {
+      "file": "game-data/Pictures/Game/Dialogs/Selection.png",
+      "size": [
+        36,
+        36
+      ],
+      "bytes": 224,
+      "sha256": "7a2406ae528d00f8d7326641a768e63c600c64334391ce988ed259ab9ae05a98"
+    }
+  ],
+  "ui": {
+    "resource_icons": 6,
+    "status_icon_cells": 38,
+    "command_buttons": 12,
+    "order_icon_cells": 40,
+    "auxiliary_sheets": [
+      "Arrows",
+      "BigLeftRightArrows",
+      "BigUpDownArrows",
+      "Close",
+      "DetailUp",
+      "Nextprev",
+      "TabBtns",
+      "Selection"
+    ]
+  },
+  "native_sizes": {
+    "status_icons": "20x20",
+    "command_buttons": "34x34",
+    "order_icons": "34x34"
+  }
+}

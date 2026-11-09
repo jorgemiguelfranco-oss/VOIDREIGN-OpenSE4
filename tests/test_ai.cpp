@@ -30,6 +30,7 @@
 #include <doctest/doctest.h>
 
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <initializer_list>
 #include <map>
@@ -327,7 +328,20 @@ TEST_CASE("ai: built-in profile covers the tables") {
         CHECK(p.vehicleQueue(s));
     // The last matching table wins: "Attack" also occurs in "Secure Holdings After Attack".
     CHECK(p.vehicleQueue(ai::AiState::Attack) == p.vehicleQueue(ai::AiState::SecureHoldings));
-    CHECK(p.facilityQueue(ai::AiState::Attack, "Homeworld"));
+    const ai::FacilityQueue* home = p.facilityQueue(ai::AiState::Attack, "Homeworld");
+    REQUIRE(home);
+    int storageAt = -1, researchAt = -1, storageAmount = 0;
+    for (size_t i = 0; i < home->entries.size(); ++i) {
+        if (home->entries[i].ability == "Resource Storage - Mineral") {
+            storageAt = static_cast<int>(i);
+            storageAmount = home->entries[i].amount;
+        }
+        if (home->entries[i].ability == "Point Generation - Research") researchAt = static_cast<int>(i);
+    }
+    CHECK(storageAt >= 0);
+    CHECK(researchAt > storageAt);  // logistics is planned before scaling research
+    CHECK(storageAmount == 3);      // one bootstrap warehouse plus two expansions
+    CHECK(p.facilityQueue(ai::AiState::Attack, "Mining Colony"));
     CHECK_FALSE(p.facilityQueue(ai::AiState::Attack, "Balanced"));  // no fallback row
     CHECK_FALSE(p.planetTypes.empty());
     CHECK(p.speech.pool("Send Propose Treaty"));
@@ -550,8 +564,86 @@ TEST_CASE("ai: a random computer player's race uses the Race Opt of the racial-p
     CHECK(none.traits.empty());
 }
 
+// The native race profiles are part of the shipped standalone game-data tree.
+// Loading them here catches misspelled table names, malformed values and missing
+// faction overrides before the client input smoke tests launch a new game.
+TEST_CASE("VOIDREIGN: native faction AI profiles load their own research and fleet doctrine") {
+    const std::filesystem::path data{VOIDREIGN_GAME_DATA_DIR};
+    const auto aurelian = ai::loadProfile(data, "Aurelian");
+    const auto veyran = ai::loadProfile(data, "Veyran");
+    const auto khepri = ai::loadProfile(data, "Khepri");
+    const auto meridian = ai::loadProfile(data, "Meridian");
+    const auto outer = ai::loadProfile(data, "Outer");
+    const auto helion = ai::loadProfile(data, "Helion");
+
+    for (const ai::AiProfile* p : {&aurelian, &veyran, &khepri, &meridian, &outer, &helion}) {
+        CHECK_FALSE(p->researchErrors);
+        CHECK_FALSE(p->research.empty());
+        CHECK(p->fleets.defaultFormation == "VoidReign Line");
+        CHECK(p->fleets.defaultStrategy == "VoidReign Standard");
+        CHECK(p->fleets.divisions.size() == 4);
+        CHECK(p->fleets.percentInFleets >= 50);
+        CHECK(p->fleets.percentInFleets <= 100);
+        CHECK(p->fleets.percentForDefense >= 0);
+        CHECK(p->fleets.percentForDefense <= 100);
+    }
+    for (const ai::AiProfile* p : {&aurelian, &veyran, &khepri, &meridian, &outer, &helion}) REQUIRE(p->research.size() >= 6);
+    CHECK(aurelian.research.front().area == "VoidReign Advanced Sensors");
+    CHECK(veyran.research.front().area == "VoidReign Logistics");
+    CHECK(khepri.research.front().area == "VoidReign Industrial Engineering");
+    CHECK(meridian.research.front().area == "VoidReign Advanced Sensors");
+    CHECK(outer.research.front().area == "VoidReign Propulsion");
+    CHECK(helion.research.front().area == "VoidReign Energy Weapons");
+    CHECK(aurelian.settings.turnsBetweenAttacks == 8);
+    CHECK(veyran.settings.turnsBetweenAttacks == 7);
+    CHECK(khepri.settings.turnsBetweenAttacks == 2);
+    CHECK(meridian.settings.turnsBetweenAttacks == 8);
+    CHECK(outer.settings.turnsBetweenAttacks == 6);
+    CHECK(helion.settings.turnsBetweenAttacks == 6);
+}
+
 // ---- Research and intelligence ----------------------------------------------------------------
 
+TEST_CASE("ai: native race profiles load separate research and fleet doctrines") {
+    TempTree t("voidreign-faction-doctrines");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_General.txt", "Name := Aurelian Concord\n");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_Research.txt",
+            "AI State := Exploration, Not Connected\nTech Area Name := VoidReign Advanced Sensors\nTech Area Level := 5\nTech Area Min Percent := 35\n"
+            "AI State := Exploration, Not Connected\nTech Area Name := Stellar Sciences\nTech Area Level := 5\nTech Area Min Percent := 25\n");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_Fleets.txt",
+            "Fleets Num Divisions := 1\nFleets Div 1 Max Amount of Ships := 12\nFleets Div 1 Max Amount of Planets := 0\n"
+            "Fleets Div 1 Num Fleets := 2\nFleets Percentage of Ships For Fleets := 70\n"
+            "Fleets Dont Use For Num Turns := 18\nFleets Default Formation := VoidReign Line\n"
+            "Fleets Default Strategy := VoidReign Standard\nPercentage of Fleets to use for defense := 65\n");
+    t.write("Pictures/Races/Aurelian/Aurelian_AI_Settings.txt",
+            "Turns to Wait until next attack := 8\nMaximum Systems to Defend at a Time := 5\n");
+    t.write("Pictures/Races/Veyran/Veyran_AI_General.txt", "Name := Veyran Trade League\n");
+    t.write("Pictures/Races/Veyran/Veyran_AI_Research.txt",
+            "AI State := Exploration, Not Connected\nTech Area Name := VoidReign Logistics\nTech Area Level := 5\nTech Area Min Percent := 40\n");
+    t.write("Pictures/Races/Veyran/Veyran_AI_Fleets.txt",
+            "Fleets Num Divisions := 1\nFleets Div 1 Max Amount of Ships := 10\nFleets Div 1 Max Amount of Planets := 0\n"
+            "Fleets Div 1 Num Fleets := 2\nFleets Percentage of Ships For Fleets := 60\n"
+            "Fleets Dont Use For Num Turns := 12\nFleets Default Formation := VoidReign Line\n"
+            "Fleets Default Strategy := VoidReign Standard\nPercentage of Fleets to use for defense := 45\n");
+
+    const ai::AiProfile aurelian = ai::loadProfile(t.root, "Aurelian");
+    const ai::AiProfile veyran = ai::loadProfile(t.root, "Veyran");
+    REQUIRE(aurelian.research.size() == 2);
+    REQUIRE(veyran.research.size() == 1);
+    CHECK(aurelian.research.front().area == "VoidReign Advanced Sensors");
+    CHECK(veyran.research.front().area == "VoidReign Logistics");
+    CHECK(aurelian.fleets.percentInFleets == 70);
+    CHECK(aurelian.fleets.percentForDefense == 65);
+    CHECK(aurelian.fleets.defaultFormation == "VoidReign Line");
+    CHECK(aurelian.fleets.defaultStrategy == "VoidReign Standard");
+    CHECK(veyran.fleets.percentInFleets == 60);
+    CHECK(veyran.fleets.percentForDefense == 45);
+    CHECK(aurelian.settings.turnsBetweenAttacks == 8);
+    CHECK(aurelian.settings.maxSystemsToDefend == 5);
+}
+
+// AI research queue shares and technology levels (the three VOIDREIGN races
+// provide different native priority tables).
 TEST_CASE("ai: research follows AI_Research and stops at a share total of 100") {
     TempTree t("research");
     t.write("Ai/Default_AI_Research.txt",
@@ -1338,6 +1430,59 @@ TEST_CASE("ai: colony types at colonization") {
 }
 
 // ---- Designs --------------------------------------------------------------------------------------
+
+TEST_CASE("VOIDREIGN starts each empire with a designed and movable patrol ship") {
+    ruleset::Ruleset data = buildEngineRuleset();
+    data.settings.set("VOIDREIGN Starting Attack Ship Count", "1");
+    data.reindex();
+    const Rules r{std::move(data)};
+
+    GameSetup setup;
+    setup.seed = 741;
+    setup.options.systemCount = 8;
+    EmpireSetup human;
+    human.name = "Human";
+    setup.empires.push_back(std::move(human));
+    setup.empires.push_back(computerSetup("Computer"));
+
+    auto created = createGame(r, setup);
+    REQUIRE_MESSAGE(created.has_value(), (created ? std::string{} : created.error()));
+    const GameState& s = *created;
+    REQUIRE(s.empires.size() == 2);
+
+    for (size_t i = 0; i < s.empires.size(); ++i) {
+        const EmpireId owner{static_cast<uint32_t>(i)};
+        int patrolShips = 0;
+        for (const Vehicle& v : s.vehicles) {
+            if (v.owner != owner) continue;
+            const Design& d = s.design(v.design);
+            if (d.designType != "Attack Ship") continue;
+            ++patrolShips;
+            CHECK(v.location.system == s.empire(owner).homeSystem);
+            CHECK(computeDesignStats(r, &s.empire(owner), d).armed());
+        }
+        CHECK(patrolShips == 1);
+        int homePatrols = 0;
+        for (const Fleet& fleet : s.fleets) {
+            if (fleet.owner != owner) continue;
+            ++homePatrols;
+            CHECK(fleet.name == "Home Patrol");
+            CHECK(fleet.location.system == s.empire(owner).homeSystem);
+            REQUIRE(fleet.members.size() == 1);
+            const Vehicle* member = s.vehicle(fleet.members.front());
+            REQUIRE(member);
+            CHECK(member->fleet == fleet.id);
+            CHECK(s.design(member->design).designType == "Attack Ship");
+        }
+        CHECK(homePatrols == 1);
+    }
+}
+
+// Engine rulesets without the VOIDREIGN setting keep the original no-starting-ships behaviour.
+TEST_CASE("setup: starting attack ships are opt-in for native game data") {
+    GameState s = newEngineGame(741, 2, 8, true);
+    CHECK(s.vehicles.empty());
+}
 
 TEST_CASE("ai: the designer takes the largest allowed hull and fills it by density") {
     const Rules& r = engineRules();

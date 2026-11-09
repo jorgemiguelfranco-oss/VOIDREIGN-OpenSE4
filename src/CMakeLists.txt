@@ -125,6 +125,8 @@ add_library(opense4_game STATIC
     game/generate.cpp
     game/hooks.cpp
     game/intel.cpp
+    game/leaders.cpp
+    game/origins.cpp
     game/log_picture.cpp
     game/map_file.cpp
     game/movement.cpp

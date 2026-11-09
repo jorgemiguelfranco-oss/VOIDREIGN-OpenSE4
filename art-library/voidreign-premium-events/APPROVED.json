@@ -1,0 +1,229 @@
+{
+  "scope": "32 authored plotline illustration families; not 6144 individual artworks",
+  "assets": {
+    "0": {
+      "title": "The Ashen Beacon",
+      "source": "art-library/voidreign-premium-events/Arc_00.jpg",
+      "source_sha256": "0ed3247a01f4d5a28d05c845460a51875e208c87f78608e60f26370c31c5dbb5",
+      "game_file": "game-data/Pictures/Events/Chronicle_00.png",
+      "game_sha256": "0450e53e1ec221b69b4cbe6c1a6812624234a7c203ad33a166150ae6ac9b3aa0"
+    },
+    "1": {
+      "title": "Pilgrims Without a Sun",
+      "source": "art-library/voidreign-premium-events/Arc_01.jpg",
+      "source_sha256": "9ef81e9bea61cb81e2e3eb1318a80732458c9f6fe42ab7472b998388c17454c7",
+      "game_file": "game-data/Pictures/Events/Chronicle_01.png",
+      "game_sha256": "d15ee61dfaf9f1e55b57b248e5e91e31084a0223e6e7866d3d94a47e372075af"
+    },
+    "2": {
+      "title": "The Living Comet",
+      "source": "art-library/voidreign-premium-events/Arc_02.jpg",
+      "source_sha256": "f822902ef68f1dc8b097ec3009be34d87473d8a7bacbd461ccc0f194e8a35fb3",
+      "game_file": "game-data/Pictures/Events/Chronicle_02.png",
+      "game_sha256": "3e44c7f60faa7c59a9fcd8acd820246cea533a6b0f87fc71c58f90f828e63c0c"
+    },
+    "3": {
+      "title": "A Palace Under Glass",
+      "source": "art-library/voidreign-premium-events/Arc_03.jpg",
+      "source_sha256": "2d0ccdb08013bc09906021ecfb8b0c6efe7422f1b3a88fb1d36b690dc4d16732",
+      "game_file": "game-data/Pictures/Events/Chronicle_03.png",
+      "game_sha256": "e6119beaa4ae43ea6d85a7c3bb239df2df69fc5b4e4318576d9a2326ab5b0147"
+    },
+    "4": {
+      "title": "Whispers on the Warp Tide",
+      "source": "art-library/voidreign-premium-events/Arc_04.jpg",
+      "source_sha256": "8cfa3449a46bb08ed2e58c329f93f964fbd7af8429735c135d50ad6825437918",
+      "game_file": "game-data/Pictures/Events/Chronicle_04.png",
+      "game_sha256": "c87762be9d254ef1a18bd47d1ca7c1c8eecbc738a3536bec8e9abe311718ba8e"
+    },
+    "5": {
+      "title": "The Iron Orchard",
+      "source": "art-library/voidreign-premium-events/Arc_05.jpg",
+      "source_sha256": "ded127940b11453a798d53e7fc28e44304b56d2b62120a210f380112a6d75fe7",
+      "game_file": "game-data/Pictures/Events/Chronicle_05.png",
+      "game_sha256": "744f34ae88135587a27df1a21c759307e72c04306e4dcf9c47dc524ca01d48b9"
+    },
+    "6": {
+      "title": "The Second Founding",
+      "source": "art-library/voidreign-premium-events/Arc_06.jpg",
+      "source_sha256": "5fe1682b41f730324717386cdbf0af646ccf571c6b9abbd3734c1e5b91482335",
+      "game_file": "game-data/Pictures/Events/Chronicle_06.png",
+      "game_sha256": "4a2162fddadcbd7abf970d96c27a85bcb393298c3fd708a265b55fb13055a9c8"
+    },
+    "7": {
+      "title": "The Ocean of Names",
+      "source": "art-library/voidreign-premium-events/Arc_07.jpg",
+      "source_sha256": "4b6d803c9146e23c1ffccfbe6ecaffac43c231590eed2586215f974f2c3dd347",
+      "game_file": "game-data/Pictures/Events/Chronicle_07.png",
+      "game_sha256": "242fc657435a7c5aded0678da0daf5cfe1313cef84fae51976498d9a254c5c44"
+    },
+    "8": {
+      "title": "Glasshouse Republic",
+      "source": "art-library/voidreign-premium-events/Arc_08.jpg",
+      "source_sha256": "7e25f60206c5e654b43b4f48c9517ca17648cdcb3de2b494bcda2fa97fac27ae",
+      "game_file": "game-data/Pictures/Events/Chronicle_08.png",
+      "game_sha256": "4257b091e194dfafa11184a1b1d8e9b9fec65352c759e7dfe1a89f775e94d06f"
+    },
+    "9": {
+      "title": "The Choir of Machines",
+      "source": "art-library/voidreign-premium-events/Arc_09.jpg",
+      "source_sha256": "a38ddf7629c7e3b9691260766b071d235fa13bf70e5ecba050eaac802c245830",
+      "game_file": "game-data/Pictures/Events/Chronicle_09.png",
+      "game_sha256": "5c14fa4fefaf35a3c07a5ef2aaeb1b6d7195a30553c475c68ac01c6ca1d570f3"
+    },
+    "10": {
+      "title": "The Ash Garden Plague",
+      "source": "art-library/voidreign-premium-events/Arc_10.jpg",
+      "source_sha256": "ceafe31ef61e5f1f388303993901c981f63ef4edc0b6028f114fa5064eb29393",
+      "game_file": "game-data/Pictures/Events/Chronicle_10.png",
+      "game_sha256": "6a5ad527206aa890cccacbfc9969354500b0516489272bbe7c2db209d549645e"
+    },
+    "11": {
+      "title": "The Memory Election",
+      "source": "art-library/voidreign-premium-events/Arc_11.jpg",
+      "source_sha256": "5923d31cdaf3c39477e9dbbbda243a47042f9f47af77ca4754e9da1b51b60f7b",
+      "game_file": "game-data/Pictures/Events/Chronicle_11.png",
+      "game_sha256": "c60686532148ff4a7a701c769f451b3596bcc10dd62573c1296731daba866a64"
+    },
+    "12": {
+      "title": "The Neutrino Crown",
+      "source": "art-library/voidreign-premium-events/Arc_12.jpg",
+      "source_sha256": "7bd9bc5511ade100d931e52e00f9b42045d8ed50918bbd87374cf6b9d4ccadd6",
+      "game_file": "game-data/Pictures/Events/Chronicle_12.png",
+      "game_sha256": "38c97e5c12774f41f9bb0cd83be29d8c9566c5e9a9702c13ca07f7524ebd8be6"
+    },
+    "13": {
+      "title": "The Mirror Equation",
+      "source": "art-library/voidreign-premium-events/Arc_13.jpg",
+      "source_sha256": "d5c369515ad9f9cb6f69a49f4bca266c12b4c214f4d189c6b6cf68e309a58773",
+      "game_file": "game-data/Pictures/Events/Chronicle_13.png",
+      "game_sha256": "d53bb5cf2801c66391542f4b7eaa32b8d5672c031d5894100c87a4c7d0dee1c2"
+    },
+    "14": {
+      "title": "Fossil Stars",
+      "source": "art-library/voidreign-premium-events/Arc_14.jpg",
+      "source_sha256": "ef72b85423d3fcecad8be71ac10d0fdc61aa2fcdaf456400ee6ab38db7aaa56e",
+      "game_file": "game-data/Pictures/Events/Chronicle_14.png",
+      "game_sha256": "b830e02246675cdc57e831332163052eea52688d1b277f592e3903f34bad3b60"
+    },
+    "15": {
+      "title": "The Dreaming Telescope",
+      "source": "art-library/voidreign-premium-events/Arc_15.jpg",
+      "source_sha256": "8414bc30058ded597efbdba42998b725ad61d961f056e2520384e434086a213f",
+      "game_file": "game-data/Pictures/Events/Chronicle_15.png",
+      "game_sha256": "80fbdbe5d5eeb8f49e7260e6453de4c4a6004760581a19dfc82dbfbe569bc36e"
+    },
+    "16": {
+      "title": "The Hollow Atom",
+      "source": "art-library/voidreign-premium-events/Arc_16.jpg",
+      "source_sha256": "29390c01e3467e8a89ad536795d3f4ace9a09cf4ce3deff2e67922cb21402f2d",
+      "game_file": "game-data/Pictures/Events/Chronicle_16.png",
+      "game_sha256": "714bc5e7fe66ea2dd4335a53bb45d583561029574b485091ef7474320ee4968a"
+    },
+    "17": {
+      "title": "The Lightless Choir",
+      "source": "art-library/voidreign-premium-events/Arc_17.jpg",
+      "source_sha256": "3a1b5130a14bf22695eb0d18ba5a5ac61134296d00dad48f4f4f5c9f309e41d3",
+      "game_file": "game-data/Pictures/Events/Chronicle_17.png",
+      "game_sha256": "597ce98aaf231fc878ca60d5d09407f57e4562ada9314f653cc903cc8b9b8480"
+    },
+    "18": {
+      "title": "The Merchant's Truce",
+      "source": "art-library/voidreign-premium-events/Arc_18.jpg",
+      "source_sha256": "6986d05fa161bf4d1de6fb030ae22e6f26475b335e4e83b3e709952103d15afd",
+      "game_file": "game-data/Pictures/Events/Chronicle_18.png",
+      "game_sha256": "0ba7d2cdb8a1c7e519627ba7b25b1953ace602cc89b0537a24bc4ae66afd4a91"
+    },
+    "19": {
+      "title": "Envoys of the Quiet Moon",
+      "source": "art-library/voidreign-premium-events/Arc_19.jpg",
+      "source_sha256": "72d0afcc7056842bf21c13ae7417e06378987f5552c482edd429ee1e0c75d4f3",
+      "game_file": "game-data/Pictures/Events/Chronicle_19.png",
+      "game_sha256": "3a687033aec2aafac5b1f265fa3e1cf5d90bc3c45ef6a2acc075fca2d3d3d845"
+    },
+    "20": {
+      "title": "The Broken Mercenary Oath",
+      "source": "art-library/voidreign-premium-events/Arc_20.jpg",
+      "source_sha256": "a264c49409462f2ecb8ee4d2546b8eb45fcb6ddcdb077b1f11708a9e4b1acc95",
+      "game_file": "game-data/Pictures/Events/Chronicle_20.png",
+      "game_sha256": "00a0cab701f985ef2b8131cd6b2ea1a0b695276530a232c88bc6ffbd3b8c7565"
+    },
+    "21": {
+      "title": "The Smuggler's Congress",
+      "source": "art-library/voidreign-premium-events/Arc_21.jpg",
+      "source_sha256": "9ea3db777a5d257413d0d25ab76f53b027e3b18f737f63ea047410f7e4af2d08",
+      "game_file": "game-data/Pictures/Events/Chronicle_21.png",
+      "game_sha256": "bdfd0d5116db4de1ca6d56e32e86abf422f6f0c1301492497dbc6279480c05f4"
+    },
+    "22": {
+      "title": "A Crown For Hire",
+      "source": "art-library/voidreign-premium-events/Arc_22.jpg",
+      "source_sha256": "e87879d7a12981e28f9fec7d049f4a82edc016757d28a69b19b275a465bd7159",
+      "game_file": "game-data/Pictures/Events/Chronicle_22.png",
+      "game_sha256": "9fd9e471a6dd111f25b08902dd0cdd363b60d9063ffac304f96ead5d825ed5fb"
+    },
+    "23": {
+      "title": "The Border Radio",
+      "source": "art-library/voidreign-premium-events/Arc_23.jpg",
+      "source_sha256": "db2358c20eef795e4180afdf223f4d9b476d66a4a390f6069c690aa32b71698c",
+      "game_file": "game-data/Pictures/Events/Chronicle_23.png",
+      "game_sha256": "ca93e7f617a16866c6654a0d57460be3092805a71b4451d7e2f0db85c2121a69"
+    },
+    "24": {
+      "title": "The Last Lighthouse",
+      "source": "art-library/voidreign-premium-events/Arc_24.jpg",
+      "source_sha256": "d751e280cd8a6ccfdb88911f430a2f79a98023517d0fb2242bf92bb3b34d962d",
+      "game_file": "game-data/Pictures/Events/Chronicle_24.png",
+      "game_sha256": "1c76bddc34187a7d266c72008e979eb959c22f4767f94b5e477d0c67cfc83d77"
+    },
+    "25": {
+      "title": "The Great Habitat Fair",
+      "source": "art-library/voidreign-premium-events/Arc_25.jpg",
+      "source_sha256": "bbba1f244d0e6538306fa86dd12332372e196eac8710a05aec147f16cecb0276",
+      "game_file": "game-data/Pictures/Events/Chronicle_25.png",
+      "game_sha256": "c29cff01751301885760f8f98ca6b2d1884d7462b59aa58eaaa9418ab0ba0c4c"
+    },
+    "26": {
+      "title": "The Silent Winter",
+      "source": "art-library/voidreign-premium-events/Arc_26.jpg",
+      "source_sha256": "db1faa93441c214a6dd8632c4e95af661c4cc94254284f5754fa32c3f11c0f9f",
+      "game_file": "game-data/Pictures/Events/Chronicle_26.png",
+      "game_sha256": "b503ff599afcf1fb2d129caf0820478043cf4db15a7254e3e688d11e00165746"
+    },
+    "27": {
+      "title": "The Lost Survey Fleet",
+      "source": "art-library/voidreign-premium-events/Arc_27.jpg",
+      "source_sha256": "cbeaaffb546a7caf094708b63bc8d4a8da0410231f92ca3295b6427f48312e24",
+      "game_file": "game-data/Pictures/Events/Chronicle_27.png",
+      "game_sha256": "0ce187067dd5a92fc5157d197e72b49b3a2dae7ceddff8481442cef60aeec97d"
+    },
+    "28": {
+      "title": "The Nanite Hunger",
+      "source": "art-library/voidreign-premium-events/Arc_28.jpg",
+      "source_sha256": "5cffbfb963e67e6530026074bd673fbd8a350f8e0decd91d36fc73a68c75cee4",
+      "game_file": "game-data/Pictures/Events/Chronicle_28.png",
+      "game_sha256": "640465045b98455e501da10b20dcef2515a7a2c4cc5fb3b39b3ffd5f6f509429"
+    },
+    "29": {
+      "title": "The Devouring Light",
+      "source": "art-library/voidreign-premium-events/Arc_29.jpg",
+      "source_sha256": "5797c1b3b643296118e2e85db8c7edc742dcf17bf3cfec513eb9cd1104630db6",
+      "game_file": "game-data/Pictures/Events/Chronicle_29.png",
+      "game_sha256": "2847c6b60475a8a9b87cb8baa740af4c0615e568e349fee343f11fdd3bb10196"
+    },
+    "30": {
+      "title": "The Shattered Mandate",
+      "source": "art-library/voidreign-premium-events/Arc_30.jpg",
+      "source_sha256": "b2a027f6bd37f4017052df5214019c4c57c3e2542fa2f6c2f2ff4ff27641eda9",
+      "game_file": "game-data/Pictures/Events/Chronicle_30.png",
+      "game_sha256": "bb5b8cfb96e75ad94efd4da158da62f8c8e7338e22482ff6a15a2aadc9317b47"
+    },
+    "31": {
+      "title": "The Silence Between Empires",
+      "source": "art-library/voidreign-premium-events/Arc_31.jpg",
+      "source_sha256": "d1d673de99b857f031e0a2c5f201f4cf4b9a9fdec35441821a90aaaa557fb813",
+      "game_file": "game-data/Pictures/Events/Chronicle_31.png",
+      "game_sha256": "b19f41e9d50c2428f8e2615eddbaf5c7e044910a3d53584cb401e1a5dbfce1e4"
+    }
+  }
+}

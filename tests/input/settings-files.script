@@ -1,4 +1,4 @@
-# Settings, Files (docs/SETUP.md "Where OpenSE4 keeps its own files"): the folder in use and the
+# Settings, Files (docs/SETUP.md "Where VOIDREIGN keeps its own files"): the folder in use and the
 # rule that chose it (a script run's own folder, from OPENSE4_USER_DIR, which comes before a
 # portable copy: the switch is dim); a saves folder of the player's, a folder that cannot be
 # made refused, and Default. The portable switch itself plays in portable-copy.script.
@@ -10,7 +10,7 @@ wait-screen front
 click item:Settings in=front
 click item:Files in=front
 wait-for item:user-folder:OPENSE4_USER_DIR
-assert-disabled item:"Keep saves and settings in OpenSE4's folder"
+assert-disabled item:"Keep saves and settings in VOIDREIGN's folder"
 # A saves folder inside the user folder.
 click item:##savesfolder
 type "My Saves"
