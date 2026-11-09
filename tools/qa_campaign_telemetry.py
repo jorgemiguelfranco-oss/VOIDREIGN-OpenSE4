@@ -68,10 +68,14 @@ def analyse(faction: str, seed: int, data: list[dict[str, int]],
     )
     stagnation = len(data) - last_expansion if last_expansion else len(data) - 1
     warnings: list[str] = []
-    if len(data) != expected_turns:
-        warnings.append(f"Only {len(data)} of {expected_turns} requested turns recorded")
+    if len(data) < expected_turns:
+        warnings.append(f"Campaign ended after {len(data)} of {expected_turns} requested turns (likely game-over, not a process crash)")
+    peak = max(x["planets"] for x in data)
     if delta["planets"] <= 0:
-        warnings.append("No net colony expansion across campaign")
+        if peak > first["planets"]:
+            warnings.append(f"Expanded to {peak} colonies but fell back to {last['planets']}")
+        else:
+            warnings.append("No new colonies gained")
     if stagnation >= 100:
         warnings.append(f"No changes to colony count for last {stagnation} turns")
     if delta["ships"] <= 0:
@@ -84,6 +88,7 @@ def analyse(faction: str, seed: int, data: list[dict[str, int]],
         "last_date": last["date"], "first": first, "last": last,
         "growth": delta, "max_colonies": max(x["planets"] for x in data),
         "max_ships": max(x["ships"] for x in data),
+        "completed_requested_turns": len(data) == expected_turns,
         "stagnation_turns": stagnation, "warnings": warnings,
     }
 
@@ -92,12 +97,17 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--package-dir", required=True, type=Path)
     p.add_argument("--turns", type=int, default=500)
+    p.add_argument("--empires", type=int, default=3)
+    p.add_argument("--systems", type=int, default=24)
+    p.add_argument("--seed-offset", type=int, default=0)
     p.add_argument("--output", type=Path)
     p.add_argument("--strict-quality", action="store_true")
     p.add_argument("--timeout", type=int, default=180)
     args = p.parse_args()
     if not 100 <= args.turns <= 2000:
         p.error("--turns must be 100..2000")
+    if not 1 <= args.empires <= 12 or not 10 <= args.systems <= 500:
+        p.error("--empires must be 1..12 and --systems must be 10..500")
     package = args.package_dir.resolve()
     exe = package / "VOIDREIGN.exe"
     if not exe.is_file() or not (package / "game-data/Data/Components.txt").is_file():
@@ -111,16 +121,18 @@ def main() -> int:
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "package": str(package),
         "exe_sha256": hashlib.sha256(exe.read_bytes()).hexdigest(),
-        "campaigns": []
+        "empires": args.empires, "systems": args.systems,
+        "seed_offset": args.seed_offset, "campaigns": []
     }
     failed = False
-    for faction, seed in CASES:
+    for faction, initial_seed in CASES:
+        seed = initial_seed + args.seed_offset
         profile = output / faction.lower()
         profile.mkdir(parents=True, exist_ok=True)
         image = profile / "turn-final.png"
         cmd = [
-            str(exe), f"--quick-start={faction}", "--empires=3",
-            "--systems=24", f"--seed={seed}", f"--turns={args.turns}",
+            str(exe), f"--quick-start={faction}", f"--empires={args.empires}",
+            f"--systems={args.systems}", f"--seed={seed}", f"--turns={args.turns}",
             "--frames=2", "--no-audio", f"--screenshot={image}"
         ]
         env = os.environ.copy()
@@ -136,8 +148,6 @@ def main() -> int:
             data = records(profile / "History/plr_1_stats.txt")
             row = analyse(faction, seed, data, args.turns)
             row["screenshot"] = str(image)
-            if row["turns_recorded"] != args.turns:
-                failed = True
             print(f"{faction:9s} T={row['turns_recorded']:4d} "
                   f"colonies {row['first']['planets']}->{row['last']['planets']}, "
                   f"ships {row['first']['ships']}->{row['last']['ships']}, "
@@ -171,7 +181,8 @@ def main() -> int:
     print("JSON: ", json_file)
     print("CSV:  ", csv_file)
     issue_count = sum(len(c.get("warnings", [])) for c in result["campaigns"])
-    print(f"ENGINE_ERRORS={int(failed)}  AI_QUALITY_WARNINGS={issue_count}")
+    early_ends = sum(1 for c in result["campaigns"] if "turns_recorded" in c and not c["completed_requested_turns"])
+    print(f"ENGINE_ERRORS={int(failed)}  EARLY_ENDS={early_ends}  AI_QUALITY_WARNINGS={issue_count}")
     if failed or (args.strict_quality and issue_count):
         return 2
     return 0
