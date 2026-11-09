@@ -1,0 +1,9 @@
+{
+  "index": 8,
+  "title": "Glasshouse Republic",
+  "trigger": "colony",
+  "source": "https://freeapi.pro/api/tti",
+  "model": "flux_dev",
+  "prompt": "A single full-bleed cinematic science fiction MATTE PAINTING scene for a strategy-game gallery, not a poster, not a book cover, not a title card, not advertising, no branding anywhere. Depict this precise visual scene: A cluster of agricultural domes develops its own elected council and refuses to transfer surplus food without a new representation agreement. Create ONE breathtaking detailed original science fiction illustration depicting the central tension, vivid visual storytelling rather than a generic starship. Magnificent spatial depth, believable architecture, crews as tiny incidental silhouettes if appropriate, real material texture, a restrained midnight navy cyan golden amber palette with nuanced narrative-specific coloring. Premium mature hard sci-fi illustration and high-quality cinematic matte painting, beautiful interesting composition, precise perspective, sharp dramatic lighting, exquisitely crafted realistic detail, dark enough at corners to sit within a sophisticated game dialogue panel. One coherent square image, no title, no text, no letters, no logos, no watermark, no interface, no comic panel, no border, no typographic markings.",
+  "sha256": "7e25f60206c5e654b43b4f48c9517ca17648cdcb3de2b494bcda2fa97fac27ae"
+}

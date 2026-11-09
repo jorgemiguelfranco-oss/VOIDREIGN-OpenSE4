@@ -65,7 +65,7 @@ def unique_pics(filename:str,folder:str,prefix:str,expected:int):
     return records
 
 components=unique_pics("Components.txt","Components","Comp",49)
-facilities=unique_pics("Facility.txt","Facilities","Facil",29)
+facilities=unique_pics("Facility.txt","Facilities","Facil",47)
 
 factions=("Aurelian","Veyran","Khepri","Meridian","Outer","Helion")
 hulls=("Pathfinder","Hauler","Frigate","Destroyer","Cruiser","Battleship",

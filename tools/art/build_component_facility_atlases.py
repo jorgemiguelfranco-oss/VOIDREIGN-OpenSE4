@@ -39,6 +39,10 @@ def atlas(entries,identify,folder,filename,columns,rows):
         pic=int(entry["Pic Num"])
         kind,family=identify(entry["Name"])
         images.append(make_symbol(entry["Name"],kind,family,level_of(entry),pic))
+    # Legacy atlas dimensions must grow when the native ruleset adds new
+    # component or facility definitions. A fixed five-row facility atlas
+    # silently omitted high-tier buildings once the catalogue reached 47.
+    rows = max(rows, (len(images) + columns - 1) // columns)
     if len(images)>columns*rows:
         raise RuntimeError(f"{filename}: atlas capacity too small for {len(images)} entries")
     sheet=Image.new("RGBA",(columns*36,rows*36),(0,0,0,0))

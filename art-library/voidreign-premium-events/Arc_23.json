@@ -1,0 +1,13 @@
+{
+  "index": 23,
+  "title": "The Border Radio",
+  "trigger": "diplomacy",
+  "source": "https://freeapi.pro/api/tti",
+  "model": "flux_dev",
+  "prompt": "A damaged isolated border communications station, a sophisticated orbiting spacecraft with an enormous fragmented parabolic radio dish and transmission antenna arrays, emits interwoven luminous signal waves into the lonely cobalt-blue starfield. Tiny visiting patrol craft approach carefully. Distinctive cinematic hard-science-fiction architecture, believable spacecraft, stormy nebula cloud. No words, no signs, no writing, no text panels.\n\nCreate ONE finished, original, premium art-directed science fiction narrative illustration, full-bleed 1:1 cinematic matte painting for a 4X empire strategy PC game. World-class hand-painted realistic science-fiction concept art with remarkable composition, beautiful sophisticated natural detail, spectacular credible engineering, compelling light and shadow, a textured painterly finish, deep layered atmosphere, subtle warm brass accents against muted midnight blue and teal. The scene must be unique, natural, coherent, beautiful and clearly tell this specific story, never just a generic AI-generated sci-fi image. No text, NO letters, NO labels, NO glyphs, NO numbers, NO equations, NO illegible pseudo-writing, NO watermarks, NO borders, NO title cards, NO collages, NO UI.",
+  "sha256": "db2358c20eef795e4180afdf223f4d9b476d66a4a390f6069c690aa32b71698c",
+  "review_status": "visually inspected and selected",
+  "replacement_reason": "Prior candidate contained pseudo-letters, wrong subject, or failed generation",
+  "reviewed_at": "2026-11-09T13:52:40.696531+00:00",
+  "archived_prior_source": "review-rejected/Arc_23.jpg"
+}
