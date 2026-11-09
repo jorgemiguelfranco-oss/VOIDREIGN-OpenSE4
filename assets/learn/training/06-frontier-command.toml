@@ -1,0 +1,136 @@
+# Original VOIDREIGN scenario, designed around the tutorial's economic and exploration decisions.
+title = "Frontier Command"
+summary = "An independent twenty-turn challenge: expand, map the frontier, and build a technology foundation."
+minutes = 35
+learned = [
+  "Keep a balanced opening production and research plan",
+  "Scout before committing your irreplaceable colony ships",
+  "Read the budget and turn log before every End Turn",
+  "Adapt if a neighbouring empire blocks your preferred route",
+]
+
+[setup]
+seed = 404
+systems = 24
+computer_players = 1
+starting_resources = 50000
+tech_cost = "low"
+events = "low"
+starting_ships = ["Attack Ship", "Attack Ship", "Colony"]
+
+[[objective]]
+text = "Discover at least five star systems by turn 20"
+when = { systems_explored = 5 }
+by_turn = 20
+
+[[objective]]
+text = "Hold at least two colonies by turn 20"
+when = { colonies = 2 }
+by_turn = 20
+
+[[objective]]
+text = "Complete at least two technology levels by turn 20"
+when = { techs_researched = 2 }
+by_turn = 20
+
+[[page]]
+turn = 0
+series = "briefing"
+title = "Orders: Frontier Command"
+text = """
+A rival empire shares your frontier. You have two scouts, one colony ship and a useful
+treasury. You must do more than expand: remain solvent while your industry and research grow.
+
+By **turn 20**, discover **five star systems**, found a **second colony**, and finish **two
+technology levels**. This is free play: you choose which worlds, technologies and designs.
+
+If you need guidance, read [the first twenty turns](commanders-first-campaign#the-first-turn).
+The **T** button or `Ctrl+H` shows your current briefing again.
+"""
+
+[[page]]
+turn = 0
+series = "briefing"
+title = "Opening priorities"
+text = """
+- Open [Empire Status](window:empire-status) and compare net minerals, organics and radioactives.
+- Open [Research](window:research) and queue practical early projects. Focus them if needed.
+- Order your attack ships to **Explore**. Use [Planets](window:planets) to send your
+  colony ship to a suitable planet when one is known.
+- Queue a replacement colony ship at the homeworld to maintain momentum.
+- End turns deliberately and inspect the Log to understand your rivals and discoveries.
+"""
+
+[[page]]
+turn = 5
+series = "reports"
+title = "The first review"
+text = """
+Five turns have passed. Do not measure your progress by ship count alone. Check your
+resource balances, the front of each construction queue and your first technology goals.
+If exploration has paused, select each idle scout and give **Explore** again.
+"""
+
+[[page]]
+turn = 10
+series = "reports"
+title = "An empire, not a fleet"
+text = """
+You are halfway to the deadline. A weak border can be fortified, but a collapsing
+economy will make every reinforcement harder. Prioritise a breathable colony and
+the research that enables the next generation of economical ships or infrastructure.
+"""
+
+[[page]]
+turn = 16
+series = "reports"
+title = "Final push"
+text = """
+Four turns remain before the deadline. Recheck the objective panel. If a project is
+nearly finished, reorder your research to complete it. If a scout is idle, send it
+toward an unexplored warp. Do not start wars that distract from achievable objectives.
+"""
+
+[[hint]]
+title = "Queues need orders"
+when = { all = [{ turn = 1 }, { not = { research_queued = 1 } }] }
+text = """
+Your research queue is empty. Open Research (`F8`) and choose a technology area.
+Unassigned research points are not carried forward indefinitely.
+"""
+
+[[hint]]
+title = "Explore again"
+when = { all = [{ turn = 6 }, { not = { systems_explored = 3 } }] }
+text = """
+Your survey progress is behind schedule. Select the attack ships and press **Explore**
+(`E`). Ships whose original Explore order completed need a fresh order.
+"""
+
+[[hint]]
+title = "Choose a colony target"
+when = { all = [{ turn = 8 }, { not = { colonies = 2 } }] }
+text = """
+Open Planets (`F4`) and inspect Colonizable and Coloniz/Breathe. If the colony ship is
+building, check its construction queue; if it already exists, send it to a useful world.
+"""
+
+[[hint]]
+title = "One colony established"
+when = { colonies = 2 }
+text = """
+Your empire now holds a second world. Develop its facilities and review the spaceport
+network; remote production may not reach the common treasury without connectivity.
+"""
+
+[[hint]]
+title = "Technology deadline"
+when = { all = [{ turn = 13 }, { not = { techs_researched = 2 } }] }
+text = """
+Open Research (`F8`), look for lower-cost near-term upgrades and focus points on
+the first project. A diverse queue is useful, but unfinished projects earn no unlocks.
+"""
+
+[fail]
+when = { not = { colonies = 1 } }
+text = "The homeworld and your remaining empire were lost before the objectives could be completed."
